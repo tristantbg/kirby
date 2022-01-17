@@ -121,9 +121,6 @@ return [
             ]
         ];
     },
-    'save' => function ($value = null) {
-        return A::pluck($value, 'uuid');
-    },
     'validations' => [
         'max',
         'min'

@@ -7,13 +7,13 @@
     </template>
 
     <k-dropzone :disabled="more === false" @drop="drop">
-      <template v-if="selected.length">
+      <template v-if="items.length">
         <k-items
-          :items="selected"
+          :items="items"
           :layout="layout"
           :link="link"
           :size="size"
-          :sortable="!disabled && selected.length > 1"
+          :sortable="!disabled && items.length > 1"
           @sort="onInput"
           @sortChange="$emit('change', $event)"
         >
@@ -85,12 +85,6 @@ export default {
       };
     }
   },
-  created() {
-    this.$events.$on("file.delete", this.removeById);
-  },
-  destroyed() {
-    this.$events.$off("file.delete", this.removeById);
-  },
   methods: {
     drop(files) {
       if (this.uploads === false) {
@@ -127,8 +121,14 @@ export default {
           return this.$refs.fileUpload.open(this.uploadParams);
       }
     },
-    isSelected(file) {
-      return this.selected.find((f) => f.id === file.id);
+    open() {
+      if (this.disabled) {
+        return false;
+      }
+
+      this.$pick("files", this.selected, (selected) => {
+        this.select(selected);
+      });
     },
     upload(upload, files) {
       if (this.multiple === false) {
@@ -137,12 +137,11 @@ export default {
 
       files.forEach((file) => {
         if (!this.isSelected(file)) {
-          this.selected.push(file);
+          this.selected.push(file.id);
         }
       });
 
       this.onInput();
-      this.$events.$emit("model.update");
     }
   }
 };

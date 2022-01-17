@@ -33,6 +33,7 @@ export default {
   },
   data() {
     return {
+      items: [],
       selected: this.value
     };
   },
@@ -66,9 +67,6 @@ export default {
 
       return false;
     },
-    items() {
-      return this.models.map(this.item);
-    },
     more() {
       if (!this.max) {
         return true;
@@ -80,12 +78,23 @@ export default {
   watch: {
     value(value) {
       this.selected = value;
+    },
+    selected() {
+      this.load();
     }
   },
   methods: {
     focus() {},
-    item(item) {
-      return item;
+    isSelected(item) {
+      return this.selected.includes(item.id);
+    },
+    load() {
+      this.items = this.selected.map((id) => {
+        return {
+          text: id,
+          id: id
+        };
+      });
     },
     onInput() {
       this.$emit("input", this.selected);
@@ -111,27 +120,9 @@ export default {
       this.selected = this.selected.filter((item) => item.id !== id);
       this.onInput();
     },
-    select(items) {
-      if (items.length === 0) {
-        this.selected = [];
-        return;
-      }
-
-      // remove all items that are no longer selected
-      this.selected = this.selected.filter((selected) => {
-        return items.filter((item) => item.id === selected.id).length > 0;
-      });
-
-      // add items that are not yet in the selected list
-      items.forEach((item) => {
-        if (
-          this.selected.filter((selected) => item.id === selected.id).length ===
-          0
-        ) {
-          this.selected.push(item);
-        }
-      });
-
+    select(selected) {
+      this.selected = selected;
+      this.load();
       this.onInput();
     }
   }

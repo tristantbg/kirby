@@ -548,4 +548,32 @@ return [
         'submit'  => $files['delete']['submit'],
     ],
 
+    // files picker
+    'files' => [
+        'pattern' => 'pick/files',
+        'load'    => function () {
+            return [
+                'component' => 'k-picker-dialog',
+                'props' => [
+                    'selected' => Str::split(get('selected')),
+                    'items' => [
+                        [
+                            'text' => 'File A',
+                            'id'   => 'a'
+                        ],
+                        [
+                            'text' => 'File B',
+                            'id'   => 'b'
+                        ],
+                        [
+                            'text' => 'File C',
+                            'id'   => 'c'
+                        ]
+                    ],
+                    'submitButton' => 'Select'
+                ],
+            ];
+        },
+    ],
+
 ];
