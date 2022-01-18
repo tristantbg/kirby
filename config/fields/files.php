@@ -66,13 +66,15 @@ return [
         'toFiles' => function ($value = null) {
             $files = [];
 
+            return Data::decode($value, 'yaml');
+
             foreach (Data::decode($value, 'yaml') as $id) {
                 if (is_array($id) === true) {
                     $id = $id['id'] ?? null;
                 }
 
                 if ($id !== null && ($file = $this->kirby()->file($id, $this->model()))) {
-                    $files[] = $this->fileResponse($file);
+                    $files[] = $id;
                 }
             }
 
@@ -83,6 +85,19 @@ return [
         return [
             [
                 'pattern' => '/',
+                'action'  => function () {
+                    $selected = Str::split(get('selected'));
+
+                    return A::map($selected, function ($selected) {
+                        return [
+                            'text' => $selected
+                        ];
+                    });
+
+                }
+            ],
+            [
+                'pattern' => '/picker',
                 'action'  => function () {
                     $field = $this->field();
 

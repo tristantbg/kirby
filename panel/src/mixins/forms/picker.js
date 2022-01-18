@@ -76,11 +76,12 @@ export default {
     }
   },
   watch: {
-    value(value) {
-      this.selected = value;
-    },
-    selected() {
-      this.load();
+    value: {
+      handler(value) {
+        this.selected = value;
+        this.load();
+      },
+      immediate: true
     }
   },
   methods: {
@@ -88,12 +89,9 @@ export default {
     isSelected(item) {
       return this.selected.includes(item.id);
     },
-    load() {
-      this.items = this.selected.map((id) => {
-        return {
-          text: id,
-          id: id
-        };
+    async load() {
+      this.items = await this.$api.get(this.endpoints.field, {
+        selected: this.selected
       });
     },
     onInput() {
@@ -122,7 +120,6 @@ export default {
     },
     select(selected) {
       this.selected = selected;
-      this.load();
       this.onInput();
     }
   }
