@@ -3,6 +3,9 @@ export default (file, params) => {
     url: "/",
     field: "file",
     method: "POST",
+    headers: {
+      'Content-Type': 'application/octet-stream'
+    },
     attributes: {},
     complete: function () {},
     error: function () {},
@@ -10,12 +13,24 @@ export default (file, params) => {
     progress: function () {}
   };
 
+  let chunks = [];
   const options = Object.assign(defaults, params);
   const sliceSize = 10000000; // Send 10MB Chunks
 
   function uploadFile(file) {
     console.log('Sending File of Size: ' + file.size);
-    send(file, 0, sliceSize);
+    createChunks(file);
+    send(file);
+  }
+
+  function createChunks(file) {
+    let size = 2048, parts = Math.ceil(file.size / size);
+
+    for (let i = 0; i < parts; i++) {
+      chunks.push(file.slice(
+        i * size, Math.min(i * size + size, file.size), file.type
+      ));
+    }
   }
 
   function createFormData() {
@@ -78,31 +93,25 @@ export default (file, params) => {
     return xhr;
   }
 
-  function send(file, start, end) {
+  function send(file) {
     let xhr = createXhr();
     let formData = createFormData();
 
-    if (file.size - end < 0) { // Uses a closure on size here you could pass this as a param
-      end = file.size;
-    }
-
-    if (end < file.size) {
+    if (chunks.length > 0) {
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           console.log('Done Sending Chunk');
-          send(file, start + sliceSize, start + (sliceSize * 2))
+          chunks.shift();
+          send(file);
         }
       }
     } else {
       console.log('Upload complete');
     }
 
-    let slicedPart = slice(file, start, end);
-
-    formData.append('start', new File([start], file.name));
-    formData.append('end', new File([end], file.name));
-    formData.append(options.field, new File([slicedPart], file.name));
-    console.log('Sending Chunk (Start - End): ' + start + ' ' + end);
+    formData.set('is_last', chunks.length === 1);
+    formData.set(options.field, chunks[0], file.name + ".part");
+    console.log('Sending Chunk');
 
     xhr.open(options.method, options.url, true);
 
@@ -115,16 +124,5 @@ export default (file, params) => {
     }
 
     xhr.send(formData);
-  }
-
-  function slice(file, start, end) {
-    let slice = file.mozSlice ? file.mozSlice :
-      file.webkitSlice ? file.webkitSlice :
-        file.slice ? file.slice : noop;
-
-    return slice.bind(file)(start, end);
-  }
-
-  function noop() {
   }
 };
