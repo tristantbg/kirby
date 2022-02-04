@@ -15,7 +15,8 @@ export default (file, params) => {
 
   let chunks = [];
   const options = Object.assign(defaults, params);
-  const sliceSize = 10000000; // Send 10MB Chunks
+
+  uploadFile(file);
 
   function uploadFile(file) {
     console.log('Sending File of Size: ' + file.size);
@@ -24,6 +25,7 @@ export default (file, params) => {
   }
 
   function createChunks(file) {
+    console.log('Creating chunks');
     let size = 2048, parts = Math.ceil(file.size / size);
 
     for (let i = 0; i < parts; i++) {
@@ -34,6 +36,7 @@ export default (file, params) => {
   }
 
   function createFormData() {
+    console.log('Creating form data');
     const formData = new FormData();
 
     formData.append(options.field, file, file.name);
@@ -48,6 +51,7 @@ export default (file, params) => {
   }
 
   function createXhr() {
+    console.log('Creating xhr');
     const xhr = new XMLHttpRequest();
 
     const progress = (event) => {
@@ -97,7 +101,7 @@ export default (file, params) => {
     let xhr = createXhr();
     let formData = createFormData();
 
-    if (chunks.length > 0) {
+    if (chunks.length > 1) {
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           console.log('Done Sending Chunk');
@@ -109,8 +113,8 @@ export default (file, params) => {
       console.log('Upload complete');
     }
 
-    formData.set('is_last', chunks.length === 1);
-    formData.set(options.field, chunks[0], file.name + ".part");
+    formData.append('is_last', chunks.length === 1);
+    formData.append(options.field, chunks[0], file.name + ".part");
     console.log('Sending Chunk');
 
     xhr.open(options.method, options.url, true);
