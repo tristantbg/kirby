@@ -728,10 +728,12 @@ class Api
      */
     public function upload(Closure $callback, $single = false, $debug = false): array
     {
-        $trials  = 0;
-        $uploads = [];
-        $errors  = [];
-        $files   = $this->requestFiles();
+        $trials    = 0;
+        $uploads   = [];
+        $errors    = [];
+        $files     = $this->requestFiles();
+        $isLast    = $this->requestBody('is_last');
+        $isChunked = $isLast !== null;
 
         // get error messages from translation
         $errorMessages = [
@@ -783,19 +785,27 @@ class Api
 
                 $source = dirname($upload['tmp_name']) . '/' . uniqid() . '.' . $filename;
 
-                // move the file to a location including the extension,
-                // for better mime detection
-                if ($debug === false && move_uploaded_file($upload['tmp_name'], $source) === false) {
-                    throw new Exception(t('upload.error.cantMove'));
+                if ($isChunked === true) {
+                    if ($isLast === true) {
+
+                    } else {
+
+                    }
+                } else {
+                    // move the file to a location including the extension,
+                    // for better mime detection
+                    if ($debug === false && move_uploaded_file($upload['tmp_name'], $source) === false) {
+                        throw new Exception(t('upload.error.cantMove'));
+                    }
+
+                    $data = $callback($source, $filename);
+
+                    if (is_object($data) === true) {
+                        $data = $this->resolve($data)->toArray();
+                    }
+
+                    $uploads[$upload['name']] = $data;
                 }
-
-                $data = $callback($source, $filename);
-
-                if (is_object($data) === true) {
-                    $data = $this->resolve($data)->toArray();
-                }
-
-                $uploads[$upload['name']] = $data;
             } catch (Exception $e) {
                 $errors[$upload['name']] = $e->getMessage();
             }
