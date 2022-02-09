@@ -114,7 +114,7 @@ export default (file, params) => {
     }
 
     formData.append('is_last', chunks.length === 1);
-    formData.append(options.field, chunks[0], file.name + ".part");
+    formData.append(options.field, chunks[0], file.name);
     console.log('Sending Chunk');
 
     xhr.open(options.method, options.url, true);

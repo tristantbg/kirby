@@ -732,8 +732,8 @@ class Api
         $uploads   = [];
         $errors    = [];
         $files     = $this->requestFiles();
-        $isLast    = $this->requestBody('is_last');
-        $isChunked = $isLast !== null;
+        $isLast    = (bool)$this->requestBody('is_last');
+        $isChunked = $this->requestBody('is_last') !== null;
 
         // get error messages from translation
         $errorMessages = [
@@ -783,15 +783,22 @@ class Api
                     $filename = basename($upload['name']);
                 }
 
-                $source = dirname($upload['tmp_name']) . '/' . uniqid() . '.' . $filename;
-
                 if ($isChunked === true) {
+                    $source = kirby()->root('cache') . '/chunks/' . $filename;
+                    F::append($source, F::read($upload['tmp_name']));
+
                     if ($isLast === true) {
+                        $data = $callback($source, $filename);
 
-                    } else {
+                        if (is_object($data) === true) {
+                            $data = $this->resolve($data)->toArray();
+                        }
 
+                        $uploads[$upload['name']] = $data;
                     }
                 } else {
+                    $source = dirname($upload['tmp_name']) . '/' . uniqid() . '.' . $filename;
+
                     // move the file to a location including the extension,
                     // for better mime detection
                     if ($debug === false && move_uploaded_file($upload['tmp_name'], $source) === false) {
