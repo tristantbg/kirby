@@ -135,6 +135,36 @@ trait HasChildren
     }
 
     /**
+     * Finds one or multiple children by status and ID
+     *
+     * @param string $status Available options: draft, listed, unlisted, published, all
+     * @param string ...$arguments
+     * @return \Kirby\Cms\Page|\Kirby\Cms\Pages|null
+     */
+    public function findByStatus(string $status, ...$arguments)
+    {
+        switch ($status) {
+            case 'draft':
+                $collection = $this->drafts();
+                break;
+            case 'listed':
+                $collection = $this->children()->listed();
+                break;
+            case 'unlisted':
+                $collection = $this->children()->unlisted();
+                break;
+            case 'all':
+                $collection = $this->childrenAndDrafts();
+                break;
+            case 'published':
+            default:
+                $collection = $this->children();
+        }
+
+        return $collection->find(...$arguments);
+    }
+
+    /**
      * Finds a single published or draft child
      *
      * @param string $path

@@ -310,12 +310,18 @@ class FieldMethodsTest extends TestCase
                 'children' => [
                     ['slug' => 'a'],
                     ['slug' => 'b'],
+                ],
+                'drafts' => [
+                    ['slug' => 'y'],
+                    ['slug' => 'z'],
                 ]
             ]
         ]);
 
         $a = $app->page('a');
         $b = $app->page('b');
+        $y = $app->page('y');
+        $z = $app->page('z');
 
         // single page
         $pages = new Pages([$a], $app->site());
@@ -343,6 +349,18 @@ class FieldMethodsTest extends TestCase
         ]);
 
         $this->assertInstanceOf(Pages::class, $this->field($content)->toPages());
+
+        // status: draft
+        $pages = new Pages([$y, $z], $app->site());
+
+        $content = Yaml::encode([
+            'a',
+            'b',
+            'y',
+            'z',
+        ]);
+
+        $this->assertEquals($pages, $this->field($content)->toPages('draft'));
     }
 
     public function testToStructure()

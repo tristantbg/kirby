@@ -226,10 +226,11 @@ return function (App $app) {
          * Returns a page object from a page id in the field
          *
          * @param \Kirby\Cms\Field $field
+         * @param string $status Filter pages by status: draft, listed, unlisted, published, all
          * @return \Kirby\Cms\Page|null
          */
-        'toPage' => function (Field $field) {
-            return $field->toPages()->first();
+        'toPage' => function (Field $field, string $status = 'published') {
+            return $field->toPages($status)->first();
         },
 
         /**
@@ -237,10 +238,20 @@ return function (App $app) {
          *
          * @param \Kirby\Cms\Field $field
          * @param string $separator Can be any other separator to split the field value by
+         * @param string $status Filter pages by status: draft, listed, unlisted, published, all
          * @return \Kirby\Cms\Pages
+         * @deprecated 3.6.5
+         * @todo Throw deprecated warning in 3.7.0
+         * @todo Move $status param to first in 3.8.0
          */
-        'toPages' => function (Field $field, string $separator = 'yaml') use ($app) {
-            return $app->site()->find(false, false, ...$field->toData($separator));
+        'toPages' => function (Field $field, string $separator = 'yaml', string $status = 'published') use ($app) {
+            // support status param in first argument
+            if (in_array($separator, ['draft', 'listed', 'unlisted', 'published', 'all']) === true) {
+                $status = $separator;
+                $separator = 'yaml';
+            }
+
+            return $app->site()->findByStatus($status, $field->toData($separator));
         },
 
         /**
@@ -301,7 +312,7 @@ return function (App $app) {
          * @return \Kirby\Cms\Users
          */
         'toUsers' => function (Field $field, string $separator = 'yaml') use ($app) {
-            return $app->users()->find(false, false, ...$field->toData($separator));
+            return $app->users()->find($field->toData($separator));
         },
 
         // inspectors
