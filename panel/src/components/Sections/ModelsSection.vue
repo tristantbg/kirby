@@ -6,7 +6,7 @@
   >
     <header class="k-section-header">
       <k-headline :link="options.link">
-        {{ options.headline || " " }}
+        {{ options.label || " " }}
         <abbr v-if="options.min" :title="$t('section.required')">*</abbr>
       </k-headline>
 
@@ -72,8 +72,8 @@ export default {
       options: {
         columns: {},
         empty: null,
-        headline: null,
         help: null,
+        label: null,
         layout: "list",
         link: null,
         max: null,
