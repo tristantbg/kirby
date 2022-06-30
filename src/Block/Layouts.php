@@ -59,7 +59,7 @@ class Layouts extends Items
 		if (empty($input) === false && is_array($input) === false) {
 			try {
 				$input = Data::decode($input, 'json');
-			} catch (Throwable $e) {
+			} catch (Throwable) {
 				return [];
 			}
 		}

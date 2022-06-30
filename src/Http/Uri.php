@@ -185,7 +185,7 @@ class Uri
 	{
 		try {
 			return $this->toString();
-		} catch (Throwable $e) {
+		} catch (Throwable) {
 			return '';
 		}
 	}

@@ -269,7 +269,7 @@ class Page extends ModelWithContent
 					'name'  => basename($props['name']),
 					'title' => $props['title'],
 				];
-			} catch (Exception $e) {
+			} catch (Exception) {
 				// skip invalid blueprints
 			}
 		}
