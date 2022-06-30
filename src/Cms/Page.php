@@ -239,7 +239,7 @@ class Page extends ModelWithContent
 	 * @param string|null $inSection
 	 * @return array
 	 */
-	public function blueprints(?string $inSection = null): array
+	public function blueprints(string|null $inSection = null): array
 	{
 		if ($inSection !== null) {
 			return $this->blueprint()->section($inSection)->blueprints();
@@ -304,7 +304,7 @@ class Page extends ModelWithContent
 	 * @param string|null $languageCode
 	 * @return array
 	 */
-	public function contentFileData(array $data, ?string $languageCode = null): array
+	public function contentFileData(array $data, string|null $languageCode = null): array
 	{
 		return A::prepend($data, [
 			'title' => $data['title'] ?? null,
@@ -320,7 +320,7 @@ class Page extends ModelWithContent
 	 * @param string|null $languageCode
 	 * @return string
 	 */
-	public function contentFileName(?string $languageCode = null): string
+	public function contentFileName(string|null $languageCode = null): string
 	{
 		return $this->intendedTemplate()->name();
 	}
@@ -897,7 +897,7 @@ class Page extends ModelWithContent
 	 *
 	 * @return int|null
 	 */
-	public function num(): ?int
+	public function num(): int|null
 	{
 		return $this->num;
 	}
@@ -928,7 +928,7 @@ class Page extends ModelWithContent
 	 * @internal
 	 * @return string|null
 	 */
-	public function parentId(): ?string
+	public function parentId(): string|null
 	{
 		if ($parent = $this->parent()) {
 			return $parent->id();
@@ -984,7 +984,7 @@ class Page extends ModelWithContent
 	 * @internal
 	 * @return string|null
 	 */
-	public function previewUrl(): ?string
+	public function previewUrl(): string|null
 	{
 		$url = $this->blueprint()->preview?->render($this);
 
