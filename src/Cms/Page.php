@@ -218,9 +218,9 @@ class Page extends ModelWithContent
 	{
 		if ($relative === true) {
 			return 'pages/' . $this->panel()->id();
-		} else {
-			return $this->kirby()->url('api') . '/pages/' . $this->panel()->id();
 		}
+
+		return $this->kirby()->url('api') . '/pages/' . $this->panel()->id();
 	}
 
 	/**
@@ -396,9 +396,9 @@ class Page extends ModelWithContent
 
 		if ($this->num() !== null) {
 			return $this->dirname = $this->num() . Dir::$numSeparator . $this->uid();
-		} else {
-			return $this->dirname = $this->uid();
 		}
+
+		return $this->dirname = $this->uid();
 	}
 
 	/**
@@ -420,9 +420,9 @@ class Page extends ModelWithContent
 
 		if ($parent = $this->parent()) {
 			return $this->diruri = $parent->diruri() . '/' . $dirname;
-		} else {
-			return $this->diruri = $dirname;
 		}
+
+		return $this->diruri = $dirname;
 	}
 
 	/**
@@ -1401,9 +1401,9 @@ class Page extends ModelWithContent
 		if ($this->kirby()->multilang() === true) {
 			if (is_string($options) === true) {
 				return $this->urlForLanguage($options);
-			} else {
-				return $this->urlForLanguage(null, $options);
 			}
+
+			return $this->urlForLanguage(null, $options);
 		}
 
 		if ($options !== null) {
@@ -1421,9 +1421,9 @@ class Page extends ModelWithContent
 		if ($parent = $this->parent()) {
 			if ($parent->isHomePage() === true) {
 				return $this->url = $this->kirby()->url('base') . '/' . $parent->uid() . '/' . $this->uid();
-			} else {
-				return $this->url = $this->parent()->url() . '/' . $this->uid();
 			}
+
+			return $this->url = $this->parent()->url() . '/' . $this->uid();
 		}
 
 		return $this->url = $this->kirby()->url('base') . '/' . $this->uid();
@@ -1450,9 +1450,9 @@ class Page extends ModelWithContent
 		if ($parent = $this->parent()) {
 			if ($parent->isHomePage() === true) {
 				return $this->url = $this->site()->urlForLanguage($language) . '/' . $parent->slug($language) . '/' . $this->slug($language);
-			} else {
-				return $this->url = $this->parent()->urlForLanguage($language) . '/' . $this->slug($language);
 			}
+
+			return $this->url = $this->parent()->urlForLanguage($language) . '/' . $this->slug($language);
 		}
 
 		return $this->url = $this->site()->urlForLanguage($language) . '/' . $this->slug($language);

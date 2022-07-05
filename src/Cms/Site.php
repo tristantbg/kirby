@@ -165,9 +165,9 @@ class Site extends ModelWithContent
 	{
 		if ($relative === true) {
 			return 'site';
-		} else {
-			return $this->kirby()->url('api') . '/site';
 		}
+
+		return $this->kirby()->url('api') . '/site';
 	}
 
 	/**
