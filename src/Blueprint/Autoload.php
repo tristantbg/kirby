@@ -40,6 +40,16 @@ class Autoload
 		$collection = [];
 
 		foreach ($items as $id => $item) {
+			// ignored items
+			if ($item === false) {
+				continue;
+			}
+
+			// type shortcut
+			if ($item === true) {
+				$item = ['type' => $id];
+			}
+
 			$item['id'] ??= $id;
 
 			try {

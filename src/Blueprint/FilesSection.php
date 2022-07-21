@@ -2,6 +2,9 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\Files;
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Files section
  *
@@ -21,5 +24,34 @@ class FilesSection extends ModelsSection
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+
+		$this->text ??= new Text('{{ file.filename }}');
+	}
+
+	/**
+	 * Filter files by template and readable status
+	 */
+	public function applyFilters(Files $files): Files
+	{
+		$files = $files->template($this->template);
+		$files = $files->filter('isReadable', true);
+
+		return $files;
+	}
+
+	/**
+	 * Load, filter, sort and paginate all files
+	 * to show in the section
+	 */
+	public function models(ModelWithContent $model, array $query = []): Files
+	{
+		$files = $this->parent($model)->files();
+		$files = $this->applyFilters($files);
+		$files = $this->applySearch($files, $query);
+		$files = $this->applySort($files);
+		$files = $this->applyFlip($files);
+		$files = $this->applyPagination($files, $query);
+
+		return $files;
 	}
 }

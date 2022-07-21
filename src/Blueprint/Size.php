@@ -13,19 +13,14 @@ namespace Kirby\Blueprint;
  */
 class Size extends Enumeration
 {
-	public function __construct(string|null $value = null, string $default = 'auto')
-	{
-		parent::__construct(
-			default: $default,
-			value: $value,
-			allowed: [
-				'auto',
-				'tiny',
-				'small',
-				'medium',
-				'large',
-				'huge'
-			]
-		);
-	}
+	public array $allowed = [
+		'auto',
+		'tiny',
+		'small',
+		'medium',
+		'large',
+		'huge'
+	];
+
+	public string|null $default = 'auto';
 }

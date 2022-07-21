@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Value\BoolValue;
+
 /**
  * Toggle field
  *
@@ -14,4 +16,22 @@ namespace Kirby\Blueprint;
 class ToggleField extends InputField
 {
 	public const TYPE = 'toggle';
+	public BoolValue $value;
+
+	public function __construct(
+		public string $id,
+		public After|null $after = null,
+		public bool $autofocus = false,
+		public Before|null $before = null,
+		public bool|null $default = null,
+		public Icon|null $icon = null,
+		public ToggleText|null $text = null,
+		...$args
+	) {
+		parent::__construct($id, ...$args);
+
+		$this->text ??= ToggleText::factory();
+
+		$this->value = new BoolValue;
+	}
 }

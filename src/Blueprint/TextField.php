@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Value\StringValue;
+
 /**
  * Text field
  *
@@ -14,6 +16,7 @@ namespace Kirby\Blueprint;
 class TextField extends InputField
 {
 	public const TYPE = 'text';
+	public StringValue $value;
 
 	public function __construct(
 		string $id,
@@ -29,13 +32,14 @@ class TextField extends InputField
 		public string|null $pattern = null,
 		public Placeholder|null $placeholder = null,
 		public bool $spellcheck = false,
-		public string|null $value = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 
-		$this->validations->add('maxlength', $this->maxlength);
-		$this->validations->add('minlength', $this->minlength);
-		$this->validations->add('match', $this->pattern);
+		$this->value = new StringValue(
+			maxlength: $this->maxlength,
+			minlength: $this->minlength,
+			pattern:   $this->pattern
+		);
 	}
 }

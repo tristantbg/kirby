@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Value\EmailValue;
+
 /**
  * Email field
  *
@@ -23,6 +25,11 @@ class EmailField extends TextField
 		$this->icon         ??= new Icon('email');
 		$this->placeholder  ??= new Placeholder(['*' => 'email.placeholder']);
 
-		$this->validations->add('email');
+		$this->value = new EmailValue(
+			maxlength: $this->maxlength,
+			minlength: $this->minlength,
+			pattern:   $this->pattern,
+			required:  $this->required,
+		);
 	}
 }

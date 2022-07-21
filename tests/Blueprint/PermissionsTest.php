@@ -21,4 +21,20 @@ class PermissionsTest extends TestCase
 		$this->assertInstanceOf(SitePermissions::class, $permissions->site);
 		$this->assertInstanceOf(UsersPermissions::class, $permissions->users);
 	}
+
+	/**
+	 * @covers ::factory
+	 */
+	public function testFactory()
+	{
+		$permissions = Permissions::factory([
+			'access' => [
+				'panel' => false
+			]
+		]);
+
+		$this->assertFalse($permissions->access->panel);
+		$this->assertTrue($permissions->access->system);
+	}
+
 }

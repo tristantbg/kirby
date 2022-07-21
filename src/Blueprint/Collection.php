@@ -15,16 +15,18 @@ use TypeError;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Collection extends BaseCollection
+class Collection extends BaseCollection implements Renderable, Factory
 {
 	/**
 	 * The expected object type
 	 */
 	public const TYPE = Component::class;
 
-	public function __construct(array $data = [])
+	public function __construct(array $objects = [])
 	{
-		$this->set($data);
+		foreach ($objects as $object) {
+			$this->__set($object->id, $object);
+		}
 	}
 
 	/**
@@ -56,7 +58,7 @@ class Collection extends BaseCollection
 
 	public static function factory(array $items)
 	{
-		$collection = new static();
+		$collection = new static;
 		$className  = static::TYPE;
 
 		foreach ($items as $id => $item) {

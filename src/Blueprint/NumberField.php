@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Value\NumberValue;
+
 /**
  * Number field
  *
@@ -14,6 +16,7 @@ namespace Kirby\Blueprint;
 class NumberField extends InputField
 {
 	public const TYPE = 'number';
+	public NumberValue $value;
 
 	public function __construct(
 		public string $id,
@@ -26,12 +29,14 @@ class NumberField extends InputField
 		public int|float|null $min = null,
 		public Placeholder|null $placeholder = null,
 		public int|float|null $step = null,
-		public int|float|null $value = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 
-		$this->validations->add('min', $this->min);
-		$this->validations->add('max', $this->max);
+		$this->value = new NumberValue(
+			max:      $this->max,
+			min: 	  $this->min,
+			required: $this->required
+		);
 	}
 }

@@ -16,7 +16,7 @@ use ReflectionUnionType;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Component
+class Component implements Renderable, Factory
 {
 	/**
 	 * Dynamic getter for properties
@@ -44,7 +44,7 @@ class Component
 		$className = $type->getName();
 
 		// check if there's a factory for the value
-		if (is_subclass_of($className, Component::class) === true || is_subclass_of($className, Collection::class) === true) {
+		if (is_subclass_of($className, Renderable::class) === true) {
 			return $className::factory($value);
 		}
 
@@ -113,7 +113,7 @@ class Component
 				continue;
 			}
 
-			if (method_exists($value, 'render') === true) {
+			if (is_a($value, Renderable::class) === true) {
 				$array[$key] = $value->render($model);
 			}
 		}

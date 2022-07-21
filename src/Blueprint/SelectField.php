@@ -11,7 +11,16 @@ namespace Kirby\Blueprint;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class SelectField extends InputField
+class SelectField extends OptionField
 {
 	public const TYPE = 'select';
+
+	public function __construct(
+		public string $id,
+		public Icon|null $icon = null,
+		public Placeholder|null $placeholder = null,
+		...$args
+	) {
+		parent::__construct($id, ...$args);
+	}
 }

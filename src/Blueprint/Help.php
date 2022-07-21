@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Blueprint\Text;
 
 /**
  * Additional help text below the field or section

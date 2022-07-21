@@ -1,0 +1,28 @@
+<?php
+
+namespace Kirby\Blueprint;
+
+use Kirby\Value\OptionsValue;
+
+/**
+ * @covers \Kirby\Blueprint\OptionsField
+ */
+class OptionsFieldTest extends TestCase
+{
+	/**
+	 * @covers ::__construct
+	 */
+	public function testConstruct()
+	{
+		$field = new OptionsField('test');
+
+		$this->assertNull($field->default);
+		$this->assertNull($field->max);
+		$this->assertNull($field->min);
+		$this->assertSame(',', $field->separator);
+		$this->assertNull($field->options);
+		$this->assertInstanceOf(Options::class, $field->options());
+		$this->assertInstanceOf(OptionsValue::class, $field->value);
+	}
+
+}

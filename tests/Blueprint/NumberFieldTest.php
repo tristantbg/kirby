@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Value\NumberValue;
+
 /**
  * @covers \Kirby\Blueprint\NumberField
  */
@@ -26,54 +28,6 @@ class NumberFieldTest extends TestCase
 		$this->assertNull($field->min);
 		$this->assertNull($field->placeholder);
 		$this->assertNull($field->step);
-		$this->assertNull($field->value);
-	}
-
-	/**
-	 * @covers ::validate
-	 */
-	public function testValidateMax()
-	{
-		$field = new NumberField('test', max: 4);
-		$page  = $this->model();
-
-		$this->assertTrue($field->validate($page));
-		$this->assertTrue($field->validate($page, 4));
-	}
-
-	/**
-	 * @covers ::validate
-	 */
-	public function testValidateMaxInvalid()
-	{
-		$field = new NumberField('test', max: 4);
-		$page  = $this->model();
-
-		$this->assertValidationError('Please enter a value equal to or lower than 4');
-		$field->validate($page, 5);
-	}
-
-	/**
-	 * @covers ::validate
-	 */
-	public function testValidateMin()
-	{
-		$field = new NumberField('test', min: 4);
-		$page  = $this->model();
-
-		$this->assertTrue($field->validate($page));
-		$this->assertTrue($field->validate($page, 4));
-	}
-
-	/**
-	 * @covers ::validate
-	 */
-	public function testValidateMinInvalid()
-	{
-		$field = new NumberField('test', min: 4);
-		$page  = $this->model();
-
-		$this->assertValidationError('Please enter a value equal to or greater than 4');
-		$field->validate($page, 3);
+		$this->assertInstanceOf(NumberValue::class, $field->value);
 	}
 }

@@ -11,7 +11,7 @@ namespace Kirby\Blueprint;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class PermissionsGroup extends Component
+class PermissionsGroup
 {
 	/**
 	 * Creates a new instance either from an
@@ -23,7 +23,7 @@ class PermissionsGroup extends Component
 			return new static(...$permissions);
 		}
 
-		$group = new static();
+		$group = new static;
 
 		// set all permissions to the given bool
 		foreach (get_object_vars($group) as $key => $value) {

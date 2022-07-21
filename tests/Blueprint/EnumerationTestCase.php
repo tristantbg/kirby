@@ -2,7 +2,9 @@
 
 namespace Kirby\Blueprint;
 
-class EnumerationTestCase extends TestCase
+use PHPUnit\Framework\TestCase as BaseTestCase;
+
+class EnumerationTestCase extends BaseTestCase
 {
 	public const CLASSNAME = Enumeration::class;
 
@@ -35,7 +37,7 @@ class EnumerationTestCase extends TestCase
 	/**
 	 * @dataProvider provideAllowed
 	 */
-	public function testAllowed(string $allowed)
+	public function testAllowed(string|null $allowed)
 	{
 		$object = $this->instance($allowed);
 		$this->assertSame($allowed, $object->value);

@@ -18,16 +18,4 @@ class FieldTest extends TestCase
 
 		$this->assertSame('test', $field->id);
 	}
-
-	/**
-	 * @covers ::validate
-	 */
-	public function testValidate()
-	{
-		$field = new Field(
-			id: 'test',
-		);
-
-		$this->assertTrue($field->validate($this->model()));
-	}
 }

@@ -21,7 +21,7 @@ class TableColumnTest extends TestCase
 		$this->assertSame('Test', $column->label->value);
 		$this->assertFalse($column->mobile);
 		$this->assertNull($column->align);
-		$this->assertNull($column->type);
+		$this->assertNull($column->field);
 		$this->assertNull($column->value);
 		$this->assertNull($column->width);
 	}

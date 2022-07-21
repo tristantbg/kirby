@@ -11,7 +11,7 @@ namespace Kirby\Blueprint;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Permissions extends Component
+class Permissions
 {
 	public function __construct(
 		public AccessPermissions|null $access = null,
@@ -28,4 +28,20 @@ class Permissions extends Component
 		$this->site    ??= new SitePermissions();
 		$this->users   ??= new UsersPermissions();
 	}
+
+	/**
+	 * Creates new permissions instance
+	 * from an array
+	 */
+	public static function factory(array $permissions = null): static
+	{
+		$instance = new static;
+
+		foreach ($permissions ?? [] as $key => $values) {
+			$instance->$key = $instance->$key::factory($values);
+		}
+
+		return $instance;
+	}
+
 }

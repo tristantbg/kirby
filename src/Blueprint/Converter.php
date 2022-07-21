@@ -13,18 +13,11 @@ namespace Kirby\Blueprint;
  */
 class Converter extends Enumeration
 {
-	public function __construct(string|null $value = null, string $default = null)
-	{
-		parent::__construct(
-			default: $default,
-			value: $value,
-			allowed: [
-				null,
-				'lower',
-				'slug',
-				'ucfirst',
-				'upper',
-			]
-		);
-	}
+	public array $allowed = [
+		null,
+		'lower',
+		'slug',
+		'ucfirst',
+		'upper',
+	];
 }

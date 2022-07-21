@@ -13,17 +13,12 @@ namespace Kirby\Blueprint;
  */
 class Layout extends Enumeration
 {
-	public function __construct(string|null $value = null, string $default = 'list')
-	{
-		parent::__construct(
-			default: $default,
-			value: $value,
-			allowed: [
-				'cards',
-				'cardlets',
-				'list',
-				'table'
-			]
-		);
-	}
+	public array $allowed = [
+		'cards',
+		'cardlets',
+		'list',
+		'table'
+	];
+
+	public string|null $default = 'list';
 }

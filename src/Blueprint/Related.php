@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Related model option
  *
@@ -13,4 +15,12 @@ namespace Kirby\Blueprint;
  */
 class Related extends Property
 {
+	public function model(ModelWithContent $model)
+	{
+		if ($this->value === null) {
+			return null;
+		}
+
+		return $model->query($this->value);
+	}
 }

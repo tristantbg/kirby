@@ -43,7 +43,7 @@ class Validation
 		string|Closure $handler,
 		array $args = [],
 		string|null $message = null,
-		bool $disabled = false
+		bool|Closure $disabled = false
 	) {
 		$this->args     = $args;
 		$this->disabled = $disabled;
@@ -56,7 +56,14 @@ class Validation
 	 */
 	public function validate(mixed $value = null): bool
 	{
-		if ($this->disabled === true) {
+		$disabled = $this->disabled;
+
+		// resolve a lazy disabled state
+		if (is_a($disabled, Closure::class) === true) {
+			$disabled = $disabled($value);
+		}
+
+		if ($disabled === true) {
 			return true;
 		}
 
@@ -70,13 +77,18 @@ class Validation
 		// custom validator
 		} else {
 			$result  = $handler($value, ...$this->args);
-			$message = I18n::translate('error.validation.custom');
+			$message = 'error.validation.custom';
 		}
 
 		if ($result === true) {
 			return true;
 		}
 
-		throw new InvalidArgumentException($this->message ?? $message);
+		// build the custom message and try to translate it
+		if ($customMessage = $this->message) {
+			$message = I18n::translate($customMessage, $customMessage);
+		}
+
+		throw new InvalidArgumentException($message);
 	}
 }

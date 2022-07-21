@@ -22,7 +22,7 @@ class Property extends Component
 	) {
 	}
 
-	public static function factory(string|array|null $props = null)
+	public static function factory(string|array|null $props = null): static
 	{
 		return new static(...A::wrap($props));
 	}

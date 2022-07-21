@@ -13,19 +13,14 @@ namespace Kirby\Blueprint;
  */
 class Theme extends Enumeration
 {
-	public function __construct(string|null $value = null, string $default = 'plain')
-	{
-		parent::__construct(
-			default: $default,
-			value: $value,
-			allowed: [
-				'info',
-				'negative',
-				'none',
-				'notice',
-				'plain',
-				'positive',
-			]
-		);
-	}
+	public array $allowed = [
+		'info',
+		'negative',
+		'none',
+		'notice',
+		'plain',
+		'positive',
+	];
+
+	public string|null $default = 'plain';
 }

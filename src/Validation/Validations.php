@@ -19,6 +19,11 @@ class Validations
 {
 	public array $validations = [];
 
+	public function __get(string $id): ?Validation
+	{
+		return $this->get($id) ?? null;
+	}
+
 	/**
 	 * Add a new validation
 	 */
@@ -74,6 +79,23 @@ class Validations
 		}
 
 		return $errors;
+	}
+
+	/**
+	 * Create a new validations collection
+	 * with the given ids
+	 */
+	public function only(...$ids)
+	{
+		$clone = new static;
+
+		foreach ($ids as $id) {
+			if ($validation = ($this->validations[$id] ?? null)) {
+				$clone->add($id, $validation);
+			}
+		}
+
+		return $clone;
 	}
 
 	/**

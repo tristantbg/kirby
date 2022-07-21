@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Value\EmailValue;
+
 /**
  * @covers \Kirby\Blueprint\EmailField
  */
@@ -19,29 +21,6 @@ class EmailFieldTest extends TestCase
 		$this->assertSame('email', $field->autocomplete);
 		$this->assertSame('email', $field->icon->value);
 		$this->assertSame('mail@example.com', $field->placeholder->value);
-	}
-
-	/**
-	 * @covers ::validate
-	 */
-	public function testValidate()
-	{
-		$field = new EmailField('test');
-		$page  = $this->model();
-
-		$this->assertTrue($field->validate($page));
-		$this->assertTrue($field->validate($page, 'test@getkirby.com'));
-	}
-
-	/**
-	 * @covers ::validate
-	 */
-	public function testValidateWithInvalidEmail()
-	{
-		$field = new EmailField('test');
-		$page  = $this->model();
-
-		$this->assertValidationError('Please enter a valid email address');
-		$field->validate($page, 'test');
+		$this->assertInstanceOf(EmailValue::class, $field->value);
 	}
 }

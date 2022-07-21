@@ -13,17 +13,26 @@ use Kirby\Exception\InvalidArgumentException;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Enumeration extends Property
+abstract class Enumeration
 {
+	public array $allowed = [];
+	public string|null $default = null;
+
 	public function __construct(
 		public string|null $value = null,
-		public array $allowed = [],
-		public string|null $default = null
 	) {
-		parent::__construct($value ?? $default, $default);
+		$this->set($value);
+	}
 
-		if (in_array($this->value, $this->allowed) === false) {
-			throw new InvalidArgumentException('The given value "' . $this->value . '" is not allowed. Allowed values: ' . implode(', ', $this->allowed));
+	public function set(string|null $value): static
+	{
+		$value ??= $this->default;
+
+		if (in_array($value, $this->allowed) === false) {
+			throw new InvalidArgumentException('The given value "' . $value . '" is not allowed. Allowed values: ' . implode(', ', $this->allowed));
 		}
+
+		$this->value = $value;
+		return $this;
 	}
 }

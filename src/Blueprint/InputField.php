@@ -2,9 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Cms\ModelWithContent;
-use Kirby\Validation\Validations;
-
 /**
  * Base class for all saveable fields
  *
@@ -14,7 +11,7 @@ use Kirby\Validation\Validations;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class InputField extends BaseField
+class InputField extends Field
 {
 	public const TYPE = 'input';
 
@@ -22,29 +19,13 @@ class InputField extends BaseField
 		public string $id,
 		public bool $autofocus = false,
 		public bool $disabled = false,
+		public Help|null $help = null,
+		public Label|null $label = null,
 		public bool $required = false,
 		public bool $translate = true,
-		public Validations|null $validations = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-
-		$this->validations ??= new Validations();
-		$this->validations->add('required', $this->required);
-	}
-
-	public function validate(ModelWithContent $model, mixed $value = null): bool
-	{
-		// don't validate at all if the field does not have any validations
-		if ($this->validations === null) {
-			return true;
-		}
-
-		// only validate the required state when the value is empty
-		if ($value === null) {
-			return $this->validations->get('required')?->validate($value) ?? true;
-		}
-
-		return $this->validations->validate($value);
+		$this->label ??= Label::fallback($id);
 	}
 }

@@ -24,13 +24,4 @@ class Field extends NodeWithType
 	) {
 	}
 
-	public function submit(ModelWithContent $model, mixed $value = null): mixed
-	{
-		return $value;
-	}
-
-	public function validate(ModelWithContent $model, mixed $value = null): bool
-	{
-		return true;
-	}
 }

@@ -13,8 +13,8 @@ class CollectionTest extends TestCase
 	public function testConstruct()
 	{
 		$collection = new Collection([
-			$a = new Component(),
-			$b = new Component(),
+			$a = new Blueprint('a'),
+			$b = new Blueprint('b'),
 		]);
 
 		$this->assertCount(2, $collection);
@@ -30,8 +30,11 @@ class CollectionTest extends TestCase
 		$this->expectException('TypeError');
 		$this->expectExceptionMessage('Each value in the collection must be an instance of Kirby\Blueprint\Component');
 
+		$object = new \stdClass;
+		$object->id = 'foo';
+
 		new Collection([
-			new \stdClass(),
+			$object,
 		]);
 	}
 }
