@@ -1,7 +1,14 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Section;
 
+use Kirby\Blueprint\Help;
+use Kirby\Blueprint\Image;
+use Kirby\Blueprint\Label;
+use Kirby\Blueprint\Layout;
+use Kirby\Blueprint\Related;
+use Kirby\Blueprint\Size;
+use Kirby\Blueprint\Text;
 use Kirby\Cms\Collection as Models;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;

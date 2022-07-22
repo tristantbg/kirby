@@ -1,9 +1,11 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Section;
+
+use Kirby\Blueprint\Label;
 
 /**
- * @covers \Kirby\Blueprint\InfoSection
+ * @covers \Kirby\Section\InfoSection
  */
 class InfoSectionTest extends TestCase
 {

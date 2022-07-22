@@ -2,6 +2,10 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Section\FieldsSection;
+use Kirby\Section\InfoSection;
+use Kirby\Section\Sections;
+
 /**
  * @covers \Kirby\Blueprint\Tab
  */

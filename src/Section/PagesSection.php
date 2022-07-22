@@ -1,7 +1,10 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Section;
 
+use Kirby\Blueprint\Label;
+use Kirby\Blueprint\PageStatus;
+use Kirby\Blueprint\Text;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
@@ -14,7 +17,7 @@ use Kirby\Toolkit\A;
 /**
  * Pages section
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Section
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

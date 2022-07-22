@@ -1,9 +1,11 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Section;
+
+use Kirby\Blueprint\Label;
 
 /**
- * @covers \Kirby\Blueprint\ModelsSection
+ * @covers \Kirby\Section\ModelsSection
  */
 class ModelsSectionTest extends TestCase
 {

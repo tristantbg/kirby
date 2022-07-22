@@ -3,6 +3,7 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Section\Sections;
 
 /**
  * Tab

@@ -4,6 +4,7 @@ namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
+use Kirby\Section\Sections;
 
 /**
  * The main blueprint class

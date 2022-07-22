@@ -5,6 +5,7 @@ namespace Kirby\Blueprint;
 use Kirby\Cms\App;
 use Kirby\Data\Yaml;
 use Kirby\Filesystem\F;
+use Kirby\Section\Section;
 use TypeError;
 
 /**
@@ -51,12 +52,7 @@ class Autoload
 			}
 
 			$item['id'] ??= $id;
-
-			try {
-				$collection[$id] = Autoload::$type($item);
-			} catch (TypeError $e) {
-				// TODO: don't simply ignore them.
-			}
+			$collection[$id] = Autoload::$type($item);
 		}
 
 		return $collection;
@@ -127,7 +123,7 @@ class Autoload
 
 		// find the object type
 		$type  = $props['type'] ??= $props['id'];
-		$class = __NAMESPACE__ . '\\' . ucfirst($type) . ucfirst($group);
+		$class = 'Kirby\\' . ucfirst($group) . '\\' . ucfirst($type) . ucfirst($group);
 
 		// check for a valid section type
 		if (class_exists($class) === false) {

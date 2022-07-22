@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Section\Sections;
+
 /**
  * Columns
  *
@@ -28,7 +30,7 @@ class Columns extends Collection
 	 */
 	public function sections(): Sections
 	{
-		$sections = new Sections();
+		$sections = new Sections;
 
 		foreach ($this->data as $column) {
 			foreach ($column->sections ?? [] as $section) {

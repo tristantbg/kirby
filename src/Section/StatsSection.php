@@ -1,13 +1,18 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Section;
 
+use Kirby\Blueprint\Help;
+use Kirby\Blueprint\Label;
+use Kirby\Blueprint\Reports;
+use Kirby\Blueprint\Promise;
+use Kirby\Blueprint\Size;
 use Kirby\Cms\ModelWithContent;
 
 /**
  * Stats section
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Section
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

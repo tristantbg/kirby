@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Section\InfoSection;
+
 /**
  * @covers \Kirby\Blueprint\Autoload
  */

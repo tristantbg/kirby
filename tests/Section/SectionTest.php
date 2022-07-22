@@ -1,9 +1,9 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Section;
 
 /**
- * @covers \Kirby\Blueprint\Section
+ * @covers \Kirby\Section\Section
  */
 class SectionTest extends TestCase
 {

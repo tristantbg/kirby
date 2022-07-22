@@ -1,11 +1,15 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Section;
+
+use Kirby\Blueprint\Autoload;
+use Kirby\Blueprint\Collection;
+use Kirby\Blueprint\Fields;
 
 /**
  * Sections
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Section
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
@@ -17,7 +21,7 @@ class Sections extends Collection
 
 	public static function factory(array $sections = []): static
 	{
-		$collection = new static();
+		$collection = new static;
 		$collection->data = Autoload::collection('section', $sections);
 
 		return $collection;
@@ -28,7 +32,7 @@ class Sections extends Collection
 	 */
 	public function fields(): Fields
 	{
-		$fields = new Fields();
+		$fields = new Fields;
 
 		foreach ($this->data as $section) {
 			if (is_a($section, FieldsSection::class) === false) {

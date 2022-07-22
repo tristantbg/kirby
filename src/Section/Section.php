@@ -1,11 +1,13 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Section;
+
+use Kirby\Blueprint\NodeWithType;
 
 /**
  * Section
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Section
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

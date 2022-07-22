@@ -5,6 +5,7 @@ namespace Kirby\Blueprint;
 use Kirby\Cms\App;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
+use Kirby\Section\Section;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
