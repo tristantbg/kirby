@@ -1,27 +1,37 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Table;
 
+use Kirby\Blueprint\Collection;
 use Kirby\Cms\ModelWithContent;
 
+/**
+ * Table cells
+ *
+ * @package   Kirby Table
+ * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @link      https://getkirby.com
+ * @copyright Bastian Allgeier
+ * @license   https://opensource.org/licenses/MIT
+ */
 class TableCells extends Collection
 {
 	public const TYPE = TableCell::class;
 
-	public static function factory(array $items = []): static
+	public static function factory(array $cells)
 	{
-		$cells = new static;
+		$collection = new static;
 
-		foreach ($items as $id => $value) {
+		foreach ($cells as $id => $value) {
 			$cell = new TableCell(
 				id: $id,
 				value: $value
 			);
 
-			$cells->__set($cell->id, $cell);
+			$collection->__set($cell->id, $cell);
 		}
 
-		return $cells;
+		return $collection;
 	}
 
 	public function render(ModelWithContent $model, TableColumns $columns = null): mixed

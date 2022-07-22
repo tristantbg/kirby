@@ -1,16 +1,25 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Table;
 
+use Kirby\Blueprint\Component;
 use Kirby\Cms\ModelWithContent;
 
+/**
+ * Table row
+ *
+ * @package   Kirby Table
+ * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @link      https://getkirby.com
+ * @copyright Bastian Allgeier
+ * @license   https://opensource.org/licenses/MIT
+ */
 class TableRow extends Component
 {
 	public function __construct(
 		public string $id,
 		public TableCells $cells
 	) {
-
 	}
 
 	public function render(ModelWithContent $model, TableColumns $columns = null): mixed

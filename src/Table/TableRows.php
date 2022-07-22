@@ -1,20 +1,26 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Table;
 
+use Kirby\Blueprint\Collection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Data\Yaml;
 
+/**
+ * Table rows
+ *
+ * @package   Kirby Table
+ * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @link      https://getkirby.com
+ * @copyright Bastian Allgeier
+ * @license   https://opensource.org/licenses/MIT
+ */
 class TableRows extends Collection
 {
 	public const TYPE = TableRow::class;
 
-	public static function factory(string|array $items = []): static
+	public static function factory(array $items = []): static
 	{
-		if (is_string($items) === true) {
-			$items = Yaml::decode($items);
-		}
-
 		$rows = new static;
 
 		foreach ($items as $id => $cells) {

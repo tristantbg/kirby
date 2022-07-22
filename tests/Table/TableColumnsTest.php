@@ -1,9 +1,9 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Table;
 
 /**
- * @covers \Kirby\Blueprint\TableColumns
+ * @covers \Kirby\Table\TableColumns
  */
 class TableColumnsTest extends TestCase
 {

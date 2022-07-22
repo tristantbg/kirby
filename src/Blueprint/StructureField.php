@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Table\TableColumns;
 use Kirby\Value\YamlValue;
 
 /**
@@ -21,7 +22,7 @@ class StructureField extends InputField
 	public function __construct(
 		public string $id,
 		public TableColumns|null $columns = null,
-		public TableRows|null $default = null,
+		public array|null $default = null,
 		public bool $duplicate = true,
 		public Text|null $empty = null,
 		public Fields|null $fields = null,

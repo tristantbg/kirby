@@ -8,6 +8,8 @@ use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
 use Kirby\Cms\Site;
 use Kirby\Cms\User;
+use Kirby\Table\TableColumn;
+use Kirby\Table\TableColumns;
 
 class ModelsSection extends Section
 {

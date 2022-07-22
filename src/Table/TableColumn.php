@@ -1,9 +1,20 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Table;
 
+use Kirby\Blueprint\Label;
+use Kirby\Blueprint\Node;
 use Kirby\Cms\ModelWithContent;
 
+/**
+ * Table column
+ *
+ * @package   Kirby Table
+ * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @link      https://getkirby.com
+ * @copyright Bastian Allgeier
+ * @license   https://opensource.org/licenses/MIT
+ */
 class TableColumn extends Node
 {
 	public function __construct(

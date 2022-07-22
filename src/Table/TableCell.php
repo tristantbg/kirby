@@ -1,24 +1,25 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Table;
 
+use Kirby\Blueprint\Component;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Toolkit\A;
 
+/**
+ * Table cell
+ *
+ * @package   Kirby Table
+ * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @link      https://getkirby.com
+ * @copyright Bastian Allgeier
+ * @license   https://opensource.org/licenses/MIT
+ */
 class TableCell extends Component
 {
 	public function __construct(
 		public string $id,
 		public mixed $value = null
 	) {
-	}
-
-	public static function factory(array $props = []): static
-	{
-		return new static(
-			id:    $props['id']    ?? null,
-			value: $props['value'] ?? null
-		);
 	}
 
 	public function render(ModelWithContent $model, TableColumn $column = null): mixed

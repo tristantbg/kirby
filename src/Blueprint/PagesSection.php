@@ -7,6 +7,8 @@ use Kirby\Cms\File;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 use Kirby\Cms\Site;
+use Kirby\Table\TableColumn;
+use Kirby\Table\TableColumns;
 use Kirby\Toolkit\A;
 
 /**
