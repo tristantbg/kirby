@@ -4,7 +4,7 @@ namespace Kirby\Section;
 
 use Kirby\Blueprint\Autoload;
 use Kirby\Blueprint\Collection;
-use Kirby\Blueprint\Fields;
+use Kirby\Field\Fields;
 
 /**
  * Sections

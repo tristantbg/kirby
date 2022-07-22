@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Field\Fields;
+use Kirby\Field\InfoField;
 use Kirby\Section\FieldsSection;
 use Kirby\Section\InfoSection;
 use Kirby\Section\Sections;

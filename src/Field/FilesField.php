@@ -1,25 +1,24 @@
 <?php
 
-namespace Kirby\Section;
-
-use Kirby\Field\Fields;
+namespace Kirby\Field;
 
 /**
- * Fields section
+ * Files field
  *
- * @package   Kirby Section
+ * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FieldsSection extends Section
+class FilesField extends PickerField
 {
-	public const TYPE = 'fields';
+	public const TYPE = 'files';
 
 	public function __construct(
 		public string $id,
-		public Fields|null $fields = null,
+		...$args
 	) {
+		parent::__construct($id, ...$args);
 	}
 }

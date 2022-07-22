@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Field\InfoField;
 use Kirby\Section\InfoSection;
 
 /**

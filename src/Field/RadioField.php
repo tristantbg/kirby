@@ -1,25 +1,25 @@
 <?php
 
-namespace Kirby\Section;
-
-use Kirby\Field\Fields;
+namespace Kirby\Field;
 
 /**
- * Fields section
+ * Radio field
  *
- * @package   Kirby Section
+ * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FieldsSection extends Section
+class RadioField extends OptionField
 {
-	public const TYPE = 'fields';
+	public const TYPE = 'radio';
 
 	public function __construct(
 		public string $id,
-		public Fields|null $fields = null,
+		public int $columns = 1,
+		...$args
 	) {
+		parent::__construct($id, ...$args);
 	}
 }
