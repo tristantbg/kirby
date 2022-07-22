@@ -2,6 +2,9 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Component;
+use Kirby\Foundation\Promising;
+
 /**
  * Report
  *

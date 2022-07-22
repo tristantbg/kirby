@@ -2,8 +2,8 @@
 
 namespace Kirby\Table;
 
-use Kirby\Blueprint\Component;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Foundation\Component;
 
 /**
  * Table row

@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Promise;
+
 /**
  * @covers \Kirby\Blueprint\Reports
  */

@@ -2,9 +2,9 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\NodeWithType;
 use Kirby\Blueprint\When;
 use Kirby\Blueprint\Width;
+use Kirby\Foundation\NodeWithType;
 
 /**
  * Base field class

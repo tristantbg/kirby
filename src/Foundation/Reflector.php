@@ -1,7 +1,11 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Foundation;
 
+use Kirby\Field\InputField;
+use Kirby\Field\NumberField;
+use Kirby\Field\TextField;
+use Kirby\Field\ToggleField;
 use Kirby\Toolkit\Str;
 use ReflectionClass;
 use ReflectionParameter;
@@ -12,7 +16,7 @@ use Throwable;
 /**
  * Reflector
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Foundation
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

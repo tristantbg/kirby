@@ -1,9 +1,9 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Foundation;
 
 /**
- * @covers \Kirby\Blueprint\Property
+ * @covers \Kirby\Foundation\Property
  */
 class PropertyTest extends TestCase
 {

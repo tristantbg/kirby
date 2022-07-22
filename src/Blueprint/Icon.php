@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Property;
+
 /**
  * Custom emoji or icon from the Kirby iconset
  *

@@ -2,7 +2,7 @@
 
 namespace Kirby\Permissions;
 
-use Kirby\Blueprint\Component;
+use Kirby\Foundation\Component;
 
 /**
  * User Permissions option

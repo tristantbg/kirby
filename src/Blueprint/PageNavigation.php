@@ -3,6 +3,7 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Foundation\Component;
 
 /**
  * Setup for the prev/next buttons in the Panel

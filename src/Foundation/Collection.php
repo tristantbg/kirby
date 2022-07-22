@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Foundation;
 
 use Kirby\Cms\Collection as BaseCollection;
 use Kirby\Cms\ModelWithContent;
@@ -9,7 +9,7 @@ use TypeError;
 /**
  * Typed collection
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Foundation
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

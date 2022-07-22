@@ -1,20 +1,19 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Foundation;
+
+use Kirby\Cms\ModelWithContent;
 
 /**
- * Node
+ * Renderable
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Foundation
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Node extends Component
+interface Renderable
 {
-	public function __construct(
-		public string $id
-	) {
-	}
+	public function render(ModelWithContent $model): mixed;
 }

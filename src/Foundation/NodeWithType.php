@@ -1,13 +1,13 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Foundation;
 
 use Kirby\Cms\ModelWithContent;
 
 /**
  * Node with type
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Foundation
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

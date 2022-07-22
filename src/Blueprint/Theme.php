@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Enumeration;
+
 /**
  * Theme option for sections and fields
  *

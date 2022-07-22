@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Collection;
 use Kirby\Section\Sections;
 
 /**

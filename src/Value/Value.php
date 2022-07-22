@@ -2,7 +2,7 @@
 
 namespace Kirby\Value;
 
-use Kirby\Blueprint\Factory;
+use Kirby\Foundation\Factory;
 use Kirby\Validation\Validations;
 
 /**

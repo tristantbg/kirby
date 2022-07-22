@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Component;
 use Kirby\Toolkit\Str;
 
 /**

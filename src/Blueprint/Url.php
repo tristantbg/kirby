@@ -3,6 +3,7 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Foundation\Property;
 
 /**
  * Url option with query string superpowers

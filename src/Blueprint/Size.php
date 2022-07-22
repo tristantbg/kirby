@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Enumeration;
+
 /**
  * Size option for sections and fields
  *

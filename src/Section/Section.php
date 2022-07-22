@@ -2,7 +2,7 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\NodeWithType;
+use Kirby\Foundation\NodeWithType;
 
 /**
  * Section

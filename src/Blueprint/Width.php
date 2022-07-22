@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Enumeration;
+
 /**
  * The width of the field in the field grid.
  *

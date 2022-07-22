@@ -3,7 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\Autoload;
-use Kirby\Blueprint\Collection;
+use Kirby\Foundation\Collection;
 use Kirby\Cms\ModelWithContent;
 
 /**

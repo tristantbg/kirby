@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Property;
 use Kirby\Toolkit\I18n;
 
 /**

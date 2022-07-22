@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Enumeration;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 class EnumerationTestCase extends BaseTestCase

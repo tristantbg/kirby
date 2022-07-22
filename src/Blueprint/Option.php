@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Foundation\Component;
+
 /**
  * Option for select fields, radio fields, etc
  *

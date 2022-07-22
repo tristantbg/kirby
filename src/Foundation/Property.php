@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Foundation;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Toolkit\A;
@@ -8,7 +8,7 @@ use Kirby\Toolkit\A;
 /**
  * Property
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Foundation
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

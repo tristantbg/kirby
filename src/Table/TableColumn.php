@@ -3,8 +3,8 @@
 namespace Kirby\Table;
 
 use Kirby\Blueprint\Label;
-use Kirby\Blueprint\Node;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Foundation\Node;
 
 /**
  * Table column

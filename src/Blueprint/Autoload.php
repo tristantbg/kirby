@@ -6,6 +6,7 @@ use Kirby\Cms\App;
 use Kirby\Data\Yaml;
 use Kirby\Field\Field;
 use Kirby\Filesystem\F;
+use Kirby\Foundation\Component;
 use Kirby\Section\Section;
 use TypeError;
 

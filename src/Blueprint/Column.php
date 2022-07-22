@@ -3,6 +3,7 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Foundation\Node;
 use Kirby\Section\Sections;
 
 /**

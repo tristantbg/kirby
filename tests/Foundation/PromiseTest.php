@@ -1,12 +1,21 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Foundation;
+
+use Kirby\Blueprint\Label;
+use Kirby\Cms\Page;
 
 /**
- * @covers \Kirby\Blueprint\Promise
+ * @covers \Kirby\Foundation\Promise
  */
 class PromiseTest extends TestCase
 {
+
+	public function page()
+	{
+		return new Page(['slug' => 'test']);
+	}
+
 	/**
 	 * @covers ::__construct
 	 */
@@ -24,7 +33,7 @@ class PromiseTest extends TestCase
 	public function testRender()
 	{
 		$promise = new Promise('page.title', Label::class);
-		$label   = $promise->render($this->model());
+		$label   = $promise->render($this->page());
 
 		$this->assertSame('test', $label);
 	}
@@ -35,7 +44,7 @@ class PromiseTest extends TestCase
 	public function testResolveField()
 	{
 		$promise = new Promise('page.title', Label::class);
-		$label   = $promise->resolve($this->model());
+		$label   = $promise->resolve($this->page());
 
 		$this->assertInstanceOf(Label::class, $label);
 		$this->assertSame('test', $label->value);
@@ -47,7 +56,7 @@ class PromiseTest extends TestCase
 	public function testResolveString()
 	{
 		$promise = new Promise('page.slug', Label::class);
-		$label   = $promise->resolve($this->model());
+		$label   = $promise->resolve($this->page());
 
 		$this->assertInstanceOf(Label::class, $label);
 		$this->assertSame('test', $label->value);
@@ -59,7 +68,7 @@ class PromiseTest extends TestCase
 	public function testResolveObject()
 	{
 		$promise = new Promise('page.children', 'Kirby\Cms\Pages');
-		$pages   = $promise->resolve($this->model());
+		$pages   = $promise->resolve($this->page());
 
 		$this->assertInstanceOf('Kirby\Cms\Pages', $pages);
 	}
@@ -70,6 +79,6 @@ class PromiseTest extends TestCase
 		$this->expectExceptionMessage('The result of the query "page.files" must be an instance of Kirby\Cms\Pages. The query returned a Kirby\Cms\Files object instead');
 
 		$promise = new Promise('page.files', 'Kirby\Cms\Pages');
-		$promise->resolve($this->model());
+		$promise->resolve($this->page());
 	}
 }
