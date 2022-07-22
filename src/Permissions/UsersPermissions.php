@@ -1,11 +1,11 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Permissions;
 
 /**
  * Users permissions
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Permissions
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

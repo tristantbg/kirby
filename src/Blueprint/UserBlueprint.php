@@ -2,7 +2,7 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Cms\User;
+use Kirby\Permissions\Permissions;
 
 /**
  * User blueprint

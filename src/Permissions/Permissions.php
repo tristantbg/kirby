@@ -1,17 +1,19 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Permissions;
+
+use Kirby\Blueprint\Component;
 
 /**
  * User Permissions option
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Permissions
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Permissions
+class Permissions extends Component
 {
 	public function __construct(
 		public AccessPermissions|null $access = null,

@@ -1,17 +1,19 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Permissions;
+
+use Kirby\Blueprint\Component;
 
 /**
  * Permissions Group
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Permissions
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class PermissionsGroup
+class PermissionsGroup extends Component
 {
 	/**
 	 * Creates a new instance either from an

@@ -1,9 +1,9 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Permissions;
 
 /**
- * @covers \Kirby\Blueprint\SitePermissions
+ * @covers \Kirby\Permissions\SitePermissions
  */
 class SitePermissionsTest extends TestCase
 {

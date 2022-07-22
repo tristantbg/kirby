@@ -1,21 +1,23 @@
 <?php
 
-namespace Kirby\Blueprint;
+namespace Kirby\Permissions;
 
 /**
- * Site permissions
+ * Files permissions
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Permissions
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class SitePermissions extends PermissionsGroup
+class FilesPermissions extends PermissionsGroup
 {
 	public function __construct(
-		public bool $changeTitle = true,
-		public bool $preview = true,
+		public bool $changeName = true,
+		public bool $create = true,
+		public bool $delete = true,
+		public bool $replace = true,
 		public bool $update = true,
 	) {
 	}
