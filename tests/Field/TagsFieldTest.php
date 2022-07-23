@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Options;
+use Kirby\Field\Prop\Options;
 
 /**
  * @covers \Kirby\Field\TagsField

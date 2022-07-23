@@ -2,11 +2,11 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Help;
-use Kirby\Blueprint\Label;
-use Kirby\Blueprint\Reports;
-use Kirby\Blueprint\Promise;
-use Kirby\Blueprint\Size;
+use Kirby\Blueprint\Prop\Help;
+use Kirby\Blueprint\Prop\Label;
+use Kirby\Foundation\Promise;
+use Kirby\Section\Prop\Reports;
+use Kirby\Section\Prop\Size;
 use Kirby\Cms\ModelWithContent;
 
 /**

@@ -2,6 +2,12 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Prop\PageNavigation;
+use Kirby\Blueprint\Prop\PageOptions;
+use Kirby\Blueprint\Prop\Url;
+use Kirby\Blueprint\Prop\PageStatusOptions;
+
 /**
  * Page blueprint
  *

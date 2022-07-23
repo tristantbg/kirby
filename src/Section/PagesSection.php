@@ -2,14 +2,14 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Label;
-use Kirby\Blueprint\PageStatus;
-use Kirby\Blueprint\Text;
+use Kirby\Blueprint\Prop\Label;
+use Kirby\Blueprint\Prop\Text;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 use Kirby\Cms\Site;
+use Kirby\Section\Prop\PageStatus;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 use Kirby\Toolkit\A;

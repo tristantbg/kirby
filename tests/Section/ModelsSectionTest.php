@@ -2,7 +2,7 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Label;
+use Kirby\Blueprint\Prop\Label;
 
 /**
  * @covers \Kirby\Section\ModelsSection

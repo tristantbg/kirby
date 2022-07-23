@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Help;
-use Kirby\Blueprint\Label;
+use Kirby\Blueprint\Prop\Help;
+use Kirby\Blueprint\Prop\Label;
 
 /**
  * Base class for all saveable fields

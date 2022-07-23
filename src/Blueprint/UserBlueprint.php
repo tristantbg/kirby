@@ -2,6 +2,10 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Prop\Label;
+use Kirby\Blueprint\Prop\Tabs;
+use Kirby\Blueprint\Prop\UserOptions;
 use Kirby\Permissions\Permissions;
 
 /**

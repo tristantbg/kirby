@@ -2,7 +2,7 @@
 
 namespace Kirby\Foundation;
 
-use Kirby\Blueprint\Label;
+use Kirby\Blueprint\Prop\Label;
 use Kirby\Cms\Page;
 
 /**

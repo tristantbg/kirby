@@ -2,7 +2,7 @@
 
 namespace Kirby\Table;
 
-use Kirby\Blueprint\Label;
+use Kirby\Blueprint\Prop\Label;
 
 /**
  * @covers \Kirby\Table\TableColumn

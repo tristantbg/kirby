@@ -2,10 +2,10 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Help;
-use Kirby\Blueprint\Kirbytext;
-use Kirby\Blueprint\Label;
-use Kirby\Blueprint\Theme;
+use Kirby\Blueprint\Prop\Help;
+use Kirby\Blueprint\Prop\Kirbytext;
+use Kirby\Blueprint\Prop\Label;
+use Kirby\Blueprint\Prop\Theme;
 
 /**
  * Info section

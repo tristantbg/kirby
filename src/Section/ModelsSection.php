@@ -2,19 +2,19 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Help;
-use Kirby\Blueprint\Image;
-use Kirby\Blueprint\Label;
-use Kirby\Blueprint\Layout;
-use Kirby\Blueprint\Related;
-use Kirby\Blueprint\Size;
-use Kirby\Blueprint\Text;
+use Kirby\Blueprint\Prop\Help;
+use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Prop\Label;
+use Kirby\Blueprint\Prop\Text;
 use Kirby\Cms\Collection as Models;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
 use Kirby\Cms\Site;
 use Kirby\Cms\User;
+use Kirby\Section\Prop\Layout;
+use Kirby\Section\Prop\Related;
+use Kirby\Section\Prop\Size;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 

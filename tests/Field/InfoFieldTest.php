@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Label;
+use Kirby\Blueprint\Prop\Label;
 
 /**
  * @covers \Kirby\Field\InfoField

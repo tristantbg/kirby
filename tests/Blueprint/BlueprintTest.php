@@ -2,6 +2,11 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Blueprint\Prop\Column;
+use Kirby\Blueprint\Prop\Columns;
+use Kirby\Blueprint\Prop\Label;
+use Kirby\Blueprint\Prop\Tab;
+use Kirby\Blueprint\Prop\Tabs;
 use Kirby\Field\Fields;
 use Kirby\Field\InfoField;
 use Kirby\Section\FieldsSection;

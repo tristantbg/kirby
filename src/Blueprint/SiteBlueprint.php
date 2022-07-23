@@ -2,7 +2,8 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Cms\Site;
+use Kirby\Blueprint\Prop\SiteOptions;
+use Kirby\Blueprint\Prop\Url;
 
 /**
  * Site blueprint

@@ -2,7 +2,10 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Cms\File;
+use Kirby\Blueprint\Prop\Accept;
+use Kirby\Blueprint\Prop\FileOptions;
+use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Prop\Tabs;
 
 /**
  * File blueprint

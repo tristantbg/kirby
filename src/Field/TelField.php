@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Icon;
+use Kirby\Blueprint\Prop\Icon;
 
 /**
  * Tel field

@@ -2,8 +2,8 @@
 
 namespace Kirby\Foundation;
 
-use Kirby\Blueprint\Label;
-use Kirby\Blueprint\Tab;
+use Kirby\Blueprint\Prop\Label;
+use Kirby\Blueprint\Prop\Tab;
 use Kirby\Cms\Page;
 
 class TestComponent extends Component
