@@ -4,7 +4,9 @@ namespace Kirby\Field;
 
 use Kirby\Blueprint\Autoload;
 use Kirby\Foundation\Collection;
-use Kirby\Cms\ModelWithContent;
+use Kirby\Value\Value;
+use Kirby\Value\Values;
+use Throwable;
 
 /**
  * Fields
@@ -19,22 +21,13 @@ class Fields extends Collection
 {
 	public const TYPE = Field::class;
 
-	/**
-	 * Find all errors in all fields
-	 */
-	public function errors(ModelWithContent $model, array $values = []): array
+	public function disable(bool $disable = true)
 	{
-		$errors = [];
-
 		foreach ($this->data as $field) {
-			$fieldErrors = $field->errors($model, $values[$field->id] ?? null);
-
-			if (empty($fieldErrors) === false) {
-				$errors[$field->id] = $fieldErrors;
-			}
+			$field->disabled = $disable;
 		}
 
-		return $errors;
+		return $this;
 	}
 
 	public static function factory(array $fields = []): static
@@ -45,17 +38,52 @@ class Fields extends Collection
 		return $collection;
 	}
 
-	/**
-	 * Validate each field until the first field that
-	 * throws an exception
-	 */
-	public function validate(ModelWithContent $model, array $values = []): bool
+	public function fill(array $values = [], bool $defaults = false): static
 	{
-		foreach ($this->data as $field) {
-			$field->validate($model, $values[$field->id] ?? null);
+		foreach ($this->inputs() as $id => $field) {
+			if ($defaults === true && property_exists($field, 'default') === true) {
+				$default = $field->default;
+			} else {
+				$default = null;
+			}
+
+			$field->fill($values[$id] ?? $default);
 		}
 
-		return true;
+		return $this;
 	}
 
+	public function inputs(): static
+	{
+		return $this->filter(function ($field) {
+			return property_exists($field, 'value') && is_a($field->value, Value::class) === true;
+		});
+	}
+
+	public function submit(array $values = []): static
+	{
+		foreach ($this->data as $field) {
+			$field->submit($values[$field->id] ?? null);
+		}
+
+		return $this;
+	}
+
+	public function toValues(): Values
+	{
+		$values = new Values;
+
+		foreach ($this->inputs() as $field) {
+			if ($field->disabled === false) {
+				$values->__set($field->id, $field->value);
+			}
+		}
+
+		return $values;
+	}
+
+	public function untranslated(): static
+	{
+		return $this->inputs()->filter('translate', false);
+	}
 }

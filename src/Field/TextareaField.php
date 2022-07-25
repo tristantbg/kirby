@@ -2,13 +2,13 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\FilePickerOptions;
-use Kirby\Blueprint\Font;
-use Kirby\Blueprint\FontSize;
-use Kirby\Blueprint\Icon;
-use Kirby\Blueprint\Placeholder;
-use Kirby\Blueprint\Toolbar;
-use Kirby\Blueprint\UploadOptions;
+use Kirby\Blueprint\Prop\Icon;
+use Kirby\Field\Prop\Files;
+use Kirby\Field\Prop\Font;
+use Kirby\Field\Prop\FontSize;
+use Kirby\Field\Prop\Placeholder;
+use Kirby\Field\Prop\Toolbar;
+use Kirby\Field\Prop\Uploads;
 use Kirby\Value\StringValue;
 
 /**
@@ -30,7 +30,7 @@ class TextareaField extends InputField
 		public Toolbar|null $buttons = null,
 		public bool $counter = true,
 		public string|null $default = null,
-		public FilePickerOptions|null $files = null,
+		public Files|null $files = null,
 		public Font|null $font = null,
 		public Icon|null $icon = null,
 		public int|null $maxlength = null,
@@ -38,7 +38,7 @@ class TextareaField extends InputField
 		public Placeholder|null $placeholder = null,
 		public FontSize|null $size = null,
 		public bool $spellcheck = true,
-		public UploadOptions|null $uploads = null,
+		public Uploads|null $uploads = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

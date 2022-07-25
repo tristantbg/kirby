@@ -2,10 +2,8 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Foundation\Enumeration;
-
 /**
- * Font size options
+ * Nodes
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -13,14 +11,10 @@ use Kirby\Foundation\Enumeration;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FontSize extends Enumeration
+class Nodes
 {
-	public array $allowed = [
-		'small',
-		'medium',
-		'large',
-		'huge',
-	];
-
-	public mixed $default = 'medium';
+	public bool $bulletList = true;
+	public bool $heading = true;
+	public bool $paragraph = true;
+	public bool $orderedList = true;
 }

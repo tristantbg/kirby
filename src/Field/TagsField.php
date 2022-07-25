@@ -2,8 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Icon;
-use Kirby\Cms\ModelWithContent;
+use Kirby\Blueprint\Prop\Icon;
 
 /**
  * Tags field

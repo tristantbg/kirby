@@ -5,12 +5,12 @@ namespace Kirby\Field;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Field\Prop\After;
 use Kirby\Field\Prop\Before;
-use Kirby\Field\Prop\Converter;
 use Kirby\Field\Prop\Placeholder;
-use Kirby\Value\StringValue;
+use Kirby\Field\Prop\SlugWizard;
+use Kirby\Value\SlugValue;
 
 /**
- * Text field
+ * Slug field
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -18,34 +18,44 @@ use Kirby\Value\StringValue;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class TextField extends InputField
+class SlugField extends InputField
 {
-	public const TYPE = 'text';
-	public StringValue $value;
+	public const TYPE = 'slug';
 
 	public function __construct(
-		string $id,
 		public After|null $after = null,
-		public string|null $autocomplete = null,
+		public string|null $allowed = null,
 		public Before|null $before = null,
-		public Converter|null $converter = null,
-		public bool $counter = true,
 		public string|null $default = null,
 		public Icon|null $icon = null,
 		public int|null $maxlength = null,
 		public int|null $minlength = null,
+		public string|null $path = null,
 		public string|null $pattern = null,
 		public Placeholder|null $placeholder = null,
-		public bool $spellcheck = false,
+		public string|null $sync = null,
+		public SlugWizard|null $wizard = null,
 		...$args
 	) {
-		parent::__construct($id, ...$args);
+		parent::__construct(...$args);
 
-		$this->value = new StringValue(
+		$this->icon ??= new Icon('url');
+
+		$this->value = new SlugValue(
+			allowed: $this->allowed,
 			maxlength: $this->maxlength,
 			minlength: $this->minlength,
 			pattern: $this->pattern,
 			required: $this->required,
 		);
+	}
+
+	public static function polyfill(array $props): array
+	{
+		// polyfill old allow option for more consistency
+		$props['allowed'] ??= $props['allow'] ?? null;
+		unset($props['allow']);
+
+		return parent::polyfill($props);
 	}
 }

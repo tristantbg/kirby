@@ -2,6 +2,7 @@
 
 namespace Kirby\Field\Prop;
 
+use Kirby\Blueprint\Prop\Icon;
 use Kirby\Blueprint\Prop\Translated;
 use Kirby\Foundation\Component;
 
@@ -18,6 +19,7 @@ class Option extends Component
 {
 	public function __construct(
 		public string|int|float $value,
+		public Icon|null $icon = null,
 		public Translated|null $text = null
 	) {
 		$this->text ??= new Translated($value);
@@ -26,6 +28,9 @@ class Option extends Component
 	public static function factory(array $props): static
 	{
 		return new static(
+			// icons are optional and not available for all fields
+			icon: $props['icon'] ?? null,
+
 			// passing null will create an empty option
 			value: $props['value'] ?? '',
 

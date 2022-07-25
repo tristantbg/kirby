@@ -5,7 +5,7 @@ namespace Kirby\Field\Prop;
 use Kirby\Foundation\Component;
 
 /**
- * Uploads options
+ * Date step
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -13,20 +13,12 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class UploadOptions extends Component
+class DateStep extends Component
 {
 	public function __construct(
-		public string|null $parent = null,
-		public string|null $template = null
+		public int $size = 1,
+		public string $unit = 'day',
 	) {
-	}
 
-	public static function factory(string|array $props): static
-	{
-		if (is_string($props) === true) {
-			$props = ['parent' => $props];
-		}
-
-		return new static(...$props);
 	}
 }

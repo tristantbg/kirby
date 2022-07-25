@@ -1,28 +1,29 @@
 <?php
 
-namespace Kirby\Section\Prop;
+namespace Kirby\Field\Prop;
 
 use Kirby\Foundation\Enumeration;
 
 /**
- * Size option for sections and fields
+ * 24 or 12 h format
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Size extends Enumeration
+class TimeNotation extends Enumeration
 {
 	public array $allowed = [
-		'auto',
-		'tiny',
-		'small',
-		'medium',
-		'large',
-		'huge'
+		12,
+		24,
 	];
 
-	public mixed $default = 'auto';
+	public mixed $default = 24;
+
+	public function display(): string
+	{
+		return $this->value === '24' ? 'HH:mm' : 'hh:mm a';
+	}
 }

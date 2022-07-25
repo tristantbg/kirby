@@ -21,5 +21,5 @@ class TextAlign extends Enumeration
 		'right'
 	];
 
-	public string|null $default = 'left';
+	public mixed $default = 'left';
 }

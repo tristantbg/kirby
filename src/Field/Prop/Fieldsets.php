@@ -2,10 +2,10 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Foundation\Enumeration;
+use Kirby\Foundation\Collection;
 
 /**
- * Font size options
+ * Fieldsets
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -13,14 +13,7 @@ use Kirby\Foundation\Enumeration;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FontSize extends Enumeration
+class Fieldsets extends Collection
 {
-	public array $allowed = [
-		'small',
-		'medium',
-		'large',
-		'huge',
-	];
-
-	public mixed $default = 'medium';
+	public const TYPE = Fieldset::class;
 }

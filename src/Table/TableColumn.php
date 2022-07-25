@@ -2,6 +2,7 @@
 
 namespace Kirby\Table;
 
+use Kirby\Blueprint\Autoload;
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\TextAlign;
 use Kirby\Cms\ModelWithContent;
@@ -29,7 +30,31 @@ class TableColumn extends Node
 		public string|null $value = null,
 		public string|null $width = null
 	) {
+		$this->field ??= new TextField(id: $id);
 		$this->label ??= Label::fallback($id);
+	}
+
+	public static function factory(array $props = []): static
+	{
+		// convert a simple string type to a field definition
+		if (isset($props['type']) === true) {
+			$props['field'] ??= [
+				'type' => $props['type']
+			];
+
+			unset($props['type']);
+		}
+
+		// make sure that the id has a field and the correct type
+		if (isset($props['field']) === true) {
+			$props['field']['id']   ??= $props['id'];
+			$props['field']['type'] ??= 'text';
+
+			// create the field instance
+			$props['field'] = Autoload::field($props['field']);
+		}
+
+		return parent::factory($props);
 	}
 
 	/**
@@ -64,7 +89,7 @@ class TableColumn extends Node
 		// the correct value for the cell, which can
 		// then be picked up by the Vue cell component
 		// to render the value correctly
-		return $this->field->value($model, $value);
+		return $this->field->value?->set($value)->render($model);
 	}
 
 }

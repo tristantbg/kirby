@@ -22,5 +22,5 @@ class Layout extends Enumeration
 		'table'
 	];
 
-	public string|null $default = 'list';
+	public mixed $default = 'list';
 }

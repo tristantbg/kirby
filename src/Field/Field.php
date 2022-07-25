@@ -2,9 +2,11 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\When;
-use Kirby\Blueprint\Width;
+use Kirby\Blueprint\Prop\Width;
+use Kirby\Cms\ModelWithContent;
+use Kirby\Field\Prop\When;
 use Kirby\Foundation\NodeWithType;
+use Kirby\Value\Value;
 
 /**
  * Base field class
@@ -26,4 +28,13 @@ class Field extends NodeWithType
 	) {
 	}
 
+	public function fill(mixed $value = null): static
+	{
+		return $this;
+	}
+
+	public function submit(mixed $value = null): static
+	{
+		return $this;
+	}
 }

@@ -24,5 +24,5 @@ class Width extends Enumeration
 		'3/4',
 	];
 
-	public string|null $default = '1/1';
+	public mixed $default = '1/1';
 }

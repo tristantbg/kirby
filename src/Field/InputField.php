@@ -4,6 +4,7 @@ namespace Kirby\Field;
 
 use Kirby\Blueprint\Prop\Help;
 use Kirby\Blueprint\Prop\Label;
+use Kirby\Cms\ModelWithContent;
 
 /**
  * Base class for all saveable fields
@@ -30,5 +31,21 @@ class InputField extends Field
 	) {
 		parent::__construct($id, ...$args);
 		$this->label ??= Label::fallback($id);
+	}
+
+	public function fill(mixed $value = null): static
+	{
+		$this->value->set($value);
+		return $this;
+	}
+
+	public function submit(mixed $value = null): static
+	{
+		if ($this->disabled === true) {
+			return $this;
+		}
+
+		$this->value->submit($value);
+		return $this;
 	}
 }

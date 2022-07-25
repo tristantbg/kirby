@@ -24,5 +24,5 @@ class Theme extends Enumeration
 		'positive',
 	];
 
-	public string|null $default = 'plain';
+	public mixed $default = 'plain';
 }

@@ -20,5 +20,5 @@ class Font extends Enumeration
 		'monospace',
 	];
 
-	public string|null $default = 'sans';
+	public mixed $default = 'sans';
 }

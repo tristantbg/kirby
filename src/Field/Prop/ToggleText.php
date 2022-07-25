@@ -2,6 +2,7 @@
 
 namespace Kirby\Field\Prop;
 
+use Kirby\Blueprint\Prop\Text;
 use Kirby\Foundation\Component;
 
 /**

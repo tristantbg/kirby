@@ -17,6 +17,8 @@ class DateTimeValue extends Value
 {
 	public function __construct(
 		public Date|null $data = null,
+		public string|null $max = null,
+		public string|null $min = null,
 		...$args
 	) {
 		parent::__construct(...$args);

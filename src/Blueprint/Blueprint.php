@@ -4,6 +4,7 @@ namespace Kirby\Blueprint;
 
 use Kirby\Blueprint\Prop\Columns;
 use Kirby\Blueprint\Prop\Label;
+use Kirby\Blueprint\Prop\Tab;
 use Kirby\Blueprint\Prop\Tabs;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;

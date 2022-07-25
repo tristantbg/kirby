@@ -2,10 +2,10 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Foundation\Enumeration;
+use Kirby\Foundation\Component;
 
 /**
- * Font size options
+ * Layout Settings
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -13,14 +13,6 @@ use Kirby\Foundation\Enumeration;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FontSize extends Enumeration
+class LayoutSettings extends Component
 {
-	public array $allowed = [
-		'small',
-		'medium',
-		'large',
-		'huge',
-	];
-
-	public mixed $default = 'medium';
 }

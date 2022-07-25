@@ -5,7 +5,7 @@ namespace Kirby\Field\Prop;
 use Kirby\Foundation\Component;
 
 /**
- * File Picker Options
+ * Uploads options
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -13,21 +13,20 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FilePickerOptions extends Component
+class Uploads extends Component
 {
 	public function __construct(
-		public string|null $query = null,
-		public Image|null $image = null
+		public string|null $parent = null,
+		public string|null $template = null
 	) {
 	}
 
 	public static function factory(string|array $props): static
 	{
 		if (is_string($props) === true) {
-			$props = ['query' => $props];
+			$props = ['parent' => $props];
 		}
 
 		return new static(...$props);
 	}
-
 }

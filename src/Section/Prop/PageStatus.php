@@ -21,5 +21,5 @@ class PageStatus extends Enumeration
 		'listed',
 	];
 
-	public string|null $default = 'draft';
+	public mixed $default = 'draft';
 }
