@@ -29,7 +29,7 @@ class Option extends Component
 	{
 		return new static(
 			// icons are optional and not available for all fields
-			icon: $props['icon'] ?? null,
+			icon: isset($props['icon']) ? new Icon($props['icon']) : null,
 
 			// passing null will create an empty option
 			value: $props['value'] ?? '',

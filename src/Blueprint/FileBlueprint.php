@@ -5,7 +5,6 @@ namespace Kirby\Blueprint;
 use Kirby\Blueprint\Prop\Accept;
 use Kirby\Blueprint\Prop\FileOptions;
 use Kirby\Blueprint\Prop\Image;
-use Kirby\Blueprint\Prop\Tabs;
 
 /**
  * File blueprint
@@ -26,9 +25,18 @@ class FileBlueprint extends Blueprint
 		public Image|null $image = null,
 		public FileOptions|null $options = null,
 		public Url|null $preview = null,
-		public Tabs|null $tabs = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 	}
+
+	public static function load(string $id): static
+	{
+		$config = new Config('files/' . $id);
+
+		return static::factory($config->read() + [
+			'id' => $id
+		]);
+	}
+
 }

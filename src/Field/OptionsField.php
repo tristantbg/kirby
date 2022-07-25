@@ -3,6 +3,8 @@
 namespace Kirby\Field;
 
 use Kirby\Field\Prop\Options;
+use Kirby\Field\Prop\OptionsApi;
+use Kirby\Field\Prop\OptionsQuery;
 use Kirby\Value\OptionsValue;
 
 /**
@@ -25,7 +27,7 @@ class OptionsField extends InputField
 		public int|null $max = null,
 		public int|null $min = null,
 		public string $separator = ',',
-		public Options|null $options = null,
+		public Options|OptionsApi|OptionsQuery|null $options = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -39,6 +41,20 @@ class OptionsField extends InputField
 			required: $this->required,
 			separator: $this->separator,
 		);
+	}
+
+	public static function factory(array $props): static
+	{
+		$props['options'] = match ($props['options'] ?? null) {
+			'api'   => OptionsApi::factory($props['api']),
+			'query' => OptionsQuery::factory($props['query']),
+			default => Options::factory($props['options'])
+		};
+
+		unset($props['api']);
+		unset($props['query']);
+
+		return parent::factory($props);
 	}
 
 	public function options(): Options

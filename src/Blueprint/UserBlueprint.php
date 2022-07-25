@@ -3,8 +3,6 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Blueprint\Prop\Image;
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\Tabs;
 use Kirby\Blueprint\Prop\UserOptions;
 use Kirby\Permissions\Permissions;
 
@@ -24,12 +22,19 @@ class UserBlueprint extends Blueprint
 	public function __construct(
 		public string $id,
 		public Image|null $image = null,
-		public Label|null $label = null,
 		public UserOptions|null $options = null,
 		public Permissions|null $permissions = null,
-		public Tabs|null $tabs = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public static function load(string $id): static
+	{
+		$config = new Config('users/' . $id);
+
+		return static::factory($config->read() + [
+			'id' => $id
+		]);
 	}
 }

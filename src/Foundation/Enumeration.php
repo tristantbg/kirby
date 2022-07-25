@@ -2,6 +2,7 @@
 
 namespace Kirby\Foundation;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\InvalidArgumentException;
 
 /**
@@ -13,7 +14,7 @@ use Kirby\Exception\InvalidArgumentException;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-abstract class Enumeration
+abstract class Enumeration implements Factory, Renderable
 {
 	public array $allowed = [];
 	public mixed $default = null;
@@ -22,6 +23,19 @@ abstract class Enumeration
 		public mixed $value = null,
 	) {
 		$this->set($value);
+	}
+
+	/**
+	 * Creates an instance for the given value
+	 */
+	public static function factory(mixed $value): static
+	{
+		return new static($value);
+	}
+
+	public function render(ModelWithContent $model): mixed
+	{
+		return $this->value;
 	}
 
 	public function set(mixed $value): static

@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Text;
+use Kirby\Blueprint\Prop\Text;
 use Kirby\Table\TableColumns;
 use Kirby\Value\YamlValue;
 
@@ -42,6 +42,30 @@ class StructureField extends InputField
 			min: $this->min,
 			required: $this->required,
 		);
+	}
+
+	public static function polyfill(array $props): array
+	{
+
+		if (empty($props['columns']) === false) {
+			foreach ($props['columns'] ?? [] as $id => $column) {
+				// skip columns
+				if ($column === false) {
+					unset($props['columns'][$id]);
+				}
+
+				// support infering the column settings
+				// directly from a field
+				if ($column === true) {
+					$props['columns'][$id] = [
+						'field' => $props['fields'][$id],
+					];
+				}
+			}
+		}
+
+
+		return $props;
 	}
 
 }

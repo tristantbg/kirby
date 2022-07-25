@@ -2,12 +2,14 @@
 
 namespace Kirby\Table;
 
-use Kirby\Blueprint\Autoload;
+use Kirby\Blueprint\Extension;
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\TextAlign;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Field;
 use Kirby\Field\TextField;
+use Kirby\Field\Prop\After;
+use Kirby\Field\Prop\Before;
 use Kirby\Foundation\Node;
 
 /**
@@ -23,7 +25,10 @@ class TableColumn extends Node
 {
 	public function __construct(
 		public string $id,
+		public After|null $after = null,
 		public TextAlign|null $align = null,
+		public Before|null $before = null,
+		public Extension|null $extends = null,
 		public Field|null $field = null,
 		public Label|null $label = null,
 		public bool $mobile = false,
@@ -51,7 +56,7 @@ class TableColumn extends Node
 			$props['field']['type'] ??= 'text';
 
 			// create the field instance
-			$props['field'] = Autoload::field($props['field']);
+			$props['field'] = Field::load($props['field']);
 		}
 
 		return parent::factory($props);
@@ -67,14 +72,21 @@ class TableColumn extends Node
 		return $this->field ?? new TextField($this->id);
 	}
 
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'align'  => $this->align?->value,
+			'id'     => $this->id,
+			'label'  => $this->label->render($model),
+			'mobile' => $this->mobile,
+			'type'   => $this->field::TYPE,
+		];
+	}
+
 	/**
 	 * The value method helps to create cell values
 	 * for this column, by passing in a parent model
 	 * and the raw value.
-	 *
-	 * @param ModelWithContent $model
-	 * @param mixed $value
-	 * @return void
 	 */
 	public function value(ModelWithContent $model, mixed $value = null)
 	{

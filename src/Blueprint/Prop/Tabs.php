@@ -3,7 +3,7 @@
 namespace Kirby\Blueprint\Prop;
 
 use Kirby\Field\Fields;
-use Kirby\Foundation\Collection;
+use Kirby\Foundation\Nodes;
 use Kirby\Section\Sections;
 
 /**
@@ -15,7 +15,7 @@ use Kirby\Section\Sections;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Tabs extends Collection
+class Tabs extends Nodes
 {
 	public const TYPE = Tab::class;
 

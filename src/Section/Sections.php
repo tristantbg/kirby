@@ -3,7 +3,7 @@
 namespace Kirby\Section;
 
 use Kirby\Blueprint\Autoload;
-use Kirby\Foundation\Collection;
+use Kirby\Foundation\Nodes;
 use Kirby\Field\Fields;
 
 /**
@@ -15,7 +15,7 @@ use Kirby\Field\Fields;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Sections extends Collection
+class Sections extends Nodes
 {
 	public const TYPE = Section::class;
 

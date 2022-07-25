@@ -2,7 +2,7 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Text;
+use Kirby\Blueprint\Prop\Text;
 use Kirby\Cms\Files;
 use Kirby\Cms\ModelWithContent;
 

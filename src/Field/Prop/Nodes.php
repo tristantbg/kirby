@@ -2,6 +2,8 @@
 
 namespace Kirby\Field\Prop;
 
+use Kirby\Blueprint\Prop\Bools;
+
 /**
  * Nodes
  *
@@ -11,10 +13,13 @@ namespace Kirby\Field\Prop;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Nodes
+class Nodes extends Bools
 {
-	public bool $bulletList = true;
-	public bool $heading = true;
-	public bool $paragraph = true;
-	public bool $orderedList = true;
+	public function __construct(
+		public bool $bulletList = true,
+		public bool $heading = true,
+		public bool $paragraph = true,
+		public bool $orderedList = true,
+	) {
+	}
 }

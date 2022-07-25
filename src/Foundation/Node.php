@@ -2,6 +2,8 @@
 
 namespace Kirby\Foundation;
 
+use Kirby\Blueprint\Extension;
+
 /**
  * Node
  *
@@ -14,7 +16,13 @@ namespace Kirby\Foundation;
 class Node extends Component
 {
 	public function __construct(
-		public string $id
+		public string $id,
+		public Extension|null $extends = null,
 	) {
+	}
+
+	public static function factory(array $props): static
+	{
+		return parent::factory(Extension::apply($props));
 	}
 }

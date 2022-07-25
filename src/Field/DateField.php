@@ -30,6 +30,7 @@ class DateField extends InputField
 		public string|null $max = null,
 		public string|null $min = null,
 		public DateStep|null $step = null,
+		public $time = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

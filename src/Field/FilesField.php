@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Field\Prop\Uploads;
+
 /**
  * Files field
  *
@@ -17,6 +19,7 @@ class FilesField extends PickerField
 
 	public function __construct(
 		public string $id,
+		public Uploads|null $uploads = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

@@ -29,4 +29,14 @@ class Toolbar extends Component
 	public bool $link = true;
 	public bool $ol = true;
 	public bool $ul = true;
+
+	public static function factory(bool|array $props)
+	{
+		if (is_bool($props) === true) {
+			return new static;
+		}
+
+		return parent::factory(...$props);
+	}
+
 }

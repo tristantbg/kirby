@@ -2,11 +2,11 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\Autoload;
+use Kirby\Blueprint\Extension;
 use Kirby\Blueprint\Prop\Width;
-use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\When;
 use Kirby\Foundation\NodeWithType;
-use Kirby\Value\Value;
 
 /**
  * Base field class
@@ -23,6 +23,7 @@ class Field extends NodeWithType
 
 	public function __construct(
 		public string $id,
+		public Extension|null $extends = null,
 		public When|null $when = null,
 		public Width|null $width = null,
 	) {
@@ -33,8 +34,14 @@ class Field extends NodeWithType
 		return $this;
 	}
 
+	public static function load(string|array $props): static
+	{
+		return Autoload::field($props);
+	}
+
 	public function submit(mixed $value = null): static
 	{
 		return $this;
 	}
+
 }

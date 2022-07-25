@@ -2,6 +2,8 @@
 
 namespace Kirby\Field\Prop;
 
+use Kirby\Blueprint\Prop\Text;
+
 /**
  * Optional text that will be shown before the input
  *

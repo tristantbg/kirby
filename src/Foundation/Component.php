@@ -38,13 +38,13 @@ class Component implements Renderable, Factory
 		return new static(...$props);
 	}
 
-	public static function factoryForNamedType(ReflectionNamedType $type, mixed $value): mixed
+	public static function factoryForNamedType(ReflectionNamedType|null $type, mixed $value): mixed
 	{
 		// get the class name for the single type
 		$className = $type->getName();
 
 		// check if there's a factory for the value
-		if (is_subclass_of($className, Renderable::class) === true) {
+		if (is_subclass_of($className, Factory::class) === true) {
 			return $className::factory($value);
 		}
 
@@ -64,6 +64,11 @@ class Component implements Renderable, Factory
 		// get the type for the property
 		$reflection = new ReflectionProperty(static::class, $key);
 		$propType   = $reflection->getType();
+
+		// no type given
+		if ($propType === null) {
+			return $value;
+		}
 
 		// union types
 		if (is_a($propType, ReflectionUnionType::class) === true) {

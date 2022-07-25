@@ -3,6 +3,7 @@
 namespace Kirby\Blueprint\Prop;
 
 use Kirby\Blueprint\Blueprint;
+use Kirby\Blueprint\Extension;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
 use Kirby\Foundation\Node;
@@ -21,6 +22,7 @@ class Tab extends Node
 {
 	public function __construct(
 		public string $id,
+		public Extension|null $extends = null,
 		public Label|null $label = null,
 		public Icon|null $icon = null,
 		public Columns|null $columns = null

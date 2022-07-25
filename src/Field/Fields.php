@@ -3,7 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\Autoload;
-use Kirby\Foundation\Collection;
+use Kirby\Foundation\Nodes;
 use Kirby\Value\Value;
 use Kirby\Value\Values;
 use Throwable;
@@ -17,7 +17,7 @@ use Throwable;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Fields extends Collection
+class Fields extends Nodes
 {
 	public const TYPE = Field::class;
 

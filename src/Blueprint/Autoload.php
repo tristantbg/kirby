@@ -23,18 +23,6 @@ class Autoload
 {
 	public static function blueprint(string|array $props): Blueprint
 	{
-		if (is_string($props) === true) {
-			$path  = $props;
-			$props = static::props($path);
-
-			$props['type'] ??= match (true) {
-				$path === 'site' => 'site',
-				str_starts_with($path, 'pages/') => 'page',
-				str_starts_with($path, 'files/') => 'file',
-				str_starts_with($path, 'users/') => 'user'
-			};
-		}
-
 		return static::type('blueprint', $props);
 	}
 
@@ -53,6 +41,11 @@ class Autoload
 				$item = ['type' => $id];
 			}
 
+			// from extension
+			if (is_string($item) === true) {
+				$item = ['extends' => $item];
+			}
+
 			$item['id'] ??= $id;
 			$collection[$id] = Autoload::$type($item);
 		}
@@ -60,54 +53,9 @@ class Autoload
 		return $collection;
 	}
 
-	public static function extend(array $props): array
-	{
-		if (isset($props['extends']) === true) {
-			$extension = static::props($props['extends']);
-
-			// remove the reference to the extension
-			unset($props['extends']);
-
-			// add the extension
-			$props = array_replace_recursive($extension, $props);
-		}
-
-		return $props;
-	}
-
 	public static function field(string|array $props): Field
 	{
 		return static::type('field', $props);
-	}
-
-	public static function props(string $path): array
-	{
-		$kirby = App::instance();
-		$root  = $kirby->root('blueprints');
-		$file  = $root . '/' . $path . '.yml';
-
-		// try to load a blueprint from file first
-		if (F::exists($file, $root) === true) {
-			$data = $file;
-
-		// load it form a plugin or the core
-		} else {
-			$data = App::instance()->extension('blueprints', $path);
-		}
-
-		// get props from a callback
-		if (is_callable($data) === true) {
-			$data = $data($kirby);
-		}
-
-		// parse a yaml file if props are not defined as array
-		if (is_string($data) === true) {
-			$data = Yaml::read($data);
-		}
-
-		$data['id'] ??= basename($path);
-
-		return $data;
 	}
 
 	public static function section(string|array $props): Section
@@ -115,13 +63,20 @@ class Autoload
 		return static::type('section', $props);
 	}
 
-	public static function type(string $group, string|array $props): Component
+	public static function type(string $group, array|string $props): Component
 	{
+		// load by path
 		if (is_string($props) === true) {
-			$props = static::props($props);
+			$path   = $props;
+			$config = new Config($path);
+			$props  = $config->read();
+
+			// add the id if it's not set yet
+			$props['id'] ??= basename($path);
 		}
 
-		$props = static::extend($props);
+		// already apply the extension to get the correct type
+		$props = Extension::apply($props);
 
 		// find the object type
 		$type  = $props['type'] ??= $props['id'];

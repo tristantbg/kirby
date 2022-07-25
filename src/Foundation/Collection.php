@@ -15,7 +15,7 @@ use TypeError;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Collection extends BaseCollection implements Renderable, Factory
+class Collection extends BaseCollection implements Factory, Renderable
 {
 	/**
 	 * The expected object type

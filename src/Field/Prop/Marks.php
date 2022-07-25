@@ -2,6 +2,8 @@
 
 namespace Kirby\Field\Prop;
 
+use Kirby\Blueprint\Prop\Bools;
+
 /**
  * Marks
  *
@@ -11,13 +13,16 @@ namespace Kirby\Field\Prop;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Marks
+class Marks extends Bools
 {
-	public bool $bold = true;
-	public bool $code = true;
-	public bool $email = true;
-	public bool $italic = true;
-	public bool $link = true;
-	public bool $strike = true;
-	public bool $underline = true;
+	public function __construct(
+		public bool $bold = true,
+		public bool $code = true,
+		public bool $email = true,
+		public bool $italic = true,
+		public bool $link = true,
+		public bool $strike = true,
+		public bool $underline = true,
+	) {
+	}
 }

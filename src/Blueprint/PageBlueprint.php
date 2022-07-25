@@ -33,4 +33,13 @@ class PageBlueprint extends Blueprint
 	) {
 		parent::__construct($id, ...$args);
 	}
+
+	public static function load(string $id): static
+	{
+		$config = new Config('pages/' . $id);
+
+		return static::factory($config->read() + [
+			'id' => $id
+		]);
+	}
 }

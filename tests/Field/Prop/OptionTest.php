@@ -67,6 +67,7 @@ class OptionTest extends TestCase
 		]);
 
 		$expected = [
+			'icon'  => null,
 			'text'  => 'Test Option',
 			'value' => 'test',
 		];

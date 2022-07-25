@@ -2,10 +2,10 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Image;
-use Kirby\Blueprint\Layout;
-use Kirby\Blueprint\Size;
-use Kirby\Blueprint\Text;
+use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Prop\Text;
+use Kirby\Section\Prop\Layout;
+use Kirby\Section\Prop\Size;
 use Kirby\Value\YamlValue;
 
 /**

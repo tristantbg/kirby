@@ -27,6 +27,7 @@ class Blueprint extends NodeWithType
 
 	public function __construct(
 		public string $id,
+		public Extension|null $extends = null,
 		public Label|null $label = null,
 		public Tabs|null $tabs = null,
 	) {

@@ -26,6 +26,13 @@ class SiteBlueprint extends Blueprint
 		parent::__construct('site', ...$args);
 	}
 
+	public static function load(): static
+	{
+		$config = new Config('site');
+
+		return static::factory($config->read());
+	}
+
 	/**
 	 * The id is fixed and not available
 	 * as property

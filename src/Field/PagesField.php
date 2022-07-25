@@ -17,6 +17,7 @@ class PagesField extends PickerField
 
 	public function __construct(
 		public string $id,
+		public bool $subpages = true,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
