@@ -564,10 +564,8 @@ class Page extends ModelWithContent
 	 */
 	public function isActive(): bool
 	{
-		if ($page = $this->site()->page()) {
-			if ($page->is($this) === true) {
-				return true;
-			}
+		if ($this->site()->page()?->is($this) === true) {
+			return true;
 		}
 
 		return false;
@@ -646,11 +644,7 @@ class Page extends ModelWithContent
 	 */
 	public function isChildOf($parent): bool
 	{
-		if ($parentObj = $this->parent()) {
-			return $parentObj->is($parent);
-		}
-
-		return false;
+		return $this->parent()?->is($parent) ?? false;
 	}
 
 	/**
@@ -751,10 +745,8 @@ class Page extends ModelWithContent
 			return true;
 		}
 
-		if ($page = $this->site()->page()) {
-			if ($page->parents()->has($this->id()) === true) {
-				return true;
-			}
+		if ($this->site()->page()?->parents()->has($this->id()) === true) {
+			return true;
 		}
 
 		return false;
@@ -930,11 +922,7 @@ class Page extends ModelWithContent
 	 */
 	public function parentId(): string|null
 	{
-		if ($parent = $this->parent()) {
-			return $parent->id();
-		}
-
-		return null;
+		return $this->parent()?->id();
 	}
 
 	/**
