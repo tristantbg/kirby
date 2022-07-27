@@ -4,7 +4,8 @@ namespace Kirby\Blueprint;
 
 use Kirby\Blueprint\Prop\Accept;
 use Kirby\Blueprint\Prop\FileOptions;
-use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Prop\FileImage;
+use Kirby\Blueprint\Prop\Url;
 
 /**
  * File blueprint
@@ -17,26 +18,19 @@ use Kirby\Blueprint\Prop\Image;
  */
 class FileBlueprint extends Blueprint
 {
+	public const DEFAULT = 'files/default';
 	public const TYPE = 'file';
 
 	public function __construct(
 		public string $id,
 		public Accept|null $accept = null,
-		public Image|null $image = null,
+		public FileImage|null $image = null,
 		public FileOptions|null $options = null,
 		public Url|null $preview = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+
+		$this->image ??= new FileImage;
 	}
-
-	public static function load(string $id): static
-	{
-		$config = new Config('files/' . $id);
-
-		return static::factory($config->read() + [
-			'id' => $id
-		]);
-	}
-
 }

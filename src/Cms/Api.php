@@ -177,6 +177,20 @@ class Api extends BaseApi
 	}
 
 	/**
+	 * @param mixed $model
+	 * @param string $name
+	 * @param string|null $path
+	 * @return mixed
+	 * @throws \Kirby\Exception\NotFoundException if the field type cannot be found or the field cannot be loaded
+	 */
+	public function sectionApi($model, string $name, string $path = null)
+	{
+		if ($section = $model->blueprint()->section($name)) {
+			return $section->api($model, $path, $this->requestMethod(), $this->requestQuery());
+		}
+	}
+
+	/**
 	 * Returns the current Session instance
 	 *
 	 * @param array $options Additional options, see the session component

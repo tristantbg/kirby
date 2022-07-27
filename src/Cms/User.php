@@ -3,6 +3,7 @@
 namespace Kirby\Cms;
 
 use Exception;
+use Kirby\Blueprint\UserBlueprint;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;
 use Kirby\Filesystem\Dir;
@@ -30,7 +31,7 @@ class User extends ModelWithContent
 	public const CLASS_ALIAS = 'user';
 
 	/**
-	 * @var UserBlueprint
+	 * @var \Kirby\Blueprint\UserBlueprint
 	 */
 	protected $blueprint;
 
@@ -173,24 +174,10 @@ class User extends ModelWithContent
 
 	/**
 	 * Returns the UserBlueprint object
-	 *
-	 * @return \Kirby\Cms\Blueprint
 	 */
-	public function blueprint()
+	public function blueprint(): UserBlueprint
 	{
-		if (is_a($this->blueprint, 'Kirby\Cms\Blueprint') === true) {
-			return $this->blueprint;
-		}
-
-		try {
-			return $this->blueprint = UserBlueprint::factory('users/' . $this->role(), 'users/default', $this);
-		} catch (Exception $e) {
-			return $this->blueprint = new UserBlueprint([
-				'model' => $this,
-				'name'  => 'default',
-				'title' => 'Default',
-			]);
-		}
+		return $this->blueprint ??= UserBlueprint::load('users/' . $this->role())->bind($this);
 	}
 
 	/**

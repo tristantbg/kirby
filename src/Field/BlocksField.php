@@ -3,6 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\Prop\Text;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\Fieldsets;
 use Kirby\Value\JsonValue;
 
@@ -32,6 +33,8 @@ class BlocksField extends InputField
 	) {
 		parent::__construct($id, ...$args);
 
+		$this->fieldsets ??= new Fieldsets;
+
 		$this->value = new JsonValue(
 			max: $this->max,
 			min: $this->min,
@@ -39,4 +42,5 @@ class BlocksField extends InputField
 			required: $this->required
 		);
 	}
+
 }

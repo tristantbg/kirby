@@ -2,9 +2,11 @@
 
 namespace Kirby\Section;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Autoload;
 use Kirby\Blueprint\Extension;
 use Kirby\Foundation\NodeWithType;
+use Kirby\Http\Router;
 
 /**
  * Section
@@ -26,6 +28,17 @@ class Section extends NodeWithType
 
 	}
 
+	public function api(ModelWithContent $model, string|null $path = null, string $method = 'GET', array $query = []): mixed
+	{
+		return Router::execute($path, $method, $this->routes($model), function ($route) use ($query) {
+			$args   = $route->arguments();
+			$args[] = $query;
+			$args[] = $route;
+
+			return $route->action()(...$args);
+		});
+	}
+
 	public static function load(string|array $props): static
 	{
 		return Autoload::section($props);
@@ -42,5 +55,10 @@ class Section extends NodeWithType
 		}
 
 		return $props;
+	}
+
+	public function routes(ModelWithContent $model): array
+	{
+		return [];
 	}
 }

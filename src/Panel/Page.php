@@ -2,6 +2,7 @@
 
 namespace Kirby\Panel;
 
+use Kirby\Cms\Page as PageModel;
 use Kirby\Toolkit\I18n;
 
 /**
@@ -16,10 +17,10 @@ use Kirby\Toolkit\I18n;
  */
 class Page extends Model
 {
-	/**
-	 * @var \Kirby\Cms\Page
-	 */
-	protected $model;
+	public function __construct(
+		protected PageModel $model
+	) {
+	}
 
 	/**
 	 * Breadcrumb array
@@ -182,38 +183,6 @@ class Page extends Model
 	}
 
 	/**
-	 * Default settings for the page's Panel image
-	 *
-	 * @return array
-	 */
-	protected function imageDefaults(): array
-	{
-		$defaults = [];
-
-		if ($icon = $this->model->blueprint()->icon()) {
-			$defaults['icon'] = $icon;
-		}
-
-		return array_merge(parent::imageDefaults(), $defaults);
-	}
-
-	/**
-	 * Returns the image file object based on provided query
-	 *
-	 * @internal
-	 * @param string|null $query
-	 * @return \Kirby\Cms\File|\Kirby\Filesystem\Asset|null
-	 */
-	protected function imageSource(string $query = null)
-	{
-		if ($query === null) {
-			$query = 'page.image';
-		}
-
-		return parent::imageSource($query);
-	}
-
-	/**
 	 * Returns the full path without leading slash
 	 *
 	 * @internal
@@ -332,7 +301,6 @@ class Page extends Model
 
 		return array_merge(
 			parent::props(),
-			$this->prevNext(),
 			[
 				'blueprint' => $this->model->intendedTemplate()->name(),
 				'model' => [
@@ -340,13 +308,15 @@ class Page extends Model
 					'id'         => $page->id(),
 					'link'       => $this->url(true),
 					'parent'     => $page->parentModel()->panel()->url(true),
-					'previewUrl' => $page->previewUrl(),
+					'previewUrl' => $this->model->blueprint()->preview?->render($this->model),
 					'status'     => $page->status(),
 					'title'      => $page->title()->toString(),
 				],
 				'status' => function () use ($page) {
 					if ($status = $page->status()) {
-						return $page->blueprint()->status()[$status] ?? null;
+						return $this->model->blueprint()->status?->{$status}?->render($page);
+
+						return null;
 					}
 				},
 			]

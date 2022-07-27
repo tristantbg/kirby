@@ -38,8 +38,12 @@ class StatsSection extends Section
 	public function render(ModelWithContent $model): array
 	{
 		return [
-			'help'  => $this->help?->render($model),
-			'label' => $this->label?->render($model)
+			'help'    => $this->help?->render($model),
+			'id'      => $this->id,
+			'label'   => $this->label?->render($model),
+			'reports' => $this->reports?->render($model),
+			'size'    => $this->size?->value,
+			'type'    => static::TYPE,
 		];
 	}
 }

@@ -10,6 +10,7 @@ use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
 use Kirby\Foundation\NodeWithType;
+use Kirby\Section\Section;
 use Kirby\Section\Sections;
 
 /**
@@ -23,7 +24,11 @@ use Kirby\Section\Sections;
  */
 class Blueprint extends NodeWithType
 {
+	public const DEFAULT = 'default';
 	public const TYPE = 'blueprint';
+
+	public static Cache $cache;
+	public ModelWithContent|null $model = null;
 
 	public function __construct(
 		public string $id,
@@ -34,12 +39,41 @@ class Blueprint extends NodeWithType
 		$this->label ??= Label::fallback($id);
 	}
 
+	public static function cache(): Cache
+	{
+		return static::$cache ??= new Cache;
+	}
+
+	public function bind(ModelWithContent $model): static
+	{
+		$this->model = $model;
+		return $this;
+	}
+
 	/**
 	 * Collects all columns from all tabs
 	 */
 	public function columns(): ?Columns
 	{
 		return $this->tabs?->columns();
+	}
+
+	public static function default(): static
+	{
+		if ($cached = static::cache()->get(static::DEFAULT)) {
+			return $cached;
+		}
+
+		try {
+			$config = new Config(static::DEFAULT);
+			$props  = $config->read();
+
+			$props['id'] = 'default';
+
+			return static::cache()->set(static::DEFAULT, static::factory($props));
+		} catch (NotFoundException) {
+			return new static(id: 'default');
+		}
 	}
 
 	public static function factory(array $props): static
@@ -55,6 +89,25 @@ class Blueprint extends NodeWithType
 		return $this->sections()?->fields();
 	}
 
+	public static function load(string $path): static
+	{
+		if ($cached = static::cache()->get($path)) {
+			return $cached;
+		}
+
+		try {
+			$config = new Config($path);
+			$props  = $config->read();
+
+			// add the id if it's not there yet
+			$props['id'] ??= basename($path);
+
+			return static::cache()->set($path, static::factory($props));
+		} catch (NotFoundException) {
+			return static::default();
+		}
+	}
+
 	public static function polyfill(array $props): array
 	{
 		$props = static::polyfillTitle($props);
@@ -66,12 +119,12 @@ class Blueprint extends NodeWithType
 		return $props;
 	}
 
-	public static function polyfillColumns(array $props): array
+	public static function polyfillColumns(array $props, string $tabId = 'content'): array
 	{
 		if (isset($props['columns']) === true) {
 			// create a new wrapping tab
 			$props['tabs'] = [
-				'content' => [
+				$tabId => [
 					'columns' => $props['columns']
 				]
 			];
@@ -82,13 +135,15 @@ class Blueprint extends NodeWithType
 		return $props;
 	}
 
-	public static function polyfillFields(array $props): array
+	public static function polyfillFields(array $props, string $sectionId = null): array
 	{
 		// fields shortcut
 		if (isset($props['fields']) === true) {
+			$sectionId ??= implode('-', array_keys($props['fields']));
+
 			// create a new wrapping content section
 			$props['sections'] = [
-				'content' => [
+				$sectionId => [
 					'type'   => 'fields',
 					'fields' => $props['fields']
 				]
@@ -148,6 +203,11 @@ class Blueprint extends NodeWithType
 		];
 	}
 
+	public function section(string $id = null): ?Section
+	{
+		return $this->sections()?->$id;
+	}
+
 	/**
 	 * Collects all sections from all tabs
 	 */
@@ -178,4 +238,13 @@ class Blueprint extends NodeWithType
 
 		throw new NotFoundException('The tab could not be found');
 	}
+
+	/**
+	 * @deprecated 3.9.0
+	 */
+	public function title(): ?string
+	{
+		return $this->label?->render($this->model);
+	}
+
 }

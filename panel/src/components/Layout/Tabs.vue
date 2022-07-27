@@ -3,14 +3,14 @@
 		<nav>
 			<k-button
 				v-for="tabButton in visibleTabs"
-				:key="tabButton.name"
+				:key="tabButton.id"
 				:link="tabButton.link"
-				:current="current === tabButton.name"
+				:current="current === tabButton.id"
 				:icon="tabButton.icon"
 				:tooltip="tabButton.label"
 				class="k-tab-button"
 			>
-				{{ tabButton.label || tabButton.text || tabButton.name }}
+				{{ tabButton.label || tabButton.text || tabButton.id }}
 
 				<span v-if="tabButton.badge" class="k-tabs-badge">
 					{{ tabButton.badge }}
@@ -34,13 +34,13 @@
 		>
 			<k-dropdown-item
 				v-for="tabButton in invisibleTabs"
-				:key="'more-' + tabButton.name"
+				:key="'more-' + tabButton.id"
 				:link="tabButton.link"
-				:current="tab === tabButton.name"
+				:current="tab === tabButton.id"
 				:icon="tabButton.icon"
 				:tooltip="tabButton.label"
 			>
-				{{ tabButton.label || tabButton.text || tabButton.name }}
+				{{ tabButton.label || tabButton.text || tabButton.id }}
 			</k-dropdown-item>
 		</k-dropdown-content>
 	</div>
@@ -63,8 +63,8 @@ export default {
 	computed: {
 		current() {
 			const tab =
-				this.tabs.find((tab) => tab.name === this.tab) || this.tabs[0] || {};
-			return tab.name;
+				this.tabs.find((tab) => tab.id === this.tab) || this.tabs[0] || {};
+			return tab.id;
 		}
 	},
 	watch: {

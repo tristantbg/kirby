@@ -4,6 +4,7 @@ namespace Kirby\Section;
 
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\Text;
+use Kirby\Cms\Collection as Models;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
@@ -36,6 +37,15 @@ class PagesSection extends ModelsSection
 		parent::__construct($id, ...$args);
 
 		$this->text ??= new Text('{{ page.title }}');
+	}
+
+	public function add(ModelWithContent $model, Models $models, array $query = []): bool
+	{
+		if ($this->status?->hasAddButton() !== true) {
+			return false;
+		}
+
+		return parent::add($model, $models, $query);
 	}
 
 	/**
@@ -82,6 +92,26 @@ class PagesSection extends ModelsSection
 	}
 
 	/**
+	 * Renders the response for a single item.
+	 * This will be handed over to the Vue components
+	 * to render the item in the section
+	 */
+	public function item(ModelWithContent $model, Page|File $item): array
+	{
+		$permissions = $item->permissions();
+
+		return parent::item($model, $item) + [
+			'parent'      => $item->parentId(),
+			'permissions' => [
+				'sort'         => $permissions->can('sort'),
+				'changeStatus' => $permissions->can('changeStatus'),
+			],
+			'status'   => $item->status(),
+			'template' => $item->intendedTemplate()->name()
+		];
+	}
+
+	/**
 	 * Load, filter, sort and paginate all pages
 	 * to show in the section
 	 */
@@ -90,7 +120,7 @@ class PagesSection extends ModelsSection
 		$parent = $this->parent($model);
 
 		// get pages by status
-		$pages = match ($this->status) {
+		$pages = match ($this->status?->value) {
 			'draft'     => $parent->drafts(),
 			'listed'    => $parent->children()->listed(),
 			'published' => $parent->children(),
@@ -129,24 +159,13 @@ class PagesSection extends ModelsSection
 		return parent::polyfill($props);
 	}
 
-	/**
-	 * Renders the response for a single item.
-	 * This will be handed over to the Vue components
-	 * to render the item in the section
-	 */
-	public function renderItem(ModelWithContent $model, Page|File $item): array
+	public function sortable(ModelWithContent $model, Models $models, array $query = []): bool
 	{
-		$permissions = $item->permissions();
+		if ($this->status?->isSortable() !== true) {
+			return false;
+		}
 
-		return parent::renderItem($model, $item) + [
-			'parent'      => $item->parentId(),
-			'permissions' => [
-				'sort'         => $permissions->can('sort'),
-				'changeStatus' => $permissions->can('changeStatus'),
-			],
-			'status'   => $item->status(),
-			'template' => $item->intendedTemplate()->name()
-		];
+		return parent::sortable($model, $models, $query);
 	}
 
 }

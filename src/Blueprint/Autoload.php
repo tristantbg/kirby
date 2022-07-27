@@ -47,7 +47,12 @@ class Autoload
 			}
 
 			$item['id'] ??= $id;
-			$collection[$id] = Autoload::$type($item);
+
+			try {
+				$collection[$id] = Autoload::$type($item);
+			} catch (TypeError) {
+				// TODO: add fallback
+			}
 		}
 
 		return $collection;

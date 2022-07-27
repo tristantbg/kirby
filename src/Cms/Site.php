@@ -2,6 +2,7 @@
 
 namespace Kirby\Cms;
 
+use Kirby\Blueprint\SiteBlueprint;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\LogicException;
 use Kirby\Filesystem\Dir;
@@ -172,15 +173,11 @@ class Site extends ModelWithContent
 	/**
 	 * Returns the blueprint object
 	 *
-	 * @return \Kirby\Cms\SiteBlueprint
+	 * @return \Kirby\Blueprint\SiteBlueprint
 	 */
-	public function blueprint()
+	public function blueprint(): SiteBlueprint
 	{
-		if (is_a($this->blueprint, 'Kirby\Cms\SiteBlueprint') === true) {
-			return $this->blueprint;
-		}
-
-		return $this->blueprint = SiteBlueprint::factory('site', null, $this);
+		return $this->blueprint ??= SiteBlueprint::load()->bind($this);
 	}
 
 	/**

@@ -4,6 +4,7 @@ namespace Kirby\Blueprint;
 
 use Kirby\Blueprint\Prop\SiteOptions;
 use Kirby\Blueprint\Prop\Url;
+use Kirby\Exception\NotFoundException;
 
 /**
  * Site blueprint
@@ -16,7 +17,8 @@ use Kirby\Blueprint\Prop\Url;
  */
 class SiteBlueprint extends Blueprint
 {
-	public const TYPE = 'site';
+	public const DEFAULT = 'site';
+	public const TYPE    = 'site';
 
 	public function __construct(
 		public SiteOptions|null $options = null,
@@ -26,21 +28,28 @@ class SiteBlueprint extends Blueprint
 		parent::__construct('site', ...$args);
 	}
 
-	public static function load(): static
-	{
-		$config = new Config('site');
-
-		return static::factory($config->read());
-	}
-
 	/**
-	 * The id is fixed and not available
-	 * as property
+	 * The site blueprint does not have a default
+	 * fallback. An empty blueprint will have to do
 	 */
-	public static function polyfill(array $props): array
+	public static function default(): static
 	{
-		unset($props['id']);
-
-		return parent::polyfill($props);
+		return new static;
 	}
+
+	public static function load(string $path = 'site'): static
+	{
+		if ($cached = static::cache()->get($path)) {
+			return $cached;
+		}
+
+		try {
+			$props = (new Config($path))->read();
+
+			return static::cache()->set($path, static::factory($props));
+		} catch (NotFoundException) {
+			return static::default();
+		}
+	}
+
 }

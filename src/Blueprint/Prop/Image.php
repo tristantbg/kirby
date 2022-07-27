@@ -17,10 +17,10 @@ use Kirby\Foundation\Component;
 class Image extends Component
 {
 	public function __construct(
-		public string|null $back = 'black',
+		public string|null $back = null,
 		public string|null $color = null,
-		public bool $cover = false,
-		public bool $disabled = false,
+		public bool|null $cover = null,
+		public bool|null $disabled = null,
 		public string|null $icon = null,
 		public string|null $query = null,
 		public string|null $ratio = null
@@ -69,5 +69,18 @@ class Image extends Component
 			'src'   => $this->file($model)?->url(),
 			'ratio' => $this->ratio
 		];
+	}
+
+	public function merge(Image|null $image = null): static
+	{
+		if ($image === null) {
+			return $this;
+		}
+
+		foreach (get_object_vars($this) as $key => $value) {
+			$this->$key = $image->$key ?? $value;
+		}
+
+		return $this;
 	}
 }

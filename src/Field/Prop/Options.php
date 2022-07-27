@@ -2,6 +2,7 @@
 
 namespace Kirby\Field\Prop;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Foundation\Collection;
 
 /**
@@ -42,5 +43,10 @@ class Options extends Collection
 		}
 
 		return $collection;
+	}
+
+	public function render(ModelWithContent $model): mixed
+	{
+		return array_values(parent::render($model));
 	}
 }

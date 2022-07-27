@@ -3,6 +3,7 @@
 namespace Kirby\Panel;
 
 use Kirby\Cms\Url;
+use Kirby\Cms\User as UserModel;
 use Kirby\Toolkit\I18n;
 
 /**
@@ -17,10 +18,10 @@ use Kirby\Toolkit\I18n;
  */
 class User extends Model
 {
-	/**
-	 * @var \Kirby\Cms\User
-	 */
-	protected $model;
+	public function __construct(
+		protected UserModel $model
+	) {
+	}
 
 	/**
 	 * Breadcrumb array

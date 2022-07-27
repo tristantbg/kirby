@@ -8,7 +8,7 @@
 		>
 			<k-header
 				:editable="permissions.changeTitle && !isLocked"
-				:tab="tab.name"
+				:tab="tab.id"
 				:tabs="tabs"
 				@edit="$dialog(id + '/changeTitle')"
 			>

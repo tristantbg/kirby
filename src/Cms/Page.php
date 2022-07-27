@@ -2,6 +2,7 @@
 
 namespace Kirby\Cms;
 
+use Kirby\Blueprint\PageBlueprint;
 use Kirby\Exception\Exception;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;
@@ -52,7 +53,7 @@ class Page extends ModelWithContent
 	/**
 	 * The PageBlueprint object
 	 *
-	 * @var \Kirby\Cms\PageBlueprint
+	 * @var \Kirby\Blueprint\PageBlueprint
 	 */
 	protected $blueprint;
 
@@ -227,13 +228,9 @@ class Page extends ModelWithContent
 	 *
 	 * @return \Kirby\Cms\PageBlueprint
 	 */
-	public function blueprint()
+	public function blueprint(): PageBlueprint
 	{
-		if (is_a($this->blueprint, 'Kirby\Cms\PageBlueprint') === true) {
-			return $this->blueprint;
-		}
-
-		return $this->blueprint = PageBlueprint::factory('pages/' . $this->intendedTemplate(), 'pages/default', $this);
+		return $this->blueprint ??= PageBlueprint::load('pages/' . $this->intendedTemplate()->name())->bind($this);
 	}
 
 	/**

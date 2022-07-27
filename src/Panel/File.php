@@ -2,6 +2,7 @@
 
 namespace Kirby\Panel;
 
+use Kirby\Cms\File as FileModel;
 use Kirby\Toolkit\I18n;
 use Throwable;
 
@@ -17,10 +18,10 @@ use Throwable;
  */
 class File extends Model
 {
-	/**
-	 * @var \Kirby\Cms\File
-	 */
-	protected $model;
+	public function __construct(
+		protected FileModel $model
+	) {
+	}
 
 	/**
 	 * Breadcrumb array
@@ -176,98 +177,6 @@ class File extends Model
 	}
 
 	/**
-	 * Returns the Panel icon color
-	 *
-	 * @return string
-	 */
-	protected function imageColor(): string
-	{
-		$types = [
-			'image'    => 'orange-400',
-			'video'    => 'yellow-400',
-			'document' => 'red-400',
-			'audio'    => 'aqua-400',
-			'code'     => 'blue-400',
-			'archive'  => 'gray-500'
-		];
-
-		$extensions = [
-			'indd'  => 'purple-400',
-			'xls'   => 'green-400',
-			'xlsx'  => 'green-400',
-			'csv'   => 'green-400',
-			'docx'  => 'blue-400',
-			'doc'   => 'blue-400',
-			'rtf'   => 'blue-400'
-		];
-
-		return $extensions[$this->model->extension()] ??
-			   $types[$this->model->type()] ??
-			   parent::imageDefaults()['color'];
-	}
-
-	/**
-	 * Default settings for the file's Panel image
-	 *
-	 * @return array
-	 */
-	protected function imageDefaults(): array
-	{
-		return array_merge(parent::imageDefaults(), [
-			'color' => $this->imageColor(),
-			'icon'  => $this->imageIcon(),
-		]);
-	}
-
-	/**
-	 * Returns the Panel icon type
-	 *
-	 * @return string
-	 */
-	protected function imageIcon(): string
-	{
-		$types = [
-			'image'    => 'image',
-			'video'    => 'video',
-			'document' => 'document',
-			'audio'    => 'audio',
-			'code'     => 'code',
-			'archive'  => 'archive'
-		];
-
-		$extensions = [
-			'xls'   => 'table',
-			'xlsx'  => 'table',
-			'csv'   => 'table',
-			'docx'  => 'pen',
-			'doc'   => 'pen',
-			'rtf'   => 'pen',
-			'mdown' => 'markdown',
-			'md'    => 'markdown'
-		];
-
-		return $extensions[$this->model->extension()] ??
-			   $types[$this->model->type()] ??
-			   'file';
-	}
-
-	/**
-	 * Returns the image file object based on provided query
-	 *
-	 * @internal
-	 * @param string|null $query
-	 * @return \Kirby\Cms\File|\Kirby\Filesystem\Asset|null
-	 */
-	protected function imageSource(string $query = null)
-	{
-		if ($query === null && $this->model->isViewable()) {
-			return $this->model;
-		}
-
-		return parent::imageSource($query);
-	}
-
-	/**
 	 * Returns an array of all actions
 	 * that can be performed in the Panel
 	 *
@@ -368,10 +277,7 @@ class File extends Model
 					'url'        => $file->url(),
 				],
 				'preview' => [
-					'image'   => $this->image([
-						'back'  => 'transparent',
-						'ratio' => '1/1'
-					], 'cards'),
+					'image'   => $this->image()?->render($file),
 					'url'     => $url = $file->previewUrl(),
 					'details' => [
 						[

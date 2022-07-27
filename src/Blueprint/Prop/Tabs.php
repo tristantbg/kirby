@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint\Prop;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
 use Kirby\Foundation\Nodes;
 use Kirby\Section\Sections;
@@ -28,7 +29,7 @@ class Tabs extends Nodes
 
 		foreach ($this->data as $tab) {
 			foreach ($tab->columns ?? [] as $column) {
-				$columns->__set($column->id, $column);
+				$columns->__set($tab->id . '/' . $column->id, $column);
 			}
 		}
 
@@ -41,6 +42,11 @@ class Tabs extends Nodes
 	public function fields(): Fields
 	{
 		return $this->sections()->fields();
+	}
+
+	public function render(ModelWithContent $model): mixed
+	{
+		return array_values(parent::render($model));
 	}
 
 	/**

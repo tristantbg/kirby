@@ -2,7 +2,8 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Prop\Url;
+use Kirby\Blueprint\Prop\UserImage;
 use Kirby\Blueprint\Prop\UserOptions;
 use Kirby\Permissions\Permissions;
 
@@ -17,24 +18,19 @@ use Kirby\Permissions\Permissions;
  */
 class UserBlueprint extends Blueprint
 {
-	public const TYPE = 'user';
+	public const DEFAULT = 'users/default';
+	public const TYPE    = 'user';
 
 	public function __construct(
 		public string $id,
-		public Image|null $image = null,
+		public Url|null $home = null,
+		public UserImage|null $image = null,
 		public UserOptions|null $options = null,
 		public Permissions|null $permissions = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-	}
 
-	public static function load(string $id): static
-	{
-		$config = new Config('users/' . $id);
-
-		return static::factory($config->read() + [
-			'id' => $id
-		]);
+		$this->image ??= new UserImage;
 	}
 }

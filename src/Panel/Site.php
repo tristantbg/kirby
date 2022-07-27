@@ -2,6 +2,8 @@
 
 namespace Kirby\Panel;
 
+use Kirby\Cms\Site as SiteModel;
+
 /**
  * Provides information about the site model for the Panel
  * @since 3.6.0
@@ -14,10 +16,10 @@ namespace Kirby\Panel;
  */
 class Site extends Model
 {
-	/**
-	 * @var \Kirby\Cms\Site
-	 */
-	protected $model;
+	public function __construct(
+		protected SiteModel $model
+	) {
+	}
 
 	/**
 	 * Returns the setup for a dropdown option

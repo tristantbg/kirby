@@ -1,12 +1,11 @@
 <template>
 	<section
-		v-if="isLoading === false"
 		:data-processing="isProcessing"
 		:class="`k-models-section k-${type}-section`"
 	>
 		<header class="k-section-header">
-			<k-headline :link="options.link">
-				{{ options.headline || " " }}
+			<k-headline :link="link">
+				{{ label || " " }}
 				<abbr v-if="options.min" :title="$t('section.required')">*</abbr>
 			</k-headline>
 
@@ -16,7 +15,7 @@
 		<!-- Error -->
 		<k-box v-if="error" theme="negative">
 			<k-text size="small">
-				<strong> {{ $t("error.section.notLoaded", { name: name }) }}: </strong>
+				<strong> {{ $t("error.section.notLoaded", { name: id }) }}: </strong>
 				{{ error }}
 			</k-text>
 		</k-box>
@@ -57,10 +56,12 @@ import debounce from "@/helpers/debounce";
 export default {
 	inheritAttrs: false,
 	props: {
-		blueprint: String,
-		column: String,
+		help: String,
+		id: String,
+		label: String,
+		layout: String,
+		link: String,
 		parent: String,
-		name: String,
 		timestamp: Number
 	},
 	data() {
@@ -72,9 +73,6 @@ export default {
 			options: {
 				columns: {},
 				empty: null,
-				headline: null,
-				help: null,
-				layout: "list",
 				link: null,
 				max: null,
 				min: null,
@@ -171,7 +169,7 @@ export default {
 			return false;
 		},
 		paginationId() {
-			return "kirby$pagination$" + this.parent + "/" + this.name;
+			return "kirby$pagination$" + this.parent + "/" + this.id;
 		},
 		type() {
 			return "models";
@@ -205,7 +203,7 @@ export default {
 
 			try {
 				const response = await this.$api.get(
-					this.parent + "/sections/" + this.name,
+					this.parent + "/sections/" + this.id,
 					{ page: this.pagination.page, searchterm: this.searchterm }
 				);
 

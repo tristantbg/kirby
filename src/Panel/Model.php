@@ -2,9 +2,8 @@
 
 namespace Kirby\Panel;
 
-use Kirby\Form\Form;
+use Kirby\Blueprint\Prop\Image;
 use Kirby\Http\Uri;
-use Kirby\Toolkit\A;
 
 /**
  * Provides information about the model for the Panel
@@ -19,26 +18,13 @@ use Kirby\Toolkit\A;
 abstract class Model
 {
 	/**
-	 * @var \Kirby\Cms\ModelWithContent
-	 */
-	protected $model;
-
-	/**
-	 * @param \Kirby\Cms\ModelWithContent $model
-	 */
-	public function __construct($model)
-	{
-		$this->model = $model;
-	}
-
-	/**
 	 * Get the content values for the model
 	 *
 	 * @return array
 	 */
 	public function content(): array
 	{
-		return Form::for($this->model)->values();
+		return [];
 	}
 
 	/**
@@ -112,103 +98,9 @@ abstract class Model
 	 * @param string|array|false|null $settings
 	 * @return array|null
 	 */
-	public function image($settings = [], string $layout = 'list'): ?array
+	public function image(): ?Image
 	{
-		// completely switched off
-		if ($settings === false) {
-			return null;
-		}
-
-		// skip image thumbnail if option
-		// is explicitly set to show the icon
-		if ($settings === 'icon') {
-			$settings = [
-				'query' => false
-			];
-		} elseif (is_string($settings) === true) {
-			// convert string settings to proper array
-			$settings = [
-				'query' => $settings
-			];
-		}
-
-		// merge with defaults and blueprint option
-		$settings = array_merge(
-			$this->imageDefaults(),
-			$settings ?? [],
-			$this->model->blueprint()->image() ?? [],
-		);
-
-		if ($image = $this->imageSource($settings['query'] ?? null)) {
-			// main url
-			$settings['url'] = $image->url();
-
-			// only create srcsets for resizable files
-			if ($image->isResizable() === true) {
-				$settings['src'] = static::imagePlaceholder();
-
-				switch ($layout) {
-					case 'cards':
-						$sizes = [352, 864, 1408];
-						break;
-					case 'cardlets':
-						$sizes = [96, 192];
-						break;
-					case 'list':
-					default:
-						$sizes = [38, 76];
-						break;
-				}
-
-				if (($settings['cover'] ?? false) === false || $layout === 'cards') {
-					$settings['srcset'] = $image->srcset($sizes);
-				} else {
-					$settings['srcset'] = $image->srcset([
-						'1x' => [
-							'width'  => $sizes[0],
-							'height' => $sizes[0],
-							'crop'   => 'center'
-						],
-						'2x' => [
-							'width'  => $sizes[1],
-							'height' => $sizes[1],
-							'crop'   => 'center'
-						]
-					]);
-				}
-			} elseif ($image->isViewable() === true) {
-				$settings['src'] = $image->url();
-			}
-		}
-
-		if (isset($settings['query']) === true) {
-			unset($settings['query']);
-		}
-
-		// resolve remaining options defined as query
-		return A::map($settings, function ($option) {
-			if (is_string($option) === false) {
-				return $option;
-			}
-
-			return $this->model->toString($option);
-		});
-	}
-
-	/**
-	 * Default settings for Panel image
-	 *
-	 * @return array
-	 */
-	protected function imageDefaults(): array
-	{
-		return [
-			'back'  => 'pattern',
-			'color' => 'gray-500',
-			'cover' => false,
-			'icon'  => 'page',
-			'ratio' => '3/2',
-		];
+		return $this->model->blueprint()->image();
 	}
 
 	/**
@@ -221,29 +113,6 @@ abstract class Model
 	public static function imagePlaceholder(): string
 	{
 		return 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw';
-	}
-
-	/**
-	 * Returns the image file object based on provided query
-	 *
-	 * @internal
-	 *
-	 * @param string|null $query
-	 * @return \Kirby\Cms\File|\Kirby\Filesystem\Asset|null
-	 */
-	protected function imageSource(?string $query = null)
-	{
-		$image = $this->model->query($query ?? null);
-
-		// validate the query result
-		if (
-			is_a($image, 'Kirby\Cms\File') === true ||
-			is_a($image, 'Kirby\Filesystem\Asset') === true
-		) {
-			return $image;
-		}
-
-		return null;
 	}
 
 	/**
@@ -351,23 +220,13 @@ abstract class Model
 	 */
 	public function props(): array
 	{
-		$blueprint = $this->model->blueprint();
-		$request   = $this->model->kirby()->request();
-		$tabs      = $blueprint->tabs();
-		$tab       = $blueprint->tab($request->get('tab')) ?? $tabs[0] ?? null;
+		$request = $this->model->kirby()->request();
+		$props   = $this->model->blueprint()->render($this->model, $request->get('tab'));
 
-		$props = [
-			'lock'        => $this->lock(),
-			'permissions' => $this->model->permissions()->toArray(),
-			'tabs'        => $tabs,
+		$props += [
+			'lock'        => [],
+			'permissions' => [],
 		];
-
-		// only send the tab if it exists
-		// this will let the vue component define
-		// a proper default value
-		if ($tab) {
-			$props['tab'] = $tab;
-		}
 
 		return $props;
 	}

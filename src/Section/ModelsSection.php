@@ -10,6 +10,7 @@ use Kirby\Cms\Collection as Models;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
+use Kirby\Cms\Pagination;
 use Kirby\Cms\Site;
 use Kirby\Cms\User;
 use Kirby\Section\Prop\Layout;
@@ -47,6 +48,15 @@ class ModelsSection extends Section
 		parent::__construct($id, ...$args);
 
 		$this->label ??= Label::fallback($id);
+	}
+
+	public function add(ModelWithContent $model, Models $models): bool
+	{
+		if ($this->isFull($models) === true) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public function applyFlip(Models $models): Models
@@ -145,6 +155,47 @@ class ModelsSection extends Section
 	}
 
 	/**
+	 * Renders the response for a single item.
+	 * This will be handed over to the Vue components
+	 * to render the item in the section
+	 */
+	public function item(ModelWithContent $model, Page|File $item): array
+	{
+		$panel = $item->panel();
+
+		$render = [
+			'dragText' => $panel->dragText(),
+			'id'       => $item->id(),
+			'image'    => $this->itemImage($item)?->render($item),
+			'info'     => $this->info?->render($item),
+			'link'     => $panel->url(true),
+			'text'     => $this->text?->render($item),
+		];
+
+		if ($this->layout?->value === 'table') {
+			$render += $this->itemCells($model, $item);
+		}
+
+		return $render;
+	}
+
+	public function itemCells(ModelWithContent $model, Page|File $item): array
+	{
+		// TODO: implement TableRows::render here
+		return [];
+	}
+
+	public function itemImage(ModelWithContent $model): ?Image
+	{
+		return $model->blueprint()->image()?->merge($this->image);
+	}
+
+	public function items(ModelWithContent $model, Models $models, array $query = [])
+	{
+		return array_map(fn ($item) => $this->item($model, $item), $models->values());
+	}
+
+	/**
 	 * Returns the correct link for the section label.
 	 * If the model is the parent, the link will be empty,
 	 * because the section is in the model panel view and
@@ -161,6 +212,29 @@ class ModelsSection extends Section
 	public function models(ModelWithContent $model, array $query = []): Models
 	{
 		return new Models;
+	}
+
+	public function options(ModelWithContent $model, Models $models, array $query): array
+	{
+		return [
+			'add'      => $this->add($model, $models, $query),
+			'layout'   => $this->layout?->value ?? 'list',
+			'search'   => $this->search,
+			'size'     => $this->size?->value,
+			'sortable' => $this->sortable($model, $models, $query)
+		];
+	}
+
+	public function pagination(ModelWithContent $model, Models $models, array $query = []): array
+	{
+		$pagination = $models->pagination();
+
+		return [
+			'limit'  => $pagination->limit(),
+			'offset' => $pagination->offset(),
+			'page'   => $pagination->page(),
+			'total'  => $pagination->total()
+		];
 	}
 
 	/**
@@ -185,48 +259,55 @@ class ModelsSection extends Section
 	 */
 	public function render(ModelWithContent $model): array
 	{
+		$parent = $this->parent($model);
+
 		return [
 			'help'  => $this->help?->render($model),
 			'id'    => $this->id,
 			'label' => $this->label->render($model),
+			'link'  => $this->link($model, $parent),
 			'type'  => static::TYPE
 		];
 	}
 
-	/**
-	 * Renders the response for a single item.
-	 * This will be handed over to the Vue components
-	 * to render the item in the section
-	 */
-	public function renderItem(ModelWithContent $model, Page|File $item): array
+	public function routes(ModelWithContent $model): array
 	{
-		$panel = $item->panel();
+		return [
+			[
+				'pattern' => '/',
+				'action'  => function (array $query = []) use ($model) {
+					$models = $this->models($model, $query);
 
-		$render = [
-			'dragText' => $panel->dragText(),
-			'id'       => $item->id(),
-			'image'    => $this->image?->render($item),
-			'info'     => $this->info?->render($item),
-			'link'     => $panel->url(true),
-			'text'     => $this->text?->render($item),
+					return [
+						'data'       => $this->items($model, $models, $query),
+						'options'    => $this->options($model, $models, $query),
+						'pagination' => $this->pagination($model, $models, $query),
+					];
+				}
+			]
 		];
+	}
 
-		if ($this->layout?->value === 'table') {
-			$render += $this->renderItemCells($model, $item);
+	public function sortable(ModelWithContent $model, Models $models, array $query = []): bool
+	{
+		if ($this->sortable === false) {
+			return false;
 		}
 
-		return $render;
-	}
+		if ($this->sortBy !== null) {
+			return false;
+		}
 
-	public function renderItemCells(ModelWithContent $model, Page|File $item): array
-	{
-		// TODO: implement TableRows::render here
-		return [];
-	}
+		// don't allow sorting while search filter is active
+		if ($this->search === true && empty($query['searchterm']) === false) {
+			return false;
+		}
 
-	public function renderItems(ModelWithContent $model, Models $models)
-	{
-		return array_map(fn ($item) => $this->renderItem($model, $item), $models->values());
+		if ($this->flip === true) {
+			return false;
+		}
+
+		return true;
 	}
 
 }

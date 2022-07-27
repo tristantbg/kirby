@@ -1,7 +1,7 @@
 <template>
 	<header
 		:data-editable="editable"
-		:data-tabs="tabsWithBadges.length > 1"
+		:data-tabs="tabs.length > 1"
 		class="k-header"
 	>
 		<k-headline tag="h1" size="huge">
@@ -27,7 +27,7 @@
 			</template>
 		</k-bar>
 
-		<k-tabs :tab="tab" :tabs="tabsWithBadges" theme="notice" />
+		<k-tabs :tab="tab" :tabs="tabs" theme="notice" />
 	</header>
 </template>
 
@@ -48,32 +48,6 @@ export default {
 			default() {
 				return [];
 			}
-		}
-	},
-	computed: {
-		tabsWithBadges() {
-			const changed = Object.keys(this.$store.getters["content/changes"]());
-
-			return this.tabs.map((tab) => {
-				// collect all fields per tab
-				let fields = [];
-				Object.values(tab.columns).forEach((column) => {
-					Object.values(column.sections).forEach((section) => {
-						if (section.type === "fields") {
-							Object.keys(section.fields).forEach((field) => {
-								fields.push(field);
-							});
-						}
-					});
-				});
-
-				// get count of changed fields in this tab
-				tab.badge = fields.filter((field) =>
-					changed.includes(field.toLowerCase())
-				).length;
-
-				return tab;
-			});
 		}
 	}
 };

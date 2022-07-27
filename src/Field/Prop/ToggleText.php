@@ -3,6 +3,7 @@
 namespace Kirby\Field\Prop;
 
 use Kirby\Blueprint\Prop\Text;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Foundation\Component;
 
 /**
@@ -47,5 +48,10 @@ class ToggleText extends Component
 			on:  new Text($on),
 			off: new Text($off)
 		);
+	}
+
+	public function render(ModelWithContent $model): mixed
+	{
+		return [$this->off->value, $this->on->value];
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Prop\PageImage;
 use Kirby\Blueprint\Prop\PageNavigation;
 use Kirby\Blueprint\Prop\PageOptions;
 use Kirby\Blueprint\Prop\Url;
@@ -19,11 +19,12 @@ use Kirby\Blueprint\Prop\PageStatusOptions;
  */
 class PageBlueprint extends Blueprint
 {
-	public const TYPE = 'page';
+	public const DEFAULT = 'pages/default';
+	public const TYPE    = 'page';
 
 	public function __construct(
 		public string $id,
-		public Image|null $image = null,
+		public PageImage|null $image = null,
 		public PageNavigation|null $navigation = null,
 		public string|null $num = null,
 		public PageOptions|null $options = null,
@@ -32,14 +33,7 @@ class PageBlueprint extends Blueprint
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-	}
 
-	public static function load(string $id): static
-	{
-		$config = new Config('pages/' . $id);
-
-		return static::factory($config->read() + [
-			'id' => $id
-		]);
+		$this->image ??= new PageImage;
 	}
 }

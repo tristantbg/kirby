@@ -50,7 +50,8 @@ class Tab extends Node
 		return [
 			'icon'  => $this->icon?->value,
 			'id'    => $this->id,
-			'label' => $this->label->render($model)
+			'label' => $this->label->render($model),
+			'link'  => $model->panel()->url(true) . '?tab=' . $this->id,
 		];
 	}
 

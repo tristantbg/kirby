@@ -2,6 +2,7 @@
 
 namespace Kirby\Cms;
 
+use Kirby\Blueprint\FileBlueprint;
 use Kirby\Filesystem\F;
 use Kirby\Filesystem\IsFile;
 use Kirby\Panel\File as Panel;
@@ -159,16 +160,10 @@ class File extends ModelWithContent
 
 	/**
 	 * Returns the FileBlueprint object for the file
-	 *
-	 * @return \Kirby\Cms\FileBlueprint
 	 */
-	public function blueprint()
+	public function blueprint(): FileBlueprint
 	{
-		if (is_a($this->blueprint, 'Kirby\Cms\FileBlueprint') === true) {
-			return $this->blueprint;
-		}
-
-		return $this->blueprint = FileBlueprint::factory('files/' . $this->template(), 'files/default', $this);
+		return $this->blueprint ??= FileBlueprint::load('files/' . $this->template())->bind($this);
 	}
 
 	/**

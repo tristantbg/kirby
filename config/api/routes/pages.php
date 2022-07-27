@@ -101,11 +101,11 @@ return [
 		}
 	],
 	[
-		'pattern' => 'pages/(:any)/sections/(:any)',
-		'method'  => 'GET',
-		'action'  => function (string $id, string $sectionName) {
-			if ($section = $this->page($id)->blueprint()->section($sectionName)) {
-				return $section->toResponse();
+		'pattern' => 'pages/(:any)/sections/(:any)/(:all?)',
+		'method'  => 'ALL',
+		'action'  => function (string $id, string $sectionName, string $path = null) {
+			if ($page = $this->page($id)) {
+				return $this->sectionApi($page, $sectionName, $path);
 			}
 		}
 	],
