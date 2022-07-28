@@ -986,22 +986,15 @@ class Page extends ModelWithContent
 	 */
 	public function previewUrl(): ?string
 	{
-		$preview = $this->blueprint()->preview();
+		$url = $this->blueprint()->preview?->render($this);
 
-		if ($preview === false) {
+		if ($url === null) {
 			return null;
-		}
-
-		if ($preview === true) {
-			$url = $this->url();
-		} else {
-			$url = $preview;
 		}
 
 		if ($this->isDraft() === true) {
 			$uri = new Uri($url);
 			$uri->query->token = $this->token();
-
 			$url = $uri->toString();
 		}
 

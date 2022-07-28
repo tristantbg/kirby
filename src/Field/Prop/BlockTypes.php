@@ -5,7 +5,7 @@ namespace Kirby\Field\Prop;
 use Kirby\Foundation\Collection;
 
 /**
- * Fieldsets
+ * Block types
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -13,7 +13,7 @@ use Kirby\Foundation\Collection;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Fieldsets extends Collection
+class BlockTypes extends Collection
 {
-	public const TYPE = Fieldset::class;
+	public const TYPE = BlockType::class;
 }

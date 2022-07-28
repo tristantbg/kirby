@@ -308,15 +308,13 @@ class Page extends Model
 					'id'         => $page->id(),
 					'link'       => $this->url(true),
 					'parent'     => $page->parentModel()->panel()->url(true),
-					'previewUrl' => $this->model->blueprint()->preview?->render($this->model),
+					'previewUrl' => $page->previewUrl(),
 					'status'     => $page->status(),
 					'title'      => $page->title()->toString(),
 				],
 				'status' => function () use ($page) {
 					if ($status = $page->status()) {
 						return $this->model->blueprint()->status?->{$status}?->render($page);
-
-						return null;
 					}
 				},
 			]
@@ -336,7 +334,7 @@ class Page extends Model
 		$page = $this->model;
 
 		return [
-			'breadcrumb' => $page->panel()->breadcrumb(),
+			'breadcrumb' => $this->breadcrumb(),
 			'component'  => 'k-page-view',
 			'props'      => $this->props(),
 			'title'      => $page->title()->toString(),
