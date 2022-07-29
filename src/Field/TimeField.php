@@ -35,15 +35,18 @@ class TimeField extends InputField
 	) {
 		parent::__construct($id, ...$args);
 
-		$this->icon     ??= new Icon('clock');
-		$this->notation ??= new TimeNotation;
-		$this->step     ??= new TimeStep;
-		$this->display  ??= $this->notation->display();
-
 		$this->value = new TimeValue(
 			max: $this->max,
 			min: $this->min,
 			required: $this->required,
 		);
+	}
+
+	public function defaults(): void
+	{
+		$this->icon     ??= new Icon('clock');
+		$this->notation ??= new TimeNotation;
+		$this->step     ??= new TimeStep;
+		$this->display  ??= $this->notation->display();
 	}
 }

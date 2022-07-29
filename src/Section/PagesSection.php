@@ -35,8 +35,6 @@ class PagesSection extends ModelsSection
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-
-		$this->text ??= new Text('{{ page.title }}');
 	}
 
 	public function add(ModelWithContent $model, Models $models, array $query = []): bool
@@ -89,6 +87,13 @@ class PagesSection extends ModelsSection
 		));
 
 		return $columns;
+	}
+
+	public function defaults(): void
+	{
+		$this->text ??= new Text('{{ page.title }}');
+
+		parent::defaults();
 	}
 
 	/**

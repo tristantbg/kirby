@@ -30,7 +30,11 @@ class InputField extends Field
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-		$this->label ??= Label::fallback($id);
+	}
+
+	public function defaults(): void
+	{
+		$this->label ??= Label::fallback($this->id);
 	}
 
 	public function fill(mixed $value = null): static

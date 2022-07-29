@@ -33,8 +33,11 @@ class ToggleField extends InputField
 	) {
 		parent::__construct($id, ...$args);
 
-		$this->text ??= ToggleText::factory();
-
 		$this->value = new BoolValue;
+	}
+
+	public function defaults(): void
+	{
+		$this->text ??= ToggleText::factory();
 	}
 }

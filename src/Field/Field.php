@@ -23,10 +23,11 @@ class Field extends NodeWithType
 
 	public function __construct(
 		public string $id,
-		public Extension|null $extends = null,
 		public When|null $when = null,
 		public Width|null $width = null,
+		...$args
 	) {
+		parent::__construct($id, ...$args);
 	}
 
 	public function fill(mixed $value = null): static

@@ -35,13 +35,16 @@ class DateField extends InputField
 	) {
 		parent::__construct($id, ...$args);
 
-		$this->icon ??= new Icon('calendar');
-		$this->step ??= new DateStep;
-
 		$this->value = new DateTimeValue(
 			max: $this->max,
 			min: $this->min,
 			required: $this->required,
 		);
+	}
+
+	public function defaults(): void
+	{
+		$this->icon ??= new Icon('calendar');
+		$this->step ??= new DateStep;
 	}
 }

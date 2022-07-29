@@ -10,7 +10,6 @@ use Kirby\Cms\Collection as Models;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
-use Kirby\Cms\Pagination;
 use Kirby\Cms\Site;
 use Kirby\Cms\User;
 use Kirby\Section\Prop\Layout;
@@ -46,8 +45,6 @@ class ModelsSection extends Section
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-
-		$this->label ??= Label::fallback($id);
 	}
 
 	public function add(ModelWithContent $model, Models $models): bool
@@ -139,6 +136,11 @@ class ModelsSection extends Section
 		}
 
 		return $columns;
+	}
+
+	public function defaults(): void
+	{
+		$this->label ??= Label::fallback($this->id);
 	}
 
 	/**

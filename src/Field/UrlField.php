@@ -23,15 +23,18 @@ class UrlField extends TextField
 	{
 		parent::__construct(...$args);
 
-		$this->autocomplete ??= 'url';
-		$this->icon         ??= new Icon('url');
-		$this->placeholder  ??= new Placeholder('https://example.com');
-
 		$this->value = new UrlValue(
 			maxlength: $this->maxlength,
 			minlength: $this->minlength,
 			pattern:   $this->pattern,
 			required:  $this->required,
 		);
+	}
+
+	public function defaults(): void
+	{
+		$this->autocomplete ??= 'url';
+		$this->icon         ??= new Icon('url');
+		$this->placeholder  ??= new Placeholder('https://example.com');
 	}
 }

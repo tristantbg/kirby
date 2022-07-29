@@ -4,9 +4,11 @@ namespace Kirby\Field;
 
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Blueprint\Prop\Label;
+use Kirby\Field\Prop\Placeholder;
+use Kirby\Value\EmailValue;
 
 /**
- * Username field
+ * Password field
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -14,13 +16,17 @@ use Kirby\Blueprint\Prop\Label;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class UsernameField extends TextField
+class PasswordField extends TextField
 {
-	public const TYPE = 'text';
+	public const TYPE = 'password';
 
 	public function defaults(): void
 	{
-		$this->icon  ??= new Icon('user');
-		$this->label ??= new Label(['*' => 'name']);
+		$this->autocomplete ??= 'password';
+		$this->icon         ??= new Icon('key');
+		$this->label        ??= new Label(['*' => 'password']);
+		$this->minlength    ??= 8;
+
+		parent::defaults();
 	}
 }

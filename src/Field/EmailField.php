@@ -3,6 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\Prop\Icon;
+use Kirby\Blueprint\Prop\Label;
 use Kirby\Field\Prop\Placeholder;
 use Kirby\Value\EmailValue;
 
@@ -19,13 +20,11 @@ class EmailField extends TextField
 {
 	public const TYPE = 'email';
 
-	public function __construct(...$args)
-	{
-		parent::__construct(...$args);
-
-		$this->autocomplete ??= 'email';
-		$this->icon         ??= new Icon('email');
-		$this->placeholder  ??= new Placeholder(['*' => 'email.placeholder']);
+	public function __construct(
+		public string $id,
+		...$args
+	) {
+		parent::__construct($id, ...$args);
 
 		$this->value = new EmailValue(
 			maxlength: $this->maxlength,
@@ -33,5 +32,16 @@ class EmailField extends TextField
 			pattern:   $this->pattern,
 			required:  $this->required,
 		);
+	}
+
+	public function defaults(): void
+	{
+		$this->autocomplete ??= 'email';
+		$this->counter      ??= false;
+		$this->icon         ??= new Icon('email');
+		$this->label        ??= new Label(['*' => 'email']);
+		$this->placeholder  ??= new Placeholder(['*' => 'email.placeholder']);
+
+		parent::defaults();
 	}
 }

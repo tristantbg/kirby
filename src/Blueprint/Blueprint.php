@@ -36,18 +36,18 @@ class Blueprint extends NodeWithType
 		public Label|null $label = null,
 		public Tabs|null $tabs = null,
 	) {
-		$this->label ??= Label::fallback($id);
-	}
-
-	public static function cache(): Cache
-	{
-		return static::$cache ??= new Cache;
+		$this->defaults();
 	}
 
 	public function bind(ModelWithContent $model): static
 	{
 		$this->model = $model;
 		return $this;
+	}
+
+	public static function cache(): Cache
+	{
+		return static::$cache ??= new Cache;
 	}
 
 	/**
@@ -74,6 +74,11 @@ class Blueprint extends NodeWithType
 		} catch (NotFoundException) {
 			return new static(id: 'default');
 		}
+	}
+
+	public function defaults(): void
+	{
+		$this->label ??= Label::fallback($this->id);
 	}
 
 	public static function factory(array $props): static

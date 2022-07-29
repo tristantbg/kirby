@@ -30,7 +30,12 @@ class FileBlueprint extends Blueprint
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
 
+	public function defaults(): void
+	{
 		$this->image ??= new FileImage;
+
+		parent::defaults();
 	}
 }

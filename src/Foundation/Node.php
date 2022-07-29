@@ -19,6 +19,11 @@ class Node extends Component
 		public string $id,
 		public Extension|null $extends = null,
 	) {
+		$this->defaults();
+	}
+
+	public function defaults(): void
+	{
 	}
 
 	public static function factory(array $props): static

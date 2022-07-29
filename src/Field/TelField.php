@@ -17,10 +17,8 @@ class TelField extends TextField
 {
 	public const TYPE = 'tel';
 
-	public function __construct(...$args)
+	public function defaults(): void
 	{
-		parent::__construct(...$args);
-
 		$this->autocomplete ??= 'tel';
 		$this->icon         ??= new Icon('phone');
 	}

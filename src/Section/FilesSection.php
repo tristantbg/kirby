@@ -25,8 +25,6 @@ class FilesSection extends ModelsSection
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-
-		$this->text ??= new Text('{{ file.filename }}');
 	}
 
 	/**
@@ -38,6 +36,13 @@ class FilesSection extends ModelsSection
 		$files = $files->filter('isReadable', true);
 
 		return $files;
+	}
+
+	public function defaults(): void
+	{
+		$this->text ??= new Text('{{ file.filename }}');
+
+		parent::defaults();
 	}
 
 	/**

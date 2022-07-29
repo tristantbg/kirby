@@ -33,7 +33,13 @@ class PageBlueprint extends Blueprint
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-
-		$this->image ??= new PageImage;
 	}
+
+	public function defaults(): void
+	{
+		$this->image ??= new PageImage;
+
+		parent::defaults();
+	}
+
 }

@@ -29,11 +29,14 @@ class WriterField extends InputField
 	) {
 		parent::__construct($id, ...$args);
 
-		$this->marks ??= new Marks;
-		$this->nodes ??= new Nodes;
-
 		$this->value = new HtmlValue(
 			required: $this->required
 		);
+	}
+
+	public function defaults(): void
+	{
+		$this->marks ??= new Marks;
+		$this->nodes ??= new Nodes;
 	}
 }

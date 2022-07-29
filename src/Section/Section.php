@@ -25,7 +25,7 @@ class Section extends NodeWithType
 		public string $id,
 		public Extension|null $extends = null,
 	) {
-
+		$this->defaults();
 	}
 
 	public function api(ModelWithContent $model, string|null $path = null, string $method = 'GET', array $query = []): mixed

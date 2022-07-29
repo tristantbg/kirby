@@ -30,7 +30,12 @@ class UserBlueprint extends Blueprint
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
 
+	public function defaults(): void
+	{
 		$this->image ??= new UserImage;
+
+		parent::defaults();
 	}
 }

@@ -42,9 +42,6 @@ class PickerField extends InputField
 	) {
 		parent::__construct($id, ...$args);
 
-		$this->layout ??= new Layout;
-		$this->size   ??= new Size;
-
 		if ($this->multiple === false) {
 			$this->max = 1;
 		}
@@ -54,5 +51,11 @@ class PickerField extends InputField
 			min: $this->min,
 			required: $this->required
 		);
+	}
+
+	public function defaults(): void
+	{
+		$this->layout ??= new Layout;
+		$this->size   ??= new Size;
 	}
 }

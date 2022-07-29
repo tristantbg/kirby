@@ -1,17 +1,19 @@
 <?php
 
-namespace Kirby\Field;
+namespace Kirby\Blueprint;
+
+use Kirby\Foundation\Collection;
 
 /**
- * Users field
+ * Blueprints
  *
- * @package   Kirby Field
+ * @package   Kirby Blueprint
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class UsersField extends PickerField
+class Blueprints extends Collection
 {
-	public const TYPE = 'users';
+	public const TYPE = Blueprint::class;
 }

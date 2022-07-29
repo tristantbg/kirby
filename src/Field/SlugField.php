@@ -3,6 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\Prop\Icon;
+use Kirby\Blueprint\Prop\Label;
 use Kirby\Field\Prop\After;
 use Kirby\Field\Prop\Before;
 use Kirby\Field\Prop\Placeholder;
@@ -23,6 +24,7 @@ class SlugField extends InputField
 	public const TYPE = 'slug';
 
 	public function __construct(
+		public string $id,
 		public After|null $after = null,
 		public string|null $allowed = null,
 		public Before|null $before = null,
@@ -37,9 +39,7 @@ class SlugField extends InputField
 		public SlugWizard|null $wizard = null,
 		...$args
 	) {
-		parent::__construct(...$args);
-
-		$this->icon ??= new Icon('url');
+		parent::__construct($id, ...$args);
 
 		$this->value = new SlugValue(
 			allowed: $this->allowed,
@@ -48,6 +48,12 @@ class SlugField extends InputField
 			pattern: $this->pattern,
 			required: $this->required,
 		);
+	}
+
+	public function defaults(): void
+	{
+		$this->icon  ??= new Icon('url');
+		$this->label ??= new Label(['*' => 'slug']);
 	}
 
 	public static function polyfill(array $props): array
