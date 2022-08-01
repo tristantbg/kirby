@@ -19,6 +19,7 @@ class Option extends Component
 {
 	public function __construct(
 		public string|int|float $value,
+		public bool $disabled = false,
 		public Icon|null $icon = null,
 		public Text|null $info = null,
 		public Text|null $text = null
@@ -26,9 +27,17 @@ class Option extends Component
 		$this->text ??= new Text($value);
 	}
 
+	public function id(): string|int|float
+	{
+		return $this->value;
+	}
+
 	public static function factory(array $props): static
 	{
 		return new static(
+			// disabled options
+			disabled: $props['disabled'] ?? false,
+
 			// icons are optional and not available for all fields
 			icon: isset($props['icon']) ? new Icon($props['icon']) : null,
 

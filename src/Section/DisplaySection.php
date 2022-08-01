@@ -3,11 +3,11 @@
 namespace Kirby\Section;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Kirbytext;
-use Kirby\Blueprint\Prop\Theme;
+use Kirby\Blueprint\Prop\Help;
+use Kirby\Blueprint\Prop\Label;
 
 /**
- * Info section
+ * Display section
  *
  * @package   Kirby Section
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -15,25 +15,29 @@ use Kirby\Blueprint\Prop\Theme;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class InfoSection extends DisplaySection
+class DisplaySection extends Section
 {
-	public const TYPE = 'info';
+	public const TYPE = 'display';
 
 	public function __construct(
 		public string $id,
-		public Kirbytext|null $text = null,
-		public Theme|null $theme = null,
+		public Help|null $help = null,
+		public Label|null $label = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
 
+	public function defaults(): void
+	{
+		$this->label ??= Label::fallback($this->id);
 	}
 
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'text'  => $this->text?->render($model),
-			'theme' => $this->theme?->value,
+			'help'  => $this->help?->render($model),
+			'label' => $this->label?->render($model),
 		];
 	}
 }

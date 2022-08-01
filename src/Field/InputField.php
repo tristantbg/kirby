@@ -43,6 +43,17 @@ class InputField extends Field
 		return $this;
 	}
 
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'autofocus' => $this->autofocus,
+			'disabled'  => $this->disabled,
+			'help'      => $this->help?->render($model),
+			'label'     => $this->label?->render($model),
+			'required'  => $this->required,
+		];
+	}
+
 	public function submit(mixed $value = null): static
 	{
 		if ($this->disabled === true) {

@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Field\Prop\After;
 use Kirby\Field\Prop\Before;
@@ -42,5 +43,19 @@ class NumberField extends InputField
 			min: 	  $this->min,
 			required: $this->required
 		);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'after'        => $this->after?->render($model),
+			'autocomplete' => $this->autocomplete,
+			'before'       => $this->before?->render($model),
+			'icon'         => $this->icon?->render($model),
+			'max'          => $this->max,
+			'min'          => $this->min,
+			'placeholder'  => $this->placeholder?->render($model),
+			'step'         => $this->step,
+		];
 	}
 }

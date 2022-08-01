@@ -54,5 +54,4 @@ class BlueprintsField extends SelectField
 
 		parent::defaults();
 	}
-
 }

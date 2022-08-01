@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
 
 /**
@@ -25,5 +26,14 @@ class MultiselectField extends OptionsField
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'icon'   => $this->icon?->render($model),
+			'search' => $this->search,
+			'sort'   => $this->sort
+		];
 	}
 }

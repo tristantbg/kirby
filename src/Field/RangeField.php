@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Range field
  *
@@ -21,5 +23,12 @@ class RangeField extends NumberField
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'tooltip' => $this->tooltip
+		];
 	}
 }

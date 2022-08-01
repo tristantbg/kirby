@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\Layouts;
 use Kirby\Field\Prop\LayoutSettings;
 
@@ -25,5 +26,13 @@ class LayoutField extends BlocksField
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'layouts'  => $this->layouts?->render($model),
+			'settings' => $this->settings?->render($model),
+		];
 	}
 }

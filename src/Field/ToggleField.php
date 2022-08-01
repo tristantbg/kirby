@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Field\Prop\After;
 use Kirby\Field\Prop\Before;
@@ -40,4 +41,15 @@ class ToggleField extends InputField
 	{
 		$this->text ??= ToggleText::factory();
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'after'  => $this->after?->render($model),
+			'before' => $this->before?->render($model),
+			'icon'   => $this->icon?->render($model),
+			'text'   => $this->text?->render($model),
+		];
+	}
+
 }

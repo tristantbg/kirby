@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Field\Prop\Files;
 use Kirby\Field\Prop\Font;
@@ -48,5 +49,22 @@ class TextareaField extends InputField
 			minlength: $this->minlength,
 			required:  $this->required,
 		);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'buttons'     => $this->buttons?->render($model),
+			'counter'     => $this->counter,
+			'files'       => $this->files?->render($model),
+			'font'        => $this->font?->value,
+			'icon'        => $this->icon?->render($model),
+			'maxlength'   => $this->maxlength,
+			'minlength'   => $this->minlength,
+			'placeholder' => $this->placeholder?->render($model),
+			'size'        => $this->size?->value,
+			'spellcheck'  => $this->spellcheck,
+			'uploads'     => $this->uploads?->render($model)
+		];
 	}
 }

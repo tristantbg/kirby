@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Radio field
  *
@@ -21,5 +23,12 @@ class RadioField extends OptionField
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'columns' => $this->columns
+		];
 	}
 }

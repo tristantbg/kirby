@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\Options;
 use Kirby\Field\Prop\OptionsApi;
 use Kirby\Field\Prop\OptionsQuery;
@@ -62,4 +63,12 @@ class OptionsField extends InputField
 		return $this->options ?? new Options;
 	}
 
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'max'     => $this->max,
+			'min'     => $this->min,
+			'options' => $this->options?->render($model)
+		];
+	}
 }

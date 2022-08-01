@@ -2,11 +2,9 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Blueprint\Prop\Label;
-use Kirby\Field\Prop\After;
-use Kirby\Field\Prop\Before;
-use Kirby\Field\Prop\Placeholder;
 use Kirby\Field\Prop\SlugWizard;
 use Kirby\Value\SlugValue;
 
@@ -19,22 +17,14 @@ use Kirby\Value\SlugValue;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class SlugField extends InputField
+class SlugField extends TextField
 {
 	public const TYPE = 'slug';
 
 	public function __construct(
 		public string $id,
-		public After|null $after = null,
 		public string|null $allowed = null,
-		public Before|null $before = null,
-		public string|null $default = null,
-		public Icon|null $icon = null,
-		public int|null $maxlength = null,
-		public int|null $minlength = null,
 		public string|null $path = null,
-		public string|null $pattern = null,
-		public Placeholder|null $placeholder = null,
 		public string|null $sync = null,
 		public SlugWizard|null $wizard = null,
 		...$args
@@ -64,4 +54,14 @@ class SlugField extends InputField
 
 		return parent::polyfill($props);
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'path'   => $this->path,
+			'sync'   => $this->sync,
+			'wizard' => $this->wizard?->render($model),
+		];
+	}
+
 }

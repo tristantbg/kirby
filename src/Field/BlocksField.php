@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Text;
 use Kirby\Field\Prop\BlockTypes;
 use Kirby\Value\JsonValue;
@@ -42,7 +43,20 @@ class BlocksField extends InputField
 
 	public function defaults(): void
 	{
-		$this->fieldsets ??= new BlockTypes;
+		$this->blocks ??= new BlockTypes;
+
+		parent::defaults();
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'blocks' => $this->blocks?->render($model),
+			'empty'  => $this->empty?->render($model),
+			'group'  => $this->group,
+			'max'    => $this->max,
+			'min'    => $this->min
+		];
 	}
 
 }

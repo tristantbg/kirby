@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Field\Prop\TimeNotation;
 use Kirby\Field\Prop\TimeStep;
@@ -49,4 +50,17 @@ class TimeField extends InputField
 		$this->step     ??= new TimeStep;
 		$this->display  ??= $this->notation->display();
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'display'      => $this->display,
+			'icon'         => $this->icon?->render($model),
+			'notation'     => $this->notation?->value,
+			'max'          => $this->max,
+			'min'          => $this->min,
+			'step'         => $this->step?->render($model),
+		];
+	}
+
 }

@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Image;
 use Kirby\Blueprint\Prop\Text;
 use Kirby\Section\Prop\Layout;
@@ -58,4 +59,14 @@ class PickerField extends InputField
 		$this->layout ??= new Layout;
 		$this->size   ??= new Size;
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'empty'    => $this->empty?->render($model),
+			'layout'   => $this->layout?->render($model),
+			'multiple' => $this->multiple,
+		];
+	}
+
 }

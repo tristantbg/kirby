@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\Uploads;
 
 /**
@@ -24,4 +25,12 @@ class FilesField extends PickerField
 	) {
 		parent::__construct($id, ...$args);
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'uploads' => $this->uploads?->render($model),
+		];
+	}
+
 }

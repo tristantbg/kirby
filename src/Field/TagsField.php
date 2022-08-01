@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
 
 /**
@@ -46,4 +47,14 @@ class TagsField extends OptionsField
 
 		return $props;
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'any'  => $this->any,
+			'icon' => $this->icon?->render($model),
+			'list' => $this->list
+		];
+	}
+
 }

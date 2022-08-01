@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\Marks;
 use Kirby\Value\HtmlValue;
 
@@ -27,4 +28,12 @@ class ListField extends InputField
 		parent::__construct($id, ...$args);
 		$this->value = new HtmlValue;
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'marks' => $this->marks?->render($model),
+		];
+	}
+
 }

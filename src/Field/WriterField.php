@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\Marks;
 use Kirby\Field\Prop\Nodes;
 use Kirby\Value\HtmlValue;
@@ -39,4 +40,14 @@ class WriterField extends InputField
 		$this->marks ??= new Marks;
 		$this->nodes ??= new Nodes;
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'inline' => $this->inline,
+			'marks'  => $this->marks?->render($model),
+			'nodes'  => $this->nodes?->render($model),
+		];
+	}
+
 }

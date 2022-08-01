@@ -18,7 +18,7 @@ use Kirby\Section\Prop\Size;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 
-class ModelsSection extends Section
+class ModelsSection extends DisplaySection
 {
 	public const TYPE = 'models';
 
@@ -27,10 +27,8 @@ class ModelsSection extends Section
 		public TableColumns|null $columns = null,
 		public Text|null $empty = null,
 		public bool $flip = false,
-		public Help|null $help = null,
 		public Image|null $image = null,
 		public Text|null $info = null,
-		public Label|null $label = null,
 		public Layout|null $layout = null,
 		public int $limit = 20,
 		public int|null $max = null,
@@ -261,14 +259,8 @@ class ModelsSection extends Section
 	 */
 	public function render(ModelWithContent $model): array
 	{
-		$parent = $this->parent($model);
-
-		return [
-			'help'  => $this->help?->render($model),
-			'id'    => $this->id,
-			'label' => $this->label->render($model),
-			'link'  => $this->link($model, $parent),
-			'type'  => static::TYPE
+		return parent::render($model) + [
+			'link' => $this->link($model, $this->parent($model)),
 		];
 	}
 
@@ -311,5 +303,6 @@ class ModelsSection extends Section
 
 		return true;
 	}
+
 
 }

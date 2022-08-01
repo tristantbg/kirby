@@ -3,9 +3,11 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Blueprint\Prop\Help;
+use Kirby\Blueprint\Prop\Label;
 
 /**
- * Headline field
+ * Display field
  *
  * @package   Kirby Field
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -13,22 +15,29 @@ use Kirby\Cms\ModelWithContent;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class HeadlineField extends DisplayField
+class DisplayField extends Field
 {
-	public const TYPE = 'headline';
+	public const TYPE = 'display';
 
 	public function __construct(
 		public string $id,
-		public bool $numbered = true,
+		public Help|null $help = null,
+		public Label|null $label = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 	}
 
+	public function defaults(): void
+	{
+		$this->label ??= Label::fallback($this->id);
+	}
+
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'numbered' => $this->numbered,
+			'help'  => $this->help?->render($model),
+			'label' => $this->label?->render($model)
 		];
 	}
 }

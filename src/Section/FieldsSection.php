@@ -2,6 +2,7 @@
 
 namespace Kirby\Section;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
 
 /**
@@ -21,5 +22,12 @@ class FieldsSection extends Section
 		public string $id,
 		public Fields|null $fields = null,
 	) {
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'fields' => $this->fields?->render($model),
+		];
 	}
 }

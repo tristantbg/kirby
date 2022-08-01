@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Checkboxes field
  *
@@ -21,5 +23,12 @@ class CheckboxesField extends OptionsField
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'columns' => $this->columns
+		];
 	}
 }

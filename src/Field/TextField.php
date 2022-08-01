@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Field\Prop\After;
 use Kirby\Field\Prop\Before;
@@ -53,5 +54,21 @@ class TextField extends InputField
 	{
 		$this->counter    ??= true;
 		$this->spellcheck ??= true;
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'after'        => $this->after?->render($model),
+			'autocomplete' => $this->autocomplete,
+			'before'       => $this->before?->render($model),
+			'counter'      => $this->counter,
+			'icon'         => $this->icon?->render($model),
+			'maxlength'    => $this->maxlength,
+			'minlength'    => $this->minlength,
+			'pattern'      => $this->pattern,
+			'placeholder'  => $this->placeholder?->render($model),
+			'spellcheck'   => $this->spellcheck,
+		];
 	}
 }

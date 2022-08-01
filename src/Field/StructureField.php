@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Text;
 use Kirby\Table\TableColumns;
 use Kirby\Value\YamlValue;
@@ -66,6 +67,17 @@ class StructureField extends InputField
 
 
 		return $props;
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'columns'   => $this->columns?->render($model),
+			'duplicate' => $this->duplicate,
+			'empty'     => $this->empty?->render($model),
+			'prepend'   => $this->prepend,
+			'sortable'  => $this->sortable
+		];
 	}
 
 }

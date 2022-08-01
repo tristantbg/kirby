@@ -57,6 +57,14 @@ class Section extends NodeWithType
 		return $props;
 	}
 
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'id'   => $this->id,
+			'type' => static::TYPE,
+		];
+	}
+
 	public function routes(ModelWithContent $model): array
 	{
 		return [];

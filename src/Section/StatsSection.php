@@ -18,14 +18,12 @@ use Kirby\Cms\ModelWithContent;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class StatsSection extends Section
+class StatsSection extends DisplaySection
 {
 	public const TYPE = 'stats';
 
 	public function __construct(
 		public string $id,
-		public Help|null $help = null,
-		public Label|null $label = null,
 		public Reports|Promise|null $reports = null,
 		public Size|null $size = null,
 		...$args
@@ -40,13 +38,9 @@ class StatsSection extends Section
 
 	public function render(ModelWithContent $model): array
 	{
-		return [
-			'help'    => $this->help?->render($model),
-			'id'      => $this->id,
-			'label'   => $this->label?->render($model),
+		return parent::render($model) + [
 			'reports' => $this->reports?->render($model),
 			'size'    => $this->size?->value,
-			'type'    => static::TYPE,
 		];
 	}
 }

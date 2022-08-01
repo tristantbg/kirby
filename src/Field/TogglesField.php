@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\Options;
 use Kirby\Value\MixedValue;
 
@@ -34,4 +35,15 @@ class TogglesField extends InputField
 			required: $this->required
 		);
 	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return parent::render($model) + [
+			'grow'    => $this->grow,
+			'labels'  => $this->labels,
+			'options' => $this->options?->render($model),
+			'reset'   => $this->reset,
+		];
+	}
+
 }

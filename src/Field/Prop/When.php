@@ -2,6 +2,8 @@
 
 namespace Kirby\Field\Prop;
 
+use Kirby\Foundation\Component;
+
 /**
  * Conditions when the field will be shown
  *
@@ -12,6 +14,6 @@ namespace Kirby\Field\Prop;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class When
+class When extends Component
 {
 }
