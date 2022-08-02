@@ -16,11 +16,8 @@ use Kirby\Dialog\Prop\Button;
  */
 class RemoveDialog extends TextDialog
 {
-	public function __construct(
-		...$args
-	) {
-		parent::__construct(...$args);
-
+	public function defaults(): void
+	{
 		$this->cancelButton ??= Button::factory('cancel');
 		$this->submitButton ??= Button::factory([
 			'text'  => 'remove',

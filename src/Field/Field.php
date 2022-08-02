@@ -6,7 +6,7 @@ use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Autoload;
 use Kirby\Blueprint\Prop\Width;
 use Kirby\Field\Prop\When;
-use Kirby\Foundation\NodeWithType;
+use Kirby\Foundation\Feature;
 
 /**
  * Base field class
@@ -17,7 +17,7 @@ use Kirby\Foundation\NodeWithType;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Field extends NodeWithType
+class Field extends Feature
 {
 	public const TYPE = 'field';
 
@@ -42,9 +42,7 @@ class Field extends NodeWithType
 
 	public function render(ModelWithContent $model): array
 	{
-		return [
-			'id'    => $this->id,
-			'type'  => static::TYPE,
+		return parent::render($model) + [
 			'when'  => $this->when?->render($model),
 			'width' => $this->width?->render($model) ?? '1/1'
 		];
@@ -54,5 +52,4 @@ class Field extends NodeWithType
 	{
 		return $this;
 	}
-
 }

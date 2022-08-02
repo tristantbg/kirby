@@ -5,8 +5,7 @@ namespace Kirby\Section;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Autoload;
 use Kirby\Blueprint\Extension;
-use Kirby\Foundation\NodeWithType;
-use Kirby\Http\Router;
+use Kirby\Foundation\Feature;
 
 /**
  * Section
@@ -17,27 +16,9 @@ use Kirby\Http\Router;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Section extends NodeWithType
+class Section extends Feature
 {
 	public const TYPE = 'section';
-
-	public function __construct(
-		public string $id,
-		public Extension|null $extends = null,
-	) {
-		$this->defaults();
-	}
-
-	public function api(ModelWithContent $model, string|null $path = null, string $method = 'GET', array $query = []): mixed
-	{
-		return Router::execute($path, $method, $this->routes($model), function ($route) use ($query) {
-			$args   = $route->arguments();
-			$args[] = $query;
-			$args[] = $route;
-
-			return $route->action()(...$args);
-		});
-	}
 
 	public static function load(string|array $props): static
 	{
@@ -55,18 +36,5 @@ class Section extends NodeWithType
 		}
 
 		return $props;
-	}
-
-	public function render(ModelWithContent $model): array
-	{
-		return [
-			'id'   => $this->id,
-			'type' => static::TYPE,
-		];
-	}
-
-	public function routes(ModelWithContent $model): array
-	{
-		return [];
 	}
 }

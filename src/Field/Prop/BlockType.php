@@ -2,13 +2,14 @@
 
 namespace Kirby\Field\Prop;
 
+use Kirby\Blueprint\Autoload;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\Text;
 use Kirby\Drawer\Drawer;
 use Kirby\Drawer\DrawerTabs;
 use Kirby\Field\Fields;
-use Kirby\Foundation\NodeWithType;
+use Kirby\Foundation\Node;
 
 /**
  * Block type
@@ -19,10 +20,8 @@ use Kirby\Foundation\NodeWithType;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class BlockType extends NodeWithType
+class BlockType extends Node
 {
-	public const TYPE = 'block';
-
 	public function __construct(
 		public string $id,
 		public bool $disabled = false,
@@ -35,8 +34,14 @@ class BlockType extends NodeWithType
 		public bool $translate = true,
 		public bool $unset = false,
 		public bool $wysiwyg = false,
+		...$args
 	) {
-		$this->label ??= Label::fallback($id);
+		parent::__construct($id, ...$args);
+	}
+
+	public function defaults(): void
+	{
+		$this->label ??= Label::fallback($this->id);
 	}
 
 	public function drawer(): Drawer
@@ -52,5 +57,15 @@ class BlockType extends NodeWithType
 	public function fields(): ?Fields
 	{
 		return $this->tabs->fields();
+	}
+
+	public static function load(string|array $props): static
+	{
+		return Autoload::block($props);
+	}
+
+	public static function polyfill(array $props): array
+	{
+		return Drawer::polyfill($props);
 	}
 }

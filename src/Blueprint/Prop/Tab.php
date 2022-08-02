@@ -22,12 +22,17 @@ class Tab extends Node
 {
 	public function __construct(
 		public string $id,
-		public Extension|null $extends = null,
 		public Label|null $label = null,
 		public Icon|null $icon = null,
-		public Columns|null $columns = null
+		public Columns|null $columns = null,
+		...$args,
 	) {
-		$this->label ??= Label::fallback($id);
+		parent::__construct($id, ...$args);
+	}
+
+	public function defaults(): void
+	{
+		$this->label ??= Label::fallback($this->id);
 	}
 
 	/**

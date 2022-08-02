@@ -22,8 +22,5 @@ class TextDialog extends Dialog
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-
-		$this->cancelButton ??= Button::factory('cancel');
-		$this->submitButton ??= Button::factory('ok');
 	}
 }

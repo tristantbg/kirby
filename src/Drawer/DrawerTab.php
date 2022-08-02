@@ -24,6 +24,11 @@ class DrawerTab extends Node
 		public Icon|null $icon = null,
 		public Label|null $label = null,
 	) {
-		$this->label ??= Label::fallback($id);
+		parent::__construct($id);
+	}
+
+	public function defaults(): void
+	{
+		$this->label ??= Label::fallback($this->id);
 	}
 }

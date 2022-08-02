@@ -2,10 +2,8 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Cms\App;
-use Kirby\Data\Yaml;
 use Kirby\Field\Field;
-use Kirby\Filesystem\F;
+use Kirby\Field\Prop\BlockType;
 use Kirby\Foundation\Component;
 use Kirby\Section\Section;
 use TypeError;
@@ -21,6 +19,21 @@ use TypeError;
  */
 class Autoload
 {
+	public static function block(string|array $props): BlockType
+	{
+		// load by path
+		if (is_string($props) === true) {
+			$path   = $props;
+			$config = new Config($path);
+			$props  = $config->read();
+
+			// add the id if it's not set yet
+			$props['id'] ??= basename($path);
+		}
+
+		return BlockType::factory($props);
+	}
+
 	public static function blueprint(string|array $props): Blueprint
 	{
 		return static::type('blueprint', $props);

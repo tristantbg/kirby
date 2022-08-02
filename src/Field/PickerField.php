@@ -69,4 +69,19 @@ class PickerField extends InputField
 		];
 	}
 
+	public function dialogs()
+	{
+	}
+
+	public function routes(ModelWithContent $model): array
+	{
+		return [
+			[
+				'pattern' => '/',
+				'action'  => function (array $query = []) {
+				}
+			]
+		];
+	}
+
 }

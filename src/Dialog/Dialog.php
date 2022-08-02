@@ -3,7 +3,7 @@
 namespace Kirby\Dialog;
 
 use Kirby\Dialog\Prop\Button;
-use Kirby\Foundation\Component;
+use Kirby\Foundation\Node;
 
 /**
  * Dialog
@@ -14,12 +14,20 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Dialog extends Component
+class Dialog extends Node
 {
 	public function __construct(
 		public string $id,
 		public Button|null $cancelButton = null,
 		public Button|null $submitButton = null,
+		...$args
 	) {
+		parent::__construct($id, ...$args);
+	}
+
+	public function defaults(): void
+	{
+		$this->cancelButton ??= Button::factory('cancel');
+		$this->submitButton ??= Button::factory('ok');
 	}
 }

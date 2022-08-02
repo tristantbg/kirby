@@ -25,7 +25,7 @@ class Translated extends Property
 			$value === null => [],
 
 			// from string
-			is_string($value) === true => ['en' => $value],
+			is_string($value) === true => ['*' => $value],
 
 			// from array
 			default => $value
