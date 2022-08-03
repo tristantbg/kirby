@@ -2,7 +2,6 @@
 
 namespace Kirby\Dialog;
 
-use Kirby\Blueprint\Prop\Text;
 use Kirby\Dialog\Prop\Button;
 
 /**

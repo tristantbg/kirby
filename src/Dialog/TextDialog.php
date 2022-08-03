@@ -2,8 +2,7 @@
 
 namespace Kirby\Dialog;
 
-use Kirby\Blueprint\Prop\Text;
-use Kirby\Dialog\Prop\Button;
+use Kirby\Attribute\TextAttribute;
 
 /**
  * Text Dialog
@@ -18,7 +17,7 @@ class TextDialog extends Dialog
 {
 	public function __construct(
 		public string $id,
-		public Text|null $text = null,
+		public TextAttribute|null $text = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

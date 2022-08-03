@@ -2,7 +2,7 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Blueprint\Prop\Text;
+use Kirby\Attribute\TextAttribute;
 
 /**
  * Optional placeholder value that will be shown when the field is empty
@@ -13,6 +13,6 @@ use Kirby\Blueprint\Prop\Text;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Placeholder extends Text
+class Placeholder extends TextAttribute
 {
 }

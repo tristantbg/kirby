@@ -2,11 +2,9 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Prop\Help;
-use Kirby\Blueprint\Prop\Label;
+use Kirby\Enumeration\TextSize;
 use Kirby\Foundation\Promise;
 use Kirby\Section\Prop\Reports;
-use Kirby\Section\Prop\Size;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -25,15 +23,10 @@ class StatsSection extends DisplaySection
 	public function __construct(
 		public string $id,
 		public Reports|Promise|null $reports = null,
-		public Size|null $size = null,
+		public TextSize|null $size = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= Label::fallback($this->id);
 	}
 
 	public function render(ModelWithContent $model): array

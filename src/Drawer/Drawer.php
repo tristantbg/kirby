@@ -2,8 +2,8 @@
 
 namespace Kirby\Drawer;
 
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\Icon;
+use Kirby\Attribute\IconAttribute;
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Field\Fields;
 use Kirby\Foundation\Node;
 
@@ -20,17 +20,12 @@ class Drawer extends Node
 {
 	public function __construct(
 		public string $id,
-		public Icon|null $icon = null,
-		public Label|null $label = null,
+		public IconAttribute|null $icon = null,
+		public LabelAttribute|null $label = null,
 		public DrawerTabs|null $tabs = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= Label::fallback($this->id);
 	}
 
 	public function fields(): ?Fields

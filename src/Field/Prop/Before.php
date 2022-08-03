@@ -2,7 +2,7 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Blueprint\Prop\Text;
+use Kirby\Attribute\TextAttribute;
 
 /**
  * Optional text that will be shown before the input
@@ -13,6 +13,6 @@ use Kirby\Blueprint\Prop\Text;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Before extends Text
+class Before extends TextAttribute
 {
 }

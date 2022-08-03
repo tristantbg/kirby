@@ -2,7 +2,7 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Blueprint\Prop\Text;
+use Kirby\Attribute\TextAttribute;
 use Kirby\Foundation\Component;
 
 /**
@@ -18,7 +18,7 @@ class SlugWizard extends Component
 {
 	public function __construct(
 		public string $field,
-		public Text $text
+		public TextAttribute $text
 	) {
 	}
 }

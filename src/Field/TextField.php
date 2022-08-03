@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Icon;
 use Kirby\Enumeration\Converter;
 use Kirby\Field\Prop\After;
 use Kirby\Field\Prop\Before;
@@ -32,7 +32,7 @@ class TextField extends InputField
 		public Converter|null $converter = null,
 		public bool|null $counter = null,
 		public string|null $default = null,
-		public Icon|null $icon = null,
+		public IconAttribute|null $icon = null,
 		public int|null $maxlength = null,
 		public int|null $minlength = null,
 		public string|null $pattern = null,

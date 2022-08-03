@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Prop\Kirbytext;
+use Kirby\Attribute\KirbytextAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\Theme;
 
@@ -21,7 +21,7 @@ class InfoField extends DisplayField
 
 	public function __construct(
 		public string $id,
-		public Kirbytext|null $text = null,
+		public KirbytextAttribute|null $text = null,
 		public Theme|null $theme = null,
 		...$args
 	) {

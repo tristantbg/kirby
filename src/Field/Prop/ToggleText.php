@@ -2,7 +2,7 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Blueprint\Prop\Text;
+use Kirby\Attribute\TextAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Foundation\Component;
 
@@ -18,8 +18,8 @@ use Kirby\Foundation\Component;
 class ToggleText extends Component
 {
 	public function __construct(
-		public Text $off,
-		public Text $on,
+		public TextAttribute $off,
+		public TextAttribute $on,
 	) {
 	}
 
@@ -45,8 +45,8 @@ class ToggleText extends Component
 		}
 
 		return new static(
-			on:  new Text($on),
-			off: new Text($off)
+			on:  new TextAttribute($on),
+			off: new TextAttribute($off)
 		);
 	}
 

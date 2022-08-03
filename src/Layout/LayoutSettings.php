@@ -2,7 +2,7 @@
 
 namespace Kirby\Layout;
 
-use Kirby\Blueprint\Prop\Icon;
+use Kirby\Attribute\IconAttribute;
 use Kirby\Drawer\Drawer;
 
 /**
@@ -24,6 +24,6 @@ class LayoutSettings extends Drawer
 
 	public function defaults(): void
 	{
-		$this->icon ??= new Icon('dashboard');
+		$this->icon ??= new IconAttribute('dashboard');
 	}
 }

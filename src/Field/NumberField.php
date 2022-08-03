@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Icon;
 use Kirby\Field\Prop\After;
 use Kirby\Field\Prop\Before;
 use Kirby\Field\Prop\Placeholder;
@@ -29,7 +29,7 @@ class NumberField extends InputField
 		public string|null $autocomplete = null,
 		public Before|null $before = null,
 		public int|float|null $default = null,
-		public Icon|null $icon = null,
+		public IconAttribute|null $icon = null,
 		public int|float|null $max = null,
 		public int|float|null $min = null,
 		public Placeholder|null $placeholder = null,

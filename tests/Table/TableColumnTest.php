@@ -21,8 +21,7 @@ class TableColumnTest extends TestCase
 		);
 
 		$this->assertSame('test', $column->id);
-		$this->assertInstanceOf(Label::class, $column->label);
-		$this->assertSame('Test', $column->label->value);
+		$this->assertNull($column->label);
 		$this->assertFalse($column->mobile);
 		$this->assertNull($column->align);
 		$this->assertInstanceOf(TextField::class, $column->field);

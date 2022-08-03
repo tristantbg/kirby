@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Icon;
 use Kirby\Enumeration\Font;
 use Kirby\Enumeration\FontSize;
 use Kirby\Field\Prop\Files;
@@ -33,7 +33,7 @@ class TextareaField extends InputField
 		public string|null $default = null,
 		public Files|null $files = null,
 		public Font|null $font = null,
-		public Icon|null $icon = null,
+		public IconAttribute|null $icon = null,
 		public int|null $maxlength = null,
 		public int|null $minlength = null,
 		public Placeholder|null $placeholder = null,

@@ -2,8 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Blueprint\Prop\Columns;
-use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\Tab;
 use Kirby\Blueprint\Prop\Tabs;
 use Kirby\Cms\ModelWithContent;
@@ -33,7 +33,7 @@ class Blueprint extends Node
 
 	public function __construct(
 		public string $id,
-		public Label|null $label = null,
+		public LabelAttribute|null $label = null,
 		public Tabs|null $tabs = null,
 		...$args
 	) {
@@ -76,11 +76,6 @@ class Blueprint extends Node
 		} catch (NotFoundException) {
 			return new static(id: 'default');
 		}
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= Label::fallback($this->id);
 	}
 
 	public static function factory(array $props): static

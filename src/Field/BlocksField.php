@@ -2,9 +2,9 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\TextAttribute;
 use Kirby\Cms\App;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Text;
 use Kirby\Block\BlockTypeGroups;
 use Kirby\Value\JsonValue;
 
@@ -24,7 +24,7 @@ class BlocksField extends InputField
 
 	public function __construct(
 		public string $id,
-		public Text|null $empty = null,
+		public TextAttribute|null $empty = null,
 		public string $group = 'blocks',
 		public int|null $max = null,
 		public int|null $min = null,

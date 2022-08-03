@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Icon;
 
 /**
  * Multiselect field
@@ -20,7 +20,7 @@ class MultiselectField extends OptionsField
 
 	public function __construct(
 		public string $id,
-		public Icon|null $icon = null,
+		public IconAttribute|null $icon = null,
 		public bool $search = true,
 		public bool $sort = true,
 		...$args

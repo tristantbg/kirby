@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\TextAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Text;
 use Kirby\Table\TableColumns;
 use Kirby\Value\YamlValue;
 
@@ -26,7 +26,7 @@ class StructureField extends InputField
 		public TableColumns|null $columns = null,
 		public array|null $default = null,
 		public bool $duplicate = true,
-		public Text|null $empty = null,
+		public TextAttribute|null $empty = null,
 		public Fields|null $fields = null,
 		public int|null $limit = null,
 		public int|null $max = null,

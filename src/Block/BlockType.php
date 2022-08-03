@@ -2,11 +2,9 @@
 
 namespace Kirby\Block;
 
+use Kirby\Attribute\IconAttribute;
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Config;
-use Kirby\Blueprint\Prop\Icon;
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\Text;
 use Kirby\Drawer\Drawer;
 use Kirby\Drawer\DrawerTabs;
 use Kirby\Field\Fields;
@@ -27,9 +25,9 @@ class BlockType extends Node
 		public string $id,
 		public bool $disabled = false,
 		public bool $editable = true,
-		public Icon|null $icon = null,
-		public Label|null $label = null,
-		public Label|null $name = null,
+		public IconAttribute|null $icon = null,
+		public LabelAttribute|null $label = null,
+		public LabelAttribute|null $name = null,
 		public string|null $preview = null,
 		public DrawerTabs|null $tabs = null,
 		public bool $translate = true,
@@ -42,7 +40,7 @@ class BlockType extends Node
 
 	public function defaults(): void
 	{
-		$this->label ??= $this->name ?? Label::fallback($this->id);
+		$this->label ??= $this->name;
 	}
 
 	public function drawer(): Drawer

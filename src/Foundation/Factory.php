@@ -13,5 +13,5 @@ namespace Kirby\Foundation;
  */
 interface Factory
 {
-	public static function factory(array $props);
+	public static function factory(array $value);
 }

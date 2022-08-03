@@ -2,8 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Prop\Label;
-
 /**
  * @covers \Kirby\Field\InfoField
  */
@@ -18,7 +16,7 @@ class InfoFieldTest extends TestCase
 			id: 'test',
 		);
 
-		$this->assertInstanceOf(Label::class, $field->label);
+		$this->assertNull($field->label);
 		$this->assertNull($field->help);
 		$this->assertNull($field->text);
 		$this->assertNull($field->theme);

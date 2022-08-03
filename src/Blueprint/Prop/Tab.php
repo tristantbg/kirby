@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint\Prop;
 
+use Kirby\Attribute\IconAttribute;
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Blueprint\Blueprint;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
@@ -21,17 +23,12 @@ class Tab extends Node
 {
 	public function __construct(
 		public string $id,
-		public Label|null $label = null,
-		public Icon|null $icon = null,
+		public LabelAttribute|null $label = null,
+		public IconAttribute|null $icon = null,
 		public Columns|null $columns = null,
 		...$args,
 	) {
 		parent::__construct($id, ...$args);
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= Label::fallback($this->id);
 	}
 
 	/**
@@ -54,7 +51,7 @@ class Tab extends Node
 		return [
 			'icon'  => $this->icon?->value,
 			'id'    => $this->id,
-			'label' => $this->label->render($model),
+			'label' => $this->label?->render($model),
 			'link'  => $model->panel()->url(true) . '?tab=' . $this->id,
 		];
 	}

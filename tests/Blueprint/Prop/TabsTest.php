@@ -10,26 +10,24 @@ use Kirby\Blueprint\TestCase;
 class TabsTest extends TestCase
 {
 	/**
-	 * @covers ::__construct
+	 * @covers ::factory
 	 */
-	public function testConstruct()
+	public function testFactory()
 	{
 		$tabs = Tabs::factory([
 			'a' => [],
 			'b' => []
 		]);
 
-		$this->assertSame('a', $tabs->first()->id);
-		$this->assertSame('A', $tabs->first()->label->value);
-
-		$this->assertSame('b', $tabs->last()->id);
-		$this->assertSame('B', $tabs->last()->label->value);
+		$this->assertCount(2, $tabs);
+		$this->assertInstanceOf(Tab::class, $tabs->a);
+		$this->assertInstanceOf(Tab::class, $tabs->b);
 	}
 
 	/**
-	 * @covers ::__construct
+	 * @covers ::render
 	 */
-	public function testConstructWithProps()
+	public function testRender()
 	{
 		$tabs = Tabs::factory([
 			'a' => [
@@ -38,8 +36,15 @@ class TabsTest extends TestCase
 			],
 		]);
 
-		$this->assertSame('a', $tabs->first()->id);
-		$this->assertSame('Tab A', $tabs->first()->label->value);
-		$this->assertSame('edit', $tabs->first()->icon->value);
+		$expected = [
+			[
+				'icon'  => 'edit',
+				'id'    => 'a',
+				'label' => 'Tab A',
+				'link'  => '/pages/test?tab=a'
+			]
+		];
+
+		$this->assertSame($expected, $tabs->render($this->model()));
 	}
 }

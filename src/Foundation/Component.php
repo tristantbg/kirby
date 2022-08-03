@@ -44,7 +44,7 @@ class Component implements Renderable, Factory
 		$className = $type->getName();
 
 		// check if there's a factory for the value
-		if (is_subclass_of($className, Factory::class) === true) {
+		if (method_exists($className, 'factory') === true) {
 			return $className::factory($value);
 		}
 

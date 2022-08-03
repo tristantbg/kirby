@@ -2,8 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Prop\Help;
-use Kirby\Blueprint\Prop\Label;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -15,7 +13,7 @@ use Kirby\Cms\ModelWithContent;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class InputField extends Field
+class InputField extends DisplayField
 {
 	public const TYPE = 'input';
 
@@ -23,18 +21,11 @@ class InputField extends Field
 		public string $id,
 		public bool $autofocus = false,
 		public bool $disabled = false,
-		public Help|null $help = null,
-		public Label|null $label = null,
 		public bool $required = false,
 		public bool $translate = true,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= Label::fallback($this->id);
 	}
 
 	public function fill(mixed $value = null): static
@@ -62,8 +53,6 @@ class InputField extends Field
 		return parent::render($model) + [
 			'autofocus' => $this->autofocus,
 			'disabled'  => $this->disabled,
-			'help'      => $this->help?->render($model),
-			'label'     => $this->label?->render($model),
 			'required'  => $this->required,
 		];
 	}

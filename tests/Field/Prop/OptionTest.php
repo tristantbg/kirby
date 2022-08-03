@@ -17,17 +17,17 @@ class OptionTest extends TestCase
 		// string
 		$option = new Option('test');
 		$this->assertSame('test', $option->value);
-		$this->assertSame('test', $option->text->value);
+		$this->assertSame('test', $option->text->translations['*']);
 
 		// int
 		$option = new Option(1);
 		$this->assertSame(1, $option->value);
-		$this->assertSame('1', $option->text->value);
+		$this->assertSame(1, $option->text->translations['*']);
 
 		// float
 		$option = new Option(1.1);
 		$this->assertSame(1.1, $option->value);
-		$this->assertSame('1.1', $option->text->value);
+		$this->assertSame(1.1, $option->text->translations['*']);
 	}
 
 	/**
@@ -42,7 +42,7 @@ class OptionTest extends TestCase
 		]);
 
 		$this->assertSame('test', $option->value);
-		$this->assertSame('Test Option', $option->text->value);
+		$this->assertSame('Test Option', $option->text->translations['*']);
 
 		// array
 		$option = Option::factory([
@@ -53,7 +53,7 @@ class OptionTest extends TestCase
 		]);
 
 		$this->assertSame('test', $option->value);
-		$this->assertSame('Test Option', $option->text->value);
+		$this->assertSame('Test Option', $option->text->translations['en']);
 	}
 
 	/**

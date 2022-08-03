@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint\Prop;
 
+use Kirby\Attribute\LabelAttribute;
+use Kirby\Attribute\TextAttribute;
 use Kirby\Blueprint\TestCase;
 
 /**
@@ -18,8 +20,8 @@ class PageStatusOptionTest extends TestCase
 
 		$this->assertFalse($option->disabled);
 		$this->assertSame('draft', $option->id);
-		$this->assertInstanceOf(Label::class, $option->label);
-		$this->assertInstanceOf(Text::class, $option->text);
+		$this->assertInstanceOf(LabelAttribute::class, $option->label);
+		$this->assertInstanceOf(TextAttribute::class, $option->text);
 	}
 
 	/**
@@ -46,8 +48,8 @@ class PageStatusOptionTest extends TestCase
 
 		$this->assertFalse($option->disabled);
 		$this->assertSame('draft', $option->id);
-		$this->assertSame($label, $option->label->value);
-		$this->assertSame($text, $option->text->value);
+		$this->assertSame($label, $option->label->translations['*']);
+		$this->assertSame($text, $option->text->translations['*']);
 	}
 
 	/**
@@ -59,8 +61,8 @@ class PageStatusOptionTest extends TestCase
 
 		$this->assertTrue($option->disabled);
 		$this->assertSame('draft', $option->id);
-		$this->assertSame('Draft', $option->label->value);
-		$this->assertSame('The page is in draft mode and only visible for logged in editors or via secret link', $option->text->value);
+		$this->assertSame('page.status.draft', $option->label->translations['*']);
+		$this->assertSame('page.status.draft.description', $option->text->translations['*']);
 	}
 
 	/**
@@ -72,8 +74,8 @@ class PageStatusOptionTest extends TestCase
 
 		$this->assertFalse($option->disabled);
 		$this->assertSame('draft', $option->id);
-		$this->assertSame('Draft', $option->label->value);
-		$this->assertSame('The page is in draft mode and only visible for logged in editors or via secret link', $option->text->value);
+		$this->assertSame('page.status.draft', $option->label->translations['*']);
+		$this->assertSame('page.status.draft.description', $option->text->translations['*']);
 	}
 
 	/**
@@ -85,8 +87,8 @@ class PageStatusOptionTest extends TestCase
 
 		$this->assertFalse($option->disabled);
 		$this->assertSame('draft', $option->id);
-		$this->assertSame('In draft mode', $option->label->value);
-		$this->assertNull($option->text->value);
+		$this->assertSame('In draft mode', $option->label->translations['*']);
+		$this->assertNull($option->text->translations['*']);
 	}
 
 	/**
@@ -98,7 +100,7 @@ class PageStatusOptionTest extends TestCase
 
 		$this->assertFalse($option->disabled);
 		$this->assertSame('draft', $option->id);
-		$this->assertSame('Draft', $option->label->value);
-		$this->assertSame('The page is in draft mode and only visible for logged in editors or via secret link', $option->text->value);
+		$this->assertSame('page.status.draft', $option->label->translations['*']);
+		$this->assertSame('page.status.draft.description', $option->text->translations['*']);
 	}
 }

@@ -2,10 +2,11 @@
 
 namespace Kirby\Blueprint\Prop;
 
+use Kirby\Attribute\LabelAttribute;
+use Kirby\Attribute\TextAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Foundation\Component;
-use Kirby\Toolkit\I18n;
 
 /**
  * Page Status Option
@@ -21,15 +22,15 @@ class PageStatusOption extends Component
 	public function __construct(
 		public string $id,
 		public bool $disabled = false,
-		public Label|null $label = null,
-		public Text|null $text = null,
+		public LabelAttribute|null $label = null,
+		public TextAttribute|null $text = null,
 	) {
 		if (in_array($this->id, ['draft', 'unlisted', 'listed']) === false) {
 			throw new InvalidArgumentException('The status must be draft, unlisted or listed');
 		}
 
-		$this->label ??= new Label(I18n::translate('page.status.' . $id));
-		$this->text  ??= new Text(I18n::translate('page.status.' . $id . '.description'));
+		$this->label ??= new LabelAttribute(['*' => 'page.status.' . $id]);
+		$this->text  ??= new TextAttribute(['*' => 'page.status.' . $id . '.description']);
 	}
 
 	public static function prefab(string $id, array|string|bool|null $option = null): static
@@ -45,8 +46,8 @@ class PageStatusOption extends Component
 
 			// simple string for label. the text will be unset
 			is_string($option) === true => [
-				'label' => $option,
-				'text'  => null
+				'label' => ['*' => $option],
+				'text'  => ['*' => null],
 			],
 
 			// already defined as array definition
@@ -65,8 +66,8 @@ class PageStatusOption extends Component
 		}
 
 		return [
-			'label' => $this->label->render($model),
-			'text'  => $this->text->render($model),
+			'label' => $this->label?->render($model),
+			'text'  => $this->text?->render($model),
 		];
 	}
 }

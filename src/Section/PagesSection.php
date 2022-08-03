@@ -2,8 +2,8 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\Text;
+use Kirby\Attribute\LabelAttribute;
+use Kirby\Attribute\TextAttribute;
 use Kirby\Cms\Collection as Models;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\File;
@@ -80,7 +80,7 @@ class PagesSection extends ModelsSection
 
 		$columns->add(new TableColumn(
 			id: 'flag',
-			label: new Label(),
+			label: new LabelAttribute(['*' => '']),
 			mobile: true,
 			type: 'flag',
 			width: 'var(--table-row-height)'
@@ -91,7 +91,7 @@ class PagesSection extends ModelsSection
 
 	public function defaults(): void
 	{
-		$this->text ??= new Text('{{ page.title }}');
+		$this->text ??= new TextAttribute(['*' => '{{ page.title }}']);
 
 		parent::defaults();
 	}

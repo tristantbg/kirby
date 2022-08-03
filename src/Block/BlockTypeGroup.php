@@ -2,8 +2,8 @@
 
 namespace Kirby\Block;
 
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Label;
 use Kirby\Foundation\Node;
 
 /**
@@ -19,17 +19,12 @@ class BlockTypeGroup extends Node
 {
 	public function __construct(
 		public string $id,
-		public Label|null $label = null,
+		public LabelAttribute|null $label = null,
 		public bool $open = true,
 		public BlockTypes|null $types = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= Label::fallback($this->id);
 	}
 
 	public static function polyfill(array $props): array

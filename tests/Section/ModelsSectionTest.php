@@ -23,7 +23,7 @@ class ModelsSectionTest extends TestCase
 		$this->assertNull($section->help);
 		$this->assertNull($section->image);
 		$this->assertNull($section->info);
-		$this->assertInstanceOf(Label::class, $section->label);
+		$this->assertNull($section->label);
 		$this->assertNull($section->layout);
 		$this->assertNull($section->parent);
 		$this->assertNull($section->size);

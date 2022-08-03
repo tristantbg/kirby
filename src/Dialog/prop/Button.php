@@ -2,7 +2,7 @@
 
 namespace Kirby\Dialog\Prop;
 
-use Kirby\Blueprint\Prop\Text;
+use Kirby\Attribute\TextAttribute;
 use Kirby\Enumeration\TextTheme;
 use Kirby\Foundation\Component;
 
@@ -18,7 +18,7 @@ use Kirby\Foundation\Component;
 class Button extends Component
 {
 	public function __construct(
-		public Text $text,
+		public TextAttribute $text,
 		public TextTheme|null $theme = null
 	) {
 	}
@@ -27,7 +27,7 @@ class Button extends Component
 	{
 		if (is_string($props) === true) {
 			return new static(
-				text: new Text($props)
+				text: new TextAttribute($props)
 			);
 		}
 

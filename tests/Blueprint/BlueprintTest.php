@@ -2,9 +2,9 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Blueprint\Prop\Column;
 use Kirby\Blueprint\Prop\Columns;
-use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\Tab;
 use Kirby\Blueprint\Prop\Tabs;
 use Kirby\Field\Fields;
@@ -28,7 +28,7 @@ class BlueprintTest extends TestCase
 		);
 
 		$this->assertSame('test', $blueprint->id);
-		$this->assertInstanceOf(Label::class, $blueprint->label);
+		$this->assertNull($blueprint->label);
 		$this->assertNull($blueprint->tabs);
 	}
 
@@ -39,10 +39,10 @@ class BlueprintTest extends TestCase
 	{
 		$blueprint = new Blueprint(
 			id: 'test',
-			label: new Label('My blueprint'),
+			label: new LabelAttribute(['*' => 'My blueprint']),
 		);
 
-		$this->assertSame('My blueprint', $blueprint->label->value);
+		$this->assertSame('My blueprint', $blueprint->label->translations['*']);
 	}
 
 	/**

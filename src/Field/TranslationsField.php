@@ -2,11 +2,11 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\IconAttribute;
+use Kirby\Attribute\LabelAttribute;
+use Kirby\Attribute\TextAttribute;
 use Kirby\Cms\App;
 use Kirby\Cms\Translations;
-use Kirby\Blueprint\Prop\Icon;
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\Text;
 use Kirby\Field\Prop\Option;
 use Kirby\Field\Prop\Options;
 
@@ -33,8 +33,8 @@ class TranslationsField extends SelectField
 
 	public function defaults(): void
 	{
-		$this->icon         ??= new Icon('globe');
-		$this->label        ??= new Label(['*' => 'language']);
+		$this->icon         ??= new IconAttribute('globe');
+		$this->label        ??= new LabelAttribute(['*' => 'language']);
 		$this->translations ??= App::instance()->translations();
 		$this->options      ??= $this->translations();
 
@@ -47,7 +47,7 @@ class TranslationsField extends SelectField
 
 		foreach ($this->translations as $translation) {
 			$option = new Option(
-				text: new Text($translation->name()),
+				text: new TextAttribute($translation->name()),
 				value: $translation->code(),
 			);
 

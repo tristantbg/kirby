@@ -2,9 +2,9 @@
 
 namespace Kirby\Section;
 
+use Kirby\Attribute\LabelAttribute;
+use Kirby\Attribute\TextAttribute;
 use Kirby\Blueprint\Prop\Image;
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\Text;
 use Kirby\Cms\Collection as Models;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
@@ -24,10 +24,10 @@ class ModelsSection extends DisplaySection
 	public function __construct(
 		public string $id,
 		public TableColumns|null $columns = null,
-		public Text|null $empty = null,
+		public TextAttribute|null $empty = null,
 		public bool $flip = false,
 		public Image|null $image = null,
-		public Text|null $info = null,
+		public TextAttribute|null $info = null,
 		public ItemLayout|null $layout = null,
 		public int $limit = 20,
 		public int|null $max = null,
@@ -38,7 +38,7 @@ class ModelsSection extends DisplaySection
 		public ItemSize|null $size = null,
 		public bool $sortable = true,
 		public string|null $sortBy = null,
-		public Text|null $text = null,
+		public TextAttribute|null $text = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -104,7 +104,7 @@ class ModelsSection extends DisplaySection
 		if ($this->image) {
 			$columns->add(new TableColumn(
 				id: 'image',
-				label: new Label(''),
+				label: new LabelAttribute(''),
 				mobile: true,
 				type: 'image',
 				width: 'var(--table-row-height)'
@@ -114,7 +114,7 @@ class ModelsSection extends DisplaySection
 		if ($this->text) {
 			$columns->add(new TableColumn(
 				id: 'title',
-				label: new Label(['*' => 'title']),
+				label: new LabelAttribute(['*' => 'title']),
 				mobile: true,
 				type: 'url',
 			));
@@ -123,7 +123,7 @@ class ModelsSection extends DisplaySection
 		if ($this->info) {
 			$columns->add(new TableColumn(
 				id: 'info',
-				label: new Label(['*' => 'info']),
+				label: new LabelAttribute(['*' => 'info']),
 				type: 'text',
 			));
 		}
@@ -133,11 +133,6 @@ class ModelsSection extends DisplaySection
 		}
 
 		return $columns;
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= Label::fallback($this->id);
 	}
 
 	/**

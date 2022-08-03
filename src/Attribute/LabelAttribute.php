@@ -1,22 +1,22 @@
 <?php
 
-namespace Kirby\Blueprint\Prop;
+namespace Kirby\Attribute;
 
 use Kirby\Toolkit\Str;
 
 /**
- * Label
+ * Label Attribute
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Attribute
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Label extends Text
+class LabelAttribute extends TextAttribute
 {
 	public static function fallback(string $id): static
 	{
-		return new static(Str::ucfirst($id));
+		return new static(['en' => Str::ucfirst($id)]);
 	}
 }

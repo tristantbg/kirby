@@ -2,8 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Attribute\UrlAttribute;
 use Kirby\Blueprint\Prop\SiteOptions;
-use Kirby\Blueprint\Prop\Url;
 use Kirby\Exception\NotFoundException;
 
 /**
@@ -22,7 +22,7 @@ class SiteBlueprint extends Blueprint
 
 	public function __construct(
 		public SiteOptions|null $options = null,
-		public Url|null $preview = null,
+		public UrlAttribute|null $preview = null,
 		...$args
 	) {
 		parent::__construct('site', ...$args);

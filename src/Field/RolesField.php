@@ -2,10 +2,9 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\App;
 use Kirby\Cms\Roles;
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\Text;
 use Kirby\Field\Prop\Option;
 use Kirby\Field\Prop\Options;
 
@@ -32,7 +31,7 @@ class RolesField extends RadioField
 
 	public function defaults(): void
 	{
-		$this->label   ??= new Label(['*' => 'role']);
+		$this->label   ??= new LabelAttribute(['*' => 'role']);
 		$this->roles   ??= App::instance()->roles();
 		$this->options ??= $this->roles();
 
@@ -44,11 +43,11 @@ class RolesField extends RadioField
 		$options = new Options;
 
 		foreach ($this->roles as $role) {
-			$option = new Option(
-				text: new Text($role->title()),
-				info: new Text($role->description() ?? ['*' => 'role.description.placeholder']),
-				value: $role->name(),
-			);
+			$option = Option::factory([
+				'text'  => $role->title(),
+				'info'  => $role->description() ?? 'role.description.placeholder',
+				'value' => $role->name()
+			]);
 
 			$options->__set($option->value, $option);
 		}

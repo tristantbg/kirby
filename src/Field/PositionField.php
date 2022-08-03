@@ -2,9 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Blueprints;
-use Kirby\Blueprint\Prop\Icon;
-use Kirby\Blueprint\Prop\Label;
 use Kirby\Field\Prop\Option;
 use Kirby\Field\Prop\Options;
 

@@ -2,9 +2,9 @@
 
 namespace Kirby\Section\Prop;
 
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\Text;
-use Kirby\Blueprint\Prop\Url;
+use Kirby\Attribute\LabelAttribute;
+use Kirby\Attribute\TextAttribute;
+use Kirby\Attribute\UrlAttribute;
 use Kirby\Enumeration\TextTheme;
 use Kirby\Foundation\Node;
 use Kirby\Foundation\Promising;
@@ -22,11 +22,11 @@ class Report extends Node
 {
 	public function __construct(
 		public string $id,
-		public Text|null $info = null,
-		public Label|null $label = null,
-		public Url|null $link = null,
+		public TextAttribute|null $info = null,
+		public LabelAttribute|null $label = null,
+		public UrlAttribute|null $link = null,
 		public TextTheme|null $theme = null,
-		public Text|null $value = null,
+		public TextAttribute|null $value = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

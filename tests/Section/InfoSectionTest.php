@@ -2,8 +2,6 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Prop\Label;
-
 /**
  * @covers \Kirby\Section\InfoSection
  */
@@ -18,7 +16,7 @@ class InfoSectionTest extends TestCase
 			id: 'test',
 		);
 
-		$this->assertInstanceOf(Label::class, $section->label);
+		$this->assertNull($section->label);
 		$this->assertNull($section->help);
 		$this->assertNull($section->text);
 		$this->assertNull($section->theme);

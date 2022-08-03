@@ -2,7 +2,7 @@
 
 namespace Kirby\Foundation;
 
-use Kirby\Blueprint\Prop\Label;
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Blueprint\Prop\Tab;
 use Kirby\Cms\Page;
 
@@ -10,11 +10,11 @@ class TestComponent extends Component
 {
 	public function __construct(
 		public string $id,
-		public ?Label $label = null,
-		public ?Tab $tab = null
+		public LabelAttribute|null $label = null,
+		public Tab|null $tab = null
 	) {
-		$this->label ??= new Label();
-		$this->tab  ??= new Tab('content');
+		$this->label ??= LabelAttribute::fallback($this->id);
+		$this->tab   ??= new Tab('content');
 	}
 
 	public static function polyfill(array $props): array
@@ -48,7 +48,7 @@ class ComponentTest extends TestCase
 	{
 		$c = new TestComponent('test');
 		$this->assertSame('test', $c->id);
-		$this->assertInstanceOf(Label::class, $c->label);
+		$this->assertInstanceOf(LabelAttribute::class, $c->label);
 		$this->assertInstanceOf(Tab::class, $c->tab);
 	}
 
@@ -67,8 +67,8 @@ class ComponentTest extends TestCase
 		]);
 
 		$this->assertSame('test', $c->id);
-		$this->assertSame('Nice Label', $c->label->value);
-		$this->assertSame('Nice Tab', $c->tab->label->value);
+		$this->assertSame('Nice Label', $c->label->translations['*']);
+		$this->assertSame('Nice Tab', $c->tab->label->translations['*']);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class ComponentTest extends TestCase
 	 */
 	public function testFactoryForPropertyWithObject()
 	{
-		$input = new Label('test');
+		$input = new LabelAttribute(['*' => 'test']);
 		$value = TestComponent::factoryForProperty('label', $input);
 		$this->assertSame($input, $value);
 	}
@@ -127,7 +127,7 @@ class ComponentTest extends TestCase
 			'headline' => 'Test headline'
 		]);
 
-		$this->assertSame('Test headline', $c->label->value);
+		$this->assertSame('Test headline', $c->label->translations['*']);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class ComponentTest extends TestCase
 			'tab' => [
 				'icon'    => null,
 				'id'      => 'content',
-				'label'   => 'Content',
+				'label'   => null,
 				'link'    => '/pages/test?tab=content'
 			]
 		];

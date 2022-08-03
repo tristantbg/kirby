@@ -48,6 +48,6 @@ class Promise
 			return $result;
 		}
 
-		return $class::factory(A::wrap($result));
+		return $class::factory($result);
 	}
 }

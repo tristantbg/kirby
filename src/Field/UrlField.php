@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Prop\Icon;
+use Kirby\Attribute\IconAttribute;
 use Kirby\Field\Prop\Placeholder;
 use Kirby\Value\UrlValue;
 
@@ -34,7 +34,7 @@ class UrlField extends TextField
 	public function defaults(): void
 	{
 		$this->autocomplete ??= 'url';
-		$this->icon         ??= new Icon('url');
-		$this->placeholder  ??= new Placeholder('https://example.com');
+		$this->icon         ??= new IconAttribute('url');
+		$this->placeholder  ??= new Placeholder(['*' => 'https://example.com']);
 	}
 }

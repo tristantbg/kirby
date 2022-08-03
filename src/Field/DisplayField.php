@@ -2,9 +2,9 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\HelpAttribute;
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Help;
-use Kirby\Blueprint\Prop\Label;
 
 /**
  * Display field
@@ -21,16 +21,11 @@ class DisplayField extends Field
 
 	public function __construct(
 		public string $id,
-		public Help|null $help = null,
-		public Label|null $label = null,
+		public HelpAttribute|null $help = null,
+		public LabelAttribute|null $label = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= Label::fallback($this->id);
 	}
 
 	public function render(ModelWithContent $model): array

@@ -2,10 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Prop\Icon;
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Field\Prop\Placeholder;
-use Kirby\Value\EmailValue;
+use Kirby\Attribute\IconAttribute;
+use Kirby\Attribute\LabelAttribute;
 
 /**
  * Password field
@@ -23,8 +21,8 @@ class PasswordField extends TextField
 	public function defaults(): void
 	{
 		$this->autocomplete ??= 'password';
-		$this->icon         ??= new Icon('key');
-		$this->label        ??= new Label(['*' => 'password']);
+		$this->icon         ??= new IconAttribute('key');
+		$this->label        ??= new LabelAttribute(['*' => 'password']);
 		$this->minlength    ??= 8;
 
 		parent::defaults();

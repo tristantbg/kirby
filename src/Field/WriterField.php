@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Prop\Icon;
+use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\Marks;
 use Kirby\Field\Prop\Nodes;
@@ -26,7 +26,7 @@ class WriterField extends InputField
 	public function __construct(
 		public string $id,
 		public bool $inline = false,
-		public Icon|null $icon = null,
+		public IconAttribute|null $icon = null,
 		public Marks|null $marks = null,
 		public Nodes|null $nodes = null,
 		public Placeholder|null $placeholder = null,

@@ -20,7 +20,7 @@ class EmailFieldTest extends TestCase
 
 		$this->assertSame('email', $field->autocomplete);
 		$this->assertSame('email', $field->icon->value);
-		$this->assertSame('mail@example.com', $field->placeholder->value);
+		$this->assertSame('email.placeholder', $field->placeholder->translations['*']);
 		$this->assertInstanceOf(EmailValue::class, $field->value);
 	}
 }

@@ -1,18 +1,16 @@
 <?php
 
-namespace Kirby\Blueprint\Prop;
-
-use Kirby\Foundation\Property;
+namespace Kirby\Attribute;
 
 /**
  * Custom emoji or icon from the Kirby iconset
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Attribute
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Icon extends Property
+class IconAttribute extends StringAttribute
 {
 }

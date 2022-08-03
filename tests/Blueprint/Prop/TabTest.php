@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint\Prop;
 
+use Kirby\Attribute\LabelAttribute;
 use Kirby\Blueprint\TestCase;
 use Kirby\Field\Fields;
 use Kirby\Field\TextField;
@@ -24,7 +25,7 @@ class TabTest extends TestCase
 		);
 
 		$this->assertSame('test', $tab->id);
-		$this->assertInstanceOf(Label::class, $tab->label);
+		$this->assertNull($tab->label);
 		$this->assertNull($tab->icon);
 		$this->assertNull($tab->columns);
 	}
@@ -53,8 +54,8 @@ class TabTest extends TestCase
 		);
 
 		$this->assertCount(2, $tab->fields());
-		$this->assertSame('a', $tab->fields()->first()->id);
-		$this->assertSame('b', $tab->fields()->last()->id);
+		$this->assertSame('a', $tab->fields()->a->id);
+		$this->assertSame('b', $tab->fields()->b->id);
 	}
 
 	/**
@@ -64,7 +65,7 @@ class TabTest extends TestCase
 	{
 		$tab = new Tab(
 			id: 'test',
-			label: new Label('My Tab')
+			label: new LabelAttribute(['*' => 'My Tab'])
 		);
 
 		$expected = [
@@ -84,7 +85,7 @@ class TabTest extends TestCase
 	{
 		$tab = new Tab(
 			id: 'test',
-			label: new Label('My Tab')
+			label: new LabelAttribute(['*' => 'My Tab'])
 		);
 
 		$expected = [

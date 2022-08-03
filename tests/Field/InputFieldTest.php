@@ -2,8 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Prop\Label;
-
 /**
  * @covers \Kirby\Field\InputField
  */
@@ -21,7 +19,7 @@ class InputFieldTest extends TestCase
 		$this->assertSame('test', $field->id);
 		$this->assertFalse($field->autofocus);
 		$this->assertNull($field->help);
-		$this->assertInstanceOf(Label::class, $field->label);
+		$this->assertNull($field->label);
 		$this->assertFalse($field->required);
 		$this->assertTrue($field->translate);
 		$this->assertNull($field->width);
