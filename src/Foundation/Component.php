@@ -16,7 +16,7 @@ use ReflectionUnionType;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Component implements Renderable, Factory
+class Component
 {
 	/**
 	 * Dynamic getter for properties
@@ -118,7 +118,7 @@ class Component implements Renderable, Factory
 				continue;
 			}
 
-			if (is_a($value, Renderable::class) === true) {
+			if (method_exists($value, 'render') === true) {
 				$array[$key] = $value->render($model);
 			}
 		}

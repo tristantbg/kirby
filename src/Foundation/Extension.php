@@ -14,7 +14,7 @@ use Kirby\Toolkit\A;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Extension implements Factory
+class Extension
 {
 	public function __construct(
 		public string $path
@@ -50,7 +50,11 @@ class Extension implements Factory
 
 	public static function factory(string|array $path): static
 	{
-		return new static(...A::wrap($path));
+		if (is_string($path) === true) {
+			return new static(path: $path);
+		}
+
+		return new static(...$path);
 	}
 
 	public function read(): array

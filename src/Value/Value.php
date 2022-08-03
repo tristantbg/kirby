@@ -3,8 +3,6 @@
 namespace Kirby\Value;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Factory;
-use Kirby\Foundation\Renderable;
 use Kirby\Validation\Validations;
 
 /**
@@ -16,7 +14,7 @@ use Kirby\Validation\Validations;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-abstract class Value implements Factory, Renderable
+abstract class Value
 {
 	public Validations $validations;
 

@@ -2,8 +2,7 @@
 
 namespace Kirby\Attribute;
 
-use Kirby\Foundation\Factory;
-use Kirby\Foundation\Renderable;
+use Kirby\Cms\ModelWithContent;
 
 /**
  * Attribute
@@ -14,7 +13,12 @@ use Kirby\Foundation\Renderable;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-abstract class Attribute implements Renderable
+abstract class Attribute
 {
 	abstract public static function factory($value = null): ?static;
+
+	public function render(ModelWithContent $model)
+	{
+		return null;
+	}
 }

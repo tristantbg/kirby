@@ -4,8 +4,6 @@ namespace Kirby\Enumeration;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\InvalidArgumentException;
-use Kirby\Foundation\Factory;
-use Kirby\Foundation\Renderable;
 
 /**
  * Enumeration
@@ -16,7 +14,7 @@ use Kirby\Foundation\Renderable;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-abstract class Enumeration implements Factory, Renderable
+abstract class Enumeration
 {
 	public array $allowed = [];
 	public mixed $default = null;

@@ -77,7 +77,7 @@ class Validation
 		// custom validator
 		} else {
 			$result  = $handler($value, ...$this->args);
-			$message = 'error.validation.custom';
+			$message = I18n::translate('error.validation.custom');
 		}
 
 		if ($result === true) {

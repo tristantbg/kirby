@@ -3,8 +3,6 @@
 namespace Kirby\Field\Prop;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Factory;
-use Kirby\Foundation\Renderable;
 
 /**
  * Conditions when the field will be shown
@@ -16,7 +14,7 @@ use Kirby\Foundation\Renderable;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class When implements Factory, Renderable
+class When
 {
 	public function __construct(
 		public array $conditions = []

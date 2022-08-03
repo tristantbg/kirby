@@ -3,8 +3,6 @@
 namespace Kirby\Blueprint\Prop;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Factory;
-use Kirby\Foundation\Renderable;
 
 /**
  * Bools
@@ -15,7 +13,7 @@ use Kirby\Foundation\Renderable;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Bools implements Factory, Renderable
+class Bools
 {
 	public static function factory(bool|array $props): static
 	{
