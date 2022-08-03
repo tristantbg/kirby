@@ -1,11 +1,9 @@
 <?php
 
-namespace Kirby\Field\Prop;
-
-use Kirby\Foundation\EnumerationTestCase;
+namespace Kirby\Enumeration;
 
 /**
- * @covers \Kirby\Field\Converter
+ * @covers \Kirby\Enumeration\Converter
  */
 class ConverterTest extends EnumerationTestCase
 {

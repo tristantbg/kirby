@@ -1,28 +1,24 @@
 <?php
 
-namespace Kirby\Blueprint\Prop;
-
-use Kirby\Foundation\Enumeration;
+namespace Kirby\Enumeration;
 
 /**
- * Theme option for sections and fields
+ * Theme option for text (buttons, etc.)
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Enumeration
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Theme extends Enumeration
+class TextTheme extends Enumeration
 {
 	public array $allowed = [
-		'info',
+		null,
 		'negative',
-		'none',
 		'notice',
-		'plain',
 		'positive',
 	];
 
-	public mixed $default = 'plain';
+	public mixed $default = null;
 }

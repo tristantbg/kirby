@@ -3,7 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\Width;
+use Kirby\Enumeration\FieldWidth;
 use Kirby\Field\Prop\When;
 use Kirby\Foundation\Feature;
 
@@ -24,7 +24,7 @@ class Field extends Feature
 	public function __construct(
 		public string $id,
 		public When|null $when = null,
-		public Width|null $width = null,
+		public FieldWidth|null $width = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

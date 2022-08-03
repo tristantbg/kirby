@@ -4,9 +4,9 @@ namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
+use Kirby\Enumeration\Font;
+use Kirby\Enumeration\FontSize;
 use Kirby\Field\Prop\Files;
-use Kirby\Field\Prop\Font;
-use Kirby\Field\Prop\FontSize;
 use Kirby\Field\Prop\Placeholder;
 use Kirby\Field\Prop\Toolbar;
 use Kirby\Field\Prop\Uploads;

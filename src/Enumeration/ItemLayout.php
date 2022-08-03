@@ -1,19 +1,17 @@
 <?php
 
-namespace Kirby\Section\Prop;
-
-use Kirby\Foundation\Enumeration;
+namespace Kirby\Enumeration;
 
 /**
- * Layout option
+ * Layout option for items in pages and files sections
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Enumeration
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Layout extends Enumeration
+class ItemLayout extends Enumeration
 {
 	public array $allowed = [
 		'cards',

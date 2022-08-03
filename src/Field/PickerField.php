@@ -2,11 +2,11 @@
 
 namespace Kirby\Field;
 
-use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Image;
 use Kirby\Blueprint\Prop\Text;
-use Kirby\Section\Prop\Layout;
-use Kirby\Section\Prop\Size;
+use Kirby\Cms\ModelWithContent;
+use Kirby\Enumeration\ItemLayout;
+use Kirby\Enumeration\ItemSize;
 use Kirby\Value\YamlValue;
 
 /**
@@ -29,7 +29,7 @@ class PickerField extends InputField
 		public Text|null $empty = null,
 		public Image|null $image = null,
 		public Text|null $info = null,
-		public Layout|null $layout = null,
+		public ItemLayout|null $layout = null,
 		public int $limit = 20,
 		public bool $link = true,
 		public int|null $max = null,
@@ -37,7 +37,7 @@ class PickerField extends InputField
 		public bool $multiple = true,
 		public string|null $query = null,
 		public bool $search = true,
-		public Size|null $size = null,
+		public ItemSize|null $size = null,
 		public Text|null $text = null,
 		...$args
 	) {

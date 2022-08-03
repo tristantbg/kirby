@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\Foundation;
+namespace Kirby\Enumeration;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
@@ -37,7 +37,7 @@ class EnumerationTestCase extends BaseTestCase
 	/**
 	 * @dataProvider provideAllowed
 	 */
-	public function testAllowed(string|null $allowed)
+	public function testAllowed(string|int|null $allowed)
 	{
 		$object = $this->instance($allowed);
 		$this->assertSame($allowed, $object->value);

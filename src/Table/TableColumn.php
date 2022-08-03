@@ -3,8 +3,8 @@
 namespace Kirby\Table;
 
 use Kirby\Blueprint\Prop\Label;
-use Kirby\Blueprint\Prop\TextAlign;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Enumeration\TextAlign;
 use Kirby\Field\Field;
 use Kirby\Field\TextField;
 use Kirby\Field\Prop\After;

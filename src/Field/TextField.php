@@ -4,9 +4,9 @@ namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
+use Kirby\Enumeration\Converter;
 use Kirby\Field\Prop\After;
 use Kirby\Field\Prop\Before;
-use Kirby\Field\Prop\Converter;
 use Kirby\Field\Prop\Placeholder;
 use Kirby\Value\StringValue;
 

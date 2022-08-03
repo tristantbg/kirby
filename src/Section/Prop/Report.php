@@ -2,13 +2,12 @@
 
 namespace Kirby\Section\Prop;
 
-use Kirby\Foundation\Component;
-use Kirby\Foundation\Promising;
-
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\Text;
-use Kirby\Blueprint\Prop\Theme;
 use Kirby\Blueprint\Prop\Url;
+use Kirby\Enumeration\TextTheme;
+use Kirby\Foundation\Node;
+use Kirby\Foundation\Promising;
 
 /**
  * Report
@@ -19,18 +18,17 @@ use Kirby\Blueprint\Prop\Url;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Report extends Component
+class Report extends Node
 {
-	use Promising;
-
 	public function __construct(
-		public string|null $id = null,
+		public string $id,
 		public Text|null $info = null,
 		public Label|null $label = null,
 		public Url|null $link = null,
-		public Theme|null $theme = null,
+		public TextTheme|null $theme = null,
 		public Text|null $value = null,
+		...$args
 	) {
-		$this->label ??= Label::fallback($id);
+		parent::__construct($id, ...$args);
 	}
 }

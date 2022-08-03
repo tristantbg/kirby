@@ -10,7 +10,7 @@ use Kirby\Cms\File;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 use Kirby\Cms\Site;
-use Kirby\Section\Prop\PageStatus;
+use Kirby\Enumeration\PageStatus;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 use Kirby\Toolkit\A;

@@ -1,19 +1,17 @@
 <?php
 
-namespace Kirby\Section\Prop;
-
-use Kirby\Foundation\Enumeration;
+namespace Kirby\Enumeration;
 
 /**
- * Size option for sections and fields
+ * Size option for items in sections
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Enumeration
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Size extends Enumeration
+class ItemSize extends Enumeration
 {
 	public array $allowed = [
 		'auto',

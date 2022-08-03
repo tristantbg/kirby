@@ -2,9 +2,9 @@
 
 namespace Kirby\Section;
 
-use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Kirbytext;
-use Kirby\Blueprint\Prop\Theme;
+use Kirby\Cms\ModelWithContent;
+use Kirby\Enumeration\Theme;
 
 /**
  * Info section

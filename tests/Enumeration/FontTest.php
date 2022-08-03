@@ -1,11 +1,9 @@
 <?php
 
-namespace Kirby\Field\Prop;
-
-use Kirby\Foundation\EnumerationTestCase;
+namespace Kirby\Enumeration;
 
 /**
- * @covers \Kirby\Field\Font
+ * @covers \Kirby\Enumeration\Font
  */
 class FontTest extends EnumerationTestCase
 {

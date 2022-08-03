@@ -1,13 +1,11 @@
 <?php
 
-namespace Kirby\Field\Prop;
-
-use Kirby\Foundation\Enumeration;
+namespace Kirby\Enumeration;
 
 /**
  * Font option for the textarea for example
  *
- * @package   Kirby Field
+ * @package   Kirby Enumeration
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

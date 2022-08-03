@@ -1,8 +1,6 @@
 <?php
 
-namespace Kirby\Field\Prop;
-
-use Kirby\Foundation\Enumeration;
+namespace Kirby\Enumeration;
 
 /**
  * 24 or 12 h format
@@ -24,6 +22,6 @@ class TimeNotation extends Enumeration
 
 	public function display(): string
 	{
-		return $this->value === '24' ? 'HH:mm' : 'hh:mm a';
+		return $this->value === 24 ? 'HH:mm' : 'hh:mm a';
 	}
 }

@@ -1,11 +1,9 @@
 <?php
 
-namespace Kirby\Blueprint\Prop;
-
-use Kirby\Foundation\EnumerationTestCase;
+namespace Kirby\Enumeration;
 
 /**
- * @covers \Kirby\Blueprint\Theme
+ * @covers \Kirby\Enumeration\Theme
  */
 class ThemeTest extends EnumerationTestCase
 {

@@ -3,9 +3,8 @@
 namespace Kirby\Dialog\Prop;
 
 use Kirby\Blueprint\Prop\Text;
-use Kirby\Blueprint\Prop\TextTheme;
+use Kirby\Enumeration\TextTheme;
 use Kirby\Foundation\Component;
-use Kirby\Toolkit\A;
 
 /**
  * Button

@@ -4,7 +4,7 @@ namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Icon;
-use Kirby\Field\Prop\TimeNotation;
+use Kirby\Enumeration\TimeNotation;
 use Kirby\Field\Prop\TimeStep;
 use Kirby\Value\TimeValue;
 

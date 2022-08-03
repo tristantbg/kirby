@@ -1,25 +1,26 @@
 <?php
 
-namespace Kirby\Blueprint\Prop;
-
-use Kirby\Foundation\Enumeration;
+namespace Kirby\Enumeration;
 
 /**
- * Text Alignment
+ * The width of columns in blueprints
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Enumeration
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class TextAlign extends Enumeration
+class ColumnWidth extends Enumeration
 {
 	public array $allowed = [
-		'left',
-		'center',
-		'right'
+		'1/1',
+		'1/2',
+		'1/3',
+		'1/4',
+		'2/3',
+		'3/4',
 	];
 
-	public mixed $default = 'left';
+	public mixed $default = '1/1';
 }

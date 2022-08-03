@@ -4,6 +4,7 @@ namespace Kirby\Blueprint\Prop;
 
 use Kirby\Blueprint\Blueprint;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Enumeration\ColumnWidth;
 use Kirby\Foundation\Node;
 use Kirby\Field\Fields;
 use Kirby\Section\Sections;
@@ -22,7 +23,7 @@ class Column extends Node
 	public function __construct(
 		public string $id,
 		public Sections|null $sections = null,
-		public Width|null $width = null,
+		public ColumnWidth|null $width = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -49,7 +50,7 @@ class Column extends Node
 	{
 		return [
 			'sections' => $this->sections?->render($model) ?? [],
-			'width'    => $this->width?->value ?? '1/1'
+			'width'    => $this->width?->value,
 		];
 	}
 }

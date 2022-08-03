@@ -1,14 +1,16 @@
 <?php
 
-namespace Kirby\Foundation;
+namespace Kirby\Enumeration;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\InvalidArgumentException;
+use Kirby\Foundation\Factory;
+use Kirby\Foundation\Renderable;
 
 /**
  * Enumeration
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Enumeration
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

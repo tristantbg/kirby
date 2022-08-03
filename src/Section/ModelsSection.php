@@ -2,7 +2,6 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Prop\Help;
 use Kirby\Blueprint\Prop\Image;
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\Text;
@@ -12,9 +11,9 @@ use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
 use Kirby\Cms\Site;
 use Kirby\Cms\User;
-use Kirby\Section\Prop\Layout;
+use Kirby\Enumeration\ItemLayout;
+use Kirby\Enumeration\ItemSize;
 use Kirby\Section\Prop\Related;
-use Kirby\Section\Prop\Size;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 
@@ -29,14 +28,14 @@ class ModelsSection extends DisplaySection
 		public bool $flip = false,
 		public Image|null $image = null,
 		public Text|null $info = null,
-		public Layout|null $layout = null,
+		public ItemLayout|null $layout = null,
 		public int $limit = 20,
 		public int|null $max = null,
 		public int $min = 0,
 		public int $page = 1,
 		public Related|null $parent = null,
 		public bool $search = false,
-		public Size|null $size = null,
+		public ItemSize|null $size = null,
 		public bool $sortable = true,
 		public string|null $sortBy = null,
 		public Text|null $text = null,
