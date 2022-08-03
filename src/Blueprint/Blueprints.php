@@ -2,7 +2,7 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Foundation\Collection;
+use Kirby\Foundation\Nodes;
 
 /**
  * Blueprints
@@ -13,7 +13,7 @@ use Kirby\Foundation\Collection;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Blueprints extends Collection
+class Blueprints extends Nodes
 {
 	public const TYPE = Blueprint::class;
 }

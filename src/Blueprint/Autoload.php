@@ -3,9 +3,10 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Field\Field;
-use Kirby\Field\Prop\BlockType;
+use Kirby\Block\BlockType;
 use Kirby\Foundation\Component;
 use Kirby\Section\Section;
+use Kirby\Toolkit\Str;
 use TypeError;
 
 /**
@@ -19,56 +20,9 @@ use TypeError;
  */
 class Autoload
 {
-	public static function block(string|array $props): BlockType
-	{
-		// load by path
-		if (is_string($props) === true) {
-			$path   = $props;
-			$config = new Config($path);
-			$props  = $config->read();
-
-			// add the id if it's not set yet
-			$props['id'] ??= basename($path);
-		}
-
-		return BlockType::factory($props);
-	}
-
 	public static function blueprint(string|array $props): Blueprint
 	{
 		return static::type('blueprint', $props);
-	}
-
-	public static function collection(string $type, array $items = []): array
-	{
-		$collection = [];
-
-		foreach ($items as $id => $item) {
-			// ignored items
-			if ($item === false) {
-				continue;
-			}
-
-			// type shortcut
-			if ($item === true) {
-				$item = ['type' => $id];
-			}
-
-			// from extension
-			if (is_string($item) === true) {
-				$item = ['extends' => $item];
-			}
-
-			$item['id'] ??= $id;
-
-			try {
-				$collection[$id] = Autoload::$type($item);
-			} catch (TypeError) {
-				// TODO: add fallback
-			}
-		}
-
-		return $collection;
 	}
 
 	public static function field(string|array $props): Field
@@ -100,7 +54,7 @@ class Autoload
 		$type  = $props['type'] ??= $props['id'];
 		$class = 'Kirby\\' . ucfirst($group) . '\\' . ucfirst($type) . ucfirst($group);
 
-		// check for a valid section type
+		// check for a valid type
 		if (class_exists($class) === false) {
 			throw new TypeError('The ' . $group . ' type "' . $type . '" does not exist');
 		}

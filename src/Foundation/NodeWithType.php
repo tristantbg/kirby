@@ -2,7 +2,9 @@
 
 namespace Kirby\Foundation;
 
+use Kirby\Blueprint\Extension;
 use Kirby\Cms\ModelWithContent;
+use TypeError;
 
 /**
  * Node with type
@@ -16,6 +18,35 @@ use Kirby\Cms\ModelWithContent;
 class NodeWithType extends Node
 {
 	public const TYPE = 'node';
+	public const GROUP = 'node';
+
+	public static function load(string|array $props): static
+	{
+		// load by path
+		if (is_string($props) === true) {
+			$props = static::loadProps($props);
+		}
+
+		// already apply the extension to get the correct type
+		$props = Extension::apply($props);
+
+		// find the object type
+		$type  = $props['type'] ??= $props['id'];
+		$group = ucfirst(static::GROUP);
+		$class = 'Kirby\\' . $group  . '\\' . ucfirst($type) . $group;
+
+		// check for a valid type
+		if (class_exists($class) === false) {
+			throw new TypeError('The ' . static::GROUP . ' type "' . $type . '" does not exist');
+		}
+
+		// remove the type prop
+		// the classes take care of defining
+		// their type attribute
+		unset($props['type']);
+
+		return $class::factory($props);
+	}
 
 	public function render(ModelWithContent $model): array
 	{

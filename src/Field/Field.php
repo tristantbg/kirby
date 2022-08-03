@@ -3,8 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Autoload;
-use Kirby\Blueprint\Prop\Width;
+use Kirby\Field\Prop\Width;
 use Kirby\Field\Prop\When;
 use Kirby\Foundation\Feature;
 
@@ -19,7 +18,8 @@ use Kirby\Foundation\Feature;
  */
 class Field extends Feature
 {
-	public const TYPE = 'field';
+	public const GROUP = 'field';
+	public const TYPE  = 'field';
 
 	public function __construct(
 		public string $id,
@@ -35,9 +35,14 @@ class Field extends Feature
 		return $this;
 	}
 
-	public static function load(string|array $props): static
+	public function isInput(): bool
 	{
-		return Autoload::field($props);
+		return false;
+	}
+
+	public function isActive(array $values = []): bool
+	{
+		return $this->when?->isTrue($values) ?? true;
 	}
 
 	public function render(ModelWithContent $model): array

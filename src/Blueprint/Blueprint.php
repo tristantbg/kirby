@@ -25,7 +25,8 @@ use Kirby\Section\Sections;
 class Blueprint extends NodeWithType
 {
 	public const DEFAULT = 'default';
-	public const TYPE = 'blueprint';
+	public const GROUP   = 'blueprint';
+	public const TYPE    = 'blueprint';
 
 	public static Cache $cache;
 	public ModelWithContent|null $model = null;
@@ -39,6 +40,11 @@ class Blueprint extends NodeWithType
 		$this->defaults();
 	}
 
+	/**
+	 * Binds a model to a blueprint. This pattern should
+	 * be avoided and is mostly here to get deprecated
+	 * features working.
+	 */
 	public function bind(ModelWithContent $model): static
 	{
 		$this->model = $model;
@@ -58,19 +64,15 @@ class Blueprint extends NodeWithType
 		return $this->tabs?->columns();
 	}
 
+	/**
+	 * Loads the default blueprint and falls back
+	 * to a generic placeholder blueprint without
+	 * any setup
+	 */
 	public static function default(): static
 	{
-		if ($cached = static::cache()->get(static::DEFAULT)) {
-			return $cached;
-		}
-
 		try {
-			$config = new Config(static::DEFAULT);
-			$props  = $config->read();
-
-			$props['id'] = 'default';
-
-			return static::cache()->set(static::DEFAULT, static::factory($props));
+			return static::loadInstance(static::DEFAULT);
 		} catch (NotFoundException) {
 			return new static(id: 'default');
 		}
@@ -94,25 +96,39 @@ class Blueprint extends NodeWithType
 		return $this->sections()?->fields();
 	}
 
-	public static function load(string $path): static
+	/**
+	 * Loads a blueprint either by path or by
+	 * an array of props. The default blueprint
+	 * will be returned if it cannot be found
+	 */
+	public static function load(string|array $props): static
 	{
-		if ($cached = static::cache()->get($path)) {
-			return $cached;
-		}
-
 		try {
-			$config = new Config($path);
-			$props  = $config->read();
-
-			// add the id if it's not there yet
-			$props['id'] ??= basename($path);
-
-			return static::cache()->set($path, static::factory($props));
+			return static::loadInstance($props);
 		} catch (NotFoundException) {
 			return static::default();
 		}
 	}
 
+	/**
+	 * The load and default methods both have the
+	 * same try/catch statement. This method is just
+	 * a helper to avoid redundancy within those methods.
+	 */
+	public static function loadInstance(string|array $props): static
+	{
+		if (is_string($props) === true) {
+			$props = static::loadProps($props);
+		}
+
+		return static::factory($props);
+	}
+
+	/**
+	 * The polyfill method takes care of all the
+	 * blueprint shortcuts: i.e. fields without
+	 * a wrapping section, columns without a tab etc.
+	 */
 	public static function polyfill(array $props): array
 	{
 		$props = static::polyfillTitle($props);
@@ -124,10 +140,13 @@ class Blueprint extends NodeWithType
 		return $props;
 	}
 
+	/**
+	 * Creates a wrapping tab when only columns are
+	 * defined in the blueprint as a shortcut
+	 */
 	public static function polyfillColumns(array $props, string $tabId = 'content'): array
 	{
 		if (isset($props['columns']) === true) {
-			// create a new wrapping tab
 			$props['tabs'] = [
 				$tabId => [
 					'columns' => $props['columns']
@@ -140,6 +159,9 @@ class Blueprint extends NodeWithType
 		return $props;
 	}
 
+	/**
+	 * Creates a wrapping fields section for stand-alone fields
+	 */
 	public static function polyfillFields(array $props, string $sectionId = null): array
 	{
 		// fields shortcut
@@ -160,6 +182,10 @@ class Blueprint extends NodeWithType
 		return $props;
 	}
 
+	/**
+	 * Converts the simplified icon method to a full
+	 * image option definition
+	 */
 	public static function polyfillIcon(array $props): array
 	{
 		// move icon definition into image
@@ -171,6 +197,9 @@ class Blueprint extends NodeWithType
 		return $props;
 	}
 
+	/**
+	 * Creates a wrapping column around stand-alone sections
+	 */
 	public static function polyfillSections(array $props): array
 	{
 		// sections shortcut
@@ -188,6 +217,10 @@ class Blueprint extends NodeWithType
 		return $props;
 	}
 
+	/**
+	 * Keeps the old `title:` option working by
+	 * converting it to the new unified `label:` option
+	 */
 	public static function polyfillTitle(array $props): array
 	{
 		// make old title option compatible
@@ -208,6 +241,9 @@ class Blueprint extends NodeWithType
 		];
 	}
 
+	/**
+	 * Finds a section by id
+	 */
 	public function section(string $id = null): ?Section
 	{
 		return $this->sections()?->$id;
@@ -222,7 +258,7 @@ class Blueprint extends NodeWithType
 	}
 
 	/**
-	 * Get the current tab by id
+	 * Finds a tab by id
 	 */
 	public function tab(string $id = null): ?Tab
 	{

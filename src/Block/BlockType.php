@@ -1,8 +1,9 @@
 <?php
 
-namespace Kirby\Field\Prop;
+namespace Kirby\Block;
 
-use Kirby\Blueprint\Autoload;
+use Kirby\Cms\ModelWithContent;
+use Kirby\Blueprint\Config;
 use Kirby\Blueprint\Prop\Icon;
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\Text;
@@ -14,7 +15,7 @@ use Kirby\Foundation\Node;
 /**
  * Block type
  *
- * @package   Kirby Field
+ * @package   Kirby Block
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
@@ -28,7 +29,7 @@ class BlockType extends Node
 		public bool $editable = true,
 		public Icon|null $icon = null,
 		public Label|null $label = null,
-		public Text|null $name = null,
+		public Label|null $name = null,
 		public string|null $preview = null,
 		public DrawerTabs|null $tabs = null,
 		public bool $translate = true,
@@ -41,7 +42,7 @@ class BlockType extends Node
 
 	public function defaults(): void
 	{
-		$this->label ??= Label::fallback($this->id);
+		$this->label ??= $this->name ?? Label::fallback($this->id);
 	}
 
 	public function drawer(): Drawer
@@ -61,11 +62,45 @@ class BlockType extends Node
 
 	public static function load(string|array $props): static
 	{
-		return Autoload::block($props);
+		// load by path
+		if (is_string($props) === true) {
+			$props = static::loadProps($props);
+		}
+
+		// fix old extension paths
+		if (isset($props['extends']) === true) {
+			$props['extends'] = static::polyfillPath($props['extends']);
+		}
+
+		return static::factory($props);
 	}
 
 	public static function polyfill(array $props): array
 	{
 		return Drawer::polyfill($props);
 	}
+
+	public static function polyfillPath(string|null $path = null): ?string
+	{
+		return match (true) {
+			// no path, nothing to do
+			$path === null => null,
+
+			// always create the full path to the block
+			str_starts_with($path, 'blocks/') === false => 'blocks/' . $path,
+
+			// the path is already fine
+			default => $path
+		};
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'icon'  => $this->icon?->render($model),
+			'id'    => $this->id,
+			'label' => $this->label?->render($model),
+		];
+	}
+
 }

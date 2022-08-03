@@ -37,19 +37,19 @@ class SiteBlueprint extends Blueprint
 		return new static;
 	}
 
-	public static function load(string $path = 'site'): static
+	public static function polyfill(array $props): array
 	{
-		if ($cached = static::cache()->get($path)) {
-			return $cached;
-		}
+		unset($props['id']);
 
+		return parent::polyfill($props);
+	}
+
+	public static function load(string|array $props = 'site'): static
+	{
 		try {
-			$props = (new Config($path))->read();
-
-			return static::cache()->set($path, static::factory($props));
+			return static::loadInstance($props);
 		} catch (NotFoundException) {
 			return static::default();
 		}
 	}
-
 }

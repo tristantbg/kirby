@@ -29,12 +29,12 @@ class Form extends Component
 
 	public function submit(array $values = []): static
 	{
-		$this->fields->submit($values);
+		$this->fields->active()->submit($values);
 		return $this;
 	}
 
 	public function values(): Values
 	{
-		return $this->fields->toValues();
+		return $this->fields->active()->export();
 	}
 }

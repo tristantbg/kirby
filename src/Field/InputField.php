@@ -43,6 +43,20 @@ class InputField extends Field
 		return $this;
 	}
 
+	public function isInput(): bool
+	{
+		return true;
+	}
+
+	public function isActive(array $values = []): bool
+	{
+		if ($this->disabled === true) {
+			return false;
+		}
+
+		return parent::isActive($values);
+	}
+
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [

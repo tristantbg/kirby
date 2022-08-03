@@ -2,7 +2,9 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Foundation\Component;
+use Kirby\Cms\ModelWithContent;
+use Kirby\Foundation\Factory;
+use Kirby\Foundation\Renderable;
 
 /**
  * Conditions when the field will be shown
@@ -14,6 +16,37 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class When extends Component
+class When implements Factory, Renderable
 {
+	public function __construct(
+		public array $conditions = []
+	) {
+	}
+
+	public static function factory(array $conditions = []): static
+	{
+		return new static($conditions);
+	}
+
+	public function isTrue(array $data = []): bool
+	{
+		if (empty($this->conditions) === true) {
+			return true;
+		}
+
+		foreach ($this->conditions as $key => $expected) {
+			$value = $data[$key] ?? null;
+
+			if ($value !== $expected) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return $this->conditions;
+	}
 }

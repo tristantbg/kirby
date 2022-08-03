@@ -18,34 +18,53 @@ class Nodes extends Collection
 	 */
 	public const TYPE = Node::class;
 
-	public static function factory(array $nodes)
+	public static function factory(array $nodes): static
 	{
 		$collection = new static;
-		$className  = static::TYPE;
 
 		foreach ($nodes as $id => $props) {
 			if ($props === false) {
 				continue;
 			}
 
-			$props = match (true) {
-				// simple instance with just an id
-				$props === true => [],
+			$node = match (true) {
+				$props === true
+					=> static::nodeFactoryById($id),
 
-				// extension
-				is_string($props) => ['extends' => $props],
+				is_string($props)
+					=> static::nodeFactoryByString($id, $props),
 
-				// already defined as array
-				is_array($props) => $props
+				default
+					=> static::nodeFactory($id, $props)
 			};
 
-			$props['id'] ??= $id;
-
-			$node = $className::factory($props);
 			$collection->__set($node->id, $node);
 		}
 
 		return $collection;
+	}
+
+	public static function nodeFactory(string|int $id, array $props): Node
+	{
+		$props['id'] ??= $id;
+		return (static::TYPE)::load($props);
+	}
+
+	public static function nodeFactoryById(string|int $id): Node
+	{
+		return static::nodeFactory($id, ['id' => $id]);
+	}
+
+	public static function nodeFactoryByString(string|int $id, string $path): Node
+	{
+		if (is_int($id) === true) {
+			$id = basename($path);
+		}
+
+		return static::nodeFactory($id, [
+			'id'      => $id,
+			'extends' => $path
+		]);
 	}
 
 }

@@ -2,6 +2,7 @@
 
 namespace Kirby\Foundation;
 
+use Kirby\Blueprint\Config;
 use Kirby\Blueprint\Extension;
 
 /**
@@ -30,4 +31,26 @@ class Node extends Component
 	{
 		return parent::factory(Extension::apply($props));
 	}
+
+	public static function load(string|array $props): static
+	{
+		// load by path
+		if (is_string($props) === true) {
+			$props = static::loadProps($props);
+		}
+
+		return static::factory($props);
+	}
+
+	public static function loadProps(string $path): array
+	{
+		$config = new Config($path);
+		$props  = $config->read();
+
+		// add the id if it's not set yet
+		$props['id'] ??= basename($path);
+
+		return $props;
+	}
+
 }

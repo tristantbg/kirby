@@ -21,6 +21,19 @@ class Fields extends Nodes
 {
 	public const TYPE = Field::class;
 
+	public function active(): static
+	{
+		// get all inputs and ignore display fields
+		$inputs = $this->inputs();
+
+		// get all values for all fields
+		$values = $inputs->export()->toArray();
+
+		// filter disabled fields and fields
+		// with conditions that are currently invisible
+		return $inputs->filter(fn ($field) => $field->isActive($values));
+	}
+
 	public function disable(bool $disable = true)
 	{
 		foreach ($this->data as $field) {
@@ -30,12 +43,15 @@ class Fields extends Nodes
 		return $this;
 	}
 
-	public static function factory(array $fields = []): static
+	public function export(): Values
 	{
-		$collection = new static();
-		$collection->data = Autoload::collection('field', $fields);
+		$values = new Values;
 
-		return $collection;
+		foreach ($this->inputs() as $field) {
+			$values->__set($field->id, $field->value);
+		}
+
+		return $values;
 	}
 
 	public function fill(array $values = [], bool $defaults = false): static
@@ -55,31 +71,24 @@ class Fields extends Nodes
 
 	public function inputs(): static
 	{
-		return $this->filter(function ($field) {
-			return property_exists($field, 'value') && is_a($field->value, Value::class) === true;
-		});
+		return $this->filter(fn ($field) => $field->isInput());
+	}
+
+	public static function nodeFactoryById(string|int $id): Field
+	{
+		return static::nodeFactory($id, [
+			'id'   => $id,
+			'type' => $id
+		]);
 	}
 
 	public function submit(array $values = []): static
 	{
-		foreach ($this->data as $field) {
+		foreach ($this->inputs() as $field) {
 			$field->submit($values[$field->id] ?? null);
 		}
 
 		return $this;
-	}
-
-	public function toValues(): Values
-	{
-		$values = new Values;
-
-		foreach ($this->inputs() as $field) {
-			if ($field->disabled === false) {
-				$values->__set($field->id, $field->value);
-			}
-		}
-
-		return $values;
 	}
 
 	public function untranslated(): static

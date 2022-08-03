@@ -18,7 +18,8 @@ use Kirby\Foundation\Feature;
  */
 class Section extends Feature
 {
-	public const TYPE = 'section';
+	public const GROUP = 'section';
+	public const TYPE  = 'section';
 
 	public static function load(string|array $props): static
 	{

@@ -4,7 +4,7 @@ namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Text;
-use Kirby\Field\Prop\BlockTypes;
+use Kirby\Block\BlockTypeGroups;
 use Kirby\Value\JsonValue;
 
 /**
@@ -24,7 +24,7 @@ class BlocksField extends InputField
 	public function __construct(
 		public string $id,
 		public Text|null $empty = null,
-		public BlockTypes|null $blocks = null,
+		public BlockTypeGroups|null $blocks = null,
 		public string $group = 'blocks',
 		public int|null $max = null,
 		public int|null $min = null,
@@ -43,7 +43,7 @@ class BlocksField extends InputField
 
 	public function defaults(): void
 	{
-		$this->blocks ??= new BlockTypes;
+		$this->blocks ??= new BlockTypeGroups;
 
 		parent::defaults();
 	}

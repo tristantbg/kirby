@@ -37,7 +37,7 @@ class Translated extends Property
 		// inject language from translation file
 		if (isset($this->translations['*']) === true) {
 			$this->translations = [
-				$locale => I18n::translate($this->translations['*'])
+				$locale => I18n::translate($this->translations['*'], $this->translations['*'])
 			];
 		}
 

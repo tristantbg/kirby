@@ -19,12 +19,12 @@ class Sections extends Nodes
 {
 	public const TYPE = Section::class;
 
-	public static function factory(array $sections = []): static
+	public static function nodeFactoryById(string|int $id): Section
 	{
-		$collection = new static;
-		$collection->data = Autoload::collection('section', $sections);
-
-		return $collection;
+		return static::nodeFactory($id, [
+			'id'   => $id,
+			'type' => $id
+		]);
 	}
 
 	/**
