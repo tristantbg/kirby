@@ -1,27 +1,22 @@
 <?php
 
-namespace Kirby\Section\Prop;
+namespace Kirby\Attribute;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Property;
 
 /**
  * Related model option
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Attribute
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Related extends Property
+class RelatedAttribute extends StringAttribute
 {
 	public function model(ModelWithContent $model)
 	{
-		if ($this->value === null) {
-			return null;
-		}
-
 		return $model->query($this->value);
 	}
 }

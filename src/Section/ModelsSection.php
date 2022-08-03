@@ -3,6 +3,7 @@
 namespace Kirby\Section;
 
 use Kirby\Attribute\LabelAttribute;
+use Kirby\Attribute\RelatedAttribute;
 use Kirby\Attribute\TextAttribute;
 use Kirby\Blueprint\Prop\Image;
 use Kirby\Cms\Collection as Models;
@@ -13,7 +14,6 @@ use Kirby\Cms\Site;
 use Kirby\Cms\User;
 use Kirby\Enumeration\ItemLayout;
 use Kirby\Enumeration\ItemSize;
-use Kirby\Section\Prop\Related;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 
@@ -33,7 +33,7 @@ class ModelsSection extends DisplaySection
 		public int|null $max = null,
 		public int $min = 0,
 		public int $page = 1,
-		public Related|null $parent = null,
+		public RelatedAttribute|null $parent = null,
 		public bool $search = false,
 		public ItemSize|null $size = null,
 		public bool $sortable = true,
@@ -104,7 +104,7 @@ class ModelsSection extends DisplaySection
 		if ($this->image) {
 			$columns->add(new TableColumn(
 				id: 'image',
-				label: new LabelAttribute(''),
+				label: new LabelAttribute(['*' => '']),
 				mobile: true,
 				type: 'image',
 				width: 'var(--table-row-height)'
