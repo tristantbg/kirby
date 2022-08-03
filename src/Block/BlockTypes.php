@@ -16,10 +16,4 @@ use Kirby\Foundation\Nodes;
 class BlockTypes extends Nodes
 {
 	public const TYPE = BlockType::class;
-
-	public static function nodeFactory(string|int $id, array $props): BlockType
-	{
-		$props['id'] ??= $id;
-		return BlockType::load($props);
-	}
 }

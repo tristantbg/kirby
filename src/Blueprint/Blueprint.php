@@ -9,7 +9,7 @@ use Kirby\Blueprint\Prop\Tabs;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
-use Kirby\Foundation\NodeWithType;
+use Kirby\Foundation\Node;
 use Kirby\Section\Section;
 use Kirby\Section\Sections;
 
@@ -22,7 +22,7 @@ use Kirby\Section\Sections;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Blueprint extends NodeWithType
+class Blueprint extends Node
 {
 	public const DEFAULT = 'default';
 	public const GROUP   = 'blueprint';
@@ -33,11 +33,11 @@ class Blueprint extends NodeWithType
 
 	public function __construct(
 		public string $id,
-		public Extension|null $extends = null,
 		public Label|null $label = null,
 		public Tabs|null $tabs = null,
+		...$args
 	) {
-		$this->defaults();
+		parent::__construct($id, ...$args);
 	}
 
 	/**

@@ -29,7 +29,7 @@ class TextFieldTest extends TestCase
 		$this->assertNull($field->minlength);
 		$this->assertNull($field->pattern);
 		$this->assertNull($field->placeholder);
-		$this->assertFalse($field->spellcheck);
+		$this->assertTrue($field->spellcheck);
 		$this->assertInstanceOf(StringValue::class, $field->value);
 	}
 

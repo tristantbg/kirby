@@ -2,7 +2,6 @@
 
 namespace Kirby\Table;
 
-use Kirby\Blueprint\Extension;
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Blueprint\Prop\TextAlign;
 use Kirby\Cms\ModelWithContent;
@@ -28,15 +27,20 @@ class TableColumn extends Node
 		public After|null $after = null,
 		public TextAlign|null $align = null,
 		public Before|null $before = null,
-		public Extension|null $extends = null,
 		public Field|null $field = null,
 		public Label|null $label = null,
 		public bool $mobile = false,
 		public string|null $value = null,
-		public string|null $width = null
+		public string|null $width = null,
+		...$args
 	) {
-		$this->field ??= new TextField(id: $id);
-		$this->label ??= Label::fallback($id);
+		parent::__construct($id, ...$args);
+	}
+
+	public function defaults(): void
+	{
+		$this->field ??= new TextField(id: $this->id);
+		$this->label ??= Label::fallback($this->id);
 	}
 
 	public static function factory(array $props = []): static

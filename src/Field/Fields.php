@@ -2,11 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Autoload;
 use Kirby\Foundation\Nodes;
-use Kirby\Value\Value;
 use Kirby\Value\Values;
-use Throwable;
 
 /**
  * Fields
@@ -76,7 +73,7 @@ class Fields extends Nodes
 
 	public static function nodeFactoryById(string|int $id): Field
 	{
-		return static::nodeFactory($id, [
+		return static::nodeFactoryByArray($id, [
 			'id'   => $id,
 			'type' => $id
 		]);

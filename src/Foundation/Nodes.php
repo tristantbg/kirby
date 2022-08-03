@@ -27,24 +27,28 @@ class Nodes extends Collection
 				continue;
 			}
 
-			$node = match (true) {
-				$props === true
-					=> static::nodeFactoryById($id),
-
-				is_string($props)
-					=> static::nodeFactoryByString($id, $props),
-
-				default
-					=> static::nodeFactory($id, $props)
-			};
-
+			$node = static::nodeFactory($id, $props);
 			$collection->__set($node->id, $node);
 		}
 
 		return $collection;
 	}
 
-	public static function nodeFactory(string|int $id, array $props): Node
+	public static function nodeFactory(string|int $id, array|bool|string $props): Node
+	{
+		return match (true) {
+			$props === true
+				=> static::nodeFactoryById($id),
+
+			is_string($props)
+				=> static::nodeFactoryByString($id, $props),
+
+			is_array($props)
+				=> static::nodeFactoryByArray($id, $props)
+		};
+	}
+
+	public static function nodeFactoryByArray(string|int $id, array $props): Node
 	{
 		$props['id'] ??= $id;
 		return (static::TYPE)::load($props);

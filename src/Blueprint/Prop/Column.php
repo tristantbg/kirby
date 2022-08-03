@@ -3,7 +3,6 @@
 namespace Kirby\Blueprint\Prop;
 
 use Kirby\Blueprint\Blueprint;
-use Kirby\Blueprint\Extension;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Foundation\Node;
 use Kirby\Field\Fields;
@@ -22,10 +21,11 @@ class Column extends Node
 {
 	public function __construct(
 		public string $id,
-		public Extension|null $extends = null,
 		public Sections|null $sections = null,
 		public Width|null $width = null,
+		...$args
 	) {
+		parent::__construct($id, ...$args);
 	}
 
 	public function fields(): ?Fields

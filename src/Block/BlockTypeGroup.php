@@ -3,7 +3,6 @@
 namespace Kirby\Block;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Extension;
 use Kirby\Blueprint\Prop\Label;
 use Kirby\Foundation\Node;
 
@@ -20,9 +19,9 @@ class BlockTypeGroup extends Node
 {
 	public function __construct(
 		public string $id,
-		public BlockTypes|null $blocks = null,
 		public Label|null $label = null,
 		public bool $open = true,
+		public BlockTypes|null $types = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -36,7 +35,7 @@ class BlockTypeGroup extends Node
 	public static function polyfill(array $props): array
 	{
 		if (isset($props['fieldsets']) === true) {
-			$props['blocks'] ??= $props['fieldsets'];
+			$props['types'] ??= $props['fieldsets'];
 		}
 
 		unset($props['fieldsets']);
@@ -48,10 +47,10 @@ class BlockTypeGroup extends Node
 	public function render(ModelWithContent $model): array
 	{
 		return [
-			'blocks' => $this->blocks?->render($model),
-			'id'     => $this->id,
-			'label'  => $this->label?->render($model),
-			'open'   => $this->open
+			'types' => $this->types?->render($model),
+			'id'    => $this->id,
+			'label' => $this->label?->render($model),
+			'open'  => $this->open
 		];
 	}
 

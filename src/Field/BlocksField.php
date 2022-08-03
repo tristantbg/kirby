@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\App;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Prop\Text;
 use Kirby\Block\BlockTypeGroups;
@@ -24,11 +25,11 @@ class BlocksField extends InputField
 	public function __construct(
 		public string $id,
 		public Text|null $empty = null,
-		public BlockTypeGroups|null $blocks = null,
 		public string $group = 'blocks',
 		public int|null $max = null,
 		public int|null $min = null,
 		public bool $pretty = false,
+		public BlockTypeGroups|null $types = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -41,22 +42,36 @@ class BlocksField extends InputField
 		);
 	}
 
-	public function defaults(): void
+	/**
+	 * Keep the old fieldsets option compatible
+	 */
+	public static function polyfill(array $props): array
 	{
-		$this->blocks ??= new BlockTypeGroups;
+		if (isset($props['fieldsets']) === true) {
+			$props['types'] ??= $props['fieldsets'];
+			unset($props['fieldsets']);
+		}
 
-		parent::defaults();
+		return $props;
 	}
 
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'blocks' => $this->blocks?->render($model),
-			'empty'  => $this->empty?->render($model),
-			'group'  => $this->group,
-			'max'    => $this->max,
-			'min'    => $this->min
+			'empty' => $this->empty?->render($model),
+			'group' => $this->group,
+			'max'   => $this->max,
+			'min'   => $this->min
 		];
+	}
+
+	/**
+	 * Returns all block type groups and falls back
+	 * to the groups defined in the config
+	 */
+	public function types(): BlockTypeGroups
+	{
+		return $this->types ??= BlockTypeGroups::factory();
 	}
 
 }

@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Blueprint\Prop\PageImage;
+
 /**
  * @covers \Kirby\Blueprint\PageBlueprint
  */
@@ -16,7 +18,7 @@ class PageBlueprintTest extends TestCase
 			id: 'test',
 		);
 
-		$this->assertNull($blueprint->image);
+		$this->assertInstanceOf(PageImage::class, $blueprint->image);
 		$this->assertNull($blueprint->num);
 		$this->assertNull($blueprint->navigation);
 		$this->assertNull($blueprint->options);

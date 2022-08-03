@@ -68,7 +68,7 @@ class BlockType extends Node
 		}
 
 		// fix old extension paths
-		if (isset($props['extends']) === true) {
+		if (isset($props['extends']) === true && is_string($props['extends']) === true) {
 			$props['extends'] = static::polyfillPath($props['extends']);
 		}
 

@@ -3,7 +3,6 @@
 namespace Kirby\Blueprint\Prop;
 
 use Kirby\Blueprint\Blueprint;
-use Kirby\Blueprint\Extension;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
 use Kirby\Foundation\Node;

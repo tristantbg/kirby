@@ -2,7 +2,6 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Autoload;
 use Kirby\Foundation\Nodes;
 use Kirby\Field\Fields;
 
@@ -21,7 +20,7 @@ class Sections extends Nodes
 
 	public static function nodeFactoryById(string|int $id): Section
 	{
-		return static::nodeFactory($id, [
+		return static::nodeFactoryByArray($id, [
 			'id'   => $id,
 			'type' => $id
 		]);

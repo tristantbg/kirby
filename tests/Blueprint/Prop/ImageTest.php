@@ -16,10 +16,10 @@ class ImageTest extends TestCase
 	{
 		$image = new Image();
 
-		$this->assertSame('black', $image->back);
+		$this->assertNull($image->back);
 		$this->assertNull($image->color);
-		$this->assertFalse($image->cover);
-		$this->assertFalse($image->disabled);
+		$this->assertNull($image->cover);
+		$this->assertNull($image->disabled);
 		$this->assertNull($image->icon);
 		$this->assertNull($image->query);
 		$this->assertNull($image->ratio);
@@ -34,7 +34,7 @@ class ImageTest extends TestCase
 		$this->assertTrue($image->disabled);
 
 		$image = Image::factory(true);
-		$this->assertFalse($image->disabled);
+		$this->assertNull($image->disabled);
 	}
 
 	/**

@@ -70,7 +70,8 @@ class TabTest extends TestCase
 		$expected = [
 			'icon'    => null,
 			'id'      => 'test',
-			'label'   => 'My Tab'
+			'label'   => 'My Tab',
+			'link'    => '/pages/test?tab=test'
 		];
 
 		$this->assertSame($expected, $tab->render($this->model()));

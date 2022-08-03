@@ -2,9 +2,6 @@
 
 namespace Kirby\Section;
 
-use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Autoload;
-use Kirby\Blueprint\Extension;
 use Kirby\Foundation\Feature;
 
 /**
@@ -20,11 +17,6 @@ class Section extends Feature
 {
 	public const GROUP = 'section';
 	public const TYPE  = 'section';
-
-	public static function load(string|array $props): static
-	{
-		return Autoload::section($props);
-	}
 
 	public static function polyfill(array $props): array
 	{

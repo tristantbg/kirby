@@ -14,13 +14,13 @@ class BlockTypeGroupsTest extends TestCase
 	{
 		$groups = BlockTypeGroups::factory([
 			'media' => [
-				'blocks' => [
+				'types' => [
 					'image',
 					'video'
 				]
 			],
 			'text' => [
-				'blocks' => [
+				'types' => [
 					'heading',
 					'text'
 				]
@@ -28,10 +28,10 @@ class BlockTypeGroupsTest extends TestCase
 		]);
 
 		$this->assertCount(2, $groups);
-		$this->assertInstanceOf(BlockType::class, $groups->media->blocks->image);
-		$this->assertInstanceOf(BlockType::class, $groups->media->blocks->video);
-		$this->assertInstanceOf(BlockType::class, $groups->text->blocks->heading);
-		$this->assertInstanceOf(BlockType::class, $groups->text->blocks->text);
+		$this->assertInstanceOf(BlockType::class, $groups->media->types->image);
+		$this->assertInstanceOf(BlockType::class, $groups->media->types->video);
+		$this->assertInstanceOf(BlockType::class, $groups->text->types->heading);
+		$this->assertInstanceOf(BlockType::class, $groups->text->types->text);
 	}
 
 	/**
@@ -47,10 +47,10 @@ class BlockTypeGroupsTest extends TestCase
 		]);
 
 		$this->assertCount(1, $groups);
-		$this->assertInstanceOf(BlockType::class, $groups->blocks->blocks->heading);
-		$this->assertInstanceOf(BlockType::class, $groups->blocks->blocks->text);
-		$this->assertInstanceOf(BlockType::class, $groups->blocks->blocks->image);
-		$this->assertInstanceOf(BlockType::class, $groups->blocks->blocks->video);
+		$this->assertInstanceOf(BlockType::class, $groups->blocks->types->heading);
+		$this->assertInstanceOf(BlockType::class, $groups->blocks->types->text);
+		$this->assertInstanceOf(BlockType::class, $groups->blocks->types->image);
+		$this->assertInstanceOf(BlockType::class, $groups->blocks->types->video);
 	}
 
 

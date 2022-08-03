@@ -3,7 +3,6 @@
 namespace Kirby\Foundation;
 
 use Kirby\Blueprint\Config;
-use Kirby\Blueprint\Extension;
 
 /**
  * Node

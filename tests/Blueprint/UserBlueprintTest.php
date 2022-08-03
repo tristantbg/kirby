@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Blueprint\Prop\UserImage;
+
 /**
  * @covers \Kirby\Blueprint\UserBlueprint
  */
@@ -16,7 +18,7 @@ class UserBlueprintTest extends TestCase
 			id: 'test'
 		);
 
-		$this->assertNull($blueprint->image);
+		$this->assertInstanceOf(UserImage::class, $blueprint->image);
 		$this->assertNull($blueprint->options);
 		$this->assertNull($blueprint->permissions);
 	}

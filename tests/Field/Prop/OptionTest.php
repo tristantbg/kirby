@@ -67,9 +67,11 @@ class OptionTest extends TestCase
 		]);
 
 		$expected = [
-			'icon'  => null,
-			'text'  => 'Test Option',
-			'value' => 'test',
+			'disabled' => false,
+			'icon'     => null,
+			'info'     => null,
+			'text'     => 'Test Option',
+			'value'    => 'test',
 		];
 
 		$this->assertSame($expected, $option->render($this->model()));
