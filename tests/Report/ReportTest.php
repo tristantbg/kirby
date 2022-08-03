@@ -1,8 +1,7 @@
 <?php
 
-namespace Kirby\Section\Prop;
+namespace Kirby\Report;
 
-use Kirby\Blueprint\Prop\Label;
 use Kirby\Section\TestCase;
 
 /**

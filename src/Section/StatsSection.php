@@ -4,8 +4,8 @@ namespace Kirby\Section;
 
 use Kirby\Enumeration\TextSize;
 use Kirby\Foundation\Promise;
-use Kirby\Section\Prop\Reports;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Report\Reports;
 
 /**
  * Stats section

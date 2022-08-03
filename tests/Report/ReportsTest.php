@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\Section\Prop;
+namespace Kirby\Report;
 
 use Kirby\Foundation\Promise;
 use Kirby\Section\TestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\Section\Prop;
+namespace Kirby\Report;
 
 use Kirby\Foundation\Collection;
 use Kirby\Foundation\Promising;
@@ -8,7 +8,7 @@ use Kirby\Foundation\Promising;
 /**
  * Reports
  *
- * @package   Kirby Blueprint
+ * @package   Kirby Report
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
