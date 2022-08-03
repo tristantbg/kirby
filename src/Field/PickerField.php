@@ -56,8 +56,8 @@ class PickerField extends InputField
 
 	public function defaults(): void
 	{
-		$this->layout ??= new Layout;
-		$this->size   ??= new Size;
+		$this->layout ??= new ItemLayout;
+		$this->size   ??= new ItemSize;
 	}
 
 	public function render(ModelWithContent $model): array

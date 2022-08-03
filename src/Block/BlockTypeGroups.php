@@ -20,7 +20,7 @@ class BlockTypeGroups extends Nodes
 {
 	public const TYPE = BlockTypeGroup::class;
 
-	public static function defaults(): static
+	public static function default(): static
 	{
 		$options = App::instance()->options();
 		$types   = $options['blocks.types'] ?? $options['blocks.fieldsets'] ?? [
@@ -48,12 +48,8 @@ class BlockTypeGroups extends Nodes
 	 * correctly and wraps lose block types in a
 	 * generic group
 	 */
-	public static function factory(array|null $nodes = null): static
+	public static function factory(array $nodes): static
 	{
-		if ($nodes === null) {
-			return static::defaults();
-		}
-
 		$types  = new BlockTypes;
 		$groups = new BlockTypeGroups;
 

@@ -3,8 +3,8 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\Layouts;
-use Kirby\Field\Prop\LayoutSettings;
+use Kirby\Layout\LayoutTypes;
+use Kirby\Layout\LayoutSettings;
 
 /**
  * Layout field
@@ -21,18 +21,15 @@ class LayoutField extends BlocksField
 
 	public function __construct(
 		public string $id,
-		public Layouts|null $layouts = null,
+		public LayoutTypes|null $layouts = null,
 		public LayoutSettings|null $settings = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 	}
 
-	public function render(ModelWithContent $model): array
+	public function layouts(): LayoutTypes
 	{
-		return parent::render($model) + [
-			'layouts'  => $this->layouts?->render($model),
-			'settings' => $this->settings?->render($model),
-		];
+		return $this->layouts ?? LayoutTypes::default();
 	}
 }

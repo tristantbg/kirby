@@ -71,7 +71,7 @@ class BlocksField extends InputField
 	 */
 	public function types(): BlockTypeGroups
 	{
-		return $this->types ??= BlockTypeGroups::factory();
+		return $this->types ??= BlockTypeGroups::default();
 	}
 
 }

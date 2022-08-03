@@ -3,7 +3,7 @@
 namespace Kirby\Enumeration;
 
 /**
- * @covers \Kirby\Enumeration\Width
+ * @covers \Kirby\Enumeration\ColumnWidth
  */
 class ColumnWidthTest extends EnumerationTestCase
 {
