@@ -2,13 +2,13 @@
 
 namespace Kirby\Table;
 
+use Kirby\Attribute\AfterAttribute;
+use Kirby\Attribute\BeforeAttribute;
 use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\TextAlign;
 use Kirby\Field\Field;
 use Kirby\Field\TextField;
-use Kirby\Field\Prop\After;
-use Kirby\Field\Prop\Before;
 use Kirby\Foundation\Node;
 
 /**
@@ -24,9 +24,9 @@ class TableColumn extends Node
 {
 	public function __construct(
 		public string $id,
-		public After|null $after = null,
+		public AfterAttribute|null $after = null,
 		public TextAlign|null $align = null,
-		public Before|null $before = null,
+		public BeforeAttribute|null $before = null,
 		public Field|null $field = null,
 		public LabelAttribute|null $label = null,
 		public bool $mobile = false,

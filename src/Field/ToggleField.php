@@ -2,10 +2,10 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\AfterAttribute;
+use Kirby\Attribute\BeforeAttribute;
 use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\After;
-use Kirby\Field\Prop\Before;
 use Kirby\Field\Prop\ToggleText;
 use Kirby\Value\BoolValue;
 
@@ -25,8 +25,8 @@ class ToggleField extends InputField
 
 	public function __construct(
 		public string $id,
-		public After|null $after = null,
-		public Before|null $before = null,
+		public AfterAttribute|null $after = null,
+		public BeforeAttribute|null $before = null,
 		public bool|null $default = null,
 		public IconAttribute|null $icon = null,
 		public ToggleText|null $text = null,

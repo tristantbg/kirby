@@ -1,18 +1,16 @@
 <?php
 
-namespace Kirby\Field\Prop;
-
-use Kirby\Attribute\TextAttribute;
+namespace Kirby\Attribute;
 
 /**
- * Optional text that will be shown before the input
+ * Optional text that will be shown after the input in a field
  *
- * @package   Kirby Field
+ * @package   Kirby Attribute
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Before extends TextAttribute
+class AfterAttribute extends TextAttribute
 {
 }

@@ -3,11 +3,11 @@
 namespace Kirby\Field;
 
 use Kirby\Attribute\IconAttribute;
+use Kirby\Attribute\PlaceholderAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\Font;
 use Kirby\Enumeration\FontSize;
 use Kirby\Field\Prop\Files;
-use Kirby\Field\Prop\Placeholder;
 use Kirby\Field\Prop\Toolbar;
 use Kirby\Field\Prop\Uploads;
 use Kirby\Value\StringValue;
@@ -36,7 +36,7 @@ class TextareaField extends InputField
 		public IconAttribute|null $icon = null,
 		public int|null $maxlength = null,
 		public int|null $minlength = null,
-		public Placeholder|null $placeholder = null,
+		public PlaceholderAttribute|null $placeholder = null,
 		public FontSize|null $size = null,
 		public bool $spellcheck = true,
 		public Uploads|null $uploads = null,

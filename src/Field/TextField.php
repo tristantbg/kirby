@@ -2,12 +2,12 @@
 
 namespace Kirby\Field;
 
+use Kirby\Attribute\AfterAttribute;
+use Kirby\Attribute\BeforeAttribute;
+use Kirby\Attribute\PlaceholderAttribute;
 use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\Converter;
-use Kirby\Field\Prop\After;
-use Kirby\Field\Prop\Before;
-use Kirby\Field\Prop\Placeholder;
 use Kirby\Value\StringValue;
 
 /**
@@ -26,9 +26,9 @@ class TextField extends InputField
 
 	public function __construct(
 		string $id,
-		public After|null $after = null,
+		public AfterAttribute|null $after = null,
 		public string|null $autocomplete = null,
-		public Before|null $before = null,
+		public BeforeAttribute|null $before = null,
 		public Converter|null $converter = null,
 		public bool|null $counter = null,
 		public string|null $default = null,
@@ -36,7 +36,7 @@ class TextField extends InputField
 		public int|null $maxlength = null,
 		public int|null $minlength = null,
 		public string|null $pattern = null,
-		public Placeholder|null $placeholder = null,
+		public PlaceholderAttribute|null $placeholder = null,
 		public bool|null $spellcheck = null,
 		...$args
 	) {
