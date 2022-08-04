@@ -21,7 +21,6 @@ class Node extends Foundation
 		public string $id,
 		public Extension|null $extends = null,
 	) {
-		$this->defaults();
 	}
 
 	public function defaults(): void

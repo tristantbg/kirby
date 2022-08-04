@@ -58,6 +58,8 @@ class PickerField extends InputField
 	{
 		$this->layout ??= new ItemLayout;
 		$this->size   ??= new ItemSize;
+
+		parent::defaults();
 	}
 
 	public function render(ModelWithContent $model): array

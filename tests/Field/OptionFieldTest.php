@@ -19,8 +19,18 @@ class OptionFieldTest extends TestCase
 
 		$this->assertNull($field->default);
 		$this->assertNull($field->options);
-		$this->assertInstanceOf(Options::class, $field->options());
 		$this->assertInstanceOf(OptionValue::class, $field->value);
+	}
+
+	/**
+	 * @covers ::defaults
+	 */
+	public function testDefaults()
+	{
+		$field = new OptionField('test');
+		$field->defaults();
+
+		$this->assertInstanceOf(Options::class, $field->options);
 	}
 
 }

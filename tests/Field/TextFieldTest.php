@@ -22,15 +22,27 @@ class TextFieldTest extends TestCase
 		$this->assertNull($field->autocomplete);
 		$this->assertNull($field->before);
 		$this->assertNull($field->converter);
-		$this->assertTrue($field->counter);
+		$this->assertNull($field->counter);
 		$this->assertNull($field->default);
 		$this->assertNull($field->icon);
 		$this->assertNull($field->maxlength);
 		$this->assertNull($field->minlength);
 		$this->assertNull($field->pattern);
 		$this->assertNull($field->placeholder);
-		$this->assertTrue($field->spellcheck);
+		$this->assertNull($field->spellcheck);
 		$this->assertInstanceOf(StringValue::class, $field->value);
+	}
+
+	/**
+	 * @covers ::defaults
+	 */
+	public function testDefaults()
+	{
+		$field = new TextField(id: 'test');
+		$field->defaults();
+
+		$this->assertTrue($field->counter);
+		$this->assertTrue($field->spellcheck);
 	}
 
 }

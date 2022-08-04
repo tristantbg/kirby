@@ -27,6 +27,14 @@ class Foundation
 	}
 
 	/**
+	 * Apply default values
+	 */
+	public function defaults(): void
+	{
+
+	}
+
+	/**
 	 * Creates an instance by a set of array properties.
 	 */
 	public static function factory(array $props): static
@@ -55,6 +63,9 @@ class Foundation
 
 	public function render(ModelWithContent $model): mixed
 	{
+		// apply default values
+		$this->defaults();
+
 		$array = [];
 
 		// go through all public properties

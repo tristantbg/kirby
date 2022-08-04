@@ -23,9 +23,11 @@ class LabelledNode extends Node
 		parent::__construct($id, ...$args);
 	}
 
-	public function label(): LabelAttribute
+	public function defaults(): void
 	{
-		return $this->label ?? LabelAttribute::fallback($this->id);
+		$this->label ?? LabelAttribute::fallback($this->id);
+
+		parent::defaults();
 	}
 
 	public static function polyfillHeadline(array $props): array

@@ -28,6 +28,13 @@ class Field extends FeatureNode
 		parent::__construct($id, ...$args);
 	}
 
+	public function defaults(): void
+	{
+		$this->width ??= new FieldWidth;
+
+		parent::defaults();
+	}
+
 	public function fill(mixed $value = null): static
 	{
 		return $this;
@@ -41,17 +48,12 @@ class Field extends FeatureNode
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'width' => $this->width()->render($model)
+			'width' => $this->width?->render($model)
 		];
 	}
 
 	public function submit(mixed $value = null): static
 	{
 		return $this;
-	}
-
-	public function width(): FieldWidth
-	{
-		return $this->width ?? new FieldWidth;
 	}
 }

@@ -66,6 +66,9 @@ class FeatureNode extends Node
 
 	public function render(ModelWithContent $model): array
 	{
+		// apply default values
+		$this->defaults();
+
 		return [
 			'id'   => $this->id,
 			'type' => static::TYPE,

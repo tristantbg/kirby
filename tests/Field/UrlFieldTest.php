@@ -17,9 +17,22 @@ class UrlFieldTest extends TestCase
 		$field = new UrlField('test');
 
 		$this->assertInstanceOf(TextField::class, $field);
+		$this->assertNull($field->autocomplete);
+		$this->assertNull($field->icon);
+		$this->assertNull($field->placeholder);
+		$this->assertInstanceOf(UrlValue::class, $field->value);
+	}
+
+	/**
+	 * @covers ::defaults
+	 */
+	public function testDefaults()
+	{
+		$field = new UrlField('test');
+		$field->defaults();
+
 		$this->assertSame('url', $field->autocomplete);
 		$this->assertSame('url', $field->icon->value);
 		$this->assertSame('https://example.com', $field->placeholder->translations['*']);
-		$this->assertInstanceOf(UrlValue::class, $field->value);
 	}
 }

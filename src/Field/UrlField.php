@@ -36,5 +36,7 @@ class UrlField extends TextField
 		$this->autocomplete ??= 'url';
 		$this->icon         ??= new IconAttribute('url');
 		$this->placeholder  ??= new PlaceholderAttribute(['*' => 'https://example.com']);
+
+		parent::defaults();
 	}
 }

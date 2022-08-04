@@ -31,21 +31,22 @@ class OptionField extends InputField
 		$this->value = new OptionValue(
 			// resolve options lazily to avoid processing
 			// them on construction
-			allowed: fn () => $this->options()->keys(),
+			allowed: fn () => $this->options?->keys(),
 			required: $this->required,
 		);
+	}
+
+	public function defaults(): void
+	{
+		$this->options ??= new Options;
+
+		parent::defaults();
 	}
 
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'options' => $this->options()->render($model)
+			'options' => $this->options?->render($model)
 		];
 	}
-
-	public function options(): Options
-	{
-		return $this->options ?? new Options;
-	}
-
 }

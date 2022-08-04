@@ -18,9 +18,25 @@ class EmailFieldTest extends TestCase
 			id: 'test',
 		);
 
+		$this->assertNull($field->autocomplete);
+		$this->assertNull($field->icon);
+		$this->assertNull($field->placeholder);
+		$this->assertInstanceOf(EmailValue::class, $field->value);
+	}
+
+	/**
+	 * @covers ::defaults
+	 */
+	public function testDefaults()
+	{
+		$field = new EmailField(
+			id: 'test',
+		);
+
+		$field->defaults();
+
 		$this->assertSame('email', $field->autocomplete);
 		$this->assertSame('email', $field->icon->value);
 		$this->assertSame('email.placeholder', $field->placeholder->translations['*']);
-		$this->assertInstanceOf(EmailValue::class, $field->value);
 	}
 }

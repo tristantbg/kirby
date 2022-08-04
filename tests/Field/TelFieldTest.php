@@ -8,15 +8,16 @@ namespace Kirby\Field;
 class TelFieldTest extends TestCase
 {
 	/**
-	 * @covers ::__construct
+	 * @covers ::defaults
 	 */
-	public function testConstruct()
+	public function testDefaults()
 	{
 		$field = new TelField(
 			id: 'test',
 		);
 
-		$this->assertSame('test', $field->id);
+		$field->defaults();
+
 		$this->assertSame('tel', $field->autocomplete);
 		$this->assertSame('phone', $field->icon->value);
 	}
