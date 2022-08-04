@@ -4,12 +4,11 @@ namespace Kirby\Table;
 
 use Kirby\Attribute\AfterAttribute;
 use Kirby\Attribute\BeforeAttribute;
-use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\TextAlign;
 use Kirby\Field\Field;
 use Kirby\Field\TextField;
-use Kirby\Foundation\Node;
+use Kirby\Node\LabelledNode;
 
 /**
  * Table column
@@ -20,7 +19,7 @@ use Kirby\Foundation\Node;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class TableColumn extends Node
+class TableColumn extends LabelledNode
 {
 	public function __construct(
 		public string $id,
@@ -28,7 +27,6 @@ class TableColumn extends Node
 		public TextAlign|null $align = null,
 		public BeforeAttribute|null $before = null,
 		public Field|null $field = null,
-		public LabelAttribute|null $label = null,
 		public bool $mobile = false,
 		public string|null $value = null,
 		public string|null $width = null,
@@ -37,9 +35,9 @@ class TableColumn extends Node
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function align(): TextAlign
 	{
-		$this->field ??= new TextField(id: $this->id);
+		return $this->align ?? new TextAlign;
 	}
 
 	public static function factory(array $props = []): static
@@ -78,11 +76,11 @@ class TableColumn extends Node
 	public function render(ModelWithContent $model): array
 	{
 		return [
-			'align'  => $this->align?->value,
+			'align'  => $this->align()->render($model),
 			'id'     => $this->id,
-			'label'  => $this->label->render($model),
+			'label'  => $this->label()->render($model),
 			'mobile' => $this->mobile,
-			'type'   => $this->field::TYPE,
+			'type'   => $this->field()::TYPE,
 		];
 	}
 
@@ -104,7 +102,7 @@ class TableColumn extends Node
 		// the correct value for the cell, which can
 		// then be picked up by the Vue cell component
 		// to render the value correctly
-		return $this->field->value?->set($value)->render($model);
+		return $this->field()->value?->set($value)->render($model);
 	}
 
 }

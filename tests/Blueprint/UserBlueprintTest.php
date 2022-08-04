@@ -18,7 +18,7 @@ class UserBlueprintTest extends TestCase
 			id: 'test'
 		);
 
-		$this->assertInstanceOf(UserImage::class, $blueprint->image);
+		$this->assertNull($blueprint->image);
 		$this->assertNull($blueprint->options);
 		$this->assertNull($blueprint->permissions);
 	}

@@ -78,13 +78,13 @@ class PagesSection extends ModelsSection
 	{
 		$columns = parent::columns();
 
-		$columns->add(new TableColumn(
-			id: 'flag',
-			label: new LabelAttribute(['*' => '']),
-			mobile: true,
-			type: 'flag',
-			width: 'var(--table-row-height)'
-		));
+		$columns->add(TableColumn::factory([
+			'id'     => 'flag',
+			'label'  => '',
+			'mobile' => true,
+			'type'   => 'flag',
+			'width'  => 'var(--table-row-height)'
+		]));
 
 		return $columns;
 	}

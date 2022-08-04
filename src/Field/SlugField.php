@@ -26,7 +26,7 @@ class SlugField extends TextField
 		public string|null $allowed = null,
 		public string|null $path = null,
 		public string|null $sync = null,
-		public SlugWizard|null $wizard = null,
+		public SlugFieldWizard|null $wizard = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

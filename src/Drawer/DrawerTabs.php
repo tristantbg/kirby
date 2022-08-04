@@ -3,7 +3,7 @@
 namespace Kirby\Drawer;
 
 use Kirby\Field\Fields;
-use Kirby\Foundation\Nodes;
+use Kirby\Node\Nodes;
 
 /**
  * Drawer Tabs

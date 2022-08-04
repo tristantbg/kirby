@@ -3,7 +3,7 @@
 namespace Kirby\Foundation;
 
 use Kirby\Attribute\LabelAttribute;
-use Kirby\Blueprint\Prop\Tab;
+use Kirby\Blueprint\Tab;
 use Kirby\Cms\Page;
 
 class TestComponent extends Component
@@ -151,7 +151,7 @@ class ComponentTest extends TestCase
 			'tab' => [
 				'icon'    => null,
 				'id'      => 'content',
-				'label'   => null,
+				'label'   => 'Content',
 				'link'    => '/pages/test?tab=content'
 			]
 		];

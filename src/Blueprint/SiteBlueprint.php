@@ -3,7 +3,6 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Attribute\UrlAttribute;
-use Kirby\Blueprint\Prop\SiteOptions;
 use Kirby\Exception\NotFoundException;
 
 /**
@@ -18,10 +17,9 @@ use Kirby\Exception\NotFoundException;
 class SiteBlueprint extends Blueprint
 {
 	public const DEFAULT = 'site';
-	public const TYPE    = 'site';
 
 	public function __construct(
-		public SiteOptions|null $options = null,
+		public SiteBlueprintOptions|null $options = null,
 		public UrlAttribute|null $preview = null,
 		...$args
 	) {
@@ -35,6 +33,11 @@ class SiteBlueprint extends Blueprint
 	public static function default(): static
 	{
 		return new static;
+	}
+
+	public function options(): SiteBlueprintOptions
+	{
+		return $this->options ?? new SiteBlueprintOptions;
 	}
 
 	public static function polyfill(array $props): array

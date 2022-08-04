@@ -2,7 +2,7 @@
 
 namespace Kirby\Block;
 
-use Kirby\Foundation\Nodes;
+use Kirby\Node\Nodes;
 
 /**
  * Block types

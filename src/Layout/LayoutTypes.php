@@ -2,7 +2,7 @@
 
 namespace Kirby\Layout;
 
-use Kirby\Foundation\Nodes;
+use Kirby\Node\Nodes;
 use Kirby\Toolkit\A;
 
 /**

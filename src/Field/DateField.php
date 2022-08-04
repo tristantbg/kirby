@@ -4,7 +4,7 @@ namespace Kirby\Field;
 
 use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\DateStep;
+use Kirby\Date\DateStep;
 use Kirby\Value\DateTimeValue;
 
 /**
@@ -25,7 +25,7 @@ class DateField extends InputField
 		public string $id,
 		public bool $calendar = true,
 		public string|null $default = null,
-		public string $display = 'YYYY-MM-DD',
+		public string|null $display = null,
 		public string|null $format = 'Y-m-d H:i:s',
 		public IconAttribute|null $icon = null,
 		public string|null $max = null,
@@ -43,20 +43,29 @@ class DateField extends InputField
 		);
 	}
 
-	public function defaults(): void
+	public function display(): string
 	{
-		$this->icon ??= new IconAttribute('calendar');
-		$this->step ??= new DateStep;
+		return $this->display ?? 'YYYY-MM-DD';
+	}
+
+	public function icon(): IconAttribute
+	{
+		return $this->icon ?? new IconAttribute('calendar');
 	}
 
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'display' => $this->display,
-			'icon'    => $this->icon?->render($model),
+			'display' => $this->display(),
+			'icon'    => $this->icon()->render($model),
 			'max'     => $this->max,
 			'min'     => $this->min,
-			'step'    => $this->step?->render($model),
+			'step'    => $this->step()->render($model),
 		];
+	}
+
+	public function step(): DateStep
+	{
+		return $this->step ?? new DateStep;
 	}
 }

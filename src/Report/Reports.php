@@ -2,8 +2,8 @@
 
 namespace Kirby\Report;
 
-use Kirby\Foundation\Collection;
 use Kirby\Foundation\Promising;
+use Kirby\Node\Nodes;
 
 /**
  * Reports
@@ -14,7 +14,7 @@ use Kirby\Foundation\Promising;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Reports extends Collection
+class Reports extends Nodes
 {
 	use Promising;
 

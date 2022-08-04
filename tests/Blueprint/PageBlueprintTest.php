@@ -18,7 +18,7 @@ class PageBlueprintTest extends TestCase
 			id: 'test',
 		);
 
-		$this->assertInstanceOf(PageImage::class, $blueprint->image);
+		$this->assertNull($blueprint->image);
 		$this->assertNull($blueprint->num);
 		$this->assertNull($blueprint->navigation);
 		$this->assertNull($blueprint->options);

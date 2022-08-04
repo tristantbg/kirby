@@ -2,11 +2,7 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Blueprint\Prop\PageImage;
-use Kirby\Blueprint\Prop\PageNavigation;
-use Kirby\Blueprint\Prop\PageOptions;
-use Kirby\Blueprint\Prop\Url;
-use Kirby\Blueprint\Prop\PageStatusOptions;
+use Kirby\Attribute\UrlAttribute;
 
 /**
  * Page blueprint
@@ -20,26 +16,37 @@ use Kirby\Blueprint\Prop\PageStatusOptions;
 class PageBlueprint extends Blueprint
 {
 	public const DEFAULT = 'pages/default';
-	public const TYPE    = 'page';
 
 	public function __construct(
 		public string $id,
-		public PageImage|null $image = null,
-		public PageNavigation|null $navigation = null,
+		public PageBlueprintImage|null $image = null,
+		public PageBlueprintNavigation|null $navigation = null,
 		public string|null $num = null,
-		public PageOptions|null $options = null,
-		public Url|null $preview = null,
-		public PageStatusOptions|null $status = null,
+		public PageBlueprintOptions|null $options = null,
+		public UrlAttribute|null $preview = null,
+		public PageBlueprintStatus|null $status = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function image(): PageBlueprintImage
 	{
-		$this->image ??= new PageImage;
-
-		parent::defaults();
+		return $this->image ?? new PageBlueprintImage;
 	}
 
+	public function navigation(): PageBlueprintNavigation
+	{
+		return $this->navigation ?? new PageBlueprintNavigation;
+	}
+
+	public function options(): PageBlueprintOptions
+	{
+		return $this->options ?? new PageBlueprintOptions;
+	}
+
+	public function status(): PageBlueprintStatus
+	{
+		return $this->status ?? new PageBlueprintStatus;
+	}
 }

@@ -3,7 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\Options;
+use Kirby\Option\Options;
 use Kirby\Value\OptionValue;
 
 /**
@@ -39,7 +39,7 @@ class OptionField extends InputField
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'options' => $this->options?->render($model)
+			'options' => $this->options()->render($model)
 		];
 	}
 

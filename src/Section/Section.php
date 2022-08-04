@@ -2,7 +2,8 @@
 
 namespace Kirby\Section;
 
-use Kirby\Foundation\Feature;
+use Kirby\Node\FeatureNode;
+use Kirby\Node\LabelledNode;
 
 /**
  * Section
@@ -13,20 +14,15 @@ use Kirby\Foundation\Feature;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Section extends Feature
+class Section extends FeatureNode
 {
 	public const GROUP = 'section';
 	public const TYPE  = 'section';
 
 	public static function polyfill(array $props): array
 	{
+		$props = LabelledNode::polyfillHeadline($props);
 		$props = parent::polyfill($props);
-
-		// convert old headlines to labels
-		if (isset($props['headline']) === true) {
-			$props['label'] ??= $props['headline'] ?? null;
-			unset($props['headline']);
-		}
 
 		return $props;
 	}

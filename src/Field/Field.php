@@ -4,8 +4,7 @@ namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\FieldWidth;
-use Kirby\Field\Prop\When;
-use Kirby\Foundation\Feature;
+use Kirby\Node\FeatureNode;
 
 /**
  * Base field class
@@ -16,14 +15,13 @@ use Kirby\Foundation\Feature;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Field extends Feature
+class Field extends FeatureNode
 {
 	public const GROUP = 'field';
 	public const TYPE  = 'field';
 
 	public function __construct(
 		public string $id,
-		public When|null $when = null,
 		public FieldWidth|null $width = null,
 		...$args
 	) {
@@ -40,21 +38,20 @@ class Field extends Feature
 		return false;
 	}
 
-	public function isActive(array $values = []): bool
-	{
-		return $this->when?->isTrue($values) ?? true;
-	}
-
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'when'  => $this->when?->render($model),
-			'width' => $this->width?->render($model) ?? '1/1'
+			'width' => $this->width()->render($model)
 		];
 	}
 
 	public function submit(mixed $value = null): static
 	{
 		return $this;
+	}
+
+	public function width(): FieldWidth
+	{
+		return $this->width ?? new FieldWidth;
 	}
 }

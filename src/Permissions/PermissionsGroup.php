@@ -2,8 +2,6 @@
 
 namespace Kirby\Permissions;
 
-use Kirby\Foundation\Component;
-
 /**
  * Permissions Group
  *
@@ -13,7 +11,7 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class PermissionsGroup extends Component
+class PermissionsGroup
 {
 	/**
 	 * Creates a new instance either from an

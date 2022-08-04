@@ -2,6 +2,9 @@
 
 namespace Kirby\Field;
 
+use Kirby\Option\Option;
+use Kirby\Option\Options;
+
 /**
  * @covers \Kirby\Field\Form
  */
@@ -17,10 +20,10 @@ class FormTest extends TestCase
 				new TextField(id: 'heading', required: true),
 				new InfoField(id: 'info'),
 				new DateField(id: 'date'),
-				new SelectField(id: 'category', options: new Prop\Options([
-					new Prop\Option(value: 'a'),
-					new Prop\Option(value: 'b'),
-					new Prop\Option(value: 'c'),
+				new SelectField(id: 'category', options: new Options([
+					new Option(value: 'a'),
+					new Option(value: 'b'),
+					new Option(value: 'c'),
 				])),
 				new TextareaField(id: 'text')
 			])

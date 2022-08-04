@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Foundation\Nodes;
+use Kirby\Node\Nodes;
 use Kirby\Value\Values;
 
 /**

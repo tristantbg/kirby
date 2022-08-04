@@ -2,7 +2,7 @@
 
 namespace Kirby\Panel;
 
-use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Image;
 use Kirby\Http\Uri;
 
 /**

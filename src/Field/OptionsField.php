@@ -3,9 +3,9 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\Options;
-use Kirby\Field\Prop\OptionsApi;
-use Kirby\Field\Prop\OptionsQuery;
+use Kirby\Option\Options;
+use Kirby\Option\OptionsApi;
+use Kirby\Option\OptionsQuery;
 use Kirby\Value\OptionsValue;
 
 /**

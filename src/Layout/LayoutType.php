@@ -3,7 +3,7 @@
 namespace Kirby\Layout;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Node;
+use Kirby\Node\Node;
 
 /**
  * Layout Type

@@ -7,8 +7,8 @@ use Kirby\Attribute\LabelAttribute;
 use Kirby\Attribute\TextAttribute;
 use Kirby\Cms\App;
 use Kirby\Cms\Translations;
-use Kirby\Field\Prop\Option;
-use Kirby\Field\Prop\Options;
+use Kirby\Option\Option;
+use Kirby\Option\Options;
 
 /**
  * Translations field

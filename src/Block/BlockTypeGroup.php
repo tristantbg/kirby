@@ -2,9 +2,8 @@
 
 namespace Kirby\Block;
 
-use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Node;
+use Kirby\Node\LabelledNode;
 
 /**
  * Block type group
@@ -15,11 +14,10 @@ use Kirby\Foundation\Node;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class BlockTypeGroup extends Node
+class BlockTypeGroup extends LabelledNode
 {
 	public function __construct(
 		public string $id,
-		public LabelAttribute|null $label = null,
 		public bool $open = true,
 		public BlockTypes|null $types = null,
 		...$args
@@ -42,11 +40,16 @@ class BlockTypeGroup extends Node
 	public function render(ModelWithContent $model): array
 	{
 		return [
-			'types' => $this->types?->render($model),
+			'types' => $this->types()->render($model),
 			'id'    => $this->id,
-			'label' => $this->label?->render($model),
+			'label' => $this->label()->render($model),
 			'open'  => $this->open
 		];
+	}
+
+	public function types(): BlockTypes
+	{
+		return $this->types ?? new BlockTypes;
 	}
 
 }

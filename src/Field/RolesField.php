@@ -5,8 +5,8 @@ namespace Kirby\Field;
 use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\App;
 use Kirby\Cms\Roles;
-use Kirby\Field\Prop\Option;
-use Kirby\Field\Prop\Options;
+use Kirby\Option\Option;
+use Kirby\Option\Options;
 
 /**
  * Roles field

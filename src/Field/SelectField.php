@@ -29,19 +29,27 @@ class SelectField extends OptionField
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function empty(): bool
 	{
-		$this->empty ??= false;
+		return $this->empty ?? false;
+	}
 
-		parent::defaults();
+	public function icon(): ?IconAttribute
+	{
+		return $this->icon;
+	}
+
+	public function placeholder(): ?PlaceholderAttribute
+	{
+		return $this->placeholder;
 	}
 
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'empty'       => $this->empty,
-			'icon'        => $this->icon?->render($model),
-			'placeholder' => $this->placeholder?->render($model),
+			'empty'       => $this->empty(),
+			'icon'        => $this->icon()?->render($model),
+			'placeholder' => $this->placeholder()?->render($model),
 		];
 	}
 

@@ -5,8 +5,8 @@ namespace Kirby\Field;
 use Kirby\Attribute\IconAttribute;
 use Kirby\Attribute\LabelAttribute;
 use Kirby\Blueprint\Blueprints;
-use Kirby\Field\Prop\Option;
-use Kirby\Field\Prop\Options;
+use Kirby\Option\Option;
+use Kirby\Option\Options;
 
 /**
  * Blueprints field
@@ -45,12 +45,18 @@ class BlueprintsField extends SelectField
 		return $options;
 	}
 
-	public function defaults(): void
+	public function icon(): IconAttribute
 	{
-		$this->icon    ??= new IconAttribute('template');
-		$this->label   ??= new LabelAttribute(['*' => 'template']);
-		$this->options ??= $this->blueprints();
+		return $this->icon ?? new IconAttribute('template');
+	}
 
-		parent::defaults();
+	public function label(): LabelAttribute
+	{
+		return $this->label ?? new LabelAttribute(['*' => 'template']);
+	}
+
+	public function options(): Options
+	{
+		return $this->options ?? $this->blueprints();
 	}
 }

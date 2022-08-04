@@ -2,8 +2,6 @@
 
 namespace Kirby\Permissions;
 
-use Kirby\Foundation\Component;
-
 /**
  * User Permissions option
  *
@@ -13,7 +11,7 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Permissions extends Component
+class Permissions
 {
 	public function __construct(
 		public AccessPermissions|null $access = null,
@@ -23,12 +21,12 @@ class Permissions extends Component
 		public SitePermissions|null $site = null,
 		public UsersPermissions|null $users = null,
 	) {
-		$this->access  ??= new AccessPermissions();
-		$this->account ??= new AccountPermissions();
-		$this->files   ??= new FilesPermissions();
-		$this->pages   ??= new PagesPermissions();
-		$this->site    ??= new SitePermissions();
-		$this->users   ??= new UsersPermissions();
+		$this->access  ??= new AccessPermissions;
+		$this->account ??= new AccountPermissions;
+		$this->files   ??= new FilesPermissions;
+		$this->pages   ??= new PagesPermissions;
+		$this->site    ??= new SitePermissions;
+		$this->users   ??= new UsersPermissions;
 	}
 
 	/**

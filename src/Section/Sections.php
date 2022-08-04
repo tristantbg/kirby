@@ -2,7 +2,7 @@
 
 namespace Kirby\Section;
 
-use Kirby\Foundation\Nodes;
+use Kirby\Node\Nodes;
 use Kirby\Field\Fields;
 
 /**

@@ -3,7 +3,7 @@
 namespace Kirby\Table;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Component;
+use Kirby\Foundation\Factory;
 
 /**
  * Table
@@ -14,7 +14,7 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Table extends Component
+class Table
 {
 	public function __construct(
 		public TableColumns $columns,
@@ -22,8 +22,19 @@ class Table extends Component
 	) {
 	}
 
-	public function render(ModelWithContent $model): mixed
+	public static function factory(array $props): static
 	{
-		return $this->rows->render($model, $this->columns);
+		Factory::apply($props['columns'], TableColumns::class);
+		Factory::apply($props['rows'], TableRows::class);
+
+		return new static(...$props);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'columns' => $this->columns->render($model),
+			'rows'    => $this->rows->render($model, $this->columns)
+		];
 	}
 }

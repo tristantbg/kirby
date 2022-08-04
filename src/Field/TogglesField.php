@@ -3,7 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\Options;
+use Kirby\Option\Options;
 use Kirby\Value\MixedValue;
 
 /**

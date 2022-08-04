@@ -8,7 +8,7 @@ use Kirby\Cms\ModelWithContent;
 use Kirby\Drawer\Drawer;
 use Kirby\Drawer\DrawerTabs;
 use Kirby\Field\Fields;
-use Kirby\Foundation\Node;
+use Kirby\Node\LabelledNode;
 
 /**
  * Block type
@@ -19,14 +19,13 @@ use Kirby\Foundation\Node;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class BlockType extends Node
+class BlockType extends LabelledNode
 {
 	public function __construct(
 		public string $id,
 		public bool $disabled = false,
 		public bool $editable = true,
 		public IconAttribute|null $icon = null,
-		public LabelAttribute|null $label = null,
 		public LabelAttribute|null $name = null,
 		public string|null $preview = null,
 		public DrawerTabs|null $tabs = null,
@@ -36,11 +35,6 @@ class BlockType extends Node
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-	}
-
-	public function defaults(): void
-	{
-		$this->label ??= $this->name;
 	}
 
 	public function drawer(): Drawer
@@ -56,6 +50,16 @@ class BlockType extends Node
 	public function fields(): ?Fields
 	{
 		return $this->tabs->fields();
+	}
+
+	public function icon(): IconAttribute
+	{
+		return $this->icon ?? new IconAttribute('box');
+	}
+
+	public function label(): LabelAttribute
+	{
+		return $this->label ?? $this->name ?? LabelAttribute::fallback($this->id);
 	}
 
 	public static function load(string|array $props): static
@@ -95,9 +99,9 @@ class BlockType extends Node
 	public function render(ModelWithContent $model): array
 	{
 		return [
-			'icon'  => $this->icon?->render($model),
+			'icon'  => $this->icon()->render($model),
 			'id'    => $this->id,
-			'label' => $this->label?->render($model),
+			'label' => $this->label()->render($model),
 		];
 	}
 

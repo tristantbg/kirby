@@ -6,7 +6,6 @@ use Kirby\Attribute\AfterAttribute;
 use Kirby\Attribute\BeforeAttribute;
 use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\ToggleText;
 use Kirby\Value\BoolValue;
 
 /**
@@ -29,17 +28,12 @@ class ToggleField extends InputField
 		public BeforeAttribute|null $before = null,
 		public bool|null $default = null,
 		public IconAttribute|null $icon = null,
-		public ToggleText|null $text = null,
+		public ToggleFieldText|null $text = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 
 		$this->value = new BoolValue;
-	}
-
-	public function defaults(): void
-	{
-		$this->text ??= ToggleText::factory();
 	}
 
 	public function render(ModelWithContent $model): array
@@ -48,8 +42,12 @@ class ToggleField extends InputField
 			'after'  => $this->after?->render($model),
 			'before' => $this->before?->render($model),
 			'icon'   => $this->icon?->render($model),
-			'text'   => $this->text?->render($model),
+			'text'   => $this->text()->render($model),
 		];
 	}
 
+	public function text(): ToggleFieldText
+	{
+		return $this->text ?? ToggleFieldText::default();
+	}
 }

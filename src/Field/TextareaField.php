@@ -8,7 +8,6 @@ use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\Font;
 use Kirby\Enumeration\FontSize;
 use Kirby\Field\Prop\Files;
-use Kirby\Field\Prop\Toolbar;
 use Kirby\Field\Prop\Uploads;
 use Kirby\Value\StringValue;
 
@@ -28,7 +27,7 @@ class TextareaField extends InputField
 
 	public function __construct(
 		string $id,
-		public Toolbar|null $buttons = null,
+		public TextareaFieldToolbar|null $buttons = null,
 		public bool $counter = true,
 		public string|null $default = null,
 		public Files|null $files = null,

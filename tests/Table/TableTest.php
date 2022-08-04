@@ -31,9 +31,27 @@ class TableTest extends TestCase
 		$result = $table->render($model);
 
 		$expected = [
-			[
-				'a' => 'Value A',
-				'b' => 'Value B',
+			'columns' => [
+				'a' => [
+					'align'  => 'left',
+					'id'     => 'a',
+					'label'  => 'A',
+					'mobile' => false,
+					'type'   => 'text'
+				],
+				'b' => [
+					'align'  => 'left',
+					'id'     => 'b',
+					'label'  => 'B',
+					'mobile' => false,
+					'type'   => 'text'
+				]
+			],
+ 			'rows' => [
+				[
+					'a' => 'Value A',
+					'b' => 'Value B',
+				]
 			]
 		];
 
@@ -64,9 +82,27 @@ class TableTest extends TestCase
 		$result = $table->render($model);
 
 		$expected = [
-			[
-				'a' => 'Slug: test',
-				'b' => 'Value B',
+			'columns' => [
+				'a' => [
+					'align'  => 'left',
+					'id'     => 'a',
+					'label'  => 'A',
+					'mobile' => false,
+					'type'   => 'text'
+				],
+				'b' => [
+					'align'  => 'left',
+					'id'     => 'b',
+					'label'  => 'B',
+					'mobile' => false,
+					'type'   => 'text'
+				]
+			],
+			'rows' => [
+				[
+					'a' => 'Slug: test',
+					'b' => 'Value B',
+				]
 			]
 		];
 
@@ -99,9 +135,27 @@ class TableTest extends TestCase
 		$result = $table->render($model);
 
 		$expected = [
-			[
-				'a' => true,
-				'b' => 5,
+			'columns' => [
+				'a' => [
+					'align'  => 'left',
+					'id'     => 'a',
+					'label'  => 'A',
+					'mobile' => false,
+					'type'   => 'toggle'
+				],
+				'b' => [
+					'align'  => 'left',
+					'id'     => 'b',
+					'label'  => 'B',
+					'mobile' => false,
+					'type'   => 'number'
+				]
+			],
+			'rows' => [
+				[
+					'a' => true,
+					'b' => 5,
+				]
 			]
 		];
 

@@ -2,8 +2,6 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Foundation\Component;
-
 /**
  * Uploads options
  *
@@ -13,7 +11,7 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Uploads extends Component
+class Uploads
 {
 	public function __construct(
 		public string|null $parent = null,

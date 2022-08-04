@@ -24,7 +24,7 @@ class TableColumnTest extends TestCase
 		$this->assertNull($column->label);
 		$this->assertFalse($column->mobile);
 		$this->assertNull($column->align);
-		$this->assertInstanceOf(TextField::class, $column->field);
+		$this->assertNull($column->field);
 		$this->assertNull($column->value);
 		$this->assertNull($column->width);
 	}

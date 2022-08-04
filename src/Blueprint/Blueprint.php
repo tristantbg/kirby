@@ -2,14 +2,11 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\LabelAttribute;
-use Kirby\Blueprint\Prop\Columns;
-use Kirby\Blueprint\Prop\Tab;
-use Kirby\Blueprint\Prop\Tabs;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
-use Kirby\Foundation\Node;
+use Kirby\Node\LabelledNode;
+use Kirby\Node\NodeCache;
 use Kirby\Section\Section;
 use Kirby\Section\Sections;
 
@@ -22,18 +19,15 @@ use Kirby\Section\Sections;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Blueprint extends Node
+class Blueprint extends LabelledNode
 {
 	public const DEFAULT = 'default';
-	public const GROUP   = 'blueprint';
-	public const TYPE    = 'blueprint';
 
-	public static Cache $cache;
+	public static NodeCache $cache;
 	public ModelWithContent|null $model = null;
 
 	public function __construct(
 		public string $id,
-		public LabelAttribute|null $label = null,
 		public Tabs|null $tabs = null,
 		...$args
 	) {
@@ -51,17 +45,17 @@ class Blueprint extends Node
 		return $this;
 	}
 
-	public static function cache(): Cache
+	public static function cache(): NodeCache
 	{
-		return static::$cache ??= new Cache;
+		return static::$cache ??= new NodeCache;
 	}
 
 	/**
 	 * Collects all columns from all tabs
 	 */
-	public function columns(): ?Columns
+	public function columns(): Columns
 	{
-		return $this->tabs?->columns();
+		return $this->tabs()->columns();
 	}
 
 	/**
@@ -86,9 +80,9 @@ class Blueprint extends Node
 	/**
 	 * Collects all fields from all tabs
 	 */
-	public function fields(): ?Fields
+	public function fields(): Fields
 	{
-		return $this->sections()?->fields();
+		return $this->sections()->fields();
 	}
 
 	/**
@@ -212,26 +206,11 @@ class Blueprint extends Node
 		return $props;
 	}
 
-	/**
-	 * Keeps the old `title:` option working by
-	 * converting it to the new unified `label:` option
-	 */
-	public static function polyfillTitle(array $props): array
-	{
-		// make old title option compatible
-		if (isset($props['title']) === true) {
-			$props['label'] = $props['title'];
-			unset($props['title']);
-		}
-
-		return $props;
-	}
-
 	public function render(ModelWithContent $model, string $tab = null): array
 	{
 		return [
-			'label' => $this->label->render($model),
-			'tabs'  => $this->tabs?->render($model),
+			'label' => $this->label()->render($model),
+			'tabs'  => $this->tabs()->render($model),
 			'tab'   => $this->tab($tab)?->render($model, true)
 		];
 	}
@@ -241,15 +220,15 @@ class Blueprint extends Node
 	 */
 	public function section(string $id = null): ?Section
 	{
-		return $this->sections()?->$id;
+		return $this->sections()->$id;
 	}
 
 	/**
 	 * Collects all sections from all tabs
 	 */
-	public function sections(): ?Sections
+	public function sections(): Sections
 	{
-		return $this->columns()?->sections();
+		return $this->columns()->sections();
 	}
 
 	/**
@@ -257,22 +236,17 @@ class Blueprint extends Node
 	 */
 	public function tab(string $id = null): ?Tab
 	{
-		// the blueprint might not have any tabs
-		if ($this->tabs === null || $this->tabs->count() === 0) {
-			return null;
-		}
-
 		// no tab id -> take first tab
 		if ($id === null) {
-			return $this->tabs->first();
+			return $this->tabs()->first();
 		}
 
-		// find tab by id
-		if ($tab = $this->tabs?->$id) {
-			return $tab;
-		}
+		return $this->tabs()->$id;
+	}
 
-		throw new NotFoundException('The tab could not be found');
+	public function tabs(): Tabs
+	{
+		return $this->tabs ?? new Tabs;
 	}
 
 	/**

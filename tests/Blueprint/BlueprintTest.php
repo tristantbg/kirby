@@ -3,10 +3,6 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Attribute\LabelAttribute;
-use Kirby\Blueprint\Prop\Column;
-use Kirby\Blueprint\Prop\Columns;
-use Kirby\Blueprint\Prop\Tab;
-use Kirby\Blueprint\Prop\Tabs;
 use Kirby\Field\Fields;
 use Kirby\Field\InfoField;
 use Kirby\Section\FieldsSection;
@@ -79,7 +75,7 @@ class BlueprintTest extends TestCase
 	public function testColumnsWithoutTabs()
 	{
 		$blueprint = new Blueprint('test');
-		$this->assertNull($blueprint->columns());
+		$this->assertCount(0, $blueprint->columns());
 	}
 
 	/**
@@ -133,7 +129,7 @@ class BlueprintTest extends TestCase
 	public function testFieldsWithoutTabs()
 	{
 		$blueprint = new Blueprint('test');
-		$this->assertNull($blueprint->fields());
+		$this->assertCount(0, $blueprint->fields());
 	}
 
 	/**
@@ -180,6 +176,6 @@ class BlueprintTest extends TestCase
 	public function testSectionsWithoutTabs()
 	{
 		$blueprint = new Blueprint('test');
-		$this->assertNull($blueprint->sections());
+		$this->assertCount(0, $blueprint->sections());
 	}
 }

@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Prop\Image;
-use Kirby\Blueprint\Prop\Text;
+use Kirby\Attribute\TextAttribute;
+use Kirby\Blueprint\Image;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\ItemLayout;
 use Kirby\Enumeration\ItemSize;
@@ -26,9 +26,9 @@ class PickerField extends InputField
 	public function __construct(
 		public string $id,
 		public array|null $default = null,
-		public Text|null $empty = null,
+		public TextAttribute|null $empty = null,
 		public Image|null $image = null,
-		public Text|null $info = null,
+		public TextAttribute|null $info = null,
 		public ItemLayout|null $layout = null,
 		public int $limit = 20,
 		public bool $link = true,
@@ -38,7 +38,7 @@ class PickerField extends InputField
 		public string|null $query = null,
 		public bool $search = true,
 		public ItemSize|null $size = null,
-		public Text|null $text = null,
+		public TextAttribute|null $text = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

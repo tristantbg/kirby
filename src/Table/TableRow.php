@@ -3,7 +3,7 @@
 namespace Kirby\Table;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Component;
+use Kirby\Foundation\Factory;
 
 /**
  * Table row
@@ -14,12 +14,19 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class TableRow extends Component
+class TableRow
 {
 	public function __construct(
 		public string $id,
 		public TableCells $cells
 	) {
+	}
+
+	public static function factory(array $props): static
+	{
+		Factory::apply($props['cells'], TableCells::class);
+
+		return new static(...$props);
 	}
 
 	public function render(ModelWithContent $model, TableColumns $columns = null): mixed

@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Field\Prop\Option;
-use Kirby\Field\Prop\Options;
+use Kirby\Option\Option;
+use Kirby\Option\Options;
 
 /**
  * Position field

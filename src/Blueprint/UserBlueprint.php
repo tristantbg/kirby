@@ -2,9 +2,7 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Blueprint\Prop\Url;
-use Kirby\Blueprint\Prop\UserImage;
-use Kirby\Blueprint\Prop\UserOptions;
+use Kirby\Attribute\UrlAttribute;
 use Kirby\Permissions\Permissions;
 
 /**
@@ -23,19 +21,22 @@ class UserBlueprint extends Blueprint
 
 	public function __construct(
 		public string $id,
-		public Url|null $home = null,
-		public UserImage|null $image = null,
-		public UserOptions|null $options = null,
+		public UrlAttribute|null $home = null,
+		public UserBlueprintImage|null $image = null,
+		public UserBlueprintOptions|null $options = null,
 		public Permissions|null $permissions = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function image(): UserBlueprintImage
 	{
-		$this->image ??= new UserImage;
+		return $this->image ?? new UserBlueprintImage;
+	}
 
-		parent::defaults();
+	public function options(): UserBlueprintOptions
+	{
+		return $this->options ?? new UserBlueprintOptions;
 	}
 }

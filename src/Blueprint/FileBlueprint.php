@@ -3,8 +3,6 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Attribute\UrlAttribute;
-use Kirby\Blueprint\Prop\Accept;
-use Kirby\Blueprint\Prop\FileOptions;
 use Kirby\Blueprint\Prop\FileImage;
 
 /**
@@ -19,23 +17,30 @@ use Kirby\Blueprint\Prop\FileImage;
 class FileBlueprint extends Blueprint
 {
 	public const DEFAULT = 'files/default';
-	public const TYPE = 'file';
 
 	public function __construct(
 		public string $id,
-		public Accept|null $accept = null,
-		public FileImage|null $image = null,
-		public FileOptions|null $options = null,
+		public FileBlueprintAcceptRules|null $accept = null,
+		public FileBlueprintImage|null $image = null,
+		public FileBlueprintOptions|null $options = null,
 		public UrlAttribute|null $preview = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function accept(): FileBlueprintAcceptRules
 	{
-		$this->image ??= new FileImage;
+		return $this->accept ?? new FileBlueprintAcceptRules;
+	}
 
-		parent::defaults();
+	public function image(): FileBlueprintImage
+	{
+		return $this->image ?? new FileBlueprintImage;
+	}
+
+	public function options(): FileBlueprintOptions
+	{
+		return $this->options ?? new FileBlueprintOptions;
 	}
 }

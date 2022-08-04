@@ -2,10 +2,9 @@
 
 namespace Kirby\Section;
 
-use Kirby\Attribute\LabelAttribute;
 use Kirby\Attribute\RelatedAttribute;
 use Kirby\Attribute\TextAttribute;
-use Kirby\Blueprint\Prop\Image;
+use Kirby\Blueprint\Image;
 use Kirby\Cms\Collection as Models;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
@@ -102,30 +101,30 @@ class ModelsSection extends DisplaySection
 		$columns = new TableColumns;
 
 		if ($this->image) {
-			$columns->add(new TableColumn(
-				id: 'image',
-				label: new LabelAttribute(['*' => '']),
-				mobile: true,
-				type: 'image',
-				width: 'var(--table-row-height)'
-			));
+			$columns->add(TableColumn::factory([
+				'id'     => 'image',
+				'label'  => '',
+				'mobile' => true,
+				'type'   => 'image',
+				'width'  => 'var(--table-row-height)'
+			]));
 		}
 
 		if ($this->text) {
-			$columns->add(new TableColumn(
-				id: 'title',
-				label: new LabelAttribute(['*' => 'title']),
-				mobile: true,
-				type: 'url',
-			));
+			$columns->add(TableColumn::factory([
+				'id'     => 'title',
+				'label'  => 'title',
+				'mobile' => true,
+				'type'   => 'url',
+			]));
 		}
 
 		if ($this->info) {
-			$columns->add(new TableColumn(
-				id: 'info',
-				label: new LabelAttribute(['*' => 'info']),
-				type: 'text',
-			));
+			$columns->add(TableColumn::factory([
+				'id'    => 'info',
+				'label' => 'info',
+				'type'  => 'text',
+			]));
 		}
 
 		if ($this->columns) {

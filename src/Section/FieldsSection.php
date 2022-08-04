@@ -21,7 +21,9 @@ class FieldsSection extends Section
 	public function __construct(
 		public string $id,
 		public Fields|null $fields = null,
+		...$args
 	) {
+		parent::__construct($id, ...$args);
 	}
 
 	public function render(ModelWithContent $model): array

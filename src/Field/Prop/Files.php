@@ -2,8 +2,8 @@
 
 namespace Kirby\Field\Prop;
 
-use Kirby\Blueprint\Prop\Image;
-use Kirby\Foundation\Component;
+use Kirby\Blueprint\Image;
+use Kirby\Foundation\Factory;
 
 /**
  * File Picker Options
@@ -14,7 +14,7 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Files extends Component
+class Files
 {
 	public function __construct(
 		public string|null $query = null,
@@ -28,7 +28,8 @@ class Files extends Component
 			$props = ['query' => $props];
 		}
 
+		Factory::apply($props['image'], Image::class);
+
 		return new static(...$props);
 	}
-
 }

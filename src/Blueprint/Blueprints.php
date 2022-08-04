@@ -2,7 +2,7 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Foundation\Nodes;
+use Kirby\Node\Nodes;
 
 /**
  * Blueprints

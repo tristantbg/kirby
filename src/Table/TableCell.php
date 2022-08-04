@@ -3,7 +3,6 @@
 namespace Kirby\Table;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Component;
 
 /**
  * Table cell
@@ -14,12 +13,17 @@ use Kirby\Foundation\Component;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class TableCell extends Component
+class TableCell
 {
 	public function __construct(
 		public string $id,
 		public mixed $value = null
 	) {
+	}
+
+	public static function factory(array $props): static
+	{
+		return new static(...$props);
 	}
 
 	public function render(ModelWithContent $model, TableColumn $column = null): mixed

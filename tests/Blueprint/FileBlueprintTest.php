@@ -19,7 +19,7 @@ class FileBlueprintTest extends TestCase
 		);
 
 		$this->assertNull($blueprint->accept);
-		$this->assertInstanceOf(FileImage::class, $blueprint->image);
+		$this->assertNull($blueprint->image);
 		$this->assertNull($blueprint->options);
 		$this->assertNull($blueprint->preview);
 	}
