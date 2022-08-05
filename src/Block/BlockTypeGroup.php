@@ -2,9 +2,9 @@
 
 namespace Kirby\Block;
 
+use Kirby\Blueprint\NodeLabelled;
+use Kirby\Blueprint\Polyfill;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Polyfill;
-use Kirby\Node\LabelledNode;
 
 /**
  * Block type group
@@ -15,7 +15,7 @@ use Kirby\Node\LabelledNode;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class BlockTypeGroup extends LabelledNode
+class BlockTypeGroup extends NodeLabelled
 {
 	public function __construct(
 		public string $id,

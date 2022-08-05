@@ -3,7 +3,6 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Field\Fields;
-use Kirby\Node\Nodes;
 use Kirby\Section\Sections;
 
 /**

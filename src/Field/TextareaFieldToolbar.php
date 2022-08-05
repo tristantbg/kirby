@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Foundation\Bools;
+use Kirby\Blueprint\Bools;
 
 /**
  * Toolbar Button Setup

@@ -1,9 +1,8 @@
 <?php
 
-namespace Kirby\Foundation;
+namespace Kirby\Blueprint;
 
 use Kirby\Attribute\LabelAttribute;
-use Kirby\Blueprint\Tab;
 use Kirby\Cms\Page;
 
 class TestComponent extends Component
@@ -28,7 +27,7 @@ class TestComponent extends Component
 }
 
 /**
- * @covers \Kirby\Foundation\Component
+ * @covers \Kirby\Blueprint\Component
  */
 class ComponentTest extends TestCase
 {

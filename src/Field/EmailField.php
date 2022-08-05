@@ -2,9 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\LabelAttribute;
-use Kirby\Attribute\PlaceholderAttribute;
 use Kirby\Value\EmailValue;
 
 /**
@@ -38,9 +35,9 @@ class EmailField extends TextField
 	{
 		$this->autocomplete ??= 'email';
 		$this->counter      ??= false;
-		$this->icon         ??= new IconAttribute('email');
-		$this->label        ??= new LabelAttribute(['*' => 'email']);
-		$this->placeholder  ??= new PlaceholderAttribute(['*' => 'email.placeholder']);
+		$this->icon         ??= new FieldIcon('email');
+		$this->label        ??= new FieldLabel(['*' => 'email']);
+		$this->placeholder  ??= new FieldPlaceholder(['*' => 'email.placeholder']);
 
 		parent::defaults();
 	}

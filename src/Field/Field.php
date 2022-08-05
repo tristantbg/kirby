@@ -2,9 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\NodeFeature;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Enumeration\FieldWidth;
-use Kirby\Node\FeatureNode;
 
 /**
  * Base field class
@@ -15,7 +14,7 @@ use Kirby\Node\FeatureNode;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Field extends FeatureNode
+class Field extends NodeFeature
 {
 	public const GROUP = 'field';
 	public const TYPE  = 'field';

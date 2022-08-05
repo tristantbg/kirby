@@ -11,7 +11,7 @@ namespace Kirby\Blueprint;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class UserBlueprintImage extends Image
+class UserBlueprintImage extends BlueprintImage
 {
 	public function __construct(
 		...$args

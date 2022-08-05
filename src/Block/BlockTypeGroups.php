@@ -2,10 +2,10 @@
 
 namespace Kirby\Block;
 
+use Kirby\Blueprint\Extension;
+use Kirby\Blueprint\Nodes;
 use Kirby\Cms\App;
 use Kirby\Exception\LogicException;
-use Kirby\Foundation\Extension;
-use Kirby\Node\Nodes;
 
 /**
  * Block type groups

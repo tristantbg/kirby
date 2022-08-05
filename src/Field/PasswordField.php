@@ -2,9 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\LabelAttribute;
-
 /**
  * Password field
  *
@@ -21,8 +18,8 @@ class PasswordField extends TextField
 	public function defaults(): void
 	{
 		$this->autocomplete ??= 'password';
-		$this->icon         ??= new IconAttribute('key');
-		$this->label        ??= new LabelAttribute(['*' => 'password']);
+		$this->icon         ??= new FieldIcon('key');
+		$this->label        ??= new FieldLabel(['*' => 'password']);
 		$this->minlength    ??= 8;
 
 		parent::defaults();

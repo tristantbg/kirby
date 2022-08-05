@@ -2,11 +2,8 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
-use Kirby\Foundation\Polyfill;
-use Kirby\Node\LabelledNode;
 use Kirby\Section\Sections;
 
 /**
@@ -18,11 +15,11 @@ use Kirby\Section\Sections;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Tab extends LabelledNode
+class Tab extends NodeLabelled
 {
 	public function __construct(
 		public string $id,
-		public IconAttribute|null $icon = null,
+		public NodeIcon|null $icon = null,
 		public Columns|null $columns = null,
 		...$args,
 	) {

@@ -2,7 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\App;
 use Kirby\Cms\Roles;
 use Kirby\Option\Option;
@@ -31,7 +30,7 @@ class RolesField extends RadioField
 
 	public function defaults(): void
 	{
-		$this->label   ??= new LabelAttribute(['*' => 'role']);
+		$this->label   ??= new FieldLabel(['*' => 'role']);
 		$this->roles   ??= App::instance()->roles();
 		$this->options ??= $this->roles();
 

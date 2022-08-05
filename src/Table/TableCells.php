@@ -2,8 +2,8 @@
 
 namespace Kirby\Table;
 
+use Kirby\Blueprint\Collection;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Collection;
 
 /**
  * Table cells

@@ -3,7 +3,6 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Blueprint\Prop\Icon;
 
 /**
  * Tags field
@@ -21,7 +20,7 @@ class TagsField extends OptionsField
 	public function __construct(
 		public string $id,
 		public bool $any = true,
-		public Icon|null $icon = null,
+		public FieldIcon|null $icon = null,
 		public bool $list = false,
 		...$args
 	) {

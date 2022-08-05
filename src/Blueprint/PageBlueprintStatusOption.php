@@ -2,11 +2,8 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\LabelAttribute;
-use Kirby\Attribute\TextAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\InvalidArgumentException;
-use Kirby\Node\LabelledNode;
 
 /**
  * Page Status Option
@@ -17,12 +14,12 @@ use Kirby\Node\LabelledNode;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class PageBlueprintStatusOption extends LabelledNode
+class PageBlueprintStatusOption extends NodeLabelled
 {
 	public function __construct(
 		public string $id,
 		public bool $disabled = false,
-		public TextAttribute|null $text = null,
+		public NodeText|null $text = null,
 		...$args
 	) {
 		if (in_array($this->id, ['draft', 'unlisted', 'listed']) === false) {
@@ -32,9 +29,9 @@ class PageBlueprintStatusOption extends LabelledNode
 		parent::__construct($id, ...$args);
 	}
 
-	public function label(): LabelAttribute
+	public function label(): NodeLabel
 	{
-		return $this->label ?? new LabelAttribute(['*' => 'page.status.' . $this->id]);
+		return $this->label ?? new NodeLabel(['*' => 'page.status.' . $this->id]);
 	}
 
 	public static function prefab(string $id, array|string|bool|null $option = null): static
@@ -75,8 +72,8 @@ class PageBlueprintStatusOption extends LabelledNode
 		];
 	}
 
-	public function text(): TextAttribute
+	public function text(): NodeText
 	{
-		return $this->text ?? new TextAttribute(['*' => 'page.status.' . $this->id . '.description']);
+		return $this->text ?? new NodeText(['*' => 'page.status.' . $this->id . '.description']);
 	}
 }

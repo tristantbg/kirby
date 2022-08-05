@@ -2,9 +2,9 @@
 
 namespace Kirby\Layout;
 
+use Kirby\Blueprint\Collection;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Enumeration\LayoutWidth;
-use Kirby\Foundation\Collection;
+use Kirby\Layout\LayoutWidth;
 
 /**
  * Layout Type Columns

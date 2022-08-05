@@ -2,10 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\LabelAttribute;
+use Kirby\Blueprint\Polyfill;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Polyfill;
 use Kirby\Value\SlugValue;
 
 /**
@@ -42,8 +40,8 @@ class SlugField extends TextField
 
 	public function defaults(): void
 	{
-		$this->icon  ??= new IconAttribute('url');
-		$this->label ??= new LabelAttribute(['*' => 'slug']);
+		$this->icon  ??= new FieldIcon('url');
+		$this->label ??= new FieldLabel(['*' => 'slug']);
 	}
 
 	public static function polyfill(array $props): array

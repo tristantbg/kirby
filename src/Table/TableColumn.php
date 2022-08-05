@@ -2,13 +2,12 @@
 
 namespace Kirby\Table;
 
-use Kirby\Attribute\AfterAttribute;
-use Kirby\Attribute\BeforeAttribute;
+use Kirby\Blueprint\NodeLabelled;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Enumeration\TextAlign;
 use Kirby\Field\Field;
+use Kirby\Field\FieldAfterText;
+use Kirby\Field\FieldBeforeText;
 use Kirby\Field\TextField;
-use Kirby\Node\LabelledNode;
 
 /**
  * Table column
@@ -19,13 +18,13 @@ use Kirby\Node\LabelledNode;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class TableColumn extends LabelledNode
+class TableColumn extends NodeLabelled
 {
 	public function __construct(
 		public string $id,
-		public AfterAttribute|null $after = null,
-		public TextAlign|null $align = null,
-		public BeforeAttribute|null $before = null,
+		public FieldAfterText|null $after = null,
+		public TableColumnAlign|null $align = null,
+		public FieldBeforeText|null $before = null,
 		public Field|null $field = null,
 		public bool $mobile = false,
 		public string|null $value = null,
@@ -37,7 +36,7 @@ class TableColumn extends LabelledNode
 
 	public function defaults(): void
 	{
-		$this->align ??= new TextAlign;
+		$this->align ??= new TableColumnAlign;
 		$this->field ??= new TextField($this->id);
 
 		parent::defaults();

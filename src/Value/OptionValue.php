@@ -3,7 +3,6 @@
 namespace Kirby\Value;
 
 use Closure;
-use Kirby\Toolkit\Str;
 
 /**
  * Option Value

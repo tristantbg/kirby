@@ -2,9 +2,9 @@
 
 namespace Kirby\Option;
 
-use Kirby\Foundation\Factory;
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\TextAttribute;
+use Kirby\Blueprint\Factory;
+use Kirby\Blueprint\NodeText;
+use Kirby\Blueprint\NodeIcon;
 
 /**
  * Option for select fields, radio fields, etc
@@ -20,11 +20,11 @@ class Option
 	public function __construct(
 		public float|int|string|null $value,
 		public bool $disabled = false,
-		public IconAttribute|null $icon = null,
-		public TextAttribute|null $info = null,
-		public TextAttribute|null $text = null
+		public NodeIcon|null $icon = null,
+		public NodeText|null $info = null,
+		public NodeText|null $text = null
 	) {
-		$this->text ??= new TextAttribute(['*' => $this->value]);
+		$this->text ??= new NodeText(['*' => $this->value]);
 	}
 
 	public static function factory(string|array $props): static
@@ -34,9 +34,9 @@ class Option
 		}
 
 		$props = Factory::apply($props, [
-			'icon' => IconAttribute::class,
-			'info' => TextAttribute::class,
-			'text' => TextAttribute::class
+			'icon' => NodeIcon::class,
+			'info' => NodeText::class,
+			'text' => NodeText::class
 		]);
 
 		return new static(...$props);

@@ -16,7 +16,7 @@ use Throwable;
 /**
  * Reflector
  *
- * @package   Kirby Foundation
+ * @package   Kirby Reflection
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

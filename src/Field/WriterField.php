@@ -2,11 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\PlaceholderAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\Marks;
-use Kirby\Field\Prop\Nodes;
 use Kirby\Value\HtmlValue;
 
 /**
@@ -26,10 +22,10 @@ class WriterField extends InputField
 	public function __construct(
 		public string $id,
 		public bool $inline = false,
-		public IconAttribute|null $icon = null,
-		public Marks|null $marks = null,
-		public Nodes|null $nodes = null,
-		public PlaceholderAttribute|null $placeholder = null,
+		public FieldIcon|null $icon = null,
+		public WriterFieldMarks|null $marks = null,
+		public WriterFieldNodes|null $nodes = null,
+		public FieldPlaceholder|null $placeholder = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

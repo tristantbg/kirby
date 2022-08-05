@@ -2,11 +2,11 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\TextAttribute;
-use Kirby\Blueprint\Image;
+use Kirby\Blueprint\BlueprintImage;
+use Kirby\Blueprint\NodeText;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Enumeration\ItemLayout;
-use Kirby\Enumeration\ItemSize;
+use Kirby\Section\SectionLayout;
+use Kirby\Section\SectionSize;
 use Kirby\Value\YamlValue;
 
 /**
@@ -26,10 +26,10 @@ class PickerField extends InputField
 	public function __construct(
 		public string $id,
 		public array|null $default = null,
-		public TextAttribute|null $empty = null,
-		public Image|null $image = null,
-		public TextAttribute|null $info = null,
-		public ItemLayout|null $layout = null,
+		public NodeText|null $empty = null,
+		public BlueprintImage|null $image = null,
+		public NodeText|null $info = null,
+		public SectionLayout|null $layout = null,
 		public int $limit = 20,
 		public bool $link = true,
 		public int|null $max = null,
@@ -37,8 +37,8 @@ class PickerField extends InputField
 		public bool $multiple = true,
 		public string|null $query = null,
 		public bool $search = true,
-		public ItemSize|null $size = null,
-		public TextAttribute|null $text = null,
+		public SectionSize|null $size = null,
+		public NodeText|null $text = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -56,8 +56,8 @@ class PickerField extends InputField
 
 	public function defaults(): void
 	{
-		$this->layout ??= new ItemLayout;
-		$this->size   ??= new ItemSize;
+		$this->layout ??= new SectionLayout;
+		$this->size   ??= new SectionSize;
 
 		parent::defaults();
 	}

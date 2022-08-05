@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\TextAttribute;
+use Kirby\Blueprint\NodeText;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Toolkit\A;
 
@@ -18,16 +18,16 @@ use Kirby\Toolkit\A;
 class ToggleFieldText
 {
 	public function __construct(
-		public TextAttribute $off,
-		public TextAttribute $on,
+		public NodeText $off,
+		public NodeText $on,
 	) {
 	}
 
 	public static function default(): static
 	{
 		return new static(
-			on:  new TextAttribute(['*' => 'on']),
-			off: new TextAttribute(['*' => 'off'])
+			on:  new NodeText(['*' => 'on']),
+			off: new NodeText(['*' => 'off'])
 		);
 	}
 
@@ -50,8 +50,8 @@ class ToggleFieldText
 		}
 
 		return new static(
-			on:  new TextAttribute(['*' => $props['on']]),
-			off: new TextAttribute(['*' => $props['off']])
+			on:  new NodeText(['*' => $props['on']]),
+			off: new NodeText(['*' => $props['off']])
 		);
 	}
 

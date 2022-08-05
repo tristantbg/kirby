@@ -2,8 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\UrlAttribute;
-
 /**
  * Page blueprint
  *
@@ -23,7 +21,7 @@ class PageBlueprint extends Blueprint
 		public PageBlueprintNavigation|null $navigation = null,
 		public string|null $num = null,
 		public PageBlueprintOptions|null $options = null,
-		public UrlAttribute|null $preview = null,
+		public NodeUrl|null $preview = null,
 		public PageBlueprintStatus|null $status = null,
 		...$args
 	) {

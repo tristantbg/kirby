@@ -2,9 +2,9 @@
 
 namespace Kirby\Option;
 
+use Kirby\Blueprint\Promise;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Data\Json;
-use Kirby\Foundation\Promise;
 use Kirby\Http\Remote;
 use Kirby\Http\Url;
 

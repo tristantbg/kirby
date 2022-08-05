@@ -14,7 +14,7 @@ use Kirby\Cms\ModelWithContent;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FileBlueprintImage extends Image
+class FileBlueprintImage extends BlueprintImage
 {
 	public function fallbackColor(File $model): string
 	{

@@ -2,8 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\PlaceholderAttribute;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -22,8 +20,8 @@ class SelectField extends OptionField
 	public function __construct(
 		public string $id,
 		public bool|null $empty = null,
-		public IconAttribute|null $icon = null,
-		public PlaceholderAttribute|null $placeholder = null,
+		public FieldIcon|null $icon = null,
+		public FieldPlaceholder|null $placeholder = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

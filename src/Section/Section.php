@@ -2,8 +2,8 @@
 
 namespace Kirby\Section;
 
-use Kirby\Foundation\Polyfill;
-use Kirby\Node\FeatureNode;
+use Kirby\Blueprint\NodeFeature;
+use Kirby\Blueprint\Polyfill;
 
 /**
  * Section
@@ -14,7 +14,7 @@ use Kirby\Node\FeatureNode;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Section extends FeatureNode
+class Section extends NodeFeature
 {
 	public const GROUP = 'section';
 	public const TYPE  = 'section';

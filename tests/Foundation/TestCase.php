@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\Foundation;
+namespace Kirby\Blueprint;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {

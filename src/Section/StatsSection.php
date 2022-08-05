@@ -3,7 +3,7 @@
 namespace Kirby\Section;
 
 use Kirby\Enumeration\TextSize;
-use Kirby\Foundation\Promise;
+use Kirby\Blueprint\Promise;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Report\Reports;
 

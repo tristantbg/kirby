@@ -2,9 +2,9 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\Factory;
+use Kirby\Blueprint\NodeText;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Factory;
-use Kirby\Attribute\TextAttribute;
 
 /**
  * Slug field wizard
@@ -19,14 +19,14 @@ class SlugFieldWizard
 {
 	public function __construct(
 		public string $field,
-		public TextAttribute $text
+		public NodeText $text
 	) {
 	}
 
 	public static function factory(array $props): static
 	{
 		$props = Factory::apply($props, [
-			'text' => TextAttribute::class
+			'text' => NodeText::class
 		]);
 
 		return new static(...$props);

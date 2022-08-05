@@ -2,7 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\UrlAttribute;
 use Kirby\Permissions\Permissions;
 
 /**
@@ -21,7 +20,7 @@ class UserBlueprint extends Blueprint
 
 	public function __construct(
 		public string $id,
-		public UrlAttribute|null $home = null,
+		public NodeUrl|null $home = null,
 		public UserBlueprintImage|null $image = null,
 		public UserBlueprintOptions|null $options = null,
 		public Permissions|null $permissions = null,

@@ -2,9 +2,9 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\TextAttribute;
+use Kirby\Blueprint\NodeText;
+use Kirby\Blueprint\Polyfill;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Polyfill;
 use Kirby\Block\BlockTypeGroups;
 use Kirby\Value\JsonValue;
 
@@ -24,7 +24,7 @@ class BlocksField extends InputField
 
 	public function __construct(
 		public string $id,
-		public TextAttribute|null $empty = null,
+		public NodeText|null $empty = null,
 		public string $group = 'blocks',
 		public int|null $max = null,
 		public int|null $min = null,

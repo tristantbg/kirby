@@ -2,8 +2,6 @@
 
 namespace Kirby\Value;
 
-use Kirby\Validation\Validations;
-
 /**
  * Array Value
  *

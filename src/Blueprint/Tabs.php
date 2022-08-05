@@ -4,7 +4,6 @@ namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
-use Kirby\Node\Nodes;
 use Kirby\Section\Sections;
 
 /**

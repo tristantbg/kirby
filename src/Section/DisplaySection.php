@@ -2,8 +2,6 @@
 
 namespace Kirby\Section;
 
-use Kirby\Attribute\HelpAttribute;
-use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -21,16 +19,16 @@ class DisplaySection extends Section
 
 	public function __construct(
 		public string $id,
-		public HelpAttribute|null $help = null,
-		public LabelAttribute|null $label = null,
+		public SectionHelp|null $help = null,
+		public SectionLabel|null $label = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
 	}
 
-	public function label(): LabelAttribute
+	public function label(): SectionLabel
 	{
-		return $this->label ?? LabelAttribute::fallback($this->id);
+		return $this->label ?? SectionLabel::fallback($this->id);
 	}
 
 	public function render(ModelWithContent $model): array

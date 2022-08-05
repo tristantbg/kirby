@@ -2,9 +2,8 @@
 
 namespace Kirby\Section;
 
-use Kirby\Attribute\KirbytextAttribute;
+use Kirby\Blueprint\NodeKirbytext;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Enumeration\Theme;
 
 /**
  * Info section
@@ -21,8 +20,8 @@ class InfoSection extends DisplaySection
 
 	public function __construct(
 		public string $id,
-		public KirbytextAttribute|null $text = null,
-		public Theme|null $theme = null,
+		public NodeKirbytext|null $text = null,
+		public InfoSectionTheme|null $theme = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

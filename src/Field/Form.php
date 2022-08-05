@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\Factory;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Factory;
 use Kirby\Value\Values;
 
 /**

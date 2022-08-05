@@ -2,10 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\AfterAttribute;
-use Kirby\Attribute\BeforeAttribute;
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\PlaceholderAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Value\NumberValue;
 
@@ -25,14 +21,14 @@ class NumberField extends InputField
 
 	public function __construct(
 		public string $id,
-		public AfterAttribute|null $after = null,
+		public FieldAfterText|null $after = null,
 		public string|null $autocomplete = null,
-		public BeforeAttribute|null $before = null,
+		public FieldBeforeText|null $before = null,
 		public int|float|null $default = null,
-		public IconAttribute|null $icon = null,
+		public FieldIcon|null $icon = null,
 		public int|float|null $max = null,
 		public int|float|null $min = null,
-		public PlaceholderAttribute|null $placeholder = null,
+		public FieldPlaceholder|null $placeholder = null,
 		public int|float|null $step = null,
 		...$args
 	) {

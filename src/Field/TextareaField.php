@@ -2,13 +2,9 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\PlaceholderAttribute;
+use Kirby\Blueprint\Uploads;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Enumeration\Font;
-use Kirby\Enumeration\FontSize;
-use Kirby\Field\Prop\Files;
-use Kirby\Field\Prop\Uploads;
+use Kirby\Field\Prop\FilesFieldOptions;
 use Kirby\Value\StringValue;
 
 /**
@@ -30,13 +26,13 @@ class TextareaField extends InputField
 		public TextareaFieldToolbar|null $buttons = null,
 		public bool $counter = true,
 		public string|null $default = null,
-		public Files|null $files = null,
-		public Font|null $font = null,
-		public IconAttribute|null $icon = null,
+		public FilesFieldOptions|null $files = null,
+		public TextareaFieldFont|null $font = null,
+		public FieldIcon|null $icon = null,
 		public int|null $maxlength = null,
 		public int|null $minlength = null,
-		public PlaceholderAttribute|null $placeholder = null,
-		public FontSize|null $size = null,
+		public FieldPlaceholder|null $placeholder = null,
+		public TextareaFieldSize|null $size = null,
 		public bool $spellcheck = true,
 		public Uploads|null $uploads = null,
 		...$args

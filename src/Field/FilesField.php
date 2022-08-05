@@ -3,7 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\Uploads;
+use Kirby\Blueprint\Uploads;
 
 /**
  * Files field

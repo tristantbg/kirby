@@ -2,8 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
-
 /**
  * Tel field
  *
@@ -20,6 +18,6 @@ class TelField extends TextField
 	public function defaults(): void
 	{
 		$this->autocomplete ??= 'tel';
-		$this->icon         ??= new IconAttribute('phone');
+		$this->icon         ??= new FieldIcon('phone');
 	}
 }

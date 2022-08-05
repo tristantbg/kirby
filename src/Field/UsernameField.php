@@ -2,9 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
-use Kirby\Attribute\LabelAttribute;
-
 /**
  * Username field
  *
@@ -20,7 +17,7 @@ class UsernameField extends TextField
 
 	public function defaults(): void
 	{
-		$this->icon  ??= new IconAttribute('user');
-		$this->label ??= new LabelAttribute(['*' => 'name']);
+		$this->icon  ??= new FieldIcon('user');
+		$this->label ??= new FieldLabel(['*' => 'name']);
 	}
 }

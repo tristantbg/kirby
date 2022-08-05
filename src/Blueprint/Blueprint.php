@@ -5,9 +5,7 @@ namespace Kirby\Blueprint;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
-use Kirby\Foundation\Polyfill;
-use Kirby\Node\LabelledNode;
-use Kirby\Node\NodeCache;
+use Kirby\Blueprint\Polyfill;
 use Kirby\Section\Section;
 use Kirby\Section\Sections;
 
@@ -20,11 +18,11 @@ use Kirby\Section\Sections;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class Blueprint extends LabelledNode
+class Blueprint extends NodeLabelled
 {
 	public const DEFAULT = 'default';
 
-	public static NodeCache $cache;
+	public static Cache $cache;
 	public ModelWithContent|null $model = null;
 
 	public function __construct(
@@ -46,9 +44,9 @@ class Blueprint extends LabelledNode
 		return $this;
 	}
 
-	public static function cache(): NodeCache
+	public static function cache(): Cache
 	{
-		return static::$cache ??= new NodeCache;
+		return static::$cache ??= new Cache;
 	}
 
 	/**

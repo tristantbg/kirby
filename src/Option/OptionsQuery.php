@@ -2,8 +2,8 @@
 
 namespace Kirby\Option;
 
+use Kirby\Blueprint\Promise;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Promise;
 
 /**
  * Options Query

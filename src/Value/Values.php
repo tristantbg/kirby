@@ -3,7 +3,7 @@
 namespace Kirby\Value;
 
 use Closure;
-use Kirby\Foundation\Collection;
+use Kirby\Blueprint\Collection;
 
 /**
  * Values

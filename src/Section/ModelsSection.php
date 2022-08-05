@@ -2,17 +2,15 @@
 
 namespace Kirby\Section;
 
-use Kirby\Attribute\RelatedAttribute;
-use Kirby\Attribute\TextAttribute;
-use Kirby\Blueprint\Image;
+use Kirby\Blueprint\BlueprintImage;
+use Kirby\Blueprint\NodeRelated;
+use Kirby\Blueprint\NodeText;
 use Kirby\Cms\Collection as Models;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
 use Kirby\Cms\Site;
 use Kirby\Cms\User;
-use Kirby\Enumeration\ItemLayout;
-use Kirby\Enumeration\ItemSize;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 
@@ -23,21 +21,21 @@ class ModelsSection extends DisplaySection
 	public function __construct(
 		public string $id,
 		public TableColumns|null $columns = null,
-		public TextAttribute|null $empty = null,
+		public NodeText|null $empty = null,
 		public bool $flip = false,
-		public Image|null $image = null,
-		public TextAttribute|null $info = null,
-		public ItemLayout|null $layout = null,
+		public BlueprintImage|null $image = null,
+		public NodeText|null $info = null,
+		public ModelsSectionLayout|null $layout = null,
 		public int $limit = 20,
 		public int|null $max = null,
 		public int $min = 0,
 		public int $page = 1,
-		public RelatedAttribute|null $parent = null,
+		public NodeRelated|null $parent = null,
 		public bool $search = false,
-		public ItemSize|null $size = null,
+		public ModelsSectionSize|null $size = null,
 		public bool $sortable = true,
 		public string|null $sortBy = null,
-		public TextAttribute|null $text = null,
+		public NodeText|null $text = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -178,7 +176,7 @@ class ModelsSection extends DisplaySection
 		return [];
 	}
 
-	public function itemImage(ModelWithContent $model): ?Image
+	public function itemImage(ModelWithContent $model): ?BlueprintImage
 	{
 		return $model->blueprint()->image()?->merge($this->image);
 	}

@@ -2,7 +2,7 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Prop\Text;
+use Kirby\Blueprint\NodeText;
 use Kirby\Cms\Files;
 use Kirby\Cms\ModelWithContent;
 
@@ -40,7 +40,7 @@ class FilesSection extends ModelsSection
 
 	public function defaults(): void
 	{
-		$this->text ??= new Text('{{ file.filename }}');
+		$this->text ??= NodeText::factory('{{ file.filename }}');
 
 		parent::defaults();
 	}

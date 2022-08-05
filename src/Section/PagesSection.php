@@ -2,15 +2,13 @@
 
 namespace Kirby\Section;
 
-use Kirby\Attribute\LabelAttribute;
-use Kirby\Attribute\TextAttribute;
+use Kirby\Blueprint\NodeText;
 use Kirby\Cms\Collection as Models;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 use Kirby\Cms\Site;
-use Kirby\Enumeration\PageStatus;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 use Kirby\Toolkit\A;
@@ -30,7 +28,7 @@ class PagesSection extends ModelsSection
 
 	public function __construct(
 		public string $id,
-		public PageStatus|null $status = null,
+		public PagesSectionStatus|null $status = null,
 		public array $templates = [],
 		...$args
 	) {
@@ -91,7 +89,7 @@ class PagesSection extends ModelsSection
 
 	public function defaults(): void
 	{
-		$this->text ??= new TextAttribute(['*' => '{{ page.title }}']);
+		$this->text ??= new NodeText(['*' => '{{ page.title }}']);
 
 		parent::defaults();
 	}

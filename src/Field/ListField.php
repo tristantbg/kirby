@@ -3,7 +3,6 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\Marks;
 use Kirby\Value\HtmlValue;
 
 /**
@@ -22,7 +21,7 @@ class ListField extends InputField
 
 	public function __construct(
 		public string $id,
-		public Marks|null $marks = null,
+		public WriterFieldMarks|null $marks = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

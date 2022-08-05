@@ -2,9 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Enumeration\TimeNotation;
+use Kirby\Date\TimeNotation;
 use Kirby\Date\TimeStep;
 use Kirby\Value\TimeValue;
 
@@ -27,11 +26,11 @@ class TimeField extends InputField
 		public string|null $default = null,
 		public string|null $display = null,
 		public string|null $format = 'H:i:s',
-		public IconAttribute|null $icon = null,
-		public TimeNotation|null $notation = null,
+		public FieldIcon|null $icon = null,
+		public TimeFieldNotation|null $notation = null,
 		public string|null $max = null,
 		public string|null $min = null,
-		public TimeStep|null $step = null,
+		public TimeFieldStep|null $step = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -45,9 +44,9 @@ class TimeField extends InputField
 
 	public function defaults(): void
 	{
-		$this->icon     ??= new IconAttribute('clock');
-		$this->notation ??= new TimeNotation;
-		$this->step     ??= new TimeStep;
+		$this->icon     ??= new FieldIcon('clock');
+		$this->notation ??= new TimeFieldNotation;
+		$this->step     ??= new TimeFieldStep;
 		$this->display  ??= $this->notation->display();
 	}
 

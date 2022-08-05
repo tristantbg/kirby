@@ -2,7 +2,7 @@
 
 namespace Kirby\Table;
 
-use Kirby\Foundation\Collection;
+use Kirby\Blueprint\Collection;
 
 /**
  * Table columns

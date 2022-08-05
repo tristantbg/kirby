@@ -3,7 +3,6 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Attribute\UrlAttribute;
-use Kirby\Blueprint\Prop\FileImage;
 
 /**
  * File blueprint

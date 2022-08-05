@@ -2,8 +2,8 @@
 
 namespace Kirby\Layout;
 
+use Kirby\Blueprint\Node;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Node\Node;
 
 /**
  * Layout Type

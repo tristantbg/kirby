@@ -2,8 +2,8 @@
 
 namespace Kirby\Table;
 
+use Kirby\Blueprint\Collection;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Collection;
 
 /**
  * Table rows
@@ -36,6 +36,9 @@ class TableRows extends Collection
 
 	public function render(ModelWithContent $model, TableColumns $columns = null): mixed
 	{
-		return array_map(fn ($item) => $item->render($model, $columns), $this->data);
+		return array_map(
+			fn ($item) => $item->render($model, $columns),
+			$this->data
+		);
 	}
 }

@@ -2,8 +2,8 @@
 
 namespace Kirby\Table;
 
+use Kirby\Blueprint\Factory;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Factory;
 
 /**
  * Table

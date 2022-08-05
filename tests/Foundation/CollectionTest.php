@@ -1,11 +1,9 @@
 <?php
 
-namespace Kirby\Foundation;
-
-use Kirby\Blueprint\Blueprint;
+namespace Kirby\Blueprint;
 
 /**
- * @covers \Kirby\Foundation\Collection
+ * @covers \Kirby\Blueprint\Collection
  */
 class CollectionTest extends TestCase
 {
@@ -30,7 +28,7 @@ class CollectionTest extends TestCase
 	public function testConstructWithInvalidObject()
 	{
 		$this->expectException('TypeError');
-		$this->expectExceptionMessage('Each value in the collection must be an instance of Kirby\Foundation\Component');
+		$this->expectExceptionMessage('Each value in the collection must be an instance of Kirby\Blueprint\Component');
 
 		$object = new \stdClass;
 		$object->id = 'foo';

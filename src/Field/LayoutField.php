@@ -2,7 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Cms\ModelWithContent;
 use Kirby\Layout\LayoutTypes;
 use Kirby\Layout\LayoutSettings;
 

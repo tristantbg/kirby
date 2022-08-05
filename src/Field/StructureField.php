@@ -2,9 +2,9 @@
 
 namespace Kirby\Field;
 
-use Kirby\Attribute\TextAttribute;
+use Kirby\Blueprint\NodeText;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Polyfill;
+use Kirby\Blueprint\Polyfill;
 use Kirby\Table\TableColumns;
 use Kirby\Value\YamlValue;
 
@@ -27,7 +27,7 @@ class StructureField extends InputField
 		public TableColumns|null $columns = null,
 		public array|null $default = null,
 		public bool $duplicate = true,
-		public TextAttribute|null $empty = null,
+		public NodeText|null $empty = null,
 		public Fields|null $fields = null,
 		public int|null $limit = null,
 		public int|null $max = null,

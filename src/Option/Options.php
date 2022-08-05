@@ -2,8 +2,8 @@
 
 namespace Kirby\Option;
 
+use Kirby\Blueprint\Collection;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Foundation\Collection;
 
 /**
  * Options

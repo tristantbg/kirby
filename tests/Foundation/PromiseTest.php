@@ -1,12 +1,12 @@
 <?php
 
-namespace Kirby\Foundation;
+namespace Kirby\Blueprint;
 
 use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\Page;
 
 /**
- * @covers \Kirby\Foundation\Promise
+ * @covers \Kirby\Blueprint\Promise
  */
 class PromiseTest extends TestCase
 {
