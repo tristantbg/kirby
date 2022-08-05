@@ -3,6 +3,7 @@
 namespace Kirby\Block;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Foundation\Polyfill;
 use Kirby\Node\LabelledNode;
 
 /**
@@ -27,11 +28,11 @@ class BlockTypeGroup extends LabelledNode
 
 	public static function polyfill(array $props): array
 	{
-		if (isset($props['fieldsets']) === true) {
-			$props['types'] ??= $props['fieldsets'];
-		}
+		$props = Polyfill::blockTypes($props);
 
-		unset($props['fieldsets']);
+		// the block type groups had a type attribute
+		// in the old implementation. This is no longer
+		// necessary.
 		unset($props['type']);
 
 		return parent::polyfill($props);

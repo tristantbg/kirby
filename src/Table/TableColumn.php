@@ -35,9 +35,12 @@ class TableColumn extends LabelledNode
 		parent::__construct($id, ...$args);
 	}
 
-	public function align(): TextAlign
+	public function defaults(): void
 	{
-		return $this->align ?? new TextAlign;
+		$this->align ??= new TextAlign;
+		$this->field ??= new TextField($this->id);
+
+		parent::defaults();
 	}
 
 	public static function factory(array $props = []): static
@@ -63,24 +66,16 @@ class TableColumn extends LabelledNode
 		return parent::factory($props);
 	}
 
-	/**
-	 * Returns the field object for the
-	 * column. If no field is specified,
-	 * a regular Text field will be used
-	 */
-	public function field(): Field
-	{
-		return $this->field ?? new TextField($this->id);
-	}
-
 	public function render(ModelWithContent $model): array
 	{
+		$this->defaults();
+
 		return [
-			'align'  => $this->align()->render($model),
+			'align'  => $this->align->render($model),
 			'id'     => $this->id,
-			'label'  => $this->label()->render($model),
+			'label'  => $this->label->render($model),
 			'mobile' => $this->mobile,
-			'type'   => $this->field()::TYPE,
+			'type'   => $this->field::TYPE,
 		];
 	}
 
@@ -91,6 +86,9 @@ class TableColumn extends LabelledNode
 	 */
 	public function value(ModelWithContent $model, mixed $value = null)
 	{
+		// apply all defaults
+		$this->defaults();
+
 		// if the column has a fixed value
 		// the value is evaluated, by parsing it
 		// as template string
@@ -102,7 +100,7 @@ class TableColumn extends LabelledNode
 		// the correct value for the cell, which can
 		// then be picked up by the Vue cell component
 		// to render the value correctly
-		return $this->field()->value?->set($value)->render($model);
+		return $this->field->value?->set($value)->render($model);
 	}
 
 }

@@ -33,9 +33,11 @@ class Option
 			$props = ['value' => $props];
 		}
 
-		Factory::apply($props['icon'], IconAttribute::class);
-		Factory::apply($props['info'], TextAttribute::class);
-		Factory::apply($props['text'], TextAttribute::class);
+		$props = Factory::apply($props, [
+			'icon' => IconAttribute::class,
+			'info' => TextAttribute::class,
+			'text' => TextAttribute::class
+		]);
 
 		return new static(...$props);
 	}

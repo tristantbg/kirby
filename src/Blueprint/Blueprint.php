@@ -5,6 +5,7 @@ namespace Kirby\Blueprint;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
+use Kirby\Foundation\Polyfill;
 use Kirby\Node\LabelledNode;
 use Kirby\Node\NodeCache;
 use Kirby\Section\Section;
@@ -120,88 +121,11 @@ class Blueprint extends LabelledNode
 	 */
 	public static function polyfill(array $props): array
 	{
-		$props = static::polyfillTitle($props);
-		$props = static::polyfillIcon($props);
-		$props = static::polyfillFields($props);
-		$props = static::polyfillSections($props);
-		$props = static::polyfillColumns($props);
-
-		return $props;
-	}
-
-	/**
-	 * Creates a wrapping tab when only columns are
-	 * defined in the blueprint as a shortcut
-	 */
-	public static function polyfillColumns(array $props, string $tabId = 'content'): array
-	{
-		if (isset($props['columns']) === true) {
-			$props['tabs'] = [
-				$tabId => [
-					'columns' => $props['columns']
-				]
-			];
-
-			unset($props['columns']);
-		}
-
-		return $props;
-	}
-
-	/**
-	 * Creates a wrapping fields section for stand-alone fields
-	 */
-	public static function polyfillFields(array $props, string $sectionId = null): array
-	{
-		// fields shortcut
-		if (isset($props['fields']) === true) {
-			$sectionId ??= implode('-', array_keys($props['fields']));
-
-			// create a new wrapping content section
-			$props['sections'] = [
-				$sectionId => [
-					'type'   => 'fields',
-					'fields' => $props['fields']
-				]
-			];
-
-			unset($props['fields']);
-		}
-
-		return $props;
-	}
-
-	/**
-	 * Converts the simplified icon method to a full
-	 * image option definition
-	 */
-	public static function polyfillIcon(array $props): array
-	{
-		// move icon definition into image
-		if (isset($props['icon']) === true) {
-			$props['image']['icon'] = $props['icon'];
-			unset($props['icon']);
-		}
-
-		return $props;
-	}
-
-	/**
-	 * Creates a wrapping column around stand-alone sections
-	 */
-	public static function polyfillSections(array $props): array
-	{
-		// sections shortcut
-		if (isset($props['sections']) === true) {
-			// create a new wrapping column
-			$props['columns'] = [
-				[
-					'sections' => $props['sections']
-				]
-			];
-
-			unset($props['sections']);
-		}
+		$props = Polyfill::title($props);
+		$props = Polyfill::icon($props);
+		$props = Polyfill::fields($props);
+		$props = Polyfill::sections($props);
+		$props = Polyfill::columns($props);
 
 		return $props;
 	}

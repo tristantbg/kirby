@@ -42,6 +42,8 @@ class SiteBlueprint extends Blueprint
 
 	public static function polyfill(array $props): array
 	{
+		// the site blueprint has no id
+		// but it is injected in a blueprints collection
 		unset($props['id']);
 
 		return parent::polyfill($props);

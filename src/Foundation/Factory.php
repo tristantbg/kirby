@@ -17,13 +17,21 @@ use ReflectionUnionType;
  */
 class Factory
 {
-	public static function apply(&$value, string $class): void
+	public static function apply(array $properties, array $factories): array
 	{
-		if ($value === null || is_a($value, $class) === true) {
-			return;
+		foreach ($factories as $property => $class) {
+			if (isset($properties[$property]) === false) {
+				continue;
+			}
+
+			if ($properties[$property] === null || is_a($properties[$property], $class) === true) {
+				continue;
+			}
+
+			$properties[$property] = $class::factory($properties[$property]);
 		}
 
-		$value = $class::factory($value);
+		return $properties;
 	}
 
 	public static function forNamedType(ReflectionNamedType|null $type, mixed $value): mixed

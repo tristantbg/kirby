@@ -5,6 +5,7 @@ namespace Kirby\Blueprint;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Enumeration\ColumnWidth;
 use Kirby\Field\Fields;
+use Kirby\Foundation\Polyfill;
 use Kirby\Node\Node;
 use Kirby\Section\Sections;
 
@@ -40,9 +41,7 @@ class Column extends Node
 	 */
 	public static function polyfill(array $props): array
 	{
-		$props = Blueprint::polyfillFields($props);
-
-		return parent::polyfill($props);
+		return parent::polyfill(Polyfill::fields($props));
 	}
 
 	public function render(ModelWithContent $model): array

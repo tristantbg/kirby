@@ -2,8 +2,8 @@
 
 namespace Kirby\Section;
 
+use Kirby\Foundation\Polyfill;
 use Kirby\Node\FeatureNode;
-use Kirby\Node\LabelledNode;
 
 /**
  * Section
@@ -21,7 +21,7 @@ class Section extends FeatureNode
 
 	public static function polyfill(array $props): array
 	{
-		$props = LabelledNode::polyfillHeadline($props);
+		$props = Polyfill::headline($props);
 		$props = parent::polyfill($props);
 
 		return $props;

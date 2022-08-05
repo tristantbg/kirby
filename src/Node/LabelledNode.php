@@ -25,19 +25,14 @@ class LabelledNode extends Node
 
 	public function defaults(): void
 	{
-		$this->label ?? LabelAttribute::fallback($this->id);
+		$this->label ??= $this->label();
 
 		parent::defaults();
 	}
 
-	public static function polyfillHeadline(array $props): array
+	public function label(): LabelAttribute
 	{
-		if (isset($props['headline']) === true) {
-			$props['label'] ??= $props['headline'];
-			unset($props['headline']);
-		}
-
-		return $props;
+		return $this->label ?? LabelAttribute::fallback($this->id);
 	}
 
 	public static function polyfillTitle(array $props): array

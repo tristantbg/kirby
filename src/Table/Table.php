@@ -24,8 +24,10 @@ class Table
 
 	public static function factory(array $props): static
 	{
-		Factory::apply($props['columns'], TableColumns::class);
-		Factory::apply($props['rows'], TableRows::class);
+		$props = Factory::apply($props, [
+			'columns' => TableColumns::class,
+			'rows'    => TableRows::class
+		]);
 
 		return new static(...$props);
 	}

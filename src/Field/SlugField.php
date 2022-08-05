@@ -5,7 +5,7 @@ namespace Kirby\Field;
 use Kirby\Attribute\IconAttribute;
 use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\Prop\SlugWizard;
+use Kirby\Foundation\Polyfill;
 use Kirby\Value\SlugValue;
 
 /**
@@ -49,8 +49,7 @@ class SlugField extends TextField
 	public static function polyfill(array $props): array
 	{
 		// polyfill old allow option for more consistency
-		$props['allowed'] ??= $props['allow'] ?? null;
-		unset($props['allow']);
+		$props = Polyfill::replace($props, 'allow', 'allowed');
 
 		return parent::polyfill($props);
 	}

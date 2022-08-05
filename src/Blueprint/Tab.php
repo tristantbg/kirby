@@ -5,6 +5,7 @@ namespace Kirby\Blueprint;
 use Kirby\Attribute\IconAttribute;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
+use Kirby\Foundation\Polyfill;
 use Kirby\Node\LabelledNode;
 use Kirby\Section\Sections;
 
@@ -65,8 +66,8 @@ class Tab extends LabelledNode
 	 */
 	public static function polyfill(array $props): array
 	{
-		$props = Blueprint::polyfillFields($props);
-		$props = Blueprint::polyfillSections($props);
+		$props = Polyfill::fields($props);
+		$props = Polyfill::sections($props);
 
 		return parent::polyfill($props);
 	}

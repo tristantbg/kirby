@@ -3,8 +3,8 @@
 namespace Kirby\Field;
 
 use Kirby\Attribute\TextAttribute;
-use Kirby\Cms\App;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Foundation\Polyfill;
 use Kirby\Block\BlockTypeGroups;
 use Kirby\Value\JsonValue;
 
@@ -47,12 +47,7 @@ class BlocksField extends InputField
 	 */
 	public static function polyfill(array $props): array
 	{
-		if (isset($props['fieldsets']) === true) {
-			$props['types'] ??= $props['fieldsets'];
-			unset($props['fieldsets']);
-		}
-
-		return $props;
+		return Polyfill::blockTypes($props);
 	}
 
 	public function render(ModelWithContent $model): array

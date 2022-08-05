@@ -4,6 +4,7 @@ namespace Kirby\Drawer;
 
 use Kirby\Attribute\IconAttribute;
 use Kirby\Field\Fields;
+use Kirby\Foundation\Polyfill;
 use Kirby\Node\LabelledNode;
 
 /**
@@ -33,23 +34,8 @@ class Drawer extends LabelledNode
 
 	public static function polyfill(array $props): array
 	{
-		$props = static::polyfillFields($props);
-		$props = static::polyfillTitle($props);
-
-		return $props;
-	}
-
-	public static function polyfillFields(array $props): array
-	{
-		if (isset($props['fields']) === true) {
-			$props['tabs'] = new DrawerTabs([
-				new DrawerTab(
-					id: 'content',
-					fields: Fields::factory($props['fields'])
-				)
-			]);
-			unset($props['fields']);
-		}
+		$props = Polyfill::drawer($props);
+		$props = Polyfill::title($props);
 
 		return $props;
 	}

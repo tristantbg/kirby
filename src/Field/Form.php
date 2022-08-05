@@ -24,7 +24,10 @@ class Form
 
 	public static function factory(array $props): ?static
 	{
-		Factory::apply($props['fields'], Fields::class);
+		$props = Factory::apply($props, [
+			'fields' => Fields::class
+		]);
+
 		return new static(...$props);
 	}
 

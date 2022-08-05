@@ -28,7 +28,9 @@ class Files
 			$props = ['query' => $props];
 		}
 
-		Factory::apply($props['image'], Image::class);
+		$props = Factory::apply($props, [
+			'image' => Image::class
+		]);
 
 		return new static(...$props);
 	}

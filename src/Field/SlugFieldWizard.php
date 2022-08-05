@@ -25,7 +25,9 @@ class SlugFieldWizard
 
 	public static function factory(array $props): static
 	{
-		Factory::apply($props['text'], TextAttribute::class);
+		$props = Factory::apply($props, [
+			'text' => TextAttribute::class
+		]);
 
 		return new static(...$props);
 	}
