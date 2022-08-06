@@ -47,13 +47,33 @@ class OptionsField extends InputField
 	public static function factory(array $props): static
 	{
 		$props['options'] = match ($props['options'] ?? null) {
-			'api'   => OptionsApi::factory($props['api']),
-			'query' => OptionsQuery::factory($props['query']),
-			default => Options::factory($props['options'])
+			'api'
+				=> OptionsApi::factory($props['api']),
+
+			'query'
+				=> OptionsQuery::factory($props['query']),
+
+			'children',
+			'grandChildren',
+			'siblings',
+			'index',
+			'files',
+			'images',
+			'documents',
+			'videos',
+			'audio',
+			'code',
+			'archives'
+				=> OptionsQuery::factory('page.' . $props['options']),
+
+			'pages'
+				=> OptionsQuery::factory('site.index'),
+
+			default
+			=> Options::factory($props['options'])
 		};
 
 		unset($props['api'], $props['query']);
-
 
 		return parent::factory($props);
 	}

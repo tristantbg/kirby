@@ -5,6 +5,7 @@ namespace Kirby\Option;
 use Kirby\Blueprint\Factory;
 use Kirby\Blueprint\NodeIcon;
 use Kirby\Blueprint\NodeText;
+use Kirby\Cms\ModelWithContent;
 
 /**
  * Option for select fields, radio fields, etc
@@ -45,5 +46,19 @@ class Option
 	public function id(): string|int|float
 	{
 		return $this->value;
+	}
+
+	/**
+	 * Renders all data for the option
+	 */
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'disabled' => $this->disabled,
+			'icon'     => $this->icon?->render($model),
+			'info'     => $this->info?->render($model),
+			'text'     => $this->text?->render($model),
+			'value'    => $this->value
+		];
 	}
 }

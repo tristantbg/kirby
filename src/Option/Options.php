@@ -45,7 +45,7 @@ class Options extends Collection
 		return $collection;
 	}
 
-	public function render(ModelWithContent $model): mixed
+	public function render(ModelWithContent $model): array
 	{
 		return array_values(parent::render($model));
 	}
