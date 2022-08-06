@@ -1,2 +1,2 @@
-<?php /** @var \Kirby\Cms\Block $block */ ?>
+<?php /** @var \Kirby\Block\Block $block */ ?>
 <?= $block->text();

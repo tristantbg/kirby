@@ -2,12 +2,12 @@
 
 namespace Kirby\Block;
 
+use Kirby\Blueprint\Drawer;
+use Kirby\Blueprint\DrawerTabs;
 use Kirby\Blueprint\NodeIcon;
 use Kirby\Blueprint\NodeLabel;
 use Kirby\Blueprint\NodeLabelled;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Drawer\Drawer;
-use Kirby\Drawer\DrawerTabs;
 use Kirby\Field\Fields;
 
 /**

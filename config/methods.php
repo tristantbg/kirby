@@ -1,11 +1,11 @@
 <?php
 
+use Kirby\Block\Blocks;
+use Kirby\Block\Layouts;
 use Kirby\Cms\App;
-use Kirby\Cms\Blocks;
 use Kirby\Cms\Field;
 use Kirby\Cms\Files;
 use Kirby\Cms\Html;
-use Kirby\Cms\Layouts;
 use Kirby\Cms\Structure;
 use Kirby\Cms\Url;
 use Kirby\Data\Data;
@@ -59,7 +59,7 @@ return function (App $app) {
 		 * Converts a yaml or json field to a Blocks object
 		 *
 		 * @param \Kirby\Cms\Field $field
-		 * @return \Kirby\Cms\Blocks
+		 * @return \Kirby\Block\Blocks
 		 */
 		'toBlocks' => function (Field $field) {
 			try {
@@ -190,7 +190,7 @@ return function (App $app) {
 		 * Layout objects
 		 *
 		 * @param \Kirby\Cms\Field $field
-		 * @return \Kirby\Cms\Layouts
+		 * @return \Kirby\Block\Layouts
 		 */
 		'toLayouts' => function (Field $field) {
 			return Layouts::factory(Layouts::parse($field->value()), [

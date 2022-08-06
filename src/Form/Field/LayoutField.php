@@ -2,11 +2,11 @@
 
 namespace Kirby\Form\Field;
 
+use Kirby\Block\Fieldset;
+use Kirby\Block\Layout;
+use Kirby\Block\Layouts;
 use Kirby\Cms\App;
 use Kirby\Cms\Blueprint;
-use Kirby\Cms\Fieldset;
-use Kirby\Cms\Layout;
-use Kirby\Cms\Layouts;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Form\Form;
 use Kirby\Toolkit\Str;

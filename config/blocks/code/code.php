@@ -1,2 +1,2 @@
-<?php /** @var \Kirby\Cms\Block $block */ ?>
+<?php /** @var \Kirby\Block\Block $block */ ?>
 <pre><code class="language-<?= $block->language()->or('text') ?>"><?= $block->code()->html(false) ?></code></pre>

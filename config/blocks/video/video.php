@@ -1,7 +1,7 @@
 <?php
 use Kirby\Cms\Html;
 
-/** @var \Kirby\Cms\Block $block */
+/** @var \Kirby\Block\Block $block */
 ?>
 <?php if ($video = Html::video($block->url())): ?>
 <figure>

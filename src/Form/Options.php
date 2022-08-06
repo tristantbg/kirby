@@ -31,7 +31,7 @@ class Options
 		return [
 			'Kirby\Cms\File'            => 'file',
 			'Kirby\Toolkit\Obj'         => 'arrayItem',
-			'Kirby\Cms\Block'           => 'block',
+			'Kirby\Block\Block'         => 'block',
 			'Kirby\Cms\Page'            => 'page',
 			'Kirby\Cms\StructureObject' => 'structureItem',
 			'Kirby\Cms\User'            => 'user',

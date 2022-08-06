@@ -2,8 +2,8 @@
 
 namespace Kirby\Option;
 
+use Kirby\Block\Block;
 use Kirby\Blueprint\Promise;
-use Kirby\Cms\Block;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;

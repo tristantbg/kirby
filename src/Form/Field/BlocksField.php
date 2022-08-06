@@ -2,10 +2,10 @@
 
 namespace Kirby\Form\Field;
 
+use Kirby\Block\Block;
+use Kirby\Block\Blocks as BlocksCollection;
+use Kirby\Block\Fieldsets;
 use Kirby\Cms\App;
-use Kirby\Cms\Block;
-use Kirby\Cms\Blocks as BlocksCollection;
-use Kirby\Cms\Fieldsets;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;
 use Kirby\Form\FieldClass;

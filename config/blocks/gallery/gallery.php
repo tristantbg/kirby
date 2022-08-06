@@ -1,4 +1,4 @@
-<?php /** @var \Kirby\Cms\Block $block */ ?>
+<?php /** @var \Kirby\Block\Block $block */ ?>
 <figure>
   <ul>
     <?php foreach ($block->images()->toFiles() as $image): ?>
