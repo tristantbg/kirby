@@ -6,7 +6,6 @@ use Closure;
 use Exception;
 use Kirby\Cms\App;
 use Kirby\Cms\Collection;
-use Kirby\Cms\ModelWithContent;
 
 /**
  * A collection of items
