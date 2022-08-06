@@ -12,7 +12,7 @@ use Kirby\Toolkit\Collection as BaseCollection;
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
- * @license   https://getkirby.com/license
+ * @license   https://opensource.org/licenses/MIT
  */
 class NestCollection extends BaseCollection
 {

@@ -5,16 +5,16 @@ namespace Kirby\Option;
 use Kirby\Cms\Field;
 
 /**
- * The Nest class converts any array type
+ * The Nest class is used to convert any array type
  * into a Kirby style collection/object. This
  * can be used make any type of array compatible
- * with Kirby queries.
+ * with Kirby queries used by the Option package.
  *
  * @package   Kirby Option
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
- * @license   https://getkirby.com/license
+ * @license   https://opensource.org/licenses/MIT
  */
 class Nest
 {

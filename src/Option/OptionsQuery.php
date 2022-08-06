@@ -13,10 +13,13 @@ use Kirby\Exception\InvalidArgumentException;
 use Kirby\Toolkit\Obj;
 
 /**
- * Options from a Kirby query string
+ * Options derrived from running a query against
+ * pages, files, users or structures to create
+ * options out of them.
  *
  * @package   Kirby Field
- * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @author    Bastian Allgeier <bastian@getkirby.com>,
+ * 			  Nico Hoffmann <nico@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT

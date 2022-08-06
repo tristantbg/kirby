@@ -1,0 +1,18 @@
+{
+	"Directory": {
+		"Companies": [
+			{
+				"value": "A",
+				"key": "a",
+				"name": "Company A",
+				"email": "info@company-a.com"
+			},
+			{
+				"value": "B",
+				"key": "b",
+				"name": "Company B",
+				"email": "info@company-b.com"
+			}
+		]
+	}
+}

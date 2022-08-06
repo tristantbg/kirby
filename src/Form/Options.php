@@ -6,6 +6,8 @@ use Kirby\Cms\App;
 use Kirby\Toolkit\I18n;
 
 /**
+ * @deprecated 3.8.0 Use Kirby\Option\OptionsApi or Kirby\Option\OptionsQuery instead
+ *
  * Foundation for the Options query
  * classes, that are used to generate
  * options arrays for select fields,

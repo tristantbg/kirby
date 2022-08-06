@@ -12,6 +12,8 @@ use Kirby\Toolkit\Query;
 use Kirby\Toolkit\Str;
 
 /**
+ * @deprecated 3.8.0 Use Kirby\Option\OptionsApi instead
+ *
  * The OptionsApi class handles fetching options
  * from any REST API with valid JSON data.
  *

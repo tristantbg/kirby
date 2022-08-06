@@ -12,6 +12,8 @@ use Kirby\Toolkit\Query;
 use Kirby\Toolkit\Str;
 
 /**
+ * @deprecated 3.8.0 Use Kirby\Option\OptionsQuery instead
+ *
  * Option Queries are run against any set
  * of data. In case of Kirby, you can query
  * pages, files, users or structures to create

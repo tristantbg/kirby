@@ -11,15 +11,17 @@ use Kirby\Toolkit\A;
 use Kirby\Toolkit\Query;
 
 /**
- * Options from an API URL or local file
+ * Options fetched from any REST API
+ * or local file with valid JSON data.
  *
  * @package   Kirby Field
- * @author    Bastian Allgeier <bastian@getkirby.com>
+ * @author    Bastian Allgeier <bastian@getkirby.com>,
+ * 			  Nico Hoffmann <nico@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class OptionsApi extends Promise
+class OptionsApi
 {
 	public string $class = Options::class;
 	public Options|null $options = null;
@@ -40,7 +42,7 @@ class OptionsApi extends Promise
 
 		return new static(
 			url: $props['url'],
-			query: $props['query'] ?? $props['fetch'],
+			query: $props['query'] ?? $props['fetch'] ?? null,
 			text: $props['text'] ?? null,
 			value: $props['value'] ?? null,
 		);
@@ -65,6 +67,17 @@ class OptionsApi extends Promise
 	}
 
 	/**
+	 * Returns options as array
+	 * (needs to be implemented here as OptionsApi cannot
+	 * extend the Promise class due to using a differently
+	 * type-hinted $query property in the constructor)
+	 */
+	public function render(ModelWithContent $model): mixed
+	{
+		return $this->resolve($model)->render($model);
+	}
+
+	/**
 	 * Creates the actual options by loading
 	 * data from the API and resolving it to
 	 * the correct text-value entries
@@ -72,9 +85,11 @@ class OptionsApi extends Promise
 	public function resolve(ModelWithContent $model): Options
 	{
 		// use cached options if present
+		// @codeCoverageIgnoreStart
 		if ($this->options !== null) {
 			return $this->options;
 		}
+		// @codeCoverageIgnoreEnd
 
 		// load data from URL
 		$data = $this->load($model);
@@ -88,7 +103,7 @@ class OptionsApi extends Promise
 
 		// create options by resolving text and value query strings
 		// for each item from the data
-		$options = A::map($data, fn ($item) => [
+		$options = $data->toArray(fn ($item) => [
 			'text'  => $model->toSafeString($text, ['item' => $item]),
 			'value' => $model->toSafeString($value, ['item' => $item]),
 		]);
