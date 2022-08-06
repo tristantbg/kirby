@@ -85,9 +85,13 @@ return [
 	'kirby\cms\layoutcolumn'   => 'Kirby\Block\LayoutColumn',
 	'kirby\cms\layoutcolumns'  => 'Kirby\Block\LayoutColumns',
 	'kirby\cms\layouts'        => 'Kirby\Block\Layouts',
+	'kirby\cms\nest'           => 'Kirby\Block\Nest',
+	'kirby\cms\nestcollection' => 'Kirby\Block\NestCollection',
+	'kirby\cms\nestobject'     => 'Kirby\Block\NestObject',
 	'kirby\toolkit\dir'        => 'Kirby\Filesystem\Dir',
 	'kirby\toolkit\f'          => 'Kirby\Filesystem\F',
 	'kirby\toolkit\file'       => 'Kirby\Filesystem\File',
 	'kirby\toolkit\mime'       => 'Kirby\Filesystem\Mime',
-	'kirby\toolkit\validation' => 'Kirby\Validation\V',
+	'kirby\toolkit\v' 		   => 'Kirby\Validation\V',
+
 ];

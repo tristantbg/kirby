@@ -56,7 +56,7 @@ class PromiseTest extends TestCase
 		$promise = new Promise('page.slug', NodeLabel::class);
 		$label   = $promise->resolve($this->page());
 
-		$this->assertInstanceOf(LabelAttribute::class, $label);
+		$this->assertInstanceOf(NodeLabel::class, $label);
 		$this->assertSame('test', $label->translations['*']);
 	}
 

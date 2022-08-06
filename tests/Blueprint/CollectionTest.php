@@ -28,7 +28,7 @@ class CollectionTest extends TestCase
 	public function testConstructWithInvalidObject()
 	{
 		$this->expectException('TypeError');
-		$this->expectExceptionMessage('Each value in the collection must be an instance of Kirby\Blueprint\Component');
+		$this->expectExceptionMessage('Each value in the collection must be an instance of Kirby\Blueprint\Node');
 
 		$object = new \stdClass();
 		$object->id = 'foo';

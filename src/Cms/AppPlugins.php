@@ -17,7 +17,7 @@ use Kirby\Image\Image;
 use Kirby\Text\KirbyTag;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Collection as ToolkitCollection;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * AppPlugins

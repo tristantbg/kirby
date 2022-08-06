@@ -7,7 +7,7 @@ use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\PermissionException;
 use Kirby\Filesystem\File as BaseFile;
 use Kirby\Toolkit\Str;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * Validators for all file actions

@@ -7,7 +7,7 @@ use Kirby\Exception\InvalidArgumentException;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Component;
 use Kirby\Toolkit\I18n;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * Form Field object that takes a Vue component style

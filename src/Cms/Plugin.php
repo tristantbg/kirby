@@ -5,7 +5,7 @@ namespace Kirby\Cms;
 use Exception;
 use Kirby\Data\Data;
 use Kirby\Exception\InvalidArgumentException;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * Represents a Plugin and handles parsing of

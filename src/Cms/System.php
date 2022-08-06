@@ -11,7 +11,7 @@ use Kirby\Filesystem\F;
 use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Str;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 use Throwable;
 
 /**

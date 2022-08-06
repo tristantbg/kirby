@@ -2,7 +2,7 @@
 
 namespace Kirby\Image;
 
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * Reads exif data from a given image object

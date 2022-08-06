@@ -7,7 +7,7 @@ use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\LogicException;
 use Kirby\Exception\PermissionException;
 use Kirby\Toolkit\Str;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * Validators for all user actions

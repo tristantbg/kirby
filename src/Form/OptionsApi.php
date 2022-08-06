@@ -2,11 +2,11 @@
 
 namespace Kirby\Form;
 
-use Kirby\Cms\Nest;
 use Kirby\Exception\Exception;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Http\Remote;
 use Kirby\Http\Url;
+use Kirby\Option\Nest;
 use Kirby\Toolkit\Properties;
 use Kirby\Toolkit\Query;
 use Kirby\Toolkit\Str;

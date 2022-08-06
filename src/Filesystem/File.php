@@ -9,7 +9,7 @@ use Kirby\Sane\Sane;
 use Kirby\Toolkit\Escape;
 use Kirby\Toolkit\Html;
 use Kirby\Toolkit\Properties;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * Flexible File object with a set of helpful

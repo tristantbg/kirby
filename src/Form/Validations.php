@@ -3,7 +3,7 @@
 namespace Kirby\Form;
 
 use Kirby\Exception\InvalidArgumentException;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * Often used validation rules for fields

@@ -5,7 +5,7 @@ namespace Kirby\Email;
 use Closure;
 use Exception;
 use Kirby\Toolkit\Properties;
-use Kirby\Toolkit\V;
+use Kirby\Validation\V;
 
 /**
  * Wrapper for email libraries
