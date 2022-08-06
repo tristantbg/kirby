@@ -2,7 +2,7 @@
 
 namespace Kirby\Panel;
 
-use Kirby\Blueprint\Image;
+use Kirby\Blueprint\BlueprintImage;
 use Kirby\Http\Uri;
 
 /**
@@ -98,7 +98,7 @@ abstract class Model
 	 * @param string|array|false|null $settings
 	 * @return array|null
 	 */
-	public function image(): ?Image
+	public function image(): BlueprintImage|null
 	{
 		return $this->model->blueprint()->image();
 	}

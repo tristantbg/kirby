@@ -31,11 +31,11 @@ class UserBlueprint extends Blueprint
 
 	public function image(): UserBlueprintImage
 	{
-		return $this->image ?? new UserBlueprintImage;
+		return $this->image ?? new UserBlueprintImage();
 	}
 
 	public function options(): UserBlueprintOptions
 	{
-		return $this->options ?? new UserBlueprintOptions;
+		return $this->options ?? new UserBlueprintOptions();
 	}
 }

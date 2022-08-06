@@ -37,5 +37,4 @@ class StringValue extends Value
 		$this->data = $data;
 		return $this;
 	}
-
 }

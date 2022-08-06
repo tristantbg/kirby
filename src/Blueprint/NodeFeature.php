@@ -47,7 +47,7 @@ class NodeFeature extends Node
 		// find the object type
 		$type  = $props['type'] ??= $props['id'];
 		$group = ucfirst(static::GROUP);
-		$class = 'Kirby\\' . $group  . '\\' . ucfirst($type) . $group;
+		$class = 'Kirby\\' . $group . '\\' . ucfirst($type) . $group;
 
 		// check for a valid type
 		if (class_exists($class) === false) {

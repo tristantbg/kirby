@@ -3,7 +3,6 @@
 namespace Kirby\Section;
 
 use Kirby\Blueprint\Promise;
-use Kirby\Section\TestCase;
 
 /**
  * @covers \Kirby\Section\StatsSectionReports

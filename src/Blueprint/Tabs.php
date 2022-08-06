@@ -24,7 +24,7 @@ class Tabs extends Nodes
 	 */
 	public function columns(): Columns
 	{
-		$columns = new Columns;
+		$columns = new Columns();
 
 		foreach ($this->data as $tab) {
 			foreach ($tab->columns() as $column) {

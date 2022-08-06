@@ -87,7 +87,7 @@ class Validations
 	 */
 	public function only(...$ids)
 	{
-		$clone = new static;
+		$clone = new static();
 
 		foreach ($ids as $id) {
 			if ($validation = ($this->validations[$id] ?? null)) {

@@ -25,7 +25,6 @@ class InfoSection extends DisplaySection
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-
 	}
 
 	public function render(ModelWithContent $model): array

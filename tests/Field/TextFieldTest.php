@@ -44,5 +44,4 @@ class TextFieldTest extends TestCase
 		$this->assertTrue($field->counter);
 		$this->assertTrue($field->spellcheck);
 	}
-
 }

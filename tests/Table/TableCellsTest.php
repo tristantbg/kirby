@@ -37,5 +37,4 @@ class TableCellsTest extends TestCase
 		$this->assertSame('cellB', $cells->last()->id);
 		$this->assertSame('Cell B', $cells->last()->value);
 	}
-
 }

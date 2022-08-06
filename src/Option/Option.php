@@ -3,8 +3,8 @@
 namespace Kirby\Option;
 
 use Kirby\Blueprint\Factory;
-use Kirby\Blueprint\NodeText;
 use Kirby\Blueprint\NodeIcon;
+use Kirby\Blueprint\NodeText;
 
 /**
  * Option for select fields, radio fields, etc

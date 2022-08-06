@@ -3,8 +3,6 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Date\TimeNotation;
-use Kirby\Date\TimeStep;
 use Kirby\Value\TimeValue;
 
 /**
@@ -45,8 +43,8 @@ class TimeField extends InputField
 	public function defaults(): void
 	{
 		$this->icon     ??= new FieldIcon('clock');
-		$this->notation ??= new TimeFieldNotation;
-		$this->step     ??= new TimeFieldStep;
+		$this->notation ??= new TimeFieldNotation();
+		$this->step     ??= new TimeFieldStep();
 		$this->display  ??= $this->notation->display();
 	}
 
@@ -61,5 +59,4 @@ class TimeField extends InputField
 			'step'         => $this->step?->render($model),
 		];
 	}
-
 }

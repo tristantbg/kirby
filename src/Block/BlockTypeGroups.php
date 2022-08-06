@@ -50,8 +50,8 @@ class BlockTypeGroups extends Nodes
 	 */
 	public static function factory(array $nodes): static
 	{
-		$types  = new BlockTypes;
-		$groups = new BlockTypeGroups;
+		$types  = new BlockTypes();
+		$groups = new BlockTypeGroups();
 
 		foreach ($nodes as $id => $props) {
 			$node       = static::nodeFactory($id, $props);

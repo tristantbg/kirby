@@ -19,7 +19,7 @@ class FloatValue extends NumberValue
 			if (is_numeric($data) === false) {
 				$data = null;
 			} else {
-				$data = floatval($data);
+				$data = (float)$data;
 			}
 		}
 

@@ -1,29 +1,27 @@
 <?php
 
-namespace Kirby\Attribute;
-
-use Kirby\Blueprint\TestCase;
+namespace Kirby\Blueprint;
 
 /**
- * @covers \Kirby\Attribute\UrlAttribute
+ * @covers \Kirby\Blueprint\NodeUrl
  */
-class UrlAttributeTest extends TestCase
+class NodeUrlTest extends TestCase
 {
 	public function testConstruct()
 	{
-		$url = new UrlAttribute('/foo');
+		$url = new NodeUrl('/foo');
 		$this->assertSame('/foo', $url->value);
 	}
 
 	public function testFactory()
 	{
-		$url = UrlAttribute::factory('/foo');
+		$url = NodeUrl::factory('/foo');
 		$this->assertSame('/foo', $url->value);
 	}
 
 	public function testRender()
 	{
-		$url = new UrlAttribute('/foo');
+		$url = new NodeUrl('/foo');
 		$this->assertSame('/foo', $url->render($this->model()));
 	}
 }

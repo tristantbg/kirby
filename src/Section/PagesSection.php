@@ -4,8 +4,8 @@ namespace Kirby\Section;
 
 use Kirby\Blueprint\NodeText;
 use Kirby\Cms\Collection as Models;
-use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\File;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
 use Kirby\Cms\Site;
@@ -170,5 +170,4 @@ class PagesSection extends ModelsSection
 
 		return parent::sortable($model, $models, $query);
 	}
-
 }

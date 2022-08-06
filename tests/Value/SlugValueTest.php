@@ -8,7 +8,7 @@ class SlugValueTest extends StringValueTest
 
 	public function testSet()
 	{
-		$value = new SlugValue;
+		$value = new SlugValue();
 
 		$value->set('This is 12 äwesome');
 		$this->assertSame('this-is-12-awesome', $value->data);

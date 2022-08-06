@@ -42,5 +42,4 @@ class SelectField extends OptionField
 			'placeholder' => $this->placeholder?->render($model),
 		];
 	}
-
 }

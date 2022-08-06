@@ -4,7 +4,6 @@ namespace Kirby\Layout;
 
 use Kirby\Blueprint\Collection;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Layout\LayoutWidth;
 
 /**
  * Layout Type Columns

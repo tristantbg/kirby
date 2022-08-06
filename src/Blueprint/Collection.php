@@ -4,6 +4,7 @@ namespace Kirby\Blueprint;
 
 use Kirby\Cms\Collection as BaseCollection;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Toolkit\A;
 use TypeError;
 
 /**
@@ -36,7 +37,7 @@ class Collection extends BaseCollection
 	 */
 	public function __debugInfo(): array
 	{
-		return array_map(fn ($item) => (array)$item, $this->data);
+		return A::map($this->data, fn ($item) => (array)$item);
 	}
 
 	/**
@@ -59,7 +60,7 @@ class Collection extends BaseCollection
 
 	public static function factory(array $items)
 	{
-		$collection = new static;
+		$collection = new static();
 		$className  = static::TYPE;
 
 		foreach ($items as $id => $item) {

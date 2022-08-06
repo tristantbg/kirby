@@ -38,7 +38,7 @@ class OptionField extends InputField
 
 	public function defaults(): void
 	{
-		$this->options ??= new Options;
+		$this->options ??= new Options();
 
 		parent::defaults();
 	}

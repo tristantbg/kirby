@@ -35,12 +35,8 @@ class NodeLabelled extends Node
 
 	public static function polyfillTitle(array $props): array
 	{
-		if (isset($props['title']) === true) {
-			$props['label'] ??= $props['title'];
-			unset($props['title']);
-		}
+		$props = Polyfill::replace($props, 'title', 'label');
 
 		return $props;
 	}
-
 }

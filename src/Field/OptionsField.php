@@ -52,15 +52,15 @@ class OptionsField extends InputField
 			default => Options::factory($props['options'])
 		};
 
-		unset($props['api']);
-		unset($props['query']);
+		unset($props['api'], $props['query']);
+
 
 		return parent::factory($props);
 	}
 
 	public function options(): Options
 	{
-		return $this->options ?? new Options;
+		return $this->options ?? new Options();
 	}
 
 	public function render(ModelWithContent $model): array

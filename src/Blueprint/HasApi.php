@@ -16,8 +16,12 @@ use Kirby\Http\Router;
  */
 trait HasApi
 {
-	public function api(ModelWithContent $model, string|null $path = null, string $method = 'GET', array $query = []): mixed
-	{
+	public function api(
+		ModelWithContent $model,
+		string|null $path = null,
+		string $method = 'GET',
+		array $query = []
+	): mixed {
 		return Router::execute($path, $method, $this->routes, function ($route) use ($query) {
 			$args   = $route->arguments();
 			$args[] = $query;

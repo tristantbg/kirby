@@ -33,10 +33,10 @@ class NumberValue extends Value
 				is_numeric($data) === false => null,
 
 				// could be a float
-				str_contains($data, '.') === true => floatval($data),
+				str_contains($data, '.') === true => (float)$data,
 
 				// should be an int
-				default => intval($data)
+				default => (int)$data
 			};
 		}
 

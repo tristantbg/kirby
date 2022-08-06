@@ -1,29 +1,27 @@
 <?php
 
-namespace Kirby\Attribute;
-
-use Kirby\Blueprint\TestCase;
+namespace Kirby\Blueprint;
 
 /**
- * @covers \Kirby\Attribute\StringAttribute
+ * @covers \Kirby\Blueprint\NodeString
  */
-class StringAttributeTest extends TestCase
+class NodeStringTest extends TestCase
 {
 	public function testConstruct()
 	{
-		$string = new StringAttribute('test');
+		$string = new NodeString('test');
 		$this->assertSame('test', $string->value);
 	}
 
 	public function testFactory()
 	{
-		$string = StringAttribute::factory('test');
+		$string = NodeString::factory('test');
 		$this->assertSame('test', $string->value);
 	}
 
 	public function testRender()
 	{
-		$string = new StringAttribute('test');
+		$string = new NodeString('test');
 		$this->assertSame('test', $string->render($this->model()));
 	}
 }

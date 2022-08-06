@@ -47,7 +47,7 @@ class TableTest extends TestCase
 					'type'   => 'text'
 				]
 			],
- 			'rows' => [
+			'rows' => [
 				[
 					'a' => 'Value A',
 					'b' => 'Value B',

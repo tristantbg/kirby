@@ -2,8 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Blueprint\Prop\FileImage;
-
 /**
  * @covers \Kirby\Blueprint\FileBlueprint
  */

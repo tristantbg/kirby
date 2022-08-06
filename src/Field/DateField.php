@@ -64,6 +64,6 @@ class DateField extends InputField
 
 	public function step(): DateFieldStep
 	{
-		return $this->step ?? new DateFieldStep;
+		return $this->step ?? new DateFieldStep();
 	}
 }

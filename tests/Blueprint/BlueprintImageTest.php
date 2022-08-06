@@ -3,16 +3,16 @@
 namespace Kirby\Blueprint;
 
 /**
- * @covers \Kirby\Blueprint\Image
+ * @covers \Kirby\Blueprint\BlueprintImage
  */
-class ImageTest extends TestCase
+class BlueprintImageTest extends TestCase
 {
 	/**
 	 * @covers ::__construct
 	 */
 	public function testConstruct()
 	{
-		$image = new Image();
+		$image = new BlueprintImage();
 
 		$this->assertNull($image->back);
 		$this->assertNull($image->color);
@@ -28,10 +28,10 @@ class ImageTest extends TestCase
 	 */
 	public function testFactoryWithBool()
 	{
-		$image = Image::factory(false);
+		$image = BlueprintImage::factory(false);
 		$this->assertTrue($image->disabled);
 
-		$image = Image::factory(true);
+		$image = BlueprintImage::factory(true);
 		$this->assertNull($image->disabled);
 	}
 
@@ -40,7 +40,7 @@ class ImageTest extends TestCase
 	 */
 	public function testFactoryWithString()
 	{
-		$image = Image::factory('page.cover');
+		$image = BlueprintImage::factory('page.cover');
 		$this->assertSame('page.cover', $image->query);
 	}
 }

@@ -41,7 +41,7 @@ class TranslationsField extends SelectField
 
 	public function translations(): Options
 	{
-		$options = new Options;
+		$options = new Options();
 
 		foreach ($this->translations as $translation) {
 			$option = new Option(
@@ -54,5 +54,4 @@ class TranslationsField extends SelectField
 
 		return $options;
 	}
-
 }

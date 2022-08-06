@@ -2,7 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\LabelAttribute;
 use Kirby\Cms\Page;
 
 /**
@@ -10,7 +9,6 @@ use Kirby\Cms\Page;
  */
 class PromiseTest extends TestCase
 {
-
 	public function page()
 	{
 		return new Page(['slug' => 'test']);
@@ -32,7 +30,7 @@ class PromiseTest extends TestCase
 	 */
 	public function testRender()
 	{
-		$promise = new Promise('page.title', LabelAttribute::class);
+		$promise = new Promise('page.title', NodeLabel::class);
 		$label   = $promise->render($this->page());
 
 		$this->assertSame('test', $label);
@@ -43,10 +41,10 @@ class PromiseTest extends TestCase
 	 */
 	public function testResolveField()
 	{
-		$promise = new Promise('page.title', LabelAttribute::class);
+		$promise = new Promise('page.title', NodeLabel::class);
 		$label   = $promise->resolve($this->page());
 
-		$this->assertInstanceOf(LabelAttribute::class, $label);
+		$this->assertInstanceOf(NodeLabel::class, $label);
 		$this->assertSame('test', $label->translations['*']);
 	}
 
@@ -55,7 +53,7 @@ class PromiseTest extends TestCase
 	 */
 	public function testResolveString()
 	{
-		$promise = new Promise('page.slug', LabelAttribute::class);
+		$promise = new Promise('page.slug', NodeLabel::class);
 		$label   = $promise->resolve($this->page());
 
 		$this->assertInstanceOf(LabelAttribute::class, $label);

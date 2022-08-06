@@ -65,7 +65,7 @@ class FileBlueprintImage extends BlueprintImage
 		return $extensions[$model->extension()] ?? $types[$model->type()] ?? 'file';
 	}
 
-	public function file(ModelWithContent $model)
+	public function file(ModelWithContent $model): File|null
 	{
 		return $this->query ? parent::file($model) : $model;
 	}
@@ -84,5 +84,4 @@ class FileBlueprintImage extends BlueprintImage
 
 		return $render;
 	}
-
 }

@@ -55,5 +55,4 @@ class TagsField extends OptionsField
 			'list' => $this->list
 		];
 	}
-
 }

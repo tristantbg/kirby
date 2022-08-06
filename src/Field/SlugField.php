@@ -60,5 +60,4 @@ class SlugField extends TextField
 			'wizard' => $this->wizard?->render($model),
 		];
 	}
-
 }

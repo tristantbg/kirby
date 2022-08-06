@@ -56,8 +56,8 @@ class PickerField extends InputField
 
 	public function defaults(): void
 	{
-		$this->layout ??= new SectionLayout;
-		$this->size   ??= new SectionSize;
+		$this->layout ??= new SectionLayout();
+		$this->size   ??= new SectionSize();
 
 		parent::defaults();
 	}
@@ -85,5 +85,4 @@ class PickerField extends InputField
 			]
 		];
 	}
-
 }

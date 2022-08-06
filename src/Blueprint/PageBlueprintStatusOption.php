@@ -34,8 +34,10 @@ class PageBlueprintStatusOption extends NodeLabelled
 		return $this->label ?? new NodeLabel(['*' => 'page.status.' . $this->id]);
 	}
 
-	public static function prefab(string $id, array|string|bool|null $option = null): static
-	{
+	public static function prefab(
+		string $id,
+		array|string|bool|null $option = null
+	): static {
 		$option = match (true) {
 			// disabled
 			$option === false => [

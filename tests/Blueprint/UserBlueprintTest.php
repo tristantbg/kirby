@@ -2,8 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Blueprint\Prop\UserImage;
-
 /**
  * @covers \Kirby\Blueprint\UserBlueprint
  */

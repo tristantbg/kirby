@@ -2,10 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\LabelAttribute;
-use Kirby\Attribute\TextAttribute;
-use Kirby\Blueprint\TestCase;
-
 /**
  * @covers \Kirby\Blueprint\PageBlueprintStatusOption
  */

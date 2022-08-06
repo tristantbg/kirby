@@ -104,5 +104,4 @@ class BlockType extends NodeLabelled
 			'label' => $this->label()->render($model),
 		];
 	}
-
 }

@@ -29,7 +29,7 @@ class BlueprintsField extends SelectField
 
 	public function blueprints(): Options
 	{
-		$options = new Options;
+		$options = new Options();
 
 		foreach ($this->blueprints ?? [] as $blueprint) {
 			$option = new Option(

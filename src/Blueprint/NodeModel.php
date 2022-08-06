@@ -13,9 +13,9 @@ use Kirby\Cms\ModelWithContent;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class NodeRelated extends NodeString
+class NodeModel extends NodeString
 {
-	public function model(ModelWithContent $model)
+	public function model(ModelWithContent $model): mixed
 	{
 		return $model->query($this->value);
 	}

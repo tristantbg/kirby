@@ -2,7 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\LabelAttribute;
 use Kirby\Field\Fields;
 use Kirby\Field\InfoField;
 use Kirby\Section\FieldsSection;
@@ -35,7 +34,7 @@ class BlueprintTest extends TestCase
 	{
 		$blueprint = new Blueprint(
 			id: 'test',
-			label: new LabelAttribute(['*' => 'My blueprint']),
+			label: new NodeLabel(['*' => 'My blueprint']),
 		);
 
 		$this->assertSame('My blueprint', $blueprint->label->translations['*']);

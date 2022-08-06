@@ -29,7 +29,7 @@ class Field extends NodeFeature
 
 	public function defaults(): void
 	{
-		$this->width ??= new FieldWidth;
+		$this->width ??= new FieldWidth();
 
 		parent::defaults();
 	}

@@ -2,8 +2,6 @@
 
 namespace Kirby\Table;
 
-use Kirby\Blueprint\Prop\Label;
-use Kirby\Field\TextField;
 use Kirby\Field\ToggleField;
 
 /**
@@ -52,5 +50,4 @@ class TableColumnTest extends TestCase
 
 		$this->assertInstanceOf(ToggleField::class, $column->field);
 	}
-
 }

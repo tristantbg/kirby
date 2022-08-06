@@ -1,9 +1,11 @@
 <?php
 
-namespace Kirby\Enumeration;
+namespace Kirby\Field;
+
+use Kirby\Blueprint\EnumerationTestCase;
 
 /**
- * @covers \Kirby\Enumeration\FieldWidth
+ * @covers \Kirby\Field\FieldWidth
  */
 class FieldWidthTest extends EnumerationTestCase
 {

@@ -5,7 +5,6 @@ namespace Kirby\Blueprint;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
-use Kirby\Blueprint\Polyfill;
 use Kirby\Section\Section;
 use Kirby\Section\Sections;
 
@@ -46,7 +45,7 @@ class Blueprint extends NodeLabelled
 
 	public static function cache(): Cache
 	{
-		return static::$cache ??= new Cache;
+		return static::$cache ??= new Cache();
 	}
 
 	/**
@@ -73,7 +72,8 @@ class Blueprint extends NodeLabelled
 
 	public static function factory(array $props): static
 	{
-		return parent::factory(static::polyfill($props));
+		$props = static::polyfill($props);
+		return parent::factory($props);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Blueprint extends NodeLabelled
 
 	public function tabs(): Tabs
 	{
-		return $this->tabs ?? new Tabs;
+		return $this->tabs ?? new Tabs();
 	}
 
 	/**
@@ -178,5 +178,4 @@ class Blueprint extends NodeLabelled
 	{
 		return $this->label?->render($this->model);
 	}
-
 }

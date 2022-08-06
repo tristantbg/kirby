@@ -1,22 +1,22 @@
 <?php
 
-namespace Kirby\Attribute;
+namespace Kirby\Blueprint;
 
 use Kirby\Cms\Page;
 use Kirby\Cms\Site;
 use Kirby\Section\TestCase;
 
 /**
- * @covers \Kirby\Attribute\RelatedAttribute
+ * @covers \Kirby\Blueprint\NodeModel
  */
-class RelatedAttributeTest extends TestCase
+class NodeModelTest extends TestCase
 {
 	/**
 	 * @covers ::__construct
 	 */
 	public function testConstruct()
 	{
-		$related = new RelatedAttribute('page.site');
+		$related = new NodeModel('page.site');
 		$this->assertSame('page.site', $related->value);
 	}
 
@@ -25,7 +25,7 @@ class RelatedAttributeTest extends TestCase
 	 */
 	public function testModel()
 	{
-		$related = new RelatedAttribute('page.site');
+		$related = new NodeModel('page.site');
 		$model   = new Page(['slug' => 'test']);
 
 		$this->assertInstanceOf(Site::class, $related->model($model));

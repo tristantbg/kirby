@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Uploads;
+use Kirby\Cms\ModelWithContent;
 
 /**
  * Files field
@@ -32,5 +32,4 @@ class FilesField extends PickerField
 			'uploads' => $this->uploads?->render($model),
 		];
 	}
-
 }

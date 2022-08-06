@@ -13,8 +13,8 @@ class TableRowsTest extends TestCase
 	public function testConstruct()
 	{
 		$rows = new TableRows([
-			$a = new TableRow(id: 'a', cells: new TableCells),
-			$b = new TableRow(id: 'b', cells: new TableCells)
+			$a = new TableRow(id: 'a', cells: new TableCells()),
+			$b = new TableRow(id: 'b', cells: new TableCells())
 		]);
 
 		$this->assertCount(2, $rows);
@@ -51,5 +51,4 @@ class TableRowsTest extends TestCase
 		$this->assertSame('Heading B', $rowB->cells->heading->value);
 		$this->assertSame('Text B', $rowB->cells->text->value);
 	}
-
 }

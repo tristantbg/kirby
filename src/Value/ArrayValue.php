@@ -40,5 +40,4 @@ class ArrayValue extends Value
 		$this->data = $data;
 		return $this;
 	}
-
 }

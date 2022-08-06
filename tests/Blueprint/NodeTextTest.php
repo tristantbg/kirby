@@ -1,20 +1,18 @@
 <?php
 
-namespace Kirby\Attribute;
-
-use Kirby\Blueprint\TestCase;
+namespace Kirby\Blueprint;
 
 /**
- * @covers \Kirby\Attribute\TextAttribute
+ * @covers \Kirby\Blueprint\NodeText
  */
-class TextAttributeTest extends TestCase
+class NodeTextTest extends TestCase
 {
 	/**
 	 * @covers ::factory
 	 */
 	public function testFactory()
 	{
-		$text = TextAttribute::factory('Test');
+		$text = NodeText::factory('Test');
 		$this->assertSame('Test', $text->render($this->model()));
 	}
 
@@ -23,7 +21,7 @@ class TextAttributeTest extends TestCase
 	 */
 	public function testConstruct()
 	{
-		$text = new TextAttribute(['en' => 'Test']);
+		$text = new NodeText(['en' => 'Test']);
 		$this->assertSame('Test', $text->render($this->model()));
 	}
 }

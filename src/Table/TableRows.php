@@ -20,7 +20,7 @@ class TableRows extends Collection
 
 	public static function factory(array $items = []): static
 	{
-		$rows = new static;
+		$rows = new static();
 
 		foreach ($items as $id => $cells) {
 			$row = new TableRow(

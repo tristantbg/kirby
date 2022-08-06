@@ -21,12 +21,12 @@ class Permissions
 		public SitePermissions|null $site = null,
 		public UsersPermissions|null $users = null,
 	) {
-		$this->access  ??= new AccessPermissions;
-		$this->account ??= new AccountPermissions;
-		$this->files   ??= new FilesPermissions;
-		$this->pages   ??= new PagesPermissions;
-		$this->site    ??= new SitePermissions;
-		$this->users   ??= new UsersPermissions;
+		$this->access  ??= new AccessPermissions();
+		$this->account ??= new AccountPermissions();
+		$this->files   ??= new FilesPermissions();
+		$this->pages   ??= new PagesPermissions();
+		$this->site    ??= new SitePermissions();
+		$this->users   ??= new UsersPermissions();
 	}
 
 	/**
@@ -35,7 +35,7 @@ class Permissions
 	 */
 	public static function factory(array $permissions = null): static
 	{
-		$instance = new static;
+		$instance = new static();
 
 		foreach ($permissions ?? [] as $key => $values) {
 			$instance->$key = $instance->$key::factory($values);
@@ -43,5 +43,4 @@ class Permissions
 
 		return $instance;
 	}
-
 }

@@ -59,6 +59,7 @@ class PageBlueprintNavigation
 	public function render(ModelWithContent $model): mixed
 	{
 		// fill in the defaults from the page
+		/** @var \Kirby\Cms\Page $model */
 		return [
 			'sortBy'   => $this->sortBy,
 			'status'   => $this->status   ?? [$model->status()],

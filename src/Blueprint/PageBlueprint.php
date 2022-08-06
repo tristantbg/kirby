@@ -30,21 +30,21 @@ class PageBlueprint extends Blueprint
 
 	public function image(): PageBlueprintImage
 	{
-		return $this->image ?? new PageBlueprintImage;
+		return $this->image ?? new PageBlueprintImage();
 	}
 
 	public function navigation(): PageBlueprintNavigation
 	{
-		return $this->navigation ?? new PageBlueprintNavigation;
+		return $this->navigation ?? new PageBlueprintNavigation();
 	}
 
 	public function options(): PageBlueprintOptions
 	{
-		return $this->options ?? new PageBlueprintOptions;
+		return $this->options ?? new PageBlueprintOptions();
 	}
 
 	public function status(): PageBlueprintStatus
 	{
-		return $this->status ?? new PageBlueprintStatus;
+		return $this->status ?? new PageBlueprintStatus();
 	}
 }

@@ -21,7 +21,7 @@ class PositionField extends SelectField
 	public function options(): Options
 	{
 		$index   = 0;
-		$options = new Options;
+		$options = new Options();
 
 		foreach ($this->options ?? [] as $option) {
 			$index++;

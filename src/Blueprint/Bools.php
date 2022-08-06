@@ -18,7 +18,7 @@ class Bools
 	public static function factory(bool|array $props): static
 	{
 		if (is_bool($props) === true) {
-			$instance = new static;
+			$instance = new static();
 
 			foreach (get_object_vars($instance) as $key => $value) {
 				$instance->$key = $props;
@@ -33,7 +33,7 @@ class Bools
 	public function render(ModelWithContent $model): mixed
 	{
 		$props = (array)$this;
-		$props = array_filter($props, fn($value) => $value === true);
+		$props = array_filter($props, fn ($value) => $value === true);
 
 		return array_keys($props);
 	}

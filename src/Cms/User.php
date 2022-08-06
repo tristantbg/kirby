@@ -2,7 +2,6 @@
 
 namespace Kirby\Cms;
 
-use Exception;
 use Kirby\Blueprint\UserBlueprint;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;

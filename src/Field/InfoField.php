@@ -34,5 +34,4 @@ class InfoField extends DisplayField
 			'theme' => $this->theme?->render($model),
 		];
 	}
-
 }

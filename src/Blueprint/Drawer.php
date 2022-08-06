@@ -36,5 +36,4 @@ class Drawer extends NodeLabelled
 
 		return $props;
 	}
-
 }

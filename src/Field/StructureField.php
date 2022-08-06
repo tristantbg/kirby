@@ -3,8 +3,8 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\NodeText;
-use Kirby\Cms\ModelWithContent;
 use Kirby\Blueprint\Polyfill;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Table\TableColumns;
 use Kirby\Value\YamlValue;
 
@@ -61,5 +61,4 @@ class StructureField extends InputField
 			'sortable'  => $this->sortable
 		];
 	}
-
 }

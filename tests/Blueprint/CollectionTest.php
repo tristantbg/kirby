@@ -30,7 +30,7 @@ class CollectionTest extends TestCase
 		$this->expectException('TypeError');
 		$this->expectExceptionMessage('Each value in the collection must be an instance of Kirby\Blueprint\Component');
 
-		$object = new \stdClass;
+		$object = new \stdClass();
 		$object->id = 'foo';
 
 		new Collection([

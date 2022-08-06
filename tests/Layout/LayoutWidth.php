@@ -1,9 +1,11 @@
 <?php
 
-namespace Kirby\Enumeration;
+namespace Kirby\Layout;
+
+use Kirby\Blueprint\EnumerationTestCase;
 
 /**
- * @covers \Kirby\Enumeration\LayoutWidth
+ * @covers \Kirby\Layout\LayoutWidth
  */
 class LayoutWidthTest extends EnumerationTestCase
 {

@@ -39,7 +39,7 @@ class RolesField extends RadioField
 
 	public function roles(): Options
 	{
-		$options = new Options;
+		$options = new Options();
 
 		foreach ($this->roles as $role) {
 			$option = Option::factory([
@@ -52,6 +52,5 @@ class RolesField extends RadioField
 		}
 
 		return $options;
-
 	}
 }

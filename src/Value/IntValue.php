@@ -19,7 +19,7 @@ class IntValue extends NumberValue
 			if (is_numeric($data) === false) {
 				$data = null;
 			} else {
-				$data = intval($data);
+				$data = (int)$data;
 			}
 		}
 

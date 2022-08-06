@@ -23,7 +23,7 @@ class PermissionsGroup
 			return new static(...$permissions);
 		}
 
-		$group = new static;
+		$group = new static();
 
 		// set all permissions to the given bool
 		foreach (get_object_vars($group) as $key => $value) {

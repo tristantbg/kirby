@@ -66,7 +66,7 @@ class Config
 
 			// extension is already defined as array
 			default
-				=> $extension
+			=> $extension
 		};
 	}
 }

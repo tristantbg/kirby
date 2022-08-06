@@ -2,8 +2,8 @@
 
 namespace Kirby\Field;
 
-use Kirby\Layout\LayoutTypes;
 use Kirby\Layout\LayoutSettings;
+use Kirby\Layout\LayoutTypes;
 
 /**
  * Layout field

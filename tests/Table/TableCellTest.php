@@ -2,8 +2,8 @@
 
 namespace Kirby\Table;
 
-use Kirby\Field\NumberField;
 use Kirby\Cms\Page;
+use Kirby\Field\NumberField;
 
 /**
  * @covers \Kirby\Table\TableCell

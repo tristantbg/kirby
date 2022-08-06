@@ -2,8 +2,6 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\Prop\Label;
-
 /**
  * @covers \Kirby\Section\ModelsSection
  */

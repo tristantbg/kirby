@@ -2,8 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Blueprint\TestCase;
-
 /**
  * @covers \Kirby\Blueprint\Tabs
  */

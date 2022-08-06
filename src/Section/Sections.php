@@ -31,7 +31,7 @@ class Sections extends Nodes
 	 */
 	public function fields(): Fields
 	{
-		$fields = new Fields;
+		$fields = new Fields();
 
 		foreach ($this->data as $section) {
 			if (is_a($section, FieldsSection::class) === false) {

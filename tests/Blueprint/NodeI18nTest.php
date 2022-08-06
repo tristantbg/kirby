@@ -1,21 +1,18 @@
 <?php
 
-namespace Kirby\Attribute;
-
-use Kirby\Blueprint\TestCase;
+namespace Kirby\Blueprint;
 
 /**
- * @covers \Kirby\Attribute\I18nAttribute
+ * @covers \Kirby\Blueprint\NodeI18n
  */
-class I18nAttributeTest extends TestCase
+class NodeI18nTest extends TestCase
 {
-
 	/**
 	 * @covers ::__construct
 	 */
 	public function testConstructWithArray()
 	{
-		$translated = new I18nAttribute(['en' => 'Test']);
+		$translated = new NodeI18n(['en' => 'Test']);
 		$this->assertSame('Test', $translated->render($this->model()));
 	}
 
@@ -24,7 +21,7 @@ class I18nAttributeTest extends TestCase
 	 */
 	public function testConstructWithGlobal()
 	{
-		$translated = new I18nAttribute(['*' => 'avatar']);
+		$translated = new NodeI18n(['*' => 'avatar']);
 		$this->assertSame('Profile picture', $translated->render($this->model()));
 	}
 
@@ -33,7 +30,7 @@ class I18nAttributeTest extends TestCase
 	 */
 	public function testFactory()
 	{
-		$translated = I18nAttribute::factory('Test');
+		$translated = NodeI18n::factory('Test');
 		$this->assertSame(['*' => 'Test'], $translated->translations);
 	}
 }

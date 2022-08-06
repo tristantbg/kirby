@@ -45,5 +45,4 @@ class TogglesField extends InputField
 			'reset'   => $this->reset,
 		];
 	}
-
 }

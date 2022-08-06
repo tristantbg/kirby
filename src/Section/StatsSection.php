@@ -2,9 +2,9 @@
 
 namespace Kirby\Section;
 
-use Kirby\Enumeration\TextSize;
 use Kirby\Blueprint\Promise;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Enumeration\TextSize;
 use Kirby\Report\Reports;
 
 /**

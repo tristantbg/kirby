@@ -20,7 +20,7 @@ class Nodes extends Collection
 
 	public static function factory(array $nodes): static
 	{
-		$collection = new static;
+		$collection = new static();
 
 		foreach ($nodes as $id => $props) {
 			if ($props === false) {
@@ -70,5 +70,4 @@ class Nodes extends Collection
 			'extends' => $path
 		]);
 	}
-
 }

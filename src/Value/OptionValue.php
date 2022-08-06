@@ -37,6 +37,5 @@ class OptionValue extends MixedValue
 
 			return in_array($value, $options, true) === true;
 		}, 'error.validation.option');
-
 	}
 }

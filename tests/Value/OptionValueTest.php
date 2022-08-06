@@ -27,7 +27,7 @@ class OptionValueTest extends TestCase
 			[
 				'value'   => 'c',
 				'args'    => [
-					'allowed' => fn() => ['a', 'b']
+					'allowed' => fn () => ['a', 'b']
 				],
 				'message' => 'Please select a valid option'
 			]

@@ -16,7 +16,7 @@ trait Promising
 	/**
 	 * Creates an instance by a set of array properties.
 	 */
-	public static function factory(string|array|null $props = null)
+	public static function factory(string|array|null $props = null): Promise|static
 	{
 		if (is_string($props) === true) {
 			return static::promise($props);

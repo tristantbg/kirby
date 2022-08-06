@@ -2,8 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Attribute\UrlAttribute;
-
 /**
  * File blueprint
  *
@@ -22,7 +20,7 @@ class FileBlueprint extends Blueprint
 		public FileBlueprintAcceptRules|null $accept = null,
 		public FileBlueprintImage|null $image = null,
 		public FileBlueprintOptions|null $options = null,
-		public UrlAttribute|null $preview = null,
+		public NodeUrl|null $preview = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -30,16 +28,16 @@ class FileBlueprint extends Blueprint
 
 	public function accept(): FileBlueprintAcceptRules
 	{
-		return $this->accept ?? new FileBlueprintAcceptRules;
+		return $this->accept ?? new FileBlueprintAcceptRules();
 	}
 
 	public function image(): FileBlueprintImage
 	{
-		return $this->image ?? new FileBlueprintImage;
+		return $this->image ?? new FileBlueprintImage();
 	}
 
 	public function options(): FileBlueprintOptions
 	{
-		return $this->options ?? new FileBlueprintOptions;
+		return $this->options ?? new FileBlueprintOptions();
 	}
 }

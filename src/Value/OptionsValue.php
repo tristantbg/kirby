@@ -46,7 +46,6 @@ class OptionsValue extends ArrayValue
 
 			return true;
 		}, 'error.validation.option');
-
 	}
 
 	public function __toString(): string

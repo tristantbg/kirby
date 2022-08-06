@@ -3,7 +3,7 @@
 namespace Kirby\Section;
 
 use Kirby\Blueprint\BlueprintImage;
-use Kirby\Blueprint\NodeRelated;
+use Kirby\Blueprint\NodeModel;
 use Kirby\Blueprint\NodeText;
 use Kirby\Cms\Collection as Models;
 use Kirby\Cms\File;
@@ -13,6 +13,7 @@ use Kirby\Cms\Site;
 use Kirby\Cms\User;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
+use Kirby\Toolkit\A;
 
 class ModelsSection extends DisplaySection
 {
@@ -30,7 +31,7 @@ class ModelsSection extends DisplaySection
 		public int|null $max = null,
 		public int $min = 0,
 		public int $page = 1,
-		public NodeRelated|null $parent = null,
+		public NodeModel|null $parent = null,
 		public bool $search = false,
 		public ModelsSectionSize|null $size = null,
 		public bool $sortable = true,
@@ -96,7 +97,7 @@ class ModelsSection extends DisplaySection
 	 */
 	public function columns(): TableColumns
 	{
-		$columns = new TableColumns;
+		$columns = new TableColumns();
 
 		if ($this->image) {
 			$columns->add(TableColumn::factory([
@@ -183,7 +184,10 @@ class ModelsSection extends DisplaySection
 
 	public function items(ModelWithContent $model, Models $models, array $query = [])
 	{
-		return array_map(fn ($item) => $this->item($model, $item), $models->values());
+		return A::map(
+			$models->values(),
+			fn ($item) => $this->item($model, $item)
+		);
 	}
 
 	/**
@@ -202,7 +206,7 @@ class ModelsSection extends DisplaySection
 
 	public function models(ModelWithContent $model, array $query = []): Models
 	{
-		return new Models;
+		return new Models();
 	}
 
 	public function options(ModelWithContent $model, Models $models, array $query): array
@@ -294,6 +298,4 @@ class ModelsSection extends DisplaySection
 
 		return true;
 	}
-
-
 }

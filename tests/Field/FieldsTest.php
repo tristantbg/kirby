@@ -260,5 +260,4 @@ class FieldsTest extends TestCase
 		$this->assertCount(1, $untranslated);
 		$this->assertInstanceOf(NumberField::class, $fields->b);
 	}
-
 }

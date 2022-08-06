@@ -21,6 +21,6 @@ class HiddenField extends Field
 	public function __construct(
 		public string $id
 	) {
-		$this->value = new MixedValue;
+		$this->value = new MixedValue();
 	}
 }

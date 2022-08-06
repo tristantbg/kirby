@@ -30,7 +30,7 @@ class ToggleField extends InputField
 	) {
 		parent::__construct($id, ...$args);
 
-		$this->value = new BoolValue;
+		$this->value = new BoolValue();
 	}
 
 	public function render(ModelWithContent $model): array

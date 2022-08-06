@@ -37,8 +37,8 @@ class WriterField extends InputField
 
 	public function defaults(): void
 	{
-		$this->marks ??= new Marks;
-		$this->nodes ??= new Nodes;
+		$this->marks ??= new Marks();
+		$this->nodes ??= new Nodes();
 	}
 
 	public function render(ModelWithContent $model): array
@@ -51,5 +51,4 @@ class WriterField extends InputField
 			'placeholder' => $this->placeholder?->render($model),
 		];
 	}
-
 }

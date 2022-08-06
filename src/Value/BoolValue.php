@@ -27,7 +27,7 @@ class BoolValue extends Value
 			$this->data = $data;
 
 		// already a bool
-		} else if ($data === false || $data === true) {
+		} elseif ($data === false || $data === true) {
 			$this->data = $data;
 
 		// interpretable values

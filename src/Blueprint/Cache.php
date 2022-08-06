@@ -15,7 +15,7 @@ class Cache
 {
 	public static array $cache = [];
 
-	public function get(string $cacheId): ?Node
+	public function get(string $cacheId): Node|null
 	{
 		return static::$cache[$cacheId] ?? null;
 	}

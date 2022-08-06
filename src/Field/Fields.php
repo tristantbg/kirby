@@ -42,7 +42,7 @@ class Fields extends Nodes
 
 	public function export(): Values
 	{
-		$values = new Values;
+		$values = new Values();
 
 		foreach ($this->inputs() as $field) {
 			$values->__set($field->id, $field->value);

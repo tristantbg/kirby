@@ -22,7 +22,7 @@ class DrawerTabs extends Nodes
 	 */
 	public function fields(): Fields
 	{
-		$fields = new Fields;
+		$fields = new Fields();
 
 		foreach ($this->data as $tab) {
 			foreach ($tab->fields ?? [] as $field) {
@@ -32,5 +32,4 @@ class DrawerTabs extends Nodes
 
 		return $fields;
 	}
-
 }

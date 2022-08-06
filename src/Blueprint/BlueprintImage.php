@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -26,7 +27,10 @@ class BlueprintImage
 	) {
 	}
 
-	public function file(ModelWithContent $model)
+	/**
+	 * Resolves the query to a file object
+	 */
+	public function file(ModelWithContent $model): File|null
 	{
 		return $model->query($this->query, 'Kirby\Cms\File');
 	}
@@ -70,6 +74,9 @@ class BlueprintImage
 		];
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function merge(BlueprintImage|null $image = null): static
 	{
 		if ($image === null) {

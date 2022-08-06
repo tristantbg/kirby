@@ -25,7 +25,7 @@ class ListField extends InputField
 		...$args
 	) {
 		parent::__construct($id, ...$args);
-		$this->value = new HtmlValue;
+		$this->value = new HtmlValue();
 	}
 
 	public function render(ModelWithContent $model): array
@@ -34,5 +34,4 @@ class ListField extends InputField
 			'marks' => $this->marks?->render($model),
 		];
 	}
-
 }

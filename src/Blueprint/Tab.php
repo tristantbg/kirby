@@ -28,7 +28,7 @@ class Tab extends NodeLabelled
 
 	public function columns(): Columns
 	{
-		return $this->columns ?? new Columns;
+		return $this->columns ?? new Columns();
 	}
 
 	/**

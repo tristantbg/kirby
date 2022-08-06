@@ -23,7 +23,7 @@ class BlueprintOption
 	public static function factory(array|bool|null $permissions = null): static
 	{
 		// sanitize permissions
-		return new static(match (true) {
+		$permissions = match (true) {
 			// allow for all
 			$permissions === true  => ['*' => true],
 			// block for all
@@ -32,7 +32,9 @@ class BlueprintOption
 			$permissions === null  => ['*' => null],
 			// custom array definition per role
 			default => $permissions
-		});
+		};
+
+		return new static($permissions);
 	}
 
 	public function render(ModelWithContent $model): bool

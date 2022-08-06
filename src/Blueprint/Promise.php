@@ -28,7 +28,7 @@ class Promise
 		return $this->resolve($model)->render($model);
 	}
 
-	public function resolve(ModelWithContent $model)
+	public function resolve(ModelWithContent $model): object
 	{
 		$class  = $this->class;
 		$result = $model->query($this->query);

@@ -32,5 +32,4 @@ class OptionFieldTest extends TestCase
 
 		$this->assertInstanceOf(Options::class, $field->options);
 	}
-
 }

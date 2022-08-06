@@ -65,5 +65,4 @@ class PagesSectionStatusTest extends EnumerationTestCase
 		$status = new PagesSectionStatus($input);
 		$this->assertSame($expected, $status->isSortable());
 	}
-
 }

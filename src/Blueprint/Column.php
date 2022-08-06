@@ -3,7 +3,6 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Enumeration\ColumnWidth;
 use Kirby\Field\Fields;
 use Kirby\Section\Sections;
 
@@ -39,7 +38,8 @@ class Column extends Node
 	 */
 	public static function polyfill(array $props): array
 	{
-		return parent::polyfill(Polyfill::fields($props));
+		$props = Polyfill::fields($props);
+		return parent::polyfill($props);
 	}
 
 	public function render(ModelWithContent $model): array
@@ -52,11 +52,11 @@ class Column extends Node
 
 	public function sections(): Sections
 	{
-		return $this->sections ?? new Sections;
+		return $this->sections ?? new Sections();
 	}
 
 	public function width(): ColumnWidth
 	{
-		return $this->width ?? new ColumnWidth;
+		return $this->width ?? new ColumnWidth();
 	}
 }

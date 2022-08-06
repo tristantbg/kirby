@@ -31,12 +31,12 @@ class SiteBlueprint extends Blueprint
 	 */
 	public static function default(): static
 	{
-		return new static;
+		return new static();
 	}
 
 	public function options(): SiteBlueprintOptions
 	{
-		return $this->options ?? new SiteBlueprintOptions;
+		return $this->options ?? new SiteBlueprintOptions();
 	}
 
 	public static function polyfill(array $props): array

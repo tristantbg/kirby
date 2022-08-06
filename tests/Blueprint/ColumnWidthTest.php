@@ -1,9 +1,9 @@
 <?php
 
-namespace Kirby\Enumeration;
+namespace Kirby\Blueprint;
 
 /**
- * @covers \Kirby\Enumeration\ColumnWidth
+ * @covers \Kirby\Blueprint\ColumnWidth
  */
 class ColumnWidthTest extends EnumerationTestCase
 {

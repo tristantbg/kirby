@@ -52,7 +52,4 @@ class BlockTypeGroupsTest extends TestCase
 		$this->assertInstanceOf(BlockType::class, $groups->blocks->types->image);
 		$this->assertInstanceOf(BlockType::class, $groups->blocks->types->video);
 	}
-
-
-
 }

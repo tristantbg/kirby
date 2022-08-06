@@ -2,8 +2,6 @@
 
 namespace Kirby\Section;
 
-use Kirby\Section\TestCase;
-
 /**
  * @covers \Kirby\Section\StatsSectionReport
  */

@@ -21,7 +21,7 @@ abstract class Value
 	public function __construct(
 		public bool $required = false
 	) {
-		$this->validations = new Validations;
+		$this->validations = new Validations();
 		$this->validations->add('required', $this->required);
 	}
 
@@ -37,7 +37,7 @@ abstract class Value
 
 	public static function factory($data = null): static
 	{
-		return (new static)->set($data);
+		return (new static())->set($data);
 	}
 
 	public function isEmpty(): bool
@@ -70,7 +70,7 @@ abstract class Value
 
 	public function validations(): Validations
 	{
-		$this->validations ??= new Validations;
+		$this->validations ??= new Validations();
 
 		// only validate the required state when the value is empty
 		if ($this->isEmpty() === true) {
@@ -79,5 +79,4 @@ abstract class Value
 
 		return $this->validations;
 	}
-
 }

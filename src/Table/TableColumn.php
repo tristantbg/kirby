@@ -36,7 +36,7 @@ class TableColumn extends NodeLabelled
 
 	public function defaults(): void
 	{
-		$this->align ??= new TableColumnAlign;
+		$this->align ??= new TableColumnAlign();
 		$this->field ??= new TextField($this->id);
 
 		parent::defaults();
@@ -101,5 +101,4 @@ class TableColumn extends NodeLabelled
 		// to render the value correctly
 		return $this->field->value?->set($value)->render($model);
 	}
-
 }

@@ -36,5 +36,4 @@ class PermissionsTest extends TestCase
 		$this->assertFalse($permissions->access->panel);
 		$this->assertTrue($permissions->access->system);
 	}
-
 }

@@ -31,7 +31,7 @@ class Columns extends Nodes
 	 */
 	public function sections(): Sections
 	{
-		$sections = new Sections;
+		$sections = new Sections();
 
 		foreach ($this->data as $column) {
 			foreach ($column->sections() as $section) {

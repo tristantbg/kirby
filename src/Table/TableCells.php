@@ -20,7 +20,7 @@ class TableCells extends Collection
 
 	public static function factory(array $cells)
 	{
-		$collection = new static;
+		$collection = new static();
 
 		foreach ($cells as $id => $value) {
 			$cell = new TableCell(
@@ -50,5 +50,4 @@ class TableCells extends Collection
 
 		return $props;
 	}
-
 }

@@ -2,10 +2,10 @@
 
 namespace Kirby\Field;
 
+use Kirby\Block\BlockTypeGroups;
 use Kirby\Blueprint\NodeText;
 use Kirby\Blueprint\Polyfill;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Block\BlockTypeGroups;
 use Kirby\Value\JsonValue;
 
 /**
@@ -68,5 +68,4 @@ class BlocksField extends InputField
 	{
 		return $this->types ??= BlockTypeGroups::default();
 	}
-
 }
