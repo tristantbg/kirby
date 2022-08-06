@@ -5,8 +5,8 @@ namespace Kirby\Field;
 use Kirby\Blueprint\BlueprintImage;
 use Kirby\Blueprint\NodeText;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Section\SectionLayout;
-use Kirby\Section\SectionSize;
+use Kirby\Section\ModelsSectionLayout;
+use Kirby\Section\ModelsSectionSize;
 use Kirby\Value\YamlValue;
 
 /**
@@ -29,7 +29,7 @@ class PickerField extends InputField
 		public NodeText|null $empty = null,
 		public BlueprintImage|null $image = null,
 		public NodeText|null $info = null,
-		public SectionLayout|null $layout = null,
+		public ModelsSectionLayout|null $layout = null,
 		public int $limit = 20,
 		public bool $link = true,
 		public int|null $max = null,
@@ -37,7 +37,7 @@ class PickerField extends InputField
 		public bool $multiple = true,
 		public string|null $query = null,
 		public bool $search = true,
-		public SectionSize|null $size = null,
+		public ModelsSectionSize|null $size = null,
 		public NodeText|null $text = null,
 		...$args
 	) {
@@ -56,8 +56,8 @@ class PickerField extends InputField
 
 	public function defaults(): void
 	{
-		$this->layout ??= new SectionLayout();
-		$this->size   ??= new SectionSize();
+		$this->layout ??= new ModelsSectionLayout();
+		$this->size   ??= new ModelsSectionSize();
 
 		parent::defaults();
 	}
