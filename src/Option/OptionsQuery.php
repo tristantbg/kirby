@@ -4,14 +4,12 @@ namespace Kirby\Option;
 
 use Kirby\Blueprint\Promise;
 use Kirby\Cms\Block;
-use Kirby\Cms\Field;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
 use Kirby\Cms\StructureObject;
 use Kirby\Cms\User;
 use Kirby\Exception\InvalidArgumentException;
-use Kirby\Toolkit\Collection;
 use Kirby\Toolkit\Obj;
 
 /**
@@ -106,32 +104,6 @@ class OptionsQuery extends Promise
 	}
 
 	/**
-	 * Takes a query result and converts
-	 * it to a basic collection object
-	 */
-	protected function resultToCollection(mixed $result): Collection
-	{
-		if (is_array($result) === true) {
-			foreach ($result as $key => $item) {
-				if (is_scalar($item) === true) {
-					$result[$key] = new Obj([
-						'key'   => new Field(null, 'key', $key),
-						'value' => new Field(null, 'value', $item),
-					]);
-				}
-			}
-
-			$result = new Collection($result);
-		}
-
-		if (is_a($result, 'Kirby\Toolkit\Collection') === false) {
-			throw new InvalidArgumentException('Invalid query result data');
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Creates the actual options by running
 	 * the query on the model and resolving it to
 	 * the correct text-value entries
@@ -154,10 +126,16 @@ class OptionsQuery extends Promise
 		}
 
 		// convert result to a collection
-		$collection = $this->resultToCollection($result);
+		if (is_array($result) === true) {
+			$result = Nest::create($result);
+		}
+
+		if (is_a($result, 'Kirby\Toolkit\Collection') === false) {
+			throw new InvalidArgumentException('Invalid query result data: ' . get_class($result));
+		}
 
 		// create options array
-		$options = $collection->toArray(function ($item) use ($model) {
+		$options = $result->toArray(function ($item) use ($model) {
 			// get defaults based on item type
 			[$alias, $text, $value] = $this->itemToDefaults($item);
 			$data = ['item' => $item, $alias => $item];

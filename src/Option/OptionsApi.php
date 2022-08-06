@@ -4,7 +4,6 @@ namespace Kirby\Option;
 
 use Kirby\Blueprint\Promise;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Cms\Nest;
 use Kirby\Data\Json;
 use Kirby\Http\Remote;
 use Kirby\Http\Url;
