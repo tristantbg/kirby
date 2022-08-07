@@ -2,6 +2,7 @@
 
 namespace Kirby\Section;
 
+use Kirby\Blueprint\Promise;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -19,8 +20,8 @@ class StatsSection extends DisplaySection
 
 	public function __construct(
 		public string $id,
-		public StatsSectionReports|null $reports = null,
-		public StatsSectionSize|null $size = null,
+		public StatsSectionReports|Promise|null $reports = null,
+		public TextSize|null $size = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);

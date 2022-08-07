@@ -31,6 +31,9 @@ class Fields extends Nodes
 		return $inputs->filter(fn ($field) => $field->isActive($values));
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function disable(bool $disable = true)
 	{
 		foreach ($this->data as $field) {
@@ -51,16 +54,13 @@ class Fields extends Nodes
 		return $values;
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function fill(array $values = [], bool $defaults = false): static
 	{
 		foreach ($this->inputs() as $id => $field) {
-			if ($defaults === true && property_exists($field, 'default') === true) {
-				$default = $field->default;
-			} else {
-				$default = null;
-			}
-
-			$field->fill($values[$id] ?? $default);
+			$field->fill($values[$id], $defaults);
 		}
 
 		return $this;
@@ -79,6 +79,9 @@ class Fields extends Nodes
 		]);
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function submit(array $values = []): static
 	{
 		foreach ($this->inputs() as $field) {

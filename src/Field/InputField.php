@@ -28,8 +28,16 @@ class InputField extends DisplayField
 		parent::__construct($id, ...$args);
 	}
 
-	public function fill(mixed $value = null): static
+	public function fill(mixed $value = null, bool $default = false): static
 	{
+		// default as fallback for empty values
+		if (
+			$default === true &&
+			property_exists($this, 'default') === true
+		) {
+			$value ??= $this->default;
+		}
+
 		$this->value->set($value);
 		return $this;
 	}

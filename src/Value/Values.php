@@ -4,6 +4,7 @@ namespace Kirby\Value;
 
 use Closure;
 use Kirby\Blueprint\Collection;
+use Kirby\Toolkit\A;
 
 /**
  * Values
@@ -20,19 +21,14 @@ class Values extends Collection
 
 	public function toArray(Closure $map = null): array
 	{
-		return array_map($map ?? function ($value) {
-			return $value->data;
-		}, $this->data);
+		return A::map($this->data, $map ?? fn ($value) => $value->data);
 	}
 
 	public function toStrings(): array
 	{
-		return array_map(function ($value) {
-			if ($value->isEmpty() === true) {
-				return null;
-			}
-
-			return $value->__toString();
-		}, $this->data);
+		return A::map(
+			$this->data,
+			fn ($value) => $value->isEmpty() ? null : $value->__toString()
+		);
 	}
 }
