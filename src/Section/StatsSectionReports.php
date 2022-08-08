@@ -16,7 +16,5 @@ use Kirby\Blueprint\Promising;
  */
 class StatsSectionReports extends Nodes
 {
-	use Promising;
-
-	public const TYPE = Report::class;
+	public const TYPE = StatsSectionReport::class;
 }
