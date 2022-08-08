@@ -34,9 +34,23 @@ class SiteBlueprint extends Blueprint
 		return new static();
 	}
 
+	public static function load(string|array $props = 'site'): static
+	{
+		try {
+			return static::loadInstance($props);
+		} catch (NotFoundException) {
+			return static::default();
+		}
+	}
+
 	public function options(): SiteBlueprintOptions
 	{
 		return $this->options ?? new SiteBlueprintOptions();
+	}
+
+	public function path(): string
+	{
+		return 'site';
 	}
 
 	public static function polyfill(array $props): array
@@ -46,14 +60,5 @@ class SiteBlueprint extends Blueprint
 		unset($props['id']);
 
 		return parent::polyfill($props);
-	}
-
-	public static function load(string|array $props = 'site'): static
-	{
-		try {
-			return static::loadInstance($props);
-		} catch (NotFoundException) {
-			return static::default();
-		}
 	}
 }

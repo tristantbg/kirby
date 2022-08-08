@@ -40,4 +40,9 @@ class FileBlueprint extends Blueprint
 	{
 		return $this->options ?? new FileBlueprintOptions();
 	}
+
+	public function path(): string
+	{
+		return 'files/' . $this->id;
+	}
 }

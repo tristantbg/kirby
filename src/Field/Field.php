@@ -4,6 +4,8 @@ namespace Kirby\Field;
 
 use Kirby\Blueprint\NodeFeature;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Toolkit\Str;
+use Throwable;
 
 /**
  * Base field class
@@ -42,6 +44,15 @@ class Field extends NodeFeature
 	public function isInput(): bool
 	{
 		return false;
+	}
+
+	public static function load(string|array $props): static
+	{
+		try {
+			return parent::load($props);
+		} catch (Throwable $e) {
+			return new InfoField(id: 'error-' . Str::random(5));
+		}
 	}
 
 	public function render(ModelWithContent $model): array

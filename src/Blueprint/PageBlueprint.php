@@ -43,6 +43,11 @@ class PageBlueprint extends Blueprint
 		return $this->options ?? new PageBlueprintOptions();
 	}
 
+	public function path(): string
+	{
+		return 'pages/' . $this->id;
+	}
+
 	public function status(): PageBlueprintStatus
 	{
 		return $this->status ?? new PageBlueprintStatus();

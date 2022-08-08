@@ -48,6 +48,11 @@ class Blueprint extends NodeLabelled
 		return static::$cache ??= new Cache();
 	}
 
+	public static function class(string $type): string
+	{
+		return __NAMESPACE__ . '\\' . ucfirst(rtrim($type, 's')) . 'Blueprint';
+	}
+
 	/**
 	 * Collects all columns from all tabs
 	 */
@@ -110,6 +115,11 @@ class Blueprint extends NodeLabelled
 		}
 
 		return static::factory($props);
+	}
+
+	public function path(): string
+	{
+		return $this->id;
 	}
 
 	/**

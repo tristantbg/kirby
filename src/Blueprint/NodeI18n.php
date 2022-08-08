@@ -23,11 +23,11 @@ class NodeI18n extends NodeofKind
 
 	public static function factory($translations = null): ?static
 	{
-		if (is_null($translations) === true) {
+		if ($translations === false || $translations === null) {
 			return null;
 		}
 
-		if (is_string($translations) === true) {
+		if (is_array($translations) === false) {
 			$translations = ['*' => $translations];
 		}
 

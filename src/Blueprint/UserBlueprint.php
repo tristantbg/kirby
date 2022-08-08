@@ -38,4 +38,9 @@ class UserBlueprint extends Blueprint
 	{
 		return $this->options ?? new UserBlueprintOptions();
 	}
+
+	public function path(): string
+	{
+		return 'users/' . $this->id;
+	}
 }
