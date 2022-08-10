@@ -28,28 +28,16 @@ class PageBlueprint extends Blueprint
 		parent::__construct($id, ...$args);
 	}
 
-	public function image(): PageBlueprintImage
+	public function defaults(): void
 	{
-		return $this->image ?? new PageBlueprintImage();
-	}
-
-	public function navigation(): PageBlueprintNavigation
-	{
-		return $this->navigation ?? new PageBlueprintNavigation();
-	}
-
-	public function options(): PageBlueprintOptions
-	{
-		return $this->options ?? new PageBlueprintOptions();
+		$this->image      ??= new PageBlueprintImage;
+		$this->navigation ??= new PageBlueprintNavigation;
+		$this->options    ??= new PageBlueprintOptions;
+		$this->status     ??= new PageBlueprintStatus;
 	}
 
 	public function path(): string
 	{
 		return 'pages/' . $this->id;
-	}
-
-	public function status(): PageBlueprintStatus
-	{
-		return $this->status ?? new PageBlueprintStatus();
 	}
 }

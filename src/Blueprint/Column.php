@@ -3,7 +3,9 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
+use Kirby\Section\Section;
 use Kirby\Section\Sections;
 
 /**
@@ -26,9 +28,28 @@ class Column extends Node
 		parent::__construct($id, ...$args);
 	}
 
+	public function defaults(): void
+	{
+		$this->sections ??= new Sections;
+		$this->width    ??= new ColumnWidth;
+	}
+
 	public function fields(): Fields
 	{
 		return $this->sections()->fields();
+	}
+
+	public static function find(Blueprint|string $blueprintPath, Tab|string $tabId, Column|string $columnId): static
+	{
+		if (is_a($columnId, Column::class) === true) {
+			return $columnId;
+		}
+
+		if ($column = Tab::find($blueprintPath, $tabId)->columns()->$columnId) {
+			return $column;
+		}
+
+		throw new NotFoundException('The column "' . $columnId . '" could not be found');
 	}
 
 	/**
@@ -44,10 +65,17 @@ class Column extends Node
 
 	public function render(ModelWithContent $model): array
 	{
+		$this->defaults();
+
 		return [
-			'sections' => $this->sections()->render($model),
-			'width'    => $this->width()->render($model),
+			'sections' => $this->sections->render($model),
+			'width'    => $this->width->render($model),
 		];
+	}
+
+	public function section(string $id): ?Section
+	{
+		return $this->sections()->$id;
 	}
 
 	public function sections(): Sections

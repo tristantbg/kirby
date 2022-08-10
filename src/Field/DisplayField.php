@@ -26,16 +26,18 @@ class DisplayField extends Field
 		parent::__construct($id, ...$args);
 	}
 
-	public function label(): FieldLabel
+	public function defaults(): void
 	{
-		return $this->label ?? FieldLabel::fallback($this->id);
+		$this->label ??= FieldLabel::fallback($this->id);
+
+		parent::defaults();
 	}
 
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
 			'help'  => $this->help?->render($model),
-			'label' => $this->label()->render($model)
+			'label' => $this->label?->render($model)
 		];
 	}
 }

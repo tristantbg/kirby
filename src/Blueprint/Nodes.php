@@ -34,7 +34,7 @@ class Nodes extends Collection
 		return $collection;
 	}
 
-	public static function nodeFactory(string|int $id, array|bool|string $props): Node
+	public static function nodeFactory(string|int $id, array|bool|string|Node $props): Node
 	{
 		return match (true) {
 			$props === true
@@ -44,7 +44,10 @@ class Nodes extends Collection
 				=> static::nodeFactoryByString($id, $props),
 
 			is_array($props)
-				=> static::nodeFactoryByArray($id, $props)
+				=> static::nodeFactoryByArray($id, $props),
+
+			is_object($props)
+			    => $props
 		};
 	}
 

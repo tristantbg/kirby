@@ -26,19 +26,11 @@ class FileBlueprint extends Blueprint
 		parent::__construct($id, ...$args);
 	}
 
-	public function accept(): FileBlueprintAcceptRules
+	public function defaults(): void
 	{
-		return $this->accept ?? new FileBlueprintAcceptRules();
-	}
-
-	public function image(): FileBlueprintImage
-	{
-		return $this->image ?? new FileBlueprintImage();
-	}
-
-	public function options(): FileBlueprintOptions
-	{
-		return $this->options ?? new FileBlueprintOptions();
+		$this->accept  ??= new FileBlueprintAcceptRules;
+		$this->image   ??= new FileBlueprintImage;
+		$this->options ??= new FileBlueprintOptions;
 	}
 
 	public function path(): string

@@ -3,6 +3,7 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
 use Kirby\Section\Sections;
 
@@ -26,6 +27,14 @@ class Tab extends NodeLabelled
 		parent::__construct($id, ...$args);
 	}
 
+	/**
+	 * Finds a column by id
+	 */
+	public function column(string $id): ?Column
+	{
+		return $this->columns()->$id;
+	}
+
 	public function columns(): Columns
 	{
 		return $this->columns ?? new Columns();
@@ -37,6 +46,19 @@ class Tab extends NodeLabelled
 	public function fields(): Fields
 	{
 		return $this->sections()->fields();
+	}
+
+	public static function find(Blueprint|string $blueprintPath, Tab|string $tabId): static
+	{
+		if (is_a($tabId, Tab::class) === true) {
+			return $tabId;
+		}
+
+		if ($tab = Blueprint::find($blueprintPath)->tabs()->$tabId) {
+			return $tab;
+		}
+
+		throw new NotFoundException('The tab "' . $tabId . '" could not be found');
 	}
 
 	public function render(ModelWithContent $model, bool $active = false): array

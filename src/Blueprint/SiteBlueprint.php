@@ -34,6 +34,13 @@ class SiteBlueprint extends Blueprint
 		return new static();
 	}
 
+	public function defaults(): void
+	{
+		$this->options ??= new SiteBlueprintOptions;
+
+		parent::defaults();
+	}
+
 	public static function load(string|array $props = 'site'): static
 	{
 		try {
@@ -41,11 +48,6 @@ class SiteBlueprint extends Blueprint
 		} catch (NotFoundException) {
 			return static::default();
 		}
-	}
-
-	public function options(): SiteBlueprintOptions
-	{
-		return $this->options ?? new SiteBlueprintOptions();
 	}
 
 	public function path(): string

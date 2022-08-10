@@ -2,8 +2,13 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\Blueprint;
+use Kirby\Blueprint\Column;
 use Kirby\Blueprint\NodeFeature;
+use Kirby\Blueprint\Tab;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Exception\NotFoundException;
+use Kirby\Section\Section;
 use Kirby\Toolkit\Str;
 use Throwable;
 
@@ -34,6 +39,24 @@ class Field extends NodeFeature
 		$this->width ??= new FieldWidth();
 
 		parent::defaults();
+	}
+
+	public static function find(
+		Blueprint|string $blueprintPath,
+		Tab|string $tabId,
+		Column|string $columnId,
+		Section|string $sectionId,
+		Field|string $fieldId
+	): static {
+		if (is_a($fieldId, Field::class) === true) {
+			return $fieldId;
+		}
+
+		if ($field = Section::find($blueprintPath, $tabId, $columnId, $sectionId)->fields()->$fieldId) {
+			return $field;
+		}
+
+		throw new NotFoundException('The field "' . $fieldId . '" could not be found');
 	}
 
 	public function fill(mixed $value = null): static

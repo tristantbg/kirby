@@ -26,16 +26,16 @@ class DisplaySection extends Section
 		parent::__construct($id, ...$args);
 	}
 
-	public function label(): SectionLabel
+	public function defaults(): void
 	{
-		return $this->label ?? SectionLabel::fallback($this->id);
+		$this->label ??= SectionLabel::fallback($this->id);
 	}
 
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
 			'help'  => $this->help?->render($model),
-			'label' => $this->label()->render($model),
+			'label' => $this->label?->render($model),
 		];
 	}
 }

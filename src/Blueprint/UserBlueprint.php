@@ -29,14 +29,10 @@ class UserBlueprint extends Blueprint
 		parent::__construct($id, ...$args);
 	}
 
-	public function image(): UserBlueprintImage
+	public function defaults(): void
 	{
-		return $this->image ?? new UserBlueprintImage();
-	}
-
-	public function options(): UserBlueprintOptions
-	{
-		return $this->options ?? new UserBlueprintOptions();
+		$this->image   ??= new UserBlueprintImage;
+		$this->options ??= new UserBlueprintOptions;
 	}
 
 	public function path(): string

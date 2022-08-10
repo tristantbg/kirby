@@ -7,6 +7,7 @@ use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
 use Kirby\Section\Section;
 use Kirby\Section\Sections;
+use Kirby\Toolkit\Str;
 
 /**
  * The main blueprint class
@@ -87,6 +88,18 @@ class Blueprint extends NodeLabelled
 	public function fields(): Fields
 	{
 		return $this->sections()->fields();
+	}
+
+	public static function find(Blueprint|string $blueprintPath): static
+	{
+		if (is_a($blueprintPath, Blueprint::class) === true) {
+			return $blueprintPath;
+		}
+
+		$blueprintPath = str_replace(['+', ' '], '/', $blueprintPath);
+		$blueprintType = $blueprintPath === 'site' ? 'site' : Str::before($blueprintPath, '/');
+
+		return static::class($blueprintType)::loadInstance($blueprintPath);
 	}
 
 	/**
@@ -188,4 +201,5 @@ class Blueprint extends NodeLabelled
 	{
 		return $this->label?->render($this->model);
 	}
+
 }

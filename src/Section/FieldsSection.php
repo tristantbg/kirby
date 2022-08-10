@@ -3,6 +3,7 @@
 namespace Kirby\Section;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\Field;
 use Kirby\Field\Fields;
 
 /**
@@ -24,6 +25,16 @@ class FieldsSection extends Section
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public function field(string $id): ?Field
+	{
+		return $this->fields()->$id;
+	}
+
+	public function fields(): Fields
+	{
+		return $this->fields ?? new Fields;
 	}
 
 	public function render(ModelWithContent $model): array

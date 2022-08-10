@@ -49,6 +49,8 @@ class TextField extends InputField
 	{
 		$this->counter    ??= true;
 		$this->spellcheck ??= true;
+
+		parent::defaults();
 	}
 
 	public function render(ModelWithContent $model): array

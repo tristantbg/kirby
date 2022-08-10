@@ -4,6 +4,7 @@ namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\InvalidArgumentException;
+use Kirby\Field\SelectField;
 
 /**
  * Enumeration
