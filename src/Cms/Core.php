@@ -51,6 +51,7 @@ class Core
 	{
 		return [
 			'account'      => $this->root . '/areas/account.php',
+			'architect'    => $this->root . '/areas/architect.php',
 			'installation' => $this->root . '/areas/installation.php',
 			'languages'    => $this->root . '/areas/languages.php',
 			'login'        => $this->root . '/areas/login.php',
