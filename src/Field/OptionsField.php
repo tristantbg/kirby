@@ -27,8 +27,8 @@ class OptionsField extends InputField
 		public string|int|float|null $default = null,
 		public int|null $max = null,
 		public int|null $min = null,
+		public FieldOptions|null $options = null,
 		public string $separator = ',',
-		public Options|OptionsApi|OptionsQuery|null $options = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -36,7 +36,7 @@ class OptionsField extends InputField
 		$this->value = new OptionsValue(
 			// resolve options lazily to avoid processing
 			// them on construction
-			allowed: fn () => $this->options()->keys(),
+			allowed: fn ($model) => $this->options->resolve($model)->keys(),
 			max: $this->max,
 			min: $this->min,
 			required: $this->required,
@@ -44,43 +44,9 @@ class OptionsField extends InputField
 		);
 	}
 
-	public static function factory(array $props): static
+	public function options(): FieldOptions
 	{
-		$props['options'] = match ($props['options'] ?? null) {
-			'api'
-				=> OptionsApi::factory($props['api']),
-
-			'query'
-				=> OptionsQuery::factory($props['query']),
-
-			'children',
-			'grandChildren',
-			'siblings',
-			'index',
-			'files',
-			'images',
-			'documents',
-			'videos',
-			'audio',
-			'code',
-			'archives'
-				=> OptionsQuery::factory('page.' . $props['options']),
-
-			'pages'
-				=> OptionsQuery::factory('site.index'),
-
-			default
-			=> Options::factory($props['options'])
-		};
-
-		unset($props['api'], $props['query']);
-
-		return parent::factory($props);
-	}
-
-	public function options(): Options
-	{
-		return $this->options ?? new Options();
+		return $this->options ?? FieldOptions::factory();
 	}
 
 	public function render(ModelWithContent $model): array

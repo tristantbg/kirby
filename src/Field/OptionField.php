@@ -3,7 +3,6 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Option\Options;
 use Kirby\Value\OptionValue;
 
 /**
@@ -23,7 +22,7 @@ class OptionField extends InputField
 	public function __construct(
 		public string $id,
 		public string|int|float|null $default = null,
-		public Options|null $options = null,
+		public FieldOptions|null $options = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
@@ -31,16 +30,14 @@ class OptionField extends InputField
 		$this->value = new OptionValue(
 			// resolve options lazily to avoid processing
 			// them on construction
-			allowed: fn () => $this->options?->keys(),
+			allowed: fn ($model) => $this->options()->resolve($model)->keys(),
 			required: $this->required,
 		);
 	}
 
-	public function defaults(): void
+	public function options(): FieldOptions
 	{
-		$this->options ??= new Options();
-
-		parent::defaults();
+		return $this->options ?? FieldOptions::factory();
 	}
 
 	public function render(ModelWithContent $model): array

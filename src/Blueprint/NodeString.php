@@ -20,7 +20,7 @@ class NodeString extends NodeOfKind
 	) {
 	}
 
-	public static function factory($value = null): ?static
+	public static function factory($value = null): static|null
 	{
 		if ($value === null) {
 			return $value;
@@ -29,7 +29,7 @@ class NodeString extends NodeOfKind
 		return new static($value);
 	}
 
-	public function render(ModelWithContent $model): ?string
+	public function render(ModelWithContent $model): string|null
 	{
 		return $this->value;
 	}

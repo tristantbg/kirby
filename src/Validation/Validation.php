@@ -3,6 +3,7 @@
 namespace Kirby\Validation;
 
 use Closure;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Toolkit\I18n;
 
@@ -54,13 +55,15 @@ class Validation
 	/**
 	 * Validate the value with the set handler and arguments
 	 */
-	public function validate(mixed $value = null): bool
-	{
+	public function validate(
+		mixed $value = null,
+		ModelWithContent|null $model = null
+	): bool {
 		$disabled = $this->disabled;
 
 		// resolve a lazy disabled state
 		if (is_a($disabled, Closure::class) === true) {
-			$disabled = $disabled($value);
+			$disabled = $disabled($value, $model);
 		}
 
 		if ($disabled === true) {

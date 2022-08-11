@@ -3,6 +3,7 @@
 namespace Kirby\Validation;
 
 use Closure;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Toolkit\A;
 use Throwable;
 
@@ -109,10 +110,12 @@ class Validations
 	/**
 	 * Validate the value against all set validations
 	 */
-	public function validate(mixed $value = null): bool
-	{
+	public function validate(
+		mixed $value = null,
+		ModelWithContent|null $model = null
+	): bool {
 		foreach ($this->validations as $key => $validation) {
-			$validation->validate($value);
+			$validation->validate($value, $model);
 		}
 
 		return true;

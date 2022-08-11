@@ -3,6 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\Nodes;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Value\Values;
 
 /**
@@ -82,10 +83,12 @@ class Fields extends Nodes
 	/**
 	 * @return $this
 	 */
-	public function submit(array $values = []): static
-	{
+	public function submit(
+		array $values = [],
+		ModelWithContent|null $model = null
+	): static {
 		foreach ($this->inputs() as $field) {
-			$field->submit($values[$field->id] ?? null);
+			$field->submit($values[$field->id] ?? null, $model);
 		}
 
 		return $this;

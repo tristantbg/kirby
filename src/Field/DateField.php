@@ -17,7 +17,7 @@ use Kirby\Value\DateTimeValue;
 class DateField extends InputField
 {
 	public const TYPE = 'date';
-	public DateTimeValue $date;
+	public DateTimeValue $value;
 
 	public function __construct(
 		public string $id,

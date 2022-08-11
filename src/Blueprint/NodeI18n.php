@@ -14,14 +14,14 @@ use Kirby\Toolkit\I18n;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class NodeI18n extends NodeofKind
+class NodeI18n extends NodeOfKind
 {
 	public function __construct(
 		public array $translations,
 	) {
 	}
 
-	public static function factory($translations = null): ?static
+	public static function factory($translations = null): static|null
 	{
 		if ($translations === false || $translations === null) {
 			return null;
@@ -34,7 +34,7 @@ class NodeI18n extends NodeofKind
 		return new static($translations);
 	}
 
-	public function render(ModelWithContent $model): ?string
+	public function render(ModelWithContent $model): string|null
 	{
 		$locale = I18n::locale();
 

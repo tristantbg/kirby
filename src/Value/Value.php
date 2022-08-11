@@ -52,20 +52,22 @@ abstract class Value
 
 	abstract public function set(): static;
 
-	public function submit(mixed $data = null): static
-	{
+	public function submit(
+		mixed $data = null,
+		ModelWithContent|null $model = null
+	): static {
 		$clone = clone $this;
 		$clone->set($data);
-		$clone->validate();
+		$clone->validate($model);
 
 		$this->data = $clone->data;
 
 		return $this;
 	}
 
-	public function validate(): bool
+	public function validate(ModelWithContent|null $model = null): bool
 	{
-		return $this->validations()->validate($this->data);
+		return $this->validations()->validate($this->data, $model);
 	}
 
 	public function validations(): Validations

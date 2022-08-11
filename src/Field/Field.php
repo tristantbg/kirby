@@ -59,8 +59,11 @@ class Field extends NodeFeature
 		throw new NotFoundException('The field "' . $fieldId . '" could not be found');
 	}
 
-	public function fill(mixed $value = null): static
-	{
+	/**
+	 * Fills the field with the provided value
+	 * without validating it
+	 */
+	public function fill(mixed $value = null): static {
 		return $this;
 	}
 
@@ -85,8 +88,10 @@ class Field extends NodeFeature
 		];
 	}
 
-	public function submit(mixed $value = null): static
-	{
+	public function submit(
+		mixed $value = null,
+		ModelWithContent|null $model = null
+	): static {
 		return $this;
 	}
 }

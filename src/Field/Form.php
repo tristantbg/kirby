@@ -44,9 +44,11 @@ class Form
 		];
 	}
 
-	public function submit(array $values = []): static
-	{
-		$this->fields->active()->submit($values);
+	public function submit(
+		array $values = [],
+		ModelWithContent|null $model = null
+	): static {
+		$this->fields->active()->submit($values, $model);
 		return $this;
 	}
 

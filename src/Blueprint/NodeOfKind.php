@@ -13,9 +13,9 @@ use Kirby\Cms\ModelWithContent;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-abstract class NodeofKind
+abstract class NodeOfKind
 {
-	abstract public static function factory($value = null): ?static;
+	abstract public static function factory($value = null): static|null;
 
 	public function render(ModelWithContent $model)
 	{

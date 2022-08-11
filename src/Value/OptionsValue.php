@@ -3,6 +3,7 @@
 namespace Kirby\Value;
 
 use Closure;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Toolkit\Str;
 
 /**
@@ -24,12 +25,12 @@ class OptionsValue extends ArrayValue
 		parent::__construct(...$args);
 
 		// check for allowed options
-		$this->validations->add('allowed', function (array $values) {
+		$this->validations->add('allowed', function (array $values, ModelWithContent|null $model = null) {
 			$options = $this->allowed;
 
 			// resolvable options
 			if (is_a($options, Closure::class) === true) {
-				$options = $options();
+				$options = $options($model);
 			}
 
 			// allow any option

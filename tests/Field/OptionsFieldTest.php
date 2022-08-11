@@ -22,7 +22,7 @@ class OptionsFieldTest extends TestCase
 		$this->assertNull($field->min);
 		$this->assertSame(',', $field->separator);
 		$this->assertNull($field->options);
-		$this->assertInstanceOf(Options::class, $field->options());
+		$this->assertInstanceOf(FieldOptions::class, $field->options());
 		$this->assertInstanceOf(OptionsValue::class, $field->value);
 	}
 }

@@ -3,6 +3,7 @@
 namespace Kirby\Value;
 
 use Closure;
+use Kirby\Cms\ModelWithContent;
 
 /**
  * Option Value
@@ -22,12 +23,12 @@ class OptionValue extends MixedValue
 		parent::__construct(...$args);
 
 		// check for allowed options
-		$this->validations->add('allowed', function (mixed $value) {
+		$this->validations->add('allowed', function (mixed $value, ModelWithContent|null $model = null) {
 			$options = $this->allowed;
 
 			// resolvable options
 			if (is_a($options, Closure::class) === true) {
-				$options = $options();
+				$options = $options($model);
 			}
 
 			// allow any option

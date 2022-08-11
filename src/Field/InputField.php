@@ -3,6 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Value\Value;
 
 /**
  * Base class for all saveable fields
@@ -65,8 +66,10 @@ class InputField extends DisplayField
 		];
 	}
 
-	public function submit(mixed $value = null): static
-	{
+	public function submit(
+		mixed $value = null,
+		ModelWithContent|null $model = null
+	): static {
 		if ($this->disabled === true) {
 			return $this;
 		}
