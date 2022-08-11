@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\Enumeration;
+use Kirby\Blueprint\NodeWidth;
 
 /**
  * The width of the field in the field grid.
@@ -13,9 +13,9 @@ use Kirby\Blueprint\Enumeration;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FieldWidth extends Enumeration
+class FieldWidth extends NodeWidth
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'1/1',
 		'1/2',
 		'1/3',
@@ -29,5 +29,5 @@ class FieldWidth extends Enumeration
 		'5/6',
 	];
 
-	public mixed $default = '1/1';
+	public static mixed $default = '1/1';
 }

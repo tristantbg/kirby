@@ -2,8 +2,10 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Field\TextareaField;
+
 /**
- * The width of columns in blueprints
+ * Additional help text below the node
  *
  * @package   Kirby Blueprint
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -11,6 +13,12 @@ namespace Kirby\Blueprint;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class ColumnWidth extends NodeWidth
+class NodeHelp extends NodeKirbytext
 {
+	public static function field()
+	{
+		return new TextareaField(
+			id: 'help'
+		);
+	}
 }

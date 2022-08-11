@@ -2,12 +2,17 @@
 
 namespace Kirby\Section;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
+use Kirby\Architect\InspectorSections;
 use Kirby\Blueprint\Blueprint;
 use Kirby\Blueprint\Column;
 use Kirby\Blueprint\NodeFeature;
 use Kirby\Blueprint\Polyfill;
 use Kirby\Blueprint\Tab;
 use Kirby\Exception\NotFoundException;
+use Kirby\Field\Fields;
+use Kirby\Field\TextField;
 
 /**
  * Section
@@ -34,6 +39,14 @@ class Section extends NodeFeature
 		}
 
 		throw new NotFoundException('The section "' . $sectionId . '" could not be found');
+	}
+
+	public function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->id = 'section';
+
+		return $inspector;
 	}
 
 	public static function polyfill(array $props): array

@@ -15,7 +15,7 @@ use Kirby\Blueprint\Enumeration;
  */
 class TextareaFieldSize extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'auto',
 		'tiny',
 		'small',
@@ -24,5 +24,5 @@ class TextareaFieldSize extends Enumeration
 		'huge'
 	];
 
-	public mixed $default = 'auto';
+	public static mixed $default = 'auto';
 }

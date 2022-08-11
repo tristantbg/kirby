@@ -2,9 +2,13 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
+use Kirby\Architect\InspectorSections;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
+use Kirby\Field\TextField;
 use Kirby\Section\Sections;
 
 /**
@@ -59,6 +63,19 @@ class Tab extends NodeLabelled
 		}
 
 		throw new NotFoundException('The tab "' . $tabId . '" could not be found');
+	}
+
+	public function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->id = 'tab';
+
+		$settings = $inspector->sections->settings;
+
+		$settings->fields->label = NodeLabel::field();
+		$settings->fields->icon  = NodeIcon::field();
+
+		return $inspector;
 	}
 
 	public function render(ModelWithContent $model, bool $active = false): array

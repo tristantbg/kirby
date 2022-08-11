@@ -2,7 +2,12 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
+use Kirby\Architect\InspectorSections;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\Fields;
+use Kirby\Field\TextField;
 
 /**
  * A node of the blueprint
@@ -44,6 +49,24 @@ class Node
 		$props = Extension::apply($props);
 		$props = static::polyfill($props);
 		return Factory::make(static::class, $props);
+	}
+
+	public function inspector(): Inspector
+	{
+		$this->defaults();
+
+		return new Inspector(
+			id: 'section',
+			sections: new InspectorSections([
+				new InspectorSection(
+					id: 'settings',
+					fields: new Fields([
+						new TextField(id: 'id'),
+						new TextField(id: 'extends'),
+					])
+				)
+			])
+		);
 	}
 
 	public static function load(string|array $props): static

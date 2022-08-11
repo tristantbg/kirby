@@ -4,7 +4,9 @@ namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\InvalidArgumentException;
+use Kirby\Field\FieldLabel;
 use Kirby\Field\SelectField;
+use Kirby\Option\Options;
 
 /**
  * Enumeration
@@ -17,8 +19,8 @@ use Kirby\Field\SelectField;
  */
 abstract class Enumeration
 {
-	public array $allowed = [];
-	public mixed $default = null;
+	public static array $allowed = [];
+	public static mixed $default = null;
 
 	public function __construct(
 		public mixed $value = null,
@@ -34,6 +36,17 @@ abstract class Enumeration
 		return new static($value);
 	}
 
+	public static function field()
+	{
+		$label = FieldLabel::fallback(static::class);
+
+		return SelectField::factory([
+			'id'      => strtolower($label->translations['en']),
+			'label'   => $label,
+			'options' => static::$allowed
+		]);
+	}
+
 	public function render(ModelWithContent $model): mixed
 	{
 		return $this->value;
@@ -41,10 +54,10 @@ abstract class Enumeration
 
 	public function set(mixed $value): static
 	{
-		$value ??= $this->default;
+		$value ??= static::$default;
 
-		if (in_array($value, $this->allowed, true) === false) {
-			throw new InvalidArgumentException('The given value "' . $value . '" is not allowed. Allowed values: ' . implode(', ', $this->allowed));
+		if (in_array($value, static::$allowed, true) === false) {
+			throw new InvalidArgumentException('The given value "' . $value . '" is not allowed. Allowed values: ' . implode(', ', static::$allowed));
 		}
 
 		$this->value = $value;

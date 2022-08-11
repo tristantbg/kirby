@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
 use Kirby\Blueprint\Blueprint;
 use Kirby\Blueprint\Column;
 use Kirby\Blueprint\NodeFeature;
@@ -62,6 +63,17 @@ class Field extends NodeFeature
 	public function fill(mixed $value = null): static
 	{
 		return $this;
+	}
+
+	public function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->id = 'field';
+
+		$settings = $inspector->sections->settings;
+		$settings->fields->width = FieldWidth::field();
+
+		return $inspector;
 	}
 
 	public function isInput(): bool

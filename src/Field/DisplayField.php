@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -31,6 +33,22 @@ class DisplayField extends Field
 		$this->label ??= FieldLabel::fallback($this->id);
 
 		parent::defaults();
+	}
+
+	public function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->sections->add(
+			new InspectorSection(
+				id: 'description',
+				fields: new Fields([
+					FieldLabel::field(),
+					FieldHelp::field()
+				])
+			)
+		);
+
+		return $inspector;
 	}
 
 	public function render(ModelWithContent $model): array

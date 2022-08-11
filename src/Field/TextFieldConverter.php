@@ -15,7 +15,7 @@ use Kirby\Blueprint\Enumeration;
  */
 class TextFieldConverter extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		null,
 		'lower',
 		'slug',

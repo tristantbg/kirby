@@ -67,29 +67,7 @@ class ColumnInfo extends TabInfo
 
     public function inspector(ModelWithContent $model): array
     {
-        return [
-            'title'    => 'Column: ' . $this->column->width->render($model),
-            'type'     => 'column',
-            'sections' => [
-                'settings' => [
-                    'title' => 'Settings',
-                    'open' => true,
-                    'fields' => [
-                        'id' => [
-                            'label' => 'ID',
-                            'type'  => 'text'
-                        ],
-                        'width' => [
-							'type' => 'select',
-							'options' => []
- 						]
-                    ]
-                ]
-            ],
-            'value' => [
-                'width' => $this->column->width?->value,
-            ]
-        ] + parent::inspector($model);
+		return $this->column->inspector()->render($model);
     }
 
     public function main(ModelWithContent $model): array

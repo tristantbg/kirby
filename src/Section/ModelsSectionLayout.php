@@ -15,12 +15,12 @@ use Kirby\Blueprint\Enumeration;
  */
 class ModelsSectionLayout extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'cards',
 		'cardlets',
 		'list',
 		'table'
 	];
 
-	public mixed $default = 'list';
+	public static mixed $default = 'list';
 }

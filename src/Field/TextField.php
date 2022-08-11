@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Value\StringValue;
 
@@ -51,6 +52,31 @@ class TextField extends InputField
 		$this->spellcheck ??= true;
 
 		parent::defaults();
+	}
+
+	public function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+
+		// settings
+		$settings                     = $inspector->sections->settings;
+		$settings->fields->spellcheck = new ToggleField(id: 'spellcheck');
+
+		// description
+		$description                      = $inspector->sections->description;
+		$description->fields->placeholder = FieldPlaceholder::field();
+		$description->fields->icon        = FieldIcon::field();
+		$description->fields->before      = FieldBeforeText::field();
+		$description->fields->after       = FieldAfterText::field();
+
+		// validation
+		$validation                    = $inspector->sections->validation;
+		$validation->fields->minlength = new NumberField(id: 'minlength');
+		$validation->fields->maxlength = new NumberField(id: 'maxlength');
+		$validation->fields->counter   = new ToggleField(id: 'counter');
+		$validation->fields->pattern   = new TextField(id: 'pattern');
+
+		return $inspector;
 	}
 
 	public function render(ModelWithContent $model): array

@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -40,6 +42,27 @@ class InputField extends DisplayField
 
 		$this->value->set($value);
 		return $this;
+	}
+
+	public function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$settings  = $inspector->sections->settings;
+
+		$settings->fields->disabled  = new ToggleField(id: 'disabled');
+		$settings->fields->autofocus = new ToggleField(id: 'autofocus');
+		$settings->fields->translate = new ToggleField(id: 'translate');
+
+		$inspector->sections->add(
+			new InspectorSection(
+				id: 'validation',
+				fields: new Fields([
+					new ToggleField(id: 'required')
+				])
+			)
+		);
+
+		return $inspector;
 	}
 
 	public function isInput(): bool

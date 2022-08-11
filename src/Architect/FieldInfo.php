@@ -71,10 +71,7 @@ class FieldInfo extends SectionInfo
 
     public function inspector(ModelWithContent $model): array
     {
-        return [
-            'title' => 'Field: ' . ucfirst($this->field::TYPE),
-            'type'  => 'field'
-        ] + parent::inspector($model);
+		return $this->field->inspector()->render($model);
     }
 
     public function main(ModelWithContent $model): array

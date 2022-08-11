@@ -58,8 +58,8 @@ class ToggleFieldText
 	public function render(ModelWithContent $model): array
 	{
 		return [
-			'on'  => $this->on->render($model),
-			'off' => $this->off->render($model),
+			$this->off->render($model),
+			$this->on->render($model)
 		];
 	}
 }

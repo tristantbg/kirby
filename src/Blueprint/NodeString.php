@@ -3,6 +3,9 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Enumeration\TextSize;
+use Kirby\Field\FieldLabel;
+use Kirby\Field\TextField;
 
 /**
  * Simple string blueprint node
@@ -27,6 +30,16 @@ class NodeString extends NodeOfKind
 		}
 
 		return new static($value);
+	}
+
+	public static function field()
+	{
+		$label = FieldLabel::fallback(static::class);
+
+		return new TextField(
+			id: strtolower($label->translations['en']),
+			label: $label,
+		);
 	}
 
 	public function render(ModelWithContent $model): ?string

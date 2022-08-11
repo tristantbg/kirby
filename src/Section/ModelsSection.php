@@ -2,6 +2,8 @@
 
 namespace Kirby\Section;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\BlueprintImage;
 use Kirby\Blueprint\NodeModel;
 use Kirby\Blueprint\NodeText;
@@ -11,6 +13,10 @@ use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
 use Kirby\Cms\Site;
 use Kirby\Cms\User;
+use Kirby\Field\Fields;
+use Kirby\Field\NumberField;
+use Kirby\Field\TextField;
+use Kirby\Field\ToggleField;
 use Kirby\Table\TableColumn;
 use Kirby\Table\TableColumns;
 use Kirby\Toolkit\A;
@@ -131,6 +137,71 @@ class ModelsSection extends DisplaySection
 		}
 
 		return $columns;
+	}
+
+	public function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+
+		// settings
+		$settings = $inspector->sections->settings;
+
+		// description
+		$description = $inspector->sections->description;
+		$description->fields->empty = NodeText::field()->set('id', 'empty')->set('label', 'Empty');
+
+		// item
+		$inspector->sections->add(
+			new InspectorSection(
+				id: 'items',
+				fields: new Fields([
+					NodeModel::field(),
+					ModelsSectionLayout::field(),
+					ModelsSectionSize::field(),
+					NodeText::field()->set('id', 'text'),
+					NodeText::field()->set('id', 'info')
+				])
+			)
+		);
+
+		// image settings
+		$inspector->sections->add(BlueprintImage::inspectorSection());
+
+		// sorting
+		$inspector->sections->add(
+			new InspectorSection(
+				id: 'sorting',
+				fields: new Fields([
+					new ToggleField(id: 'sortable'),
+					new ToggleField(id: 'flip'),
+					new TextField(id: 'sortBy')
+				])
+			)
+		);
+
+		// pagination
+		$inspector->sections->add(
+			new InspectorSection(
+				id: 'pagination',
+				fields: new Fields([
+					new NumberField(id: 'page'),
+					new NumberField(id: 'limit'),
+				])
+			)
+		);
+
+		// validation
+		$inspector->sections->add(
+			new InspectorSection(
+				id: 'validation',
+				fields: new Fields([
+					new NumberField(id: 'min'),
+					new NumberField(id: 'max')
+				])
+			)
+		);
+
+		return $inspector;
 	}
 
 	/**

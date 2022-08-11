@@ -15,7 +15,7 @@ use Kirby\Blueprint\Enumeration;
  */
 class LayoutWidth extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'1/1', '1/2', '1/3', '1/4', '1/6', '1/12',
 		'2/2', '2/3', '2/4', '2/6', '2/12',
 		'3/3', '3/4', '3/6', '3/12',
@@ -30,5 +30,5 @@ class LayoutWidth extends Enumeration
 		'12/12'
 	];
 
-	public mixed $default = '1/1';
+	public static mixed $default = '1/1';
 }

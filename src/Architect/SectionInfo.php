@@ -100,10 +100,7 @@ class SectionInfo extends ColumnInfo
 
     public function inspector(ModelWithContent $model): array
     {
-        return [
-            'title' => 'Section: ' . ucfirst($this->section::TYPE),
-            'type'  => 'section'
-        ] + parent::inspector($model);
+		return $this->section->inspector()->render($model);
     }
 
     public function main(ModelWithContent $model): array

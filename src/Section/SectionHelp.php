@@ -2,7 +2,7 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\NodeKirbytext;
+use Kirby\Blueprint\NodeHelp;
 
 /**
  * Additional help text below the section
@@ -13,6 +13,6 @@ use Kirby\Blueprint\NodeKirbytext;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class SectionHelp extends NodeKirbytext
+class SectionHelp extends NodeHelp
 {
 }

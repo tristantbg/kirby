@@ -66,10 +66,7 @@ class BlueprintInfo extends Info
 
     public function inspector(ModelWithContent $model): array
     {
-        return [
-            'title' => 'Blueprint: ' . $this->blueprint->label?->render($model),
-            'type'  => 'blueprint'
-        ] + parent::inspector($model);
+		return $this->blueprint->inspector()->render($model);
     }
 
     public function main(ModelWithContent $model): array

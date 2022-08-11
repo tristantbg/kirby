@@ -3,6 +3,8 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\FieldLabel;
+use Kirby\Field\TextField;
 use Kirby\Toolkit\I18n;
 
 /**
@@ -32,6 +34,16 @@ class NodeI18n extends NodeofKind
 		}
 
 		return new static($translations);
+	}
+
+	public static function field()
+	{
+		$label = FieldLabel::fallback(static::class);
+
+		return new TextField(
+			id: strtolower($label->translations['en']),
+			label: $label,
+		);
 	}
 
 	public function render(ModelWithContent $model): ?string

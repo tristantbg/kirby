@@ -15,12 +15,12 @@ use Kirby\Blueprint\Enumeration;
  */
 class SectionTextTheme extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		null,
 		'negative',
 		'notice',
 		'positive',
 	];
 
-	public mixed $default = null;
+	public static mixed $default = null;
 }
