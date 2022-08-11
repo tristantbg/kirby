@@ -35,7 +35,7 @@ class DisplayField extends Field
 		parent::defaults();
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 		$inspector->sections->add(

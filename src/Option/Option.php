@@ -28,9 +28,9 @@ class Option
 		$this->text ??= new NodeText(['*' => $this->value]);
 	}
 
-	public static function factory(string|array $props): static
+	public static function factory(float|int|string|null|array $props): static
 	{
-		if (is_string($props) === true) {
+		if (is_array($props) === false) {
 			$props = ['value' => $props];
 		}
 
@@ -45,7 +45,7 @@ class Option
 
 	public function id(): string|int|float
 	{
-		return $this->value;
+		return $this->value ?? '';
 	}
 
 	/**

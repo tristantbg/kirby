@@ -22,4 +22,15 @@ class TextFieldConverter extends Enumeration
 		'ucfirst',
 		'upper',
 	];
+
+	public static function field()
+	{
+		$field = parent::field();
+
+		$field->id = 'converter';
+		$field->label->translations = ['en' => 'Converter'];
+
+		return $field;
+	}
+
 }

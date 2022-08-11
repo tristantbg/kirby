@@ -56,13 +56,13 @@ class Column extends Node
 		throw new NotFoundException('The column "' . $columnId . '" could not be found');
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 		$inspector->id = 'column';
 
 		$settings = $inspector->sections->settings;
-		$settings->width = ColumnWidth::field();
+		$settings->fields->width = ColumnWidth::field();
 
 		return $inspector;
 	}

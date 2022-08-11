@@ -38,7 +38,7 @@ class FieldsSection extends Section
 		return $this->fields ?? new Fields;
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 

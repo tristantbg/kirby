@@ -65,7 +65,7 @@ class Tab extends NodeLabelled
 		throw new NotFoundException('The tab "' . $tabId . '" could not be found');
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 		$inspector->id = 'tab';

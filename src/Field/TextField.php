@@ -3,6 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Value\StringValue;
 
@@ -23,7 +24,7 @@ class TextField extends InputField
 	public function __construct(
 		string $id,
 		public FieldAfterText|null $after = null,
-		public string|null $autocomplete = null,
+		public FieldAutocomplete|null $autocomplete = null,
 		public FieldBeforeText|null $before = null,
 		public TextFieldConverter|null $converter = null,
 		public bool|null $counter = null,
@@ -54,13 +55,9 @@ class TextField extends InputField
 		parent::defaults();
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
-
-		// settings
-		$settings                     = $inspector->sections->settings;
-		$settings->fields->spellcheck = new ToggleField(id: 'spellcheck');
 
 		// description
 		$description                      = $inspector->sections->description;
@@ -76,6 +73,19 @@ class TextField extends InputField
 		$validation->fields->counter   = new ToggleField(id: 'counter');
 		$validation->fields->pattern   = new TextField(id: 'pattern');
 
+		// value
+		$inspector->sections->add(
+			new InspectorSection(
+				id: 'value',
+				fields: new Fields([
+					new TextField(id: 'default'),
+					new ToggleField(id: 'spellcheck'),
+					FieldAutocomplete::field(),
+					TextFieldConverter::field(),
+				])
+			)
+		);
+
 		return $inspector;
 	}
 
@@ -83,7 +93,7 @@ class TextField extends InputField
 	{
 		return parent::render($model) + [
 			'after'        => $this->after?->render($model),
-			'autocomplete' => $this->autocomplete,
+			'autocomplete' => $this->autocomplete?->render($model),
 			'before'       => $this->before?->render($model),
 			'counter'      => $this->counter,
 			'icon'         => $this->icon?->render($model),

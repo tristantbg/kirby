@@ -139,7 +139,7 @@ class ModelsSection extends DisplaySection
 		return $columns;
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 

@@ -33,7 +33,7 @@ class EmailField extends TextField
 
 	public function defaults(): void
 	{
-		$this->autocomplete ??= 'email';
+		$this->autocomplete ??= new FieldAutocomplete('email');
 		$this->counter      ??= false;
 		$this->icon         ??= new FieldIcon('email');
 		$this->label        ??= new FieldLabel(['*' => 'email']);

@@ -8,7 +8,7 @@ use Kirby\Field\TextField;
 use Kirby\Toolkit\I18n;
 
 /**
- * Translatable blueprint node
+ * Translatable node property
  *
  * @package   Kirby Blueprint
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -16,7 +16,7 @@ use Kirby\Toolkit\I18n;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class NodeI18n extends NodeofKind
+class NodeI18n extends NodeProperty
 {
 	public function __construct(
 		public array $translations,
@@ -34,16 +34,6 @@ class NodeI18n extends NodeofKind
 		}
 
 		return new static($translations);
-	}
-
-	public static function field()
-	{
-		$label = FieldLabel::fallback(static::class);
-
-		return new TextField(
-			id: strtolower($label->translations['en']),
-			label: $label,
-		);
 	}
 
 	public function render(ModelWithContent $model): ?string

@@ -71,7 +71,7 @@ class FieldInfo extends SectionInfo
 
     public function inspector(ModelWithContent $model): array
     {
-		return $this->field->inspector()->render($model);
+		return $this->field::inspector()->render($model);
     }
 
     public function main(ModelWithContent $model): array

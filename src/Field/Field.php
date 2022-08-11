@@ -65,7 +65,7 @@ class Field extends NodeFeature
 		return $this;
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 		$inspector->id = 'field';

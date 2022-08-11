@@ -67,7 +67,7 @@ class ColumnInfo extends TabInfo
 
     public function inspector(ModelWithContent $model): array
     {
-		return $this->column->inspector()->render($model);
+		return $this->column::inspector()->render($model);
     }
 
     public function main(ModelWithContent $model): array

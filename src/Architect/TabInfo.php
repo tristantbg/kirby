@@ -76,7 +76,7 @@ class TabInfo extends BlueprintInfo
 
     public function inspector(ModelWithContent $model): array
     {
-		return $this->tab->inspector()->render($model);
+		return Tab::inspector()->render($model);
     }
 
     public function parent(): BlueprintInfo

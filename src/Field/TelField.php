@@ -17,7 +17,7 @@ class TelField extends TextField
 
 	public function defaults(): void
 	{
-		$this->autocomplete ??= 'tel';
+		$this->autocomplete ??= new FieldAutocomplete('tel');
 		$this->icon         ??= new FieldIcon('phone');
 	}
 }

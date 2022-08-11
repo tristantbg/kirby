@@ -31,7 +31,7 @@ class UrlField extends TextField
 
 	public function defaults(): void
 	{
-		$this->autocomplete ??= 'url';
+		$this->autocomplete ??= new FieldAutocomplete('url');
 		$this->icon         ??= new FieldIcon('url');
 		$this->placeholder  ??= new FieldPlaceholder(['*' => 'https://example.com']);
 

@@ -51,10 +51,8 @@ class Node
 		return Factory::make(static::class, $props);
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
-		$this->defaults();
-
 		return new Inspector(
 			id: 'section',
 			sections: new InspectorSections([

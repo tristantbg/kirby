@@ -41,7 +41,7 @@ class Section extends NodeFeature
 		throw new NotFoundException('The section "' . $sectionId . '" could not be found');
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 		$inspector->id = 'section';

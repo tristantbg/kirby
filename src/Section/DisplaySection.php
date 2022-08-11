@@ -35,7 +35,7 @@ class DisplaySection extends Section
 		$this->label ??= SectionLabel::fallback($this->id);
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 		$inspector->sections->add(

@@ -44,7 +44,7 @@ class InputField extends DisplayField
 		return $this;
 	}
 
-	public function inspector(): Inspector
+	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
 		$settings  = $inspector->sections->settings;
