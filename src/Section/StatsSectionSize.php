@@ -25,4 +25,10 @@ class StatsSectionSize extends Enumeration
 	];
 
 	public static mixed $default = 'auto';
+
+	public static function field()
+	{
+		return parent::field()->set('id', 'size')->set('label', 'Size');
+	}
+
 }

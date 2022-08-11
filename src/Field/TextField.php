@@ -55,12 +55,21 @@ class TextField extends InputField
 		parent::defaults();
 	}
 
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+
+		$section->fields->counter = new ToggleField(id: 'counter');
+		$section->fields->icon    = FieldIcon::field();
+
+		return $section;
+	}
+
 	public static function inspectorDescriptionSection(): InspectorSection
 	{
 		$section = parent::inspectorDescriptionSection();
 
 		$section->fields->placeholder = FieldPlaceholder::field();
-		$section->fields->icon        = FieldIcon::field();
 		$section->fields->before      = FieldBeforeText::field();
 		$section->fields->after       = FieldAfterText::field();
 
@@ -73,7 +82,6 @@ class TextField extends InputField
 
 		$section->fields->minlength  = new NumberField(id: 'minlength');
 		$section->fields->maxlength  = new NumberField(id: 'maxlength');
-		$section->fields->counter    = new ToggleField(id: 'counter');
 		$section->fields->spellcheck = new ToggleField(id: 'spellcheck');
 		$section->fields->pattern    = new TextField(id: 'pattern');
 

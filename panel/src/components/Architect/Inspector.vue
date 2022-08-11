@@ -1,6 +1,7 @@
 <template>
-	<div :class="'k-blueprint-' + type + '-inspector'">
+	<div :class="'k-blueprint-' + id + '-inspector'">
 		<k-inspector-header :options="options">{{ label }}</k-inspector-header>
+
 		<k-inspector-section
 			v-for="(section, sectionId) in sections"
 			:key="sectionId"
@@ -30,7 +31,7 @@ export default {
 	},
 	props: {
 		api: String,
-		options: String,
+		id: String,
 		sections: Object,
 		label: String,
 		value: Object

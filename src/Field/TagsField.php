@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -30,6 +32,24 @@ class TagsField extends OptionsField
 		if ($this->any === true) {
 			$this->value->allowed = null;
 		}
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+
+		$section->fields->icon = FieldIcon::field();
+		$section->fields->list = new ToggleField(id: 'list');
+
+		return $section;
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+		$section->fields->any = new ToggleField(id: 'any');
+
+		return $section;
 	}
 
 	public static function polyfill(array $props): array

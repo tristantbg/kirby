@@ -4,6 +4,7 @@ namespace Kirby\Architect;
 
 use Kirby\Blueprint\Blueprint;
 use Kirby\Blueprint\Column;
+use Kirby\Blueprint\Node;
 use Kirby\Blueprint\Tab;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Section\Sections;
@@ -16,6 +17,11 @@ class ColumnInfo extends TabInfo
         public Column $column,
     ) {
     }
+
+	public function current(): Node
+	{
+		return $this->column;
+	}
 
     public function dropdown(): array
     {
@@ -63,11 +69,6 @@ class ColumnInfo extends TabInfo
             'url'      => $this->url(),
             'width'    => $this->column->width->render($model),
         ];
-    }
-
-    public function inspector(ModelWithContent $model): array
-    {
-		return $this->column::inspector()->render($model);
     }
 
     public function main(ModelWithContent $model): array

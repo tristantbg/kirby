@@ -25,4 +25,10 @@ class InfoSectionTheme extends Enumeration
 	];
 
 	public static mixed $default = 'plain';
+
+	public static function field()
+	{
+		return parent::field()->set('id', 'theme')->set('label', 'Theme');
+	}
+
 }

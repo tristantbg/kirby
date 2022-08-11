@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\NodeKirbytext;
 use Kirby\Cms\ModelWithContent;
 
@@ -25,6 +27,22 @@ class InfoField extends DisplayField
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+		$section->fields->theme = InfoFieldTheme::field();
+
+		return $section;
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+		$section->fields->text = NodeKirbytext::field();
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

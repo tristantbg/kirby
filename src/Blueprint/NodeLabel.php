@@ -29,6 +29,7 @@ class NodeLabel extends NodeText
 	public static function field()
 	{
 		$field = parent::field();
+		$field->id = 'label';
 		$field->label->translations = ['en' => 'Label'];
 
 		return $field;

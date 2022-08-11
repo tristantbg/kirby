@@ -19,5 +19,7 @@ class TelField extends TextField
 	{
 		$this->autocomplete ??= new FieldAutocomplete('tel');
 		$this->icon         ??= new FieldIcon('phone');
+
+		parent::defaults();
 	}
 }

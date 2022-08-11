@@ -3,6 +3,8 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\FieldLabel;
+use Kirby\Field\TextareaField;
 
 /**
  * Blueprint node with Kirbytext
@@ -23,4 +25,13 @@ class NodeKirbytext extends NodeText
 
 		return $text;
 	}
+
+	public static function field()
+	{
+		return new TextareaField(
+			id: 'text',
+			label: new FieldLabel(['en' => 'Text'])
+		);
+	}
+
 }

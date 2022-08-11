@@ -35,23 +35,14 @@ class DisplayField extends Field
 		parent::defaults();
 	}
 
-	public static function inspector(): Inspector
-	{
-		$inspector = parent::inspector();
-		$inspector->sections->add(static::inspectorDescriptionSection());
-
-		return $inspector;
-	}
-
 	public static function inspectorDescriptionSection(): InspectorSection
 	{
-		return new InspectorSection(
-			id: 'description',
-			fields: new Fields([
-				FieldLabel::field(),
-				FieldHelp::field()
-			])
-		);
+		$section = parent::inspectorDescriptionSection();
+
+		$section->fields->label = FieldLabel::field();
+		$section->fields->help  = FieldHelp::field();
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

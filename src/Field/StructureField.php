@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\NodeText;
 use Kirby\Blueprint\Polyfill;
 use Kirby\Cms\ModelWithContent;
@@ -44,6 +45,33 @@ class StructureField extends InputField
 			min: $this->min,
 			required: $this->required,
 		);
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+		$section->fields->empty = NodeText::field()->set('id', 'empty')->set('label', 'Empty');
+
+		return $section;
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+
+		$section->fields->min = new NumberField(id: 'min');
+		$section->fields->max = new NumberField(id: 'max');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+		$section->fields->prepend   = new ToggleField(id: 'prepend');
+		$section->fields->duplicate = new ToggleField(id: 'duplicate');
+
+		return $section;
 	}
 
 	public static function polyfill(array $props): array

@@ -51,7 +51,7 @@
 					element="k-grid"
 				/>
 			</section>
-			<section v-else-if="blueprint.tab" @click.stop>
+			<section v-else @click.stop>
 				<h2>Select a layout to get started …</h2>
 
 				<div class="k-blueprint-layout-templates">

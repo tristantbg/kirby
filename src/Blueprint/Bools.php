@@ -2,7 +2,12 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\FieldLabel;
+use Kirby\Field\Fields;
+use Kirby\Field\ToggleField;
 
 /**
  * Bools
@@ -28,6 +33,23 @@ class Bools
 		}
 
 		return new static(...$props);
+	}
+
+	public static function inspectorSection(): InspectorSection
+	{
+		$section  = new InspectorSection(id: 'options', fields: new Fields);
+		$instance = new static;
+
+		foreach (get_object_vars($instance) as $key => $value) {
+			$section->fields->add(
+				new ToggleField(
+					id: $key,
+					label: new FieldLabel(['en' => $key])
+				)
+			);
+		}
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): mixed

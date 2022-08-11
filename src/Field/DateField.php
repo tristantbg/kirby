@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Value\DateTimeValue;
 
@@ -41,29 +42,61 @@ class DateField extends InputField
 		);
 	}
 
-	public function display(): string
+	public function defaults(): void
 	{
-		return $this->display ?? 'YYYY-MM-DD';
+		$this->display ??= 'YYYY-MM-DD';
+		$this->icon    ??= new FieldIcon('calendar');
+		$this->step    ??= new DateFieldStep;
+
+		parent::defaults();
 	}
 
-	public function icon(): FieldIcon
+	public static function inspectorAppearanceSection(): InspectorSection
 	{
-		return $this->icon ?? new FieldIcon('calendar');
+		$section = parent::inspectorAppearanceSection();
+
+		$section->fields->display = new TextField(id: 'display');
+		$section->fields->icon    = FieldIcon::field();
+
+		return $section;
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+		$section->fields->placeholder = FieldPlaceholder::field();
+
+		return $section;
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+
+		$section->fields->min = new TextField(id: 'min');
+		$section->fields->max = new TextField(id: 'max');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+
+		$section->fields->default = new TextField(id: 'default');
+		$section->fields->format  = new TextField(id: 'format');
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
-			'display' => $this->display(),
-			'icon'    => $this->icon()->render($model),
+			'display' => $this->display,
+			'icon'    => $this->icon->render($model),
 			'max'     => $this->max,
 			'min'     => $this->min,
-			'step'    => $this->step()->render($model),
+			'step'    => $this->step->render($model),
 		];
-	}
-
-	public function step(): DateFieldStep
-	{
-		return $this->step ?? new DateFieldStep();
 	}
 }

@@ -48,12 +48,23 @@ class TextareaField extends InputField
 		);
 	}
 
-	public static function inspector(): Inspector
+	public function defaults(): void
 	{
-		$inspector = parent::inspector();
-		$inspector->sections->add(static::inspectorAppearanceSection());
+		$this->font ??= new TextareaFieldFont;
+		$this->size ??= new TextareaFieldSize;
 
-		return $inspector;
+		parent::defaults();
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+
+		$section->fields->icon = FieldIcon::field();
+		$section->fields->font = TextareaFieldFont::field();
+		$section->fields->size = TextareaFieldSize::field();
+
+		return $section;
 	}
 
 	public static function inspectorDescriptionSection(): InspectorSection
@@ -61,17 +72,6 @@ class TextareaField extends InputField
 		$section = parent::inspectorDescriptionSection();
 
 		$section->fields->placeholder = FieldPlaceholder::field();
-		$section->fields->icon        = FieldIcon::field();
-
-		return $section;
-	}
-
-	public static function inspectorAppearanceSection(): InspectorSection
-	{
-		$section = new InspectorSection(id: 'appearance', fields: new Fields);
-
-		$section->fields->font = TextareaFieldFont::field();
-		$section->fields->size = TextareaFieldSize::field();
 
 		return $section;
 	}

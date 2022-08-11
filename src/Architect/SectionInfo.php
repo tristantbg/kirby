@@ -4,6 +4,7 @@ namespace Kirby\Architect;
 
 use Kirby\Blueprint\Blueprint;
 use Kirby\Blueprint\Column;
+use Kirby\Blueprint\Node;
 use Kirby\Blueprint\Tab;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
@@ -19,6 +20,11 @@ class SectionInfo extends ColumnInfo
         public Section $section,
     ) {
     }
+
+	public function current(): Node
+	{
+		return $this->section;
+	}
 
     public function dropdown(): array
     {
@@ -96,11 +102,6 @@ class SectionInfo extends ColumnInfo
             return $info->element($model);
         });
 
-    }
-
-    public function inspector(ModelWithContent $model): array
-    {
-		return $this->section::inspector()->render($model);
     }
 
     public function main(ModelWithContent $model): array

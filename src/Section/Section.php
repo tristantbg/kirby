@@ -2,17 +2,12 @@
 
 namespace Kirby\Section;
 
-use Kirby\Architect\Inspector;
-use Kirby\Architect\InspectorSection;
-use Kirby\Architect\InspectorSections;
 use Kirby\Blueprint\Blueprint;
 use Kirby\Blueprint\Column;
 use Kirby\Blueprint\NodeFeature;
 use Kirby\Blueprint\Polyfill;
 use Kirby\Blueprint\Tab;
 use Kirby\Exception\NotFoundException;
-use Kirby\Field\Fields;
-use Kirby\Field\TextField;
 
 /**
  * Section

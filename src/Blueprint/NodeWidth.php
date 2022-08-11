@@ -29,6 +29,7 @@ class NodeWidth extends Enumeration
 	public static function field()
 	{
 		$field = parent::field();
+		$field->id = 'width';
 		$field->label->translations = ['*' => 'Width'];
 
 		return $field;

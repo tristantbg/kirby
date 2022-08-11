@@ -66,12 +66,31 @@ class Field extends NodeFeature
 		return $this;
 	}
 
-	public static function inspectorSettingsSection(): InspectorSection
+	public static function inspector(): Inspector
 	{
-		$section = parent::inspectorSettingsSection();
-		$section->fields->width = FieldWidth::field();
+		$inspector = parent::inspector();
+		$inspector->sections->add(static::inspectorDescriptionSection());
+		$inspector->sections->add(static::inspectorAppearanceSection());
 
-		return $section;
+		return $inspector;
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'appearance',
+			fields: new Fields([
+				FieldWidth::field()
+			])
+		);
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'description',
+			fields: new Fields,
+		);
 	}
 
 	public function isInput(): bool
@@ -84,7 +103,16 @@ class Field extends NodeFeature
 		try {
 			return parent::load($props);
 		} catch (Throwable $e) {
-			return new InfoField(id: 'error-' . Str::random(5));
+			if (is_string($props) === true) {
+				$props = ['id' => $props];
+			}
+
+			return InfoField::factory([
+				'id'    => 'error-' . ($props['id'] ?? Str::random(5)),
+				'label' => 'Error',
+				'text'  => $e->getMessage(),
+				'theme' => 'negative'
+			]);
 		}
 	}
 

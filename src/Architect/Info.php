@@ -2,6 +2,7 @@
 
 namespace Kirby\Architect;
 
+use Kirby\Blueprint\Node;
 use Kirby\Blueprint\Blueprint;
 use Kirby\Blueprint\Column;
 use Kirby\Blueprint\Tab;
@@ -15,6 +16,8 @@ abstract class Info
     {
         return 'k-architect-view';
     }
+
+	abstract public function current(): Node;
 
     public function dropdown(): array
     {
@@ -84,14 +87,9 @@ abstract class Info
 
     public function inspector(ModelWithContent $model): array
     {
-        return [
-            'options'  => $this->url(),
-            'api'      => $this->url(),
-            'sections' => [],
-            'title'    => 'Inspector',
-            'type'     => 'inspector',
-            'value'    => []
-        ];
+		$current = $this->current();
+
+		return $current::inspector()->fill($model, $current)->render($model);
     }
 
     public function main(ModelWithContent $model): array
@@ -126,9 +124,9 @@ abstract class Info
         return [
             'component' => $this->component($model),
             'props'     => [
-                'blueprint' => $this->main($model),
-                'inspector' => $this->inspector($model),
-                'menu'      => $this->menu($model),
+                'blueprint' => fn () => $this->main($model),
+                'inspector' => fn () => $this->inspector($model),
+                'menu'      => fn () => $this->menu($model),
             ]
         ];
     }

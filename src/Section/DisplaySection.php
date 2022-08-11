@@ -6,7 +6,6 @@ use Kirby\Architect\Inspector;
 use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
-use Kirby\Field\TextField;
 
 /**
  * Display section
@@ -39,8 +38,17 @@ class DisplaySection extends Section
 	{
 		$inspector = parent::inspector();
 		$inspector->sections->add(static::inspectorDescriptionSection());
+		$inspector->sections->add(static::inspectorAppearanceSection());
 
 		return $inspector;
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'appearance',
+			fields: new Fields
+		);
 	}
 
 	public static function inspectorDescriptionSection(): InspectorSection

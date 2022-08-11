@@ -54,13 +54,18 @@ class InputField extends DisplayField
 		return $inspector;
 	}
 
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+		$section->fields->autofocus = new ToggleField(id: 'autofocus');
+
+		return $section;
+	}
+
 	public static function inspectorSettingsSection(): InspectorSection
 	{
 		$section = parent::inspectorSettingsSection();
-
 		$section->fields->disabled  = new ToggleField(id: 'disabled');
-		$section->fields->autofocus = new ToggleField(id: 'autofocus');
-		$section->fields->translate = new ToggleField(id: 'translate');
 
 		return $section;
 	}
@@ -79,7 +84,9 @@ class InputField extends DisplayField
 	{
 		return new InspectorSection(
 			id: 'value',
-			fields: new Fields([])
+			fields: new Fields([
+				new ToggleField(id: 'translate')
+			])
 		);
 	}
 

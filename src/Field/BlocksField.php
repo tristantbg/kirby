@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Block\BlockTypeGroups;
 use Kirby\Blueprint\NodeText;
 use Kirby\Blueprint\Polyfill;
@@ -40,6 +41,40 @@ class BlocksField extends InputField
 			pretty: $this->pretty,
 			required: $this->required
 		);
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+		$section->fields->empty = NodeText::field()->set('id', 'empty')->set('label', 'Empty');
+
+		return $section;
+	}
+
+	public static function inspectorSettingsSection(): InspectorSection
+	{
+		$section = parent::inspectorSettingsSection();
+		$section->fields->group = new TextField(id: 'group');
+
+		return $section;
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+
+		$section->fields->min = new NumberField(id: 'min');
+		$section->fields->max = new NumberField(id: 'max');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+		$section->fields->pretty = new ToggleField(id: 'pretty');
+
+		return $section;
 	}
 
 	/**

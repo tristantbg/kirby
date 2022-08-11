@@ -139,6 +139,14 @@ class ModelsSection extends DisplaySection
 		return $columns;
 	}
 
+	public function defaults(): void
+	{
+		$this->layout ??= new ModelsSectionLayout;
+		$this->size   ??= new ModelsSectionSize;
+
+		parent::defaults();
+	}
+
 	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
@@ -346,6 +354,8 @@ class ModelsSection extends DisplaySection
 	 */
 	public function render(ModelWithContent $model): array
 	{
+		$this->defaults();
+
 		return parent::render($model) + [
 			'link' => $this->link($model, $this->parent($model)),
 		];

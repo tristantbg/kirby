@@ -137,4 +137,26 @@ class Node
 		$this->$property = Factory::forProperty(static::class, $property, $value);
 		return $this;
 	}
+
+	public function toFieldValues(ModelWithContent $model, Fields $fields): array
+	{
+		$props  = get_object_vars($this);
+		$values = [];
+
+		foreach ($fields->keys() as $id) {
+			$value = $props[$id] ?? null;
+
+			if (is_object($value) === false && is_resource($value) === false) {
+				$values[$id] = $value;
+				continue;
+			}
+
+			if (method_exists($value, 'render') === true) {
+				$values[$id] = $value->render($model);
+			}
+		}
+
+		return $values;
+	}
+
 }

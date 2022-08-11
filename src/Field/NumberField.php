@@ -42,6 +42,15 @@ class NumberField extends InputField
 		);
 	}
 
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+
+		$section->fields->icon = FieldIcon::field();
+
+		return $section;
+	}
+
 	public static function inspectorDescriptionSection(): InspectorSection
 	{
 		return TextField::inspectorDescriptionSection();
