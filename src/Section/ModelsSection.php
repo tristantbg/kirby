@@ -143,65 +143,86 @@ class ModelsSection extends DisplaySection
 	{
 		$inspector = parent::inspector();
 
-		// settings
-		$settings = $inspector->sections->settings;
-
-		// description
-		$description = $inspector->sections->description;
-		$description->fields->empty = NodeText::field()->set('id', 'empty')->set('label', 'Empty');
-
-		// item
-		$inspector->sections->add(
-			new InspectorSection(
-				id: 'items',
-				fields: new Fields([
-					NodeModel::field(),
-					ModelsSectionLayout::field(),
-					ModelsSectionSize::field(),
-					NodeText::field()->set('id', 'text'),
-					NodeText::field()->set('id', 'info')
-				])
-			)
-		);
+		// items
+		$inspector->sections->add(static::inspectorItemsSection());
 
 		// image settings
 		$inspector->sections->add(BlueprintImage::inspectorSection());
 
 		// sorting
-		$inspector->sections->add(
-			new InspectorSection(
-				id: 'sorting',
-				fields: new Fields([
-					new ToggleField(id: 'sortable'),
-					new ToggleField(id: 'flip'),
-					new TextField(id: 'sortBy')
-				])
-			)
-		);
+		$inspector->sections->add(static::inspectorSortingSection());
 
 		// pagination
-		$inspector->sections->add(
-			new InspectorSection(
-				id: 'pagination',
-				fields: new Fields([
-					new NumberField(id: 'page'),
-					new NumberField(id: 'limit'),
-				])
-			)
-		);
+		$inspector->sections->add(static::inspectorPaginationSection());
 
 		// validation
-		$inspector->sections->add(
-			new InspectorSection(
-				id: 'validation',
-				fields: new Fields([
-					new NumberField(id: 'min'),
-					new NumberField(id: 'max')
-				])
-			)
-		);
+		$inspector->sections->add(static::inspectorValidationSection());
 
 		return $inspector;
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+		$section->fields->empty = NodeText::field()->set('id', 'empty')->set('label', 'Empty');
+
+		return $section;
+	}
+
+	public static function inspectorItemsSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'items',
+			fields: new Fields([
+				NodeModel::field()->set('id', 'parent')->set('label', 'Parent'),
+				ModelsSectionLayout::field(),
+				ModelsSectionSize::field(),
+				NodeText::field()->set('id', 'text')->set('label', 'Text'),
+				NodeText::field()->set('id', 'info')->set('label', 'Info')
+			])
+		);
+	}
+
+	public static function inspectorPaginationSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'pagination',
+			fields: new Fields([
+				new NumberField(id: 'page'),
+				new NumberField(id: 'limit'),
+			])
+		);
+	}
+
+	public static function inspectorSettingsSection(): InspectorSection
+	{
+		$section = parent::inspectorSettingsSection();
+		$section->fields->search = new ToggleField(id: 'search');
+
+		return $section;
+	}
+
+	public static function inspectorSortingSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'sorting',
+			fields: new Fields([
+				new ToggleField(id: 'sortable'),
+				new ToggleField(id: 'flip'),
+				new TextField(id: 'sortBy')
+			])
+		);
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'validation',
+			fields: new Fields([
+				new NumberField(id: 'min'),
+				new NumberField(id: 'max')
+			])
+		);
 	}
 
 	/**

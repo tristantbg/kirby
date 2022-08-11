@@ -23,4 +23,13 @@ class ModelsSectionLayout extends Enumeration
 	];
 
 	public static mixed $default = 'list';
+
+	public static function field()
+	{
+		$field = parent::field();
+		$field->id = 'layout';
+		$field->label->translations = ['en' => 'Layout'];
+
+		return $field;
+	}
 }

@@ -21,6 +21,7 @@ use Kirby\Toolkit\Str;
 class Blueprint extends NodeLabelled
 {
 	public const DEFAULT = 'default';
+	public const TYPE = 'blueprint';
 
 	public static Cache $cache;
 	public ModelWithContent|null $model = null;

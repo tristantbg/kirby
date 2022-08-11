@@ -21,4 +21,13 @@ class TextareaFieldFont extends Enumeration
 	];
 
 	public static mixed $default = 'sans';
+
+	public static function field()
+	{
+		$field = parent::field();
+		$field->id = 'font';
+		$field->label->translations = ['en' => 'Font Family'];
+
+		return $field;
+	}
 }

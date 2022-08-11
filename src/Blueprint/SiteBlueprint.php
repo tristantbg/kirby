@@ -16,6 +16,7 @@ use Kirby\Exception\NotFoundException;
 class SiteBlueprint extends Blueprint
 {
 	public const DEFAULT = 'site';
+	public const TYPE = 'site';
 
 	public function __construct(
 		public SiteBlueprintOptions|null $options = null,

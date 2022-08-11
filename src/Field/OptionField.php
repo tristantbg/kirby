@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Option\Options;
 use Kirby\Value\OptionValue;
@@ -41,6 +42,14 @@ class OptionField extends InputField
 		$this->options ??= new Options();
 
 		parent::defaults();
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+		$section->fields->default = new TextField(id: 'default');
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

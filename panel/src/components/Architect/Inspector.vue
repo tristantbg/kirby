@@ -53,17 +53,16 @@ export default {
 	},
 	methods: {
 		onInput(values) {
-			Object.keys(values).forEach((key) => {
-				this.$set(this.values, key, values[key]);
-			});
+			// Object.keys(values).forEach((key) => {
+			// 	this.$set(this.values, key, values[key]);
+			// });
 		},
 		async onSubmit(e) {
-			if (e && e.preventDefault) {
-				e.preventDefault();
-			}
-
-			await this.$api.patch(this.api, this.values);
-			await this.$reload();
+			// if (e && e.preventDefault) {
+			// 	e.preventDefault();
+			// }
+			// await this.$api.patch(this.api, this.values);
+			// await this.$reload();
 		}
 	}
 };

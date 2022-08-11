@@ -20,6 +20,8 @@ use Kirby\Field\TextField;
  */
 class Node
 {
+	public const TYPE = 'node';
+
 	public function __construct(
 		public string $id,
 		public Extension|null $extends = null,
@@ -54,15 +56,20 @@ class Node
 	public static function inspector(): Inspector
 	{
 		return new Inspector(
-			id: 'section',
+			id: static::TYPE,
 			sections: new InspectorSections([
-				new InspectorSection(
-					id: 'settings',
-					fields: new Fields([
-						new TextField(id: 'id'),
-						new TextField(id: 'extends'),
-					])
-				)
+				static::inspectorSettingsSection()
+			])
+		);
+	}
+
+	public static function inspectorSettingsSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'settings',
+			fields: new Fields([
+				new TextField(id: 'id'),
+				new TextField(id: 'extends'),
 			])
 		);
 	}

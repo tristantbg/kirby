@@ -55,38 +55,40 @@ class TextField extends InputField
 		parent::defaults();
 	}
 
-	public static function inspector(): Inspector
+	public static function inspectorDescriptionSection(): InspectorSection
 	{
-		$inspector = parent::inspector();
+		$section = parent::inspectorDescriptionSection();
 
-		// description
-		$description                      = $inspector->sections->description;
-		$description->fields->placeholder = FieldPlaceholder::field();
-		$description->fields->icon        = FieldIcon::field();
-		$description->fields->before      = FieldBeforeText::field();
-		$description->fields->after       = FieldAfterText::field();
+		$section->fields->placeholder = FieldPlaceholder::field();
+		$section->fields->icon        = FieldIcon::field();
+		$section->fields->before      = FieldBeforeText::field();
+		$section->fields->after       = FieldAfterText::field();
 
-		// validation
-		$validation                    = $inspector->sections->validation;
-		$validation->fields->minlength = new NumberField(id: 'minlength');
-		$validation->fields->maxlength = new NumberField(id: 'maxlength');
-		$validation->fields->counter   = new ToggleField(id: 'counter');
-		$validation->fields->pattern   = new TextField(id: 'pattern');
+		return $section;
+	}
 
-		// value
-		$inspector->sections->add(
-			new InspectorSection(
-				id: 'value',
-				fields: new Fields([
-					new TextField(id: 'default'),
-					new ToggleField(id: 'spellcheck'),
-					FieldAutocomplete::field(),
-					TextFieldConverter::field(),
-				])
-			)
-		);
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
 
-		return $inspector;
+		$section->fields->minlength  = new NumberField(id: 'minlength');
+		$section->fields->maxlength  = new NumberField(id: 'maxlength');
+		$section->fields->counter    = new ToggleField(id: 'counter');
+		$section->fields->spellcheck = new ToggleField(id: 'spellcheck');
+		$section->fields->pattern    = new TextField(id: 'pattern');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+
+		$section->fields->default      = new TextField(id: 'default');
+		$section->fields->autocomplete = FieldAutocomplete::field();
+		$section->fields->converter    = TextFieldConverter::field();
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

@@ -23,6 +23,8 @@ use Kirby\Section\Sections;
  */
 class Column extends Node
 {
+	public const TYPE = 'column';
+
 	public function __construct(
 		public string $id,
 		public Sections|null $sections = null,
@@ -56,15 +58,12 @@ class Column extends Node
 		throw new NotFoundException('The column "' . $columnId . '" could not be found');
 	}
 
-	public static function inspector(): Inspector
+	public static function inspectorSettingsSection(): InspectorSection
 	{
-		$inspector = parent::inspector();
-		$inspector->id = 'column';
+		$section = parent::inspectorSettingsSection();
+		$section->fields->width = ColumnWidth::field();
 
-		$settings = $inspector->sections->settings;
-		$settings->fields->width = ColumnWidth::field();
-
-		return $inspector;
+		return $section;
 	}
 
 	/**

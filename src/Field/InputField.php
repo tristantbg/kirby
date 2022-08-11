@@ -47,22 +47,40 @@ class InputField extends DisplayField
 	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
-		$settings  = $inspector->sections->settings;
 
-		$settings->fields->disabled  = new ToggleField(id: 'disabled');
-		$settings->fields->autofocus = new ToggleField(id: 'autofocus');
-		$settings->fields->translate = new ToggleField(id: 'translate');
-
-		$inspector->sections->add(
-			new InspectorSection(
-				id: 'validation',
-				fields: new Fields([
-					new ToggleField(id: 'required')
-				])
-			)
-		);
+		$inspector->sections->add(static::inspectorValidationSection());
+		$inspector->sections->add(static::inspectorValueSection());
 
 		return $inspector;
+	}
+
+	public static function inspectorSettingsSection(): InspectorSection
+	{
+		$section = parent::inspectorSettingsSection();
+
+		$section->fields->disabled  = new ToggleField(id: 'disabled');
+		$section->fields->autofocus = new ToggleField(id: 'autofocus');
+		$section->fields->translate = new ToggleField(id: 'translate');
+
+		return $section;
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'validation',
+			fields: new Fields([
+				new ToggleField(id: 'required')
+			])
+		);
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'value',
+			fields: new Fields([])
+		);
 	}
 
 	public function isInput(): bool

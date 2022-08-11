@@ -25,4 +25,14 @@ class ModelsSectionSize extends Enumeration
 	];
 
 	public static mixed $default = 'auto';
+
+	public static function field()
+	{
+		$field = parent::field();
+		$field->id = 'size';
+		$field->label->translations = ['en' => 'Size'];
+
+		return $field;
+	}
+
 }

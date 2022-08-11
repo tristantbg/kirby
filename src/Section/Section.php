@@ -41,14 +41,6 @@ class Section extends NodeFeature
 		throw new NotFoundException('The section "' . $sectionId . '" could not be found');
 	}
 
-	public static function inspector(): Inspector
-	{
-		$inspector = parent::inspector();
-		$inspector->id = 'section';
-
-		return $inspector;
-	}
-
 	public static function polyfill(array $props): array
 	{
 		$props = Polyfill::headline($props);

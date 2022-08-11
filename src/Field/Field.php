@@ -3,6 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\Blueprint;
 use Kirby\Blueprint\Column;
 use Kirby\Blueprint\NodeFeature;
@@ -65,15 +66,12 @@ class Field extends NodeFeature
 		return $this;
 	}
 
-	public static function inspector(): Inspector
+	public static function inspectorSettingsSection(): InspectorSection
 	{
-		$inspector = parent::inspector();
-		$inspector->id = 'field';
+		$section = parent::inspectorSettingsSection();
+		$section->fields->width = FieldWidth::field();
 
-		$settings = $inspector->sections->settings;
-		$settings->fields->width = FieldWidth::field();
-
-		return $inspector;
+		return $section;
 	}
 
 	public function isInput(): bool

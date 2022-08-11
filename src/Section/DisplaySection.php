@@ -38,17 +38,20 @@ class DisplaySection extends Section
 	public static function inspector(): Inspector
 	{
 		$inspector = parent::inspector();
-		$inspector->sections->add(
-			new InspectorSection(
-				id: 'description',
-				fields: new Fields([
-					SectionLabel::field(),
-					SectionHelp::field()
-				])
-			)
-		);
+		$inspector->sections->add(static::inspectorDescriptionSection());
 
 		return $inspector;
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'description',
+			fields: new Fields([
+				SectionLabel::field(),
+				SectionHelp::field()
+			])
+		);
 	}
 
 	public function render(ModelWithContent $model): array

@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Value\NumberValue;
 
@@ -39,6 +40,32 @@ class NumberField extends InputField
 			min: 	  $this->min,
 			required: $this->required
 		);
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		return TextField::inspectorDescriptionSection();
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+
+		$section->fields->min = new NumberField(id: 'min');
+		$section->fields->max = new NumberField(id: 'max');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+
+		$section->fields->default      = new NumberField(id: 'default');
+		$section->fields->step         = new NumberField(id: 'step');
+		$section->fields->autocomplete = FieldAutocomplete::field();
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

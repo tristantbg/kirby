@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Option\Options;
 use Kirby\Option\OptionsApi;
@@ -77,6 +78,27 @@ class OptionsField extends InputField
 
 		return parent::factory($props);
 	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+
+		$section->fields->min = new NumberField(id: 'min');
+		$section->fields->max = new NumberField(id: 'max');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+
+		$section->fields->default   = new TextField(id: 'default');
+		$section->fields->separator = new TextField(id: 'separator');
+
+		return $section;
+	}
+
 
 	public function options(): Options
 	{

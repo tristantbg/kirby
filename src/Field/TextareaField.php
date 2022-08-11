@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\Uploads;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Prop\FilesFieldOptions;
@@ -44,6 +46,51 @@ class TextareaField extends InputField
 			minlength: $this->minlength,
 			required:  $this->required,
 		);
+	}
+
+	public static function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->sections->add(static::inspectorAppearanceSection());
+
+		return $inspector;
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+
+		$section->fields->placeholder = FieldPlaceholder::field();
+		$section->fields->icon        = FieldIcon::field();
+
+		return $section;
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = new InspectorSection(id: 'appearance', fields: new Fields);
+
+		$section->fields->font = TextareaFieldFont::field();
+		$section->fields->size = TextareaFieldSize::field();
+
+		return $section;
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = TextField::inspectorValidationSection();
+		$section->fields->remove('pattern');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+
+		$section->fields->default = new TextField(id: 'default');
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array
