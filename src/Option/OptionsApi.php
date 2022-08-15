@@ -2,12 +2,11 @@
 
 namespace Kirby\Option;
 
-use Kirby\Blueprint\Promise;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Data\Json;
+use Kirby\Exception\NotFoundException;
 use Kirby\Http\Remote;
 use Kirby\Http\Url;
-use Kirby\Toolkit\A;
 use Kirby\Toolkit\Query;
 
 /**
@@ -52,7 +51,7 @@ class OptionsApi
 	 * Loads the API content from a remote URL
 	 * or local file (or from cache)
 	 */
-	public function load(ModelWithContent $model): array
+	public function load(ModelWithContent $model): array|null
 	{
 		// resolve query templates in $this->url string
 		$url = $model->toSafeString($this->url);
@@ -66,11 +65,22 @@ class OptionsApi
 		return Json::read($url);
 	}
 
+	public static function polyfill(array|string $props = []): array
+	{
+		if (is_string($props) === true) {
+			return ['url' => $props];
+		}
+
+		if ($query = $props['fetch'] ?? null) {
+			$props['query'] ??= $query;
+			unset($props['fetch']);
+		}
+
+		return $props;
+	}
+
 	/**
 	 * Returns options as array
-	 * (needs to be implemented here as OptionsApi cannot
-	 * extend the Promise class due to using a differently
-	 * type-hinted $query property in the constructor)
 	 */
 	public function render(ModelWithContent $model): mixed
 	{
@@ -93,6 +103,10 @@ class OptionsApi
 
 		// load data from URL
 		$data = $this->load($model);
+
+		if ($data === null) {
+			throw new NotFoundException('Options could not be loaded from API: ' . $model->toSafeString($this->url));
+		}
 
 		// grab the relevant part, based on the query path
 		$data = (new Query($this->query, Nest::create($data)))->result();

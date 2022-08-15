@@ -4,9 +4,6 @@ namespace Kirby\Field;
 
 use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Option\Options;
-use Kirby\Option\OptionsApi;
-use Kirby\Option\OptionsQuery;
 use Kirby\Value\OptionsValue;
 
 /**
@@ -47,7 +44,7 @@ class OptionsField extends InputField
 
 	public function options(): FieldOptions
 	{
-		return $this->options ?? new FieldOptions;
+		return $this->options ?? new FieldOptions();
 	}
 
 	public static function polyfill(array $props): array

@@ -41,13 +41,31 @@ class OptionsQueryTest extends TestCase
 	public function testFactory()
 	{
 		$options = OptionsQuery::factory([
-			'query' => 'site.children',
-			'text'  => '{{ page.slug }}'
+			'query' => $query = 'site.children',
+			'text'  => $text = '{{ page.slug }}'
 		]);
 
-		$this->assertSame('site.children', $options->query);
-		$this->assertSame('{{ page.slug }}', $options->text);
+		$this->assertSame($query, $options->query);
+		$this->assertSame($text, $options->text);
 		$this->assertNull($options->value);
+
+		$options = OptionsQuery::factory($query);
+		$this->assertSame($query, $options->query);
+	}
+
+	/**
+	 * @covers ::polyfill
+	 */
+	public function testPolyfill()
+	{
+		$query = 'site.children';
+		$this->assertSame(['query' => $query], OptionsQuery::polyfill($query));
+
+		$query = ['query' => 'site.children'];
+		$this->assertSame($query, OptionsQuery::polyfill($query));
+
+		$query = ['fetch' => 'site.children'];
+		$this->assertSame(['query' => 'site.children'], OptionsQuery::polyfill($query));
 	}
 
 	/**

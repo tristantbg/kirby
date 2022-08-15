@@ -3,7 +3,6 @@
 namespace Kirby\Option;
 
 use Kirby\Block\Block;
-use Kirby\Blueprint\Promise;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
@@ -24,7 +23,7 @@ use Kirby\Toolkit\Obj;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class OptionsQuery extends Promise
+class OptionsQuery
 {
 	public string $class = Options::class;
 	public Options|null $options = null;
@@ -104,6 +103,25 @@ class OptionsQuery extends Promise
 				'{{ item.value }}'
 			]
 		};
+	}
+
+	public static function polyfill(array|string $props = []): array
+	{
+		if (is_string($props) === true) {
+			return ['query' => $props];
+		}
+
+		if ($query = $props['fetch'] ?? null) {
+			$props['query'] ??= $query;
+			unset($props['fetch']);
+		}
+
+		return $props;
+	}
+
+	public function render(ModelWithContent $model): mixed
+	{
+		return $this->resolve($model)->render($model);
 	}
 
 	/**
