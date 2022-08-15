@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Uploads options
  *
@@ -26,5 +28,13 @@ class Uploads
 		}
 
 		return new static(...$props);
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'parent'   => $this->parent,
+			'template' => $this->template
+		];
 	}
 }
