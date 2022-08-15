@@ -367,6 +367,9 @@ class ModelsSection extends DisplaySection
 			[
 				'pattern' => '/',
 				'action'  => function (array $query = []) use ($model) {
+					// rendering the items needs the defaults
+					$this->defaults();
+
 					$models = $this->models($model, $query);
 
 					return [
