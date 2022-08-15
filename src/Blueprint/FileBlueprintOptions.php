@@ -2,8 +2,6 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Cms\ModelWithContent;
-
 /**
  * File Blueprint options
  *
@@ -23,17 +21,5 @@ class FileBlueprintOptions extends BlueprintOptions
 		public BlueprintOption|null $replace = null,
 		public BlueprintOption|null $update = null,
 	) {
-	}
-
-	public function render(ModelWithContent $model): array
-	{
-		return [
-			'changeName' => $this->changeName?->render($model),
-			'create'     => $this->create?->render($model),
-			'delete'     => $this->delete?->render($model),
-			'read'       => $this->read?->render($model),
-			'replace'    => $this->replace?->render($model),
-			'update'     => $this->update?->render($model),
-		];
 	}
 }
