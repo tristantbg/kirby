@@ -9,7 +9,7 @@ use Kirby\Panel\Panel;
 
 return [
     'blueprints' => [
-        'pattern' => 'blueprints',
+        'pattern' => 'architect',
         'action'  => function () {
             Panel::go('blueprints/site');
         }
