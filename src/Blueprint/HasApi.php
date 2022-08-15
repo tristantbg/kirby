@@ -22,7 +22,7 @@ trait HasApi
 		string $method = 'GET',
 		array $query = []
 	): mixed {
-		return Router::execute($path, $method, $this->routes, function ($route) use ($query) {
+		return Router::execute($path, $method, $this->routes($model), function ($route) use ($query) {
 			$args   = $route->arguments();
 			$args[] = $query;
 			$args[] = $route;

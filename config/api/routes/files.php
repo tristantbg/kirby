@@ -9,10 +9,12 @@ $pattern = '(account|pages/[^/]+|site|users/[^/]+)';
 return [
 
 	[
-		'pattern' => $pattern . '/files/(:any)/sections/(:any)',
+		'pattern' => $pattern . '/files/(:any)/sections/(:any)/(:all?)',
 		'method'  => 'GET',
-		'action'  => function (string $path, string $filename, string $sectionName) {
-			return $this->file($path, $filename)->blueprint()->section($sectionName)?->toResponse();
+		'action'  => function (string $parent, string $filename, string $sectionName, string $path = null) {
+			if ($file = $this->file($parent, $filename)) {
+				return $this->sectionApi($file, $sectionName, $path);
+			}
 		}
 	],
 	[

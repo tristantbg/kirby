@@ -183,14 +183,12 @@ return [
 	],
 	[
 		'pattern' => [
-			'(account)/sections/(:any)',
-			'users/(:any)/sections/(:any)',
+			'(account)/sections/(:any)/(:all?)',
+			'users/(:any)/sections/(:any)/(:all?)',
 		],
-		'method'  => 'GET',
-		'action'  => function (string $id, string $sectionName) {
-			if ($section = $this->user($id)->blueprint()->section($sectionName)) {
-				return $section->toResponse();
-			}
+		'method'  => 'ALL',
+		'action'  => function (string $userId, string $sectionName, string $path = null) {
+			return $this->sectionApi($this->user($userId), $sectionName, $path);
 		}
 	],
 	[
