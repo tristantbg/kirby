@@ -3,6 +3,7 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Architect\InspectorSection;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Fields;
 use Kirby\Field\ToggleField;
 
@@ -45,5 +46,10 @@ class BlueprintOptions
 		}
 
 		return $section;
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return [];
 	}
 }

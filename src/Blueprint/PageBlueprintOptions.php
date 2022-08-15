@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Page Blueprint options
  *
@@ -32,5 +34,21 @@ class PageBlueprintOptions extends BlueprintOptions
 		public BlueprintOption|null $read = null,
 		public BlueprintOption|null $update = null,
 	) {
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'changeSlug'     => $this->changeSlug?->render($model),
+			'changeStatus'   => $this->changeStatus?->render($model),
+			'changeTemplate' => $this->changeTemplate?->render($model),
+			'changeTitle'    => $this->changeTitle?->render($model),
+			'create'    	 => $this->create?->render($model),
+			'delete'         => $this->delete?->render($model),
+			'duplicate'      => $this->duplicate?->render($model),
+			'preview'        => $this->preview?->render($model),
+			'read'           => $this->read?->render($model),
+			'update'         => $this->update?->render($model),
+		];
 	}
 }
