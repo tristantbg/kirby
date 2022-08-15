@@ -30,8 +30,6 @@ class Document
 	/**
 	 * Generates an array with all assets
 	 * that need to be loaded for the panel (js, css, icons)
-	 *
-	 * @return array
 	 */
 	public static function assets(): array
 	{
@@ -71,6 +69,8 @@ class Document
 				'custom'  => static::customAsset('panel.css'),
 			],
 			'icons' => static::favicon($url),
+			// loader for plugins' index.dev.mjs files – inlined, so we provide the code instead of the asset URL
+			'plugin-imports' => $plugins->read('mjs'),
 			'js' => [
 				'vendor'       => [
 					'nonce' => $nonce,
@@ -134,7 +134,6 @@ class Document
 	 * @since 3.7.0
 	 *
 	 * @param string $option asset option name
-	 * @return string|null
 	 */
 	public static function customAsset(string $option): string|null
 	{
@@ -155,7 +154,6 @@ class Document
 	 * @since 3.7.0
 	 *
 	 * @param string $url URL prefix for default icons
-	 * @return array
 	 */
 	public static function favicon(string $url = ''): array
 	{
@@ -196,8 +194,6 @@ class Document
 	 * Load the SVG icon sprite
 	 * This will be injected in the
 	 * initial HTML document for the Panel
-	 *
-	 * @return string
 	 */
 	public static function icons(): string
 	{
@@ -208,7 +204,6 @@ class Document
 	 * Links all dist files in the media folder
 	 * and returns the link to the requested asset
 	 *
-	 * @return bool
 	 * @throws \Kirby\Exception\Exception If Panel assets could not be moved to the public directory
 	 */
 	public static function link(): bool
@@ -240,11 +235,8 @@ class Document
 
 	/**
 	 * Renders the panel document
-	 *
-	 * @param array $fiber
-	 * @return \Kirby\Http\Response
 	 */
-	public static function response(array $fiber)
+	public static function response(array $fiber): Response
 	{
 		$kirby = App::instance();
 
@@ -253,7 +245,7 @@ class Document
 		try {
 			if (static::link() === true) {
 				usleep(1);
-				Response::go($kirby->url('index') . '/' . $kirby->path());
+				Response::go($kirby->url('base') . '/' . $kirby->path());
 			}
 		} catch (Throwable $e) {
 			die('The Panel assets cannot be installed properly. ' . $e->getMessage());

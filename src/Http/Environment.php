@@ -132,7 +132,7 @@ class Environment
 	 * @param array|null $options
 	 * @param array|null $info Optional override for `$_SERVER`
 	 */
-	public function __construct(?array $options = null, ?array $info = null)
+	public function __construct(array|null $options = null, array|null $info = null)
 	{
 		$this->detect($options, $info);
 	}
@@ -143,7 +143,7 @@ class Environment
 	 * @see static::ip
 	 * @return string|null
 	 */
-	public function address(): ?string
+	public function address(): string|null
 	{
 		return $this->ip();
 	}
@@ -206,18 +206,6 @@ class Environment
 		$this->scriptPath    = $this->detectScriptPath($this->get('SCRIPT_NAME'));
 		$this->path          = $this->detectPath($this->scriptPath);
 		$this->port          = null;
-
-		// keep Server flags compatible for now
-		// TODO: remove in 3.8.0
-		// @codeCoverageIgnoreStart
-		if (is_int($options['allowed']) === true) {
-			Helpers::deprecated('
-                Using `Server::` constants for the `allowed` option has been deprecated and support will be removed in 3.8.0. Use one of the following instead: a single fixed URL, an array of allowed URLs to match dynamically, `*` wildcard to match dynamically even from insecure headers, or `true` to match automtically from safe server variables.
-            ');
-
-			$options['allowed'] = $this->detectAllowedFromFlag($options['allowed']);
-		}
-		// @codeCoverageIgnoreEnd
 
 		// insecure auto-detection
 		if ($options['allowed'] === '*' || $options['allowed'] === ['*']) {
@@ -300,29 +288,6 @@ class Environment
 	}
 
 	/**
-	 * The URL option receives a set of Server constant flags
-	 *
-	 * Server::HOST_FROM_SERVER
-	 * Server::HOST_FROM_SERVER | Server::HOST_ALLOW_EMPTY
-	 * Server::HOST_FROM_HEADER
-	 * Server::HOST_FROM_HEADER | Server::HOST_ALLOW_EMPTY
-	 * @todo Remove in 3.8.0
-	 *
-	 * @param int $flags
-	 * @return string|null
-	 */
-	protected function detectAllowedFromFlag(int $flags): ?string
-	{
-		// allow host detection from host headers
-		if ($flags & Server::HOST_FROM_HEADER) {
-			return '*';
-		}
-
-		// detect host only from server name
-		return null;
-	}
-
-	/**
 	 * Sets the host name, port and protocol without configuration
 	 *
 	 * @param bool $insecure Include the `Host`, `Forwarded` and `X-Forwarded-*` headers in the search
@@ -386,7 +351,7 @@ class Environment
 	 * @param bool|null $override Set to a boolean to override detection (for testing)
 	 * @return bool
 	 */
-	protected function detectCli(?bool $override = null): bool
+	protected function detectCli(bool|null $override = null): bool
 	{
 		if (is_bool($override) === true) {
 			return $override;
@@ -484,7 +449,7 @@ class Environment
 	 *
 	 * @return string|null
 	 */
-	protected function detectForwardedHost(): ?string
+	protected function detectForwardedHost(): string|null
 	{
 		$host  = $this->get('HTTP_X_FORWARDED_HOST');
 		$parts = $this->detectPortInHost($host);
@@ -520,7 +485,7 @@ class Environment
 	 * @param bool $https Whether HTTPS was detected
 	 * @return int|null
 	 */
-	protected function detectForwardedPort(bool $https): ?int
+	protected function detectForwardedPort(bool $https): int|null
 	{
 		// based on forwarded port
 		$port = $this->get('HTTP_X_FORWARDED_PORT');
@@ -548,7 +513,7 @@ class Environment
 	 * @param bool $insecure Include the `Host` header in the search
 	 * @return string|null
 	 */
-	protected function detectHost(bool $insecure = false): ?string
+	protected function detectHost(bool $insecure = false): string|null
 	{
 		if ($insecure === true) {
 			$hosts[] = $this->get('HTTP_HOST');
@@ -602,7 +567,7 @@ class Environment
 	 * @param string|null $protocol
 	 * @return bool
 	 */
-	protected function detectHttpsProtocol(?string $protocol = null): bool
+	protected function detectHttpsProtocol(string|null $protocol = null): bool
 	{
 		if ($protocol === null) {
 			return false;
@@ -616,7 +581,7 @@ class Environment
 	 *
 	 * @return string|null
 	 */
-	protected function detectIp(): ?string
+	protected function detectIp(): string|null
 	{
 		return $this->get('SERVER_ADDR');
 	}
@@ -627,7 +592,7 @@ class Environment
 	 * @param string|null $path
 	 * @return string
 	 */
-	protected function detectPath(?string $path = null): string
+	protected function detectPath(string|null $path = null): string
 	{
 		if ($this->cli === true) {
 			return '';
@@ -641,7 +606,7 @@ class Environment
 	 *
 	 * @return int|null
 	 */
-	protected function detectPort(): ?int
+	protected function detectPort(): int|null
 	{
 		// based on server port
 		$port = $this->get('SERVER_PORT');
@@ -669,7 +634,7 @@ class Environment
 	 * @param string|null $host
 	 * @return array
 	 */
-	protected function detectPortInHost(?string $host = null): array
+	protected function detectPortInHost(string|null $host = null): array
 	{
 		if (empty($host) === true) {
 			return [
@@ -692,7 +657,7 @@ class Environment
 	 * @param string|null $requestUri
 	 * @return \Kirby\Http\Uri
 	 */
-	protected function detectRequestUri(?string $requestUri = null)
+	protected function detectRequestUri(string|null $requestUri = null)
 	{
 		// make sure the URL parser works properly when there's a
 		// colon in the request URI but the URI is relative
@@ -723,7 +688,7 @@ class Environment
 	 * @param string|null $scriptPath
 	 * @return string
 	 */
-	protected function detectScriptPath(?string $scriptPath = null): string
+	protected function detectScriptPath(string|null $scriptPath = null): string
 	{
 		if ($this->cli === true) {
 			return '';
@@ -797,7 +762,7 @@ class Environment
 	 *
 	 * @return string|null
 	 */
-	public function host(): ?string
+	public function host(): string|null
 	{
 		return $this->host;
 	}
@@ -827,7 +792,7 @@ class Environment
 	 *
 	 * @return string|null
 	 */
-	public function ip(): ?string
+	public function ip(): string|null
 	{
 		return $this->ip;
 	}
@@ -838,7 +803,7 @@ class Environment
 	 *
 	 * @return bool|null
 	 */
-	public function isBehindProxy(): ?bool
+	public function isBehindProxy(): bool|null
 	{
 		return $this->isBehindProxy;
 	}
@@ -928,7 +893,7 @@ class Environment
 	 *
 	 * @return string|null
 	 */
-	public function path(): ?string
+	public function path(): string|null
 	{
 		return $this->path;
 	}
@@ -938,7 +903,7 @@ class Environment
 	 *
 	 * @return int|null
 	 */
-	public function port(): ?int
+	public function port(): int|null
 	{
 		return $this->port;
 	}
@@ -1000,7 +965,7 @@ class Environment
 	 * @param string|null $host
 	 * @return string|null
 	 */
-	protected static function sanitizeHost(?string $host = null): ?string
+	protected static function sanitizeHost(string|null $host = null): string|null
 	{
 		if (empty($host) === true) {
 			return null;
@@ -1028,7 +993,7 @@ class Environment
 	 * @param string|int|null $port
 	 * @return int|null
 	 */
-	protected static function sanitizePort($port = null): ?int
+	protected static function sanitizePort($port = null): int|null
 	{
 		// already fine
 		if (is_int($port) === true) {
@@ -1058,7 +1023,7 @@ class Environment
 	 * @param string|null $scriptPath
 	 * @return string
 	 */
-	protected function sanitizeScriptPath(?string $scriptPath = null): string
+	protected function sanitizeScriptPath(string|null $scriptPath = null): string
 	{
 		$scriptPath ??= '';
 		$scriptPath = trim($scriptPath);

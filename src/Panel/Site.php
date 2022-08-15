@@ -2,7 +2,7 @@
 
 namespace Kirby\Panel;
 
-use Kirby\Cms\Site as SiteModel;
+use Kirby\Cms\Site as CmsSite;
 
 /**
  * Provides information about the site model for the Panel
@@ -17,7 +17,7 @@ use Kirby\Cms\Site as SiteModel;
 class Site extends Model
 {
 	public function __construct(
-		protected SiteModel $model
+		protected CmsSite $model
 	) {
 	}
 
@@ -25,8 +25,6 @@ class Site extends Model
 	 * Returns the setup for a dropdown option
 	 * which is used in the changes dropdown
 	 * for example.
-	 *
-	 * @return array
 	 */
 	public function dropdownOption(): array
 	{
@@ -37,25 +35,7 @@ class Site extends Model
 	}
 
 	/**
-	 * Returns the image file object based on provided query
-	 *
-	 * @internal
-	 * @param string|null $query
-	 * @return \Kirby\Cms\File|\Kirby\Filesystem\Asset|null
-	 */
-	protected function imageSource(string $query = null)
-	{
-		if ($query === null) {
-			$query = 'site.image';
-		}
-
-		return parent::imageSource($query);
-	}
-
-	/**
 	 * Returns the full path without leading slash
-	 *
-	 * @return string
 	 */
 	public function path(): string
 	{
@@ -67,8 +47,6 @@ class Site extends Model
 	 * view's component props
 	 *
 	 * @internal
-	 *
-	 * @return array
 	 */
 	public function props(): array
 	{
@@ -88,8 +66,6 @@ class Site extends Model
 	 * this model's Panel view
 	 *
 	 * @internal
-	 *
-	 * @return array
 	 */
 	public function view(): array
 	{

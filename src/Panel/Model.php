@@ -3,6 +3,7 @@
 namespace Kirby\Panel;
 
 use Kirby\Blueprint\BlueprintImage;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Http\Uri;
 
 /**
@@ -17,10 +18,14 @@ use Kirby\Http\Uri;
  */
 abstract class Model
 {
+	protected ModelWithContent $model;
+
+	public function __construct(ModelWithContent $model)
+	{
+		$this->model = $model;
+	}
 	/**
 	 * Get the content values for the model
-	 *
-	 * @return array
 	 */
 	public function content(): array
 	{
@@ -33,10 +38,8 @@ abstract class Model
 	 * @internal
 	 *
 	 * @param string $type markdown or kirbytext
-	 * @param mixed ...$args
-	 * @return string|null
 	 */
-	public function dragTextFromCallback(string $type, ...$args): ?string
+	public function dragTextFromCallback(string $type, ...$args): string|null
 	{
 		$option   = 'panel.' . $type . '.' . $this->model::CLASS_ALIAS . 'DragText';
 		$callback = $this->model->kirby()->option($option);
@@ -60,9 +63,8 @@ abstract class Model
 	 * @internal
 	 *
 	 * @param string|null $type (`auto`|`kirbytext`|`markdown`)
-	 * @return string
 	 */
-	public function dragTextType(string $type = null): string
+	public function dragTextType(string|null $type = null): string
 	{
 		$type ??= 'auto';
 
@@ -78,8 +80,6 @@ abstract class Model
 	 * Returns the setup for a dropdown option
 	 * which is used in the changes dropdown
 	 * for example.
-	 *
-	 * @return array
 	 */
 	public function dropdownOption(): array
 	{
@@ -92,11 +92,7 @@ abstract class Model
 
 	/**
 	 * Returns the Panel image definition
-	 *
 	 * @internal
-	 *
-	 * @param string|array|false|null $settings
-	 * @return array|null
 	 */
 	public function image(): BlueprintImage|null
 	{
@@ -105,10 +101,7 @@ abstract class Model
 
 	/**
 	 * Data URI placeholder string for Panel image
-	 *
 	 * @internal
-	 *
-	 * @return string
 	 */
 	public static function imagePlaceholder(): string
 	{
@@ -118,11 +111,6 @@ abstract class Model
 	/**
 	 * Checks for disabled dropdown options according
 	 * to the given permissions
-	 *
-	 * @param string $action
-	 * @param array $options
-	 * @param array $permissions
-	 * @return bool
 	 */
 	public function isDisabledDropdownOption(string $action, array $options, array $permissions): bool
 	{
@@ -136,7 +124,7 @@ abstract class Model
 	 * @return array|false array with lock info,
 	 *                     false if locking is not supported
 	 */
-	public function lock()
+	public function lock(): array|false
 	{
 		if ($lock = $this->model->lock()) {
 			if ($lock->isUnlocked() === true) {
@@ -162,7 +150,6 @@ abstract class Model
 	 * This also checks for the lock status
 	 *
 	 * @param array $unlock An array of options that will be force-unlocked
-	 * @return array
 	 */
 	public function options(array $unlock = []): array
 	{
@@ -183,17 +170,12 @@ abstract class Model
 
 	/**
 	 * Returns the full path without leading slash
-	 *
-	 * @return string
 	 */
 	abstract public function path(): string;
 
 	/**
 	 * Prepares the response data for page pickers
 	 * and page fields
-	 *
-	 * @param array|null $params
-	 * @return array
 	 */
 	public function pickerData(array $params = []): array
 	{
@@ -213,10 +195,7 @@ abstract class Model
 	/**
 	 * Returns the data array for the
 	 * view's component props
-	 *
 	 * @internal
-	 *
-	 * @return array
 	 */
 	public function props(): array
 	{
@@ -235,11 +214,7 @@ abstract class Model
 	 * Returns link url and tooltip
 	 * for model (e.g. used for prev/next
 	 * navigation)
-	 *
 	 * @internal
-	 *
-	 * @param string $tooltip
-	 * @return array
 	 */
 	public function toLink(string $tooltip = 'title'): array
 	{
@@ -255,12 +230,8 @@ abstract class Model
 	 * preserves tab selection
 	 *
 	 * @internal
-	 *
-	 * @param \Kirby\Cms\ModelWithContent|null $model
-	 * @param string $tooltip
-	 * @return array
 	 */
-	protected function toPrevNextLink($model = null, string $tooltip = 'title'): ?array
+	protected function toPrevNextLink(ModelWithContent|null $model = null, string $tooltip = 'title'): array|null
 	{
 		if ($model === null) {
 			return null;
@@ -284,9 +255,6 @@ abstract class Model
 	 * in the Panel
 	 *
 	 * @internal
-	 *
-	 * @param bool $relative
-	 * @return string
 	 */
 	public function url(bool $relative = false): string
 	{
@@ -302,8 +270,6 @@ abstract class Model
 	 * this model's Panel view
 	 *
 	 * @internal
-	 *
-	 * @return array
 	 */
 	abstract public function view(): array;
 }

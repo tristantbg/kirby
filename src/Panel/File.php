@@ -2,7 +2,7 @@
 
 namespace Kirby\Panel;
 
-use Kirby\Cms\File as FileModel;
+use Kirby\Cms\File as CmsFile;
 use Kirby\Toolkit\I18n;
 use Throwable;
 
@@ -19,14 +19,12 @@ use Throwable;
 class File extends Model
 {
 	public function __construct(
-		protected FileModel $model
+		protected CmsFile $model
 	) {
 	}
 
 	/**
 	 * Breadcrumb array
-	 *
-	 * @return array
 	 */
 	public function breadcrumb(): array
 	{
@@ -35,6 +33,7 @@ class File extends Model
 
 		switch ($parent::CLASS_ALIAS) {
 			case 'user':
+				/** @var \Kirby\Cms\User $parent */
 				// The breadcrumb is not necessary
 				// on the account view
 				if ($parent->isLoggedIn() === false) {
@@ -45,6 +44,7 @@ class File extends Model
 				}
 				break;
 			case 'page':
+				/** @var \Kirby\Cms\Page $parent */
 				$breadcrumb = $this->model->parents()->flip()->values(fn ($parent) => [
 					'label' => $parent->title()->toString(),
 					'link'  => $parent->panel()->url(true),
@@ -68,10 +68,8 @@ class File extends Model
 	 *
 	 * @internal
 	 * @param string|null $type (`auto`|`kirbytext`|`markdown`)
-	 * @param bool $absolute
-	 * @return string
 	 */
-	public function dragText(string $type = null, bool $absolute = false): string
+	public function dragText(string|null $type = null, bool $absolute = false): string
 	{
 		$type = $this->dragTextType($type);
 		$url  = $absolute ? $this->model->id() : $this->model->filename();
@@ -100,9 +98,6 @@ class File extends Model
 
 	/**
 	 * Provides options for the file dropdown
-	 *
-	 * @param array $options
-	 * @return array
 	 */
 	public function dropdown(array $options = []): array
 	{
@@ -164,9 +159,7 @@ class File extends Model
 	/**
 	 * Returns the setup for a dropdown option
 	 * which is used in the changes dropdown
-	 * for example.
-	 *
-	 * @return array
+	 * for example
 	 */
 	public function dropdownOption(): array
 	{
@@ -181,7 +174,6 @@ class File extends Model
 	 * that can be performed in the Panel
 	 *
 	 * @param array $unlock An array of options that will be force-unlocked
-	 * @return array
 	 */
 	public function options(array $unlock = []): array
 	{
@@ -200,8 +192,6 @@ class File extends Model
 
 	/**
 	 * Returns the full path without leading slash
-	 *
-	 * @return string
 	 */
 	public function path(): string
 	{
@@ -211,9 +201,6 @@ class File extends Model
 	/**
 	 * Prepares the response data for file pickers
 	 * and file fields
-	 *
-	 * @param array|null $params
-	 * @return array
 	 */
 	public function pickerData(array $params = []): array
 	{
@@ -240,10 +227,7 @@ class File extends Model
 	/**
 	 * Returns the data array for the
 	 * view's component props
-	 *
 	 * @internal
-	 *
-	 * @return array
 	 */
 	public function props(): array
 	{
@@ -314,10 +298,7 @@ class File extends Model
 	/**
 	 * Returns navigation array with
 	 * previous and next file
-	 *
 	 * @internal
-	 *
-	 * @return array
 	 */
 	public function prevNext(): array
 	{
@@ -343,9 +324,6 @@ class File extends Model
 	/**
 	 * Returns the url to the editing view
 	 * in the panel
-	 *
-	 * @param bool $relative
-	 * @return string
 	 */
 	public function url(bool $relative = false): string
 	{
@@ -356,21 +334,16 @@ class File extends Model
 	/**
 	 * Returns the data array for
 	 * this model's Panel view
-	 *
 	 * @internal
-	 *
-	 * @return array
 	 */
 	public function view(): array
 	{
-		$file = $this->model;
-
 		return [
-			'breadcrumb' => fn (): array => $file->panel()->breadcrumb(),
+			'breadcrumb' => fn (): array => $this->model->panel()->breadcrumb(),
 			'component'  => 'k-file-view',
 			'props'      => $this->props(),
 			'search'     => 'files',
-			'title'      => $file->filename(),
+			'title'      => $this->model->filename(),
 		];
 	}
 }
