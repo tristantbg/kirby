@@ -39,7 +39,7 @@ abstract class ModelPermissions
 	public function __construct(Model $model)
 	{
 		$this->model       = $model;
-		$this->options     = $model->blueprint()->options;
+		$this->options     = $model->blueprint()->options();
 		$this->user        = $model->kirby()->user() ?? User::nobody();
 		$this->permissions = $this->user->role()->permissions();
 	}
