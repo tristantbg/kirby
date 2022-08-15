@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * User blueprint options
  *
@@ -23,5 +25,19 @@ class UserBlueprintOptions extends BlueprintOptions
 		public BlueprintOption|null $delete = null,
 		public BlueprintOption|null $update = null,
 	) {
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'changeEmail'    => $this->changeEmail?->render($model),
+			'changeLanguage' => $this->changeLanguage?->render($model),
+			'changeName'     => $this->changeName?->render($model),
+			'changePassword' => $this->changePassword?->render($model),
+			'changeRole'     => $this->changeRole?->render($model),
+			'create'         => $this->create?->render($model),
+			'delete'         => $this->delete?->render($model),
+			'update'         => $this->update?->render($model),
+		];
 	}
 }

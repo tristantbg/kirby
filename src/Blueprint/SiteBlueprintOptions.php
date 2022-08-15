@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Site blueprint options
  *
@@ -17,5 +19,13 @@ class SiteBlueprintOptions extends BlueprintOptions
 		public BlueprintOption|null $changeTitle = null,
 		public BlueprintOption|null $update = null,
 	) {
+	}
+
+	public function render(ModelWithContent $model): array
+	{
+		return [
+			'changeTitle'    => $this->changeTitle?->render($model),
+			'update'         => $this->update?->render($model),
+		];
 	}
 }
