@@ -23,7 +23,7 @@ class FieldOptions
 		public Options|OptionsApi|OptionsQuery|null $options = null
 	) {}
 
-	public static function factory(array $props = []): static
+	public static function polyfill(array $props = []): array
 	{
 		$props['options'] = match ($props['options'] ?? null) {
 			'api'
@@ -52,7 +52,11 @@ class FieldOptions
 				=> Options::factory($props['options'] ?? [])
 		};
 
-		return new static($props['options']);
+		$props['options'] = new static($props['options']);
+
+		unset($props['api'], $props['query']);
+
+		return $props;
 	}
 
 	public function resolve(ModelWithContent|null $model): Options
@@ -61,11 +65,11 @@ class FieldOptions
 			return $this->options;
 		}
 
-		return $this->options?->resolve($model) ?? new Options();
+		return $this->options?->resolve($model) ?? new Options;
 	}
 
 	public function render(ModelWithContent $model): array
 	{
-		return $this->options->resolve($model)->render($model);
+		return $this->resolve($model)->render($model) ?? [];
 	}
 }

@@ -38,7 +38,12 @@ class OptionField extends InputField
 
 	public function options(): FieldOptions
 	{
-		return $this->options ?? FieldOptions::factory();
+		return $this->options ?? new FieldOptions;
+	}
+
+	public static function polyfill(array $props): array
+	{
+		return parent::polyfill(FieldOptions::polyfill($props));
 	}
 
 	public static function inspectorValueSection(): InspectorSection
