@@ -34,6 +34,8 @@ class FileBlueprint extends Blueprint
 		$this->accept  ??= new FileBlueprintAcceptRules;
 		$this->image   ??= new FileBlueprintImage;
 		$this->options ??= new FileBlueprintOptions;
+
+		parent::defaults();
 	}
 
 	public static function inspector(): Inspector

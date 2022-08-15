@@ -37,15 +37,9 @@ class BlueprintOption
 		return new static($permissions);
 	}
 
-	public function render(ModelWithContent $model): bool
+	public function for(string $roleId): ?bool
 	{
-		// fetch the option for the current user
-		if ($user = $model->kirby()->user()) {
-			$role = $user->role()->id();
-
-			return $this->permissions[$role] ?? $this->permissions['*'];
-		}
-
-		return false;
+		return $this->permissions[$roleId] ?? $this->permissions['*'] ?? null;
 	}
+
 }

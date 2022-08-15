@@ -39,7 +39,7 @@ abstract class ModelPermissions
 	public function __construct(Model $model)
 	{
 		$this->model       = $model;
-		$this->options     = $model->blueprint()->options?->render($model);
+		$this->options     = $model->blueprint()->options;
 		$this->user        = $model->kirby()->user() ?? User::nobody();
 		$this->permissions = $this->user->role()->permissions();
 	}
@@ -75,26 +75,7 @@ abstract class ModelPermissions
 		}
 
 		// evaluate the blueprint options block
-		if (isset($this->options[$action]) === true) {
-			$options = $this->options[$action];
-
-			if ($options === false) {
-				return false;
-			}
-
-			if ($options === true) {
-				return true;
-			}
-
-			if (
-				is_array($options) === true &&
-				A::isAssociative($options) === true
-			) {
-				return $options[$role] ?? $options['*'] ?? false;
-			}
-		}
-
-		return $this->permissions->for($this->category, $action);
+		return $this->options->$action()->for($role) ?? $this->permissions->for($this->category, $action);
 	}
 
 	/**

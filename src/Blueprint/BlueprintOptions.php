@@ -19,6 +19,11 @@ class BlueprintOptions
 {
 	public const ALIASES = [];
 
+	public function __call(string $name, array $args): BlueprintOption
+	{
+		return $this->$name ?? new BlueprintOption;
+	}
+
 	public static function factory(array $props): static
 	{
 		$options = [];

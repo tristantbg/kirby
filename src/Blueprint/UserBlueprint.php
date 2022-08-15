@@ -34,6 +34,8 @@ class UserBlueprint extends Blueprint
 	{
 		$this->image   ??= new UserBlueprintImage;
 		$this->options ??= new UserBlueprintOptions;
+
+		parent::defaults();
 	}
 
 	public static function inspector(): Inspector
