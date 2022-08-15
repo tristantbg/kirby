@@ -2,9 +2,9 @@
 
 namespace Kirby\Panel;
 
+use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Translation;
 use Kirby\Cms\Url;
-use Kirby\Cms\User as CmsUser;
 use Kirby\Toolkit\I18n;
 
 /**
@@ -19,10 +19,10 @@ use Kirby\Toolkit\I18n;
  */
 class User extends Model
 {
-	public function __construct(
-		protected CmsUser $model
-	) {
-	}
+	/**
+	 * @var \Kirby\Cms\User
+	 */
+	protected ModelWithContent $model;
 
 	/**
 	 * Breadcrumb array

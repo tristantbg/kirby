@@ -2,7 +2,7 @@
 
 namespace Kirby\Panel;
 
-use Kirby\Cms\File as CmsFile;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Toolkit\I18n;
 use Throwable;
 
@@ -18,10 +18,10 @@ use Throwable;
  */
 class File extends Model
 {
-	public function __construct(
-		protected CmsFile $model
-	) {
-	}
+	/**
+	 * @var \Kirby\Cms\File
+	 */
+	protected ModelWithContent $model;
 
 	/**
 	 * Breadcrumb array

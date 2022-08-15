@@ -2,7 +2,7 @@
 
 namespace Kirby\Panel;
 
-use Kirby\Cms\Site as CmsSite;
+use Kirby\Cms\ModelWithContent;
 
 /**
  * Provides information about the site model for the Panel
@@ -16,10 +16,10 @@ use Kirby\Cms\Site as CmsSite;
  */
 class Site extends Model
 {
-	public function __construct(
-		protected CmsSite $model
-	) {
-	}
+	/**
+	 * @var \Kirby\Cms\Site
+	 */
+	protected ModelWithContent $model;
 
 	/**
 	 * Returns the setup for a dropdown option

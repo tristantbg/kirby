@@ -2,7 +2,7 @@
 
 namespace Kirby\Panel;
 
-use Kirby\Cms\Page as CmsPage;
+use Kirby\Cms\ModelWithContent;
 use Kirby\Toolkit\I18n;
 
 /**
@@ -17,10 +17,10 @@ use Kirby\Toolkit\I18n;
  */
 class Page extends Model
 {
-	public function __construct(
-		protected CmsPage $model
-	) {
-	}
+	/**
+	 * @var \Kirby\Cms\Page
+	 */
+	protected ModelWithContent $model;
 
 	/**
 	 * Breadcrumb array
