@@ -25,9 +25,11 @@ class PageBlueprintStatus
 	) {
 	}
 
-	public function draft(): PageBlueprintStatusOption
+	public function defaults(): void
 	{
-		return $this->draft ?? new PageBlueprintStatusOption('draft');
+		$this->draft    ??= new PageBlueprintStatusOption('draft');
+		$this->unlisted ??= new PageBlueprintStatusOption('unlisted');
+		$this->listed   ??= new PageBlueprintStatusOption('listed');
 	}
 
 	public static function factory(array $props): static
@@ -51,22 +53,15 @@ class PageBlueprintStatus
 		return $section;
 	}
 
-	public function listed(): PageBlueprintStatusOption
-	{
-		return $this->listed ?? new PageBlueprintStatusOption('listed');
-	}
-
 	public function render(ModelWithContent $model): array|false
 	{
+		$this->defaults();
+
 		return array_filter([
-			'draft'    => $this->draft()->render($model),
-			'unlisted' => $this->unlisted()->render($model),
-			'listed'   => $this->listed()->render($model),
+			'draft'    => $this->draft->render($model),
+			'unlisted' => $this->unlisted->render($model),
+			'listed'   => $this->listed->render($model),
 		]);
 	}
 
-	public function unlisted(): PageBlueprintStatusOption
-	{
-		return $this->unlisted ?? new PageBlueprintStatusOption('unlisted');
-	}
 }

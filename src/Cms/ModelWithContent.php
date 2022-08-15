@@ -35,7 +35,7 @@ abstract class ModelWithContent extends Model
 	/**
 	 * Returns the blueprint of the model
 	 *
-	 * @return \Kirby\Cms\Blueprint
+	 * @return \Kirby\Blueprint\Blueprint
 	 */
 	abstract public function blueprint();
 

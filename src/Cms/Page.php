@@ -225,8 +225,6 @@ class Page extends ModelWithContent
 
 	/**
 	 * Returns the blueprint object
-	 *
-	 * @return \Kirby\Cms\PageBlueprint
 	 */
 	public function blueprint(): PageBlueprint
 	{

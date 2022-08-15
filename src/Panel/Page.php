@@ -295,7 +295,7 @@ class Page extends Model
 				],
 				'status' => function () use ($page) {
 					if ($status = $page->status()) {
-						return $this->model->blueprint()->status?->{$status}?->render($page);
+						return $this->model->blueprint()->status()->{$status}?->render($page);
 					}
 				},
 			]

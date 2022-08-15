@@ -7,6 +7,7 @@ use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\PermissionException;
 use Kirby\Panel\Field;
 use Kirby\Panel\Panel;
+use Kirby\Toolkit\A;
 use Kirby\Toolkit\I18n;
 use Kirby\Toolkit\Str;
 
@@ -63,16 +64,17 @@ return [
 			$page      = Find::page($id);
 			$blueprint = $page->blueprint();
 			$status    = $page->status();
-			$states    = [];
+			$states    = $blueprint->status()->render($page);
 			$position  = null;
 
-			foreach ($blueprint->status() as $key => $state) {
-				$states[] = [
-					'value' => $key,
-					'text'  => $state['label'],
-					'info'  => $state['text'],
+			// prepare states for the select field
+			$states = A::map($states, function ($status) {
+				return [
+					'value' => $status['id'],
+					'text'  => $status['label'],
+					'info'  => $status['text']
 				];
-			}
+			});
 
 			if ($status === 'draft') {
 				$errors = $page->errors();

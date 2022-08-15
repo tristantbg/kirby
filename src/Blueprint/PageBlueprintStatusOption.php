@@ -29,9 +29,10 @@ class PageBlueprintStatusOption extends NodeLabelled
 		parent::__construct($id, ...$args);
 	}
 
-	public function label(): NodeLabel
+	public function defaults(): void
 	{
-		return $this->label ?? new NodeLabel(['*' => 'page.status.' . $this->id]);
+		$this->label ??= new NodeLabel(['*' => 'page.status.' . $this->id]);
+		$this->text  ??= new NodeText(['*' => 'page.status.' . $this->id . '.description']);
 	}
 
 	public static function prefab(
@@ -68,14 +69,12 @@ class PageBlueprintStatusOption extends NodeLabelled
 			return false;
 		}
 
-		return [
-			'label' => $this->label()->render($model),
-			'text'  => $this->text()->render($model),
-		];
-	}
+		$this->defaults();
 
-	public function text(): NodeText
-	{
-		return $this->text ?? new NodeText(['*' => 'page.status.' . $this->id . '.description']);
+		return [
+			'id'    => $this->id,
+			'label' => $this->label->render($model),
+			'text'  => $this->text->render($model),
+		];
 	}
 }
