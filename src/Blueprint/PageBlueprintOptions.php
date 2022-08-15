@@ -30,6 +30,7 @@ class PageBlueprintOptions extends BlueprintOptions
 		public BlueprintOption|null $duplicate = null,
 		public BlueprintOption|null $preview = null,
 		public BlueprintOption|null $read = null,
+		public BlueprintOption|null $sort = null,
 		public BlueprintOption|null $update = null,
 	) {
 	}

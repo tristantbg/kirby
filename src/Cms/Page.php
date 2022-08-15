@@ -245,6 +245,9 @@ class Page extends ModelWithContent
 			return $this->blueprint()->section($inSection)->blueprints();
 		}
 
+		return [];
+
+		// TODO: refactor this with the new Blueprint classes
 		$blueprints      = [];
 		$templates       = $this->blueprint()->changeTemplate() ?? $this->blueprint()->options()['changeTemplate'] ?? [];
 		$currentTemplate = $this->intendedTemplate()->name();

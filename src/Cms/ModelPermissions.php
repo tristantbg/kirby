@@ -2,8 +2,6 @@
 
 namespace Kirby\Cms;
 
-use Kirby\Toolkit\A;
-
 /**
  * ModelPermissions
  *
@@ -34,9 +32,9 @@ abstract class ModelPermissions
 	/**
 	 * ModelPermissions constructor
 	 *
-	 * @param \Kirby\Cms\Model $model
+	 * @param \Kirby\Cms\ModelWithContent $model
 	 */
-	public function __construct(Model $model)
+	public function __construct(ModelWithContent $model)
 	{
 		$this->model       = $model;
 		$this->options     = $model->blueprint()->options();
@@ -94,7 +92,7 @@ abstract class ModelPermissions
 	{
 		$array = [];
 
-		foreach ($this->options as $key => $value) {
+		foreach (get_object_vars($this->options) as $key => $value) {
 			$array[$key] = $this->can($key);
 		}
 

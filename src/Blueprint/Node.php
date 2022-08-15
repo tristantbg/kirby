@@ -33,6 +33,7 @@ class Node
 	 */
 	public function __call(string $name, array $args)
 	{
+		$this->defaults();
 		return $this->$name;
 	}
 

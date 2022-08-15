@@ -131,12 +131,6 @@ class Blueprint extends NodeLabelled
 		return static::factory($props);
 	}
 
-	public function options(): BlueprintOptions
-	{
-		$this->defaults();
-		return $this->options;
-	}
-
 	public function path(): string
 	{
 		return $this->id;
