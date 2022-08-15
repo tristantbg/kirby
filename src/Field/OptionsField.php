@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Option\Options;
 use Kirby\Option\OptionsApi;
@@ -44,9 +45,58 @@ class OptionsField extends InputField
 		);
 	}
 
-	public function options(): FieldOptions
+	public static function factory(array $props): static
 	{
-		return $this->options ?? FieldOptions::factory();
+		$props['options'] = match ($props['options'] ?? null) {
+			'api'
+				=> OptionsApi::factory($props['api']),
+
+			'query'
+				=> OptionsQuery::factory($props['query']),
+
+			'children',
+			'grandChildren',
+			'siblings',
+			'index',
+			'files',
+			'images',
+			'documents',
+			'videos',
+			'audio',
+			'code',
+			'archives'
+				=> OptionsQuery::factory('page.' . $props['options']),
+
+			'pages'
+				=> OptionsQuery::factory('site.index'),
+
+			default
+				=> Options::factory($props['options'])
+		};
+
+		unset($props['api'], $props['query']);
+
+		return parent::factory($props);
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+
+		$section->fields->min = new NumberField(id: 'min');
+		$section->fields->max = new NumberField(id: 'max');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+
+		$section->fields->default   = new TextField(id: 'default');
+		$section->fields->separator = new TextField(id: 'separator');
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

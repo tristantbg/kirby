@@ -13,7 +13,7 @@ use Kirby\Cms\ModelWithContent;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class NodeString extends NodeOfKind
+class NodeString extends NodeProperty
 {
 	public function __construct(
 		public string $value,

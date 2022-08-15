@@ -15,7 +15,7 @@ use Kirby\Blueprint\Enumeration;
  */
 class StatsSectionSize extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'auto',
 		'tiny',
 		'small',
@@ -24,5 +24,11 @@ class StatsSectionSize extends Enumeration
 		'huge'
 	];
 
-	public mixed $default = 'auto';
+	public static mixed $default = 'auto';
+
+	public static function field()
+	{
+		return parent::field()->set('id', 'size')->set('label', 'Size');
+	}
+
 }

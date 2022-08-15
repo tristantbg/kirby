@@ -15,7 +15,7 @@ use Kirby\Blueprint\Enumeration;
  */
 class ModelsSectionSize extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'auto',
 		'tiny',
 		'small',
@@ -24,5 +24,15 @@ class ModelsSectionSize extends Enumeration
 		'huge'
 	];
 
-	public mixed $default = 'auto';
+	public static mixed $default = 'auto';
+
+	public static function field()
+	{
+		$field = parent::field();
+		$field->id = 'size';
+		$field->label->translations = ['en' => 'Size'];
+
+		return $field;
+	}
+
 }

@@ -2,7 +2,10 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\Fields;
+use Kirby\Field\TextField;
 
 /**
  * Page Blueprint Status
@@ -34,6 +37,18 @@ class PageBlueprintStatus
 		}
 
 		return new static(...$props);
+	}
+
+	public static function inspectorSection(): InspectorSection
+	{
+		$section = new InspectorSection(id: 'status', fields: new Fields());
+
+		// @TODO implement status option fields
+		$section->fields->draft    = new TextField(id: 'draft');
+		$section->fields->unlisted = new TextField(id: 'unlisted');
+		$section->fields->listed   = new TextField(id: 'listed');
+
+		return $section;
 	}
 
 	public function listed(): PageBlueprintStatusOption

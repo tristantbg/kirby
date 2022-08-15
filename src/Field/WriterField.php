@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Value\HtmlValue;
 
@@ -21,6 +23,7 @@ class WriterField extends InputField
 
 	public function __construct(
 		public string $id,
+		public string|null $default = null,
 		public bool $inline = false,
 		public FieldIcon|null $icon = null,
 		public WriterFieldMarks|null $marks = null,
@@ -37,8 +40,38 @@ class WriterField extends InputField
 
 	public function defaults(): void
 	{
-		$this->marks ??= new Marks();
-		$this->nodes ??= new Nodes();
+		$this->marks ??= new WriterFieldMarks();
+		$this->nodes ??= new WriterFieldNodes();
+
+		parent::defaults();
+	}
+
+	public static function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+
+		$inspector->sections->add(WriterFieldNodes::inspectorSection());
+		$inspector->sections->add(WriterFieldMarks::inspectorSection());
+
+		return $inspector;
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+
+		$section->fields->placeholder = FieldPlaceholder::field();
+		$section->fields->icon        = FieldIcon::field();
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+		$section->fields->default = new TextField(id: 'default');
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

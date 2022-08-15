@@ -169,76 +169,19 @@ Vue.component("k-text", Text);
 Vue.component("k-user-info", UserInfo);
 
 /* Navigation */
-import Breadcrumb from "@/components/Navigation/Breadcrumb.vue";
-import Button from "@/components/Navigation/Button.vue";
-import ButtonDisabled from "@/components/Navigation/ButtonDisabled.vue";
-import ButtonGroup from "@/components/Navigation/ButtonGroup.vue";
-import ButtonLink from "@/components/Navigation/ButtonLink.vue";
-import ButtonNative from "@/components/Navigation/ButtonNative.vue";
-import Dropdown from "@/components/Navigation/Dropdown.vue";
-import DropdownContent from "@/components/Navigation/DropdownContent.vue";
-import DropdownItem from "@/components/Navigation/DropdownItem.vue";
-import Link from "@/components/Navigation/Link.vue";
-import Languages from "@/components/Navigation/Languages.vue";
-import OptionsDropdown from "@/components/Navigation/OptionsDropdown.vue";
-import Pagination from "@/components/Navigation/Pagination.vue";
-import PrevNext from "@/components/Navigation/PrevNext.vue";
-import Search from "@/components/Navigation/Search.vue";
-import Tag from "@/components/Navigation/Tag.vue";
-import Topbar from "@/components/Navigation/Topbar.vue";
-
-Vue.component("k-breadcrumb", Breadcrumb);
-Vue.component("k-button", Button);
-Vue.component("k-button-disabled", ButtonDisabled);
-Vue.component("k-button-group", ButtonGroup);
-Vue.component("k-button-link", ButtonLink);
-Vue.component("k-button-native", ButtonNative);
-Vue.component("k-dropdown", Dropdown);
-Vue.component("k-dropdown-content", DropdownContent);
-Vue.component("k-dropdown-item", DropdownItem);
-Vue.component("k-languages-dropdown", Languages);
-Vue.component("k-link", Link);
-Vue.component("k-options-dropdown", OptionsDropdown);
-Vue.component("k-pagination", Pagination);
-Vue.component("k-prev-next", PrevNext);
-Vue.component("k-search", Search);
-Vue.component("k-tag", Tag);
-Vue.component("k-topbar", Topbar);
+import "@/components/Navigation/index.js";
 
 /* Sections */
 import "@/components/Sections/index.js";
 
 /* Views */
-import AccountView from "@/components/Views/AccountView.vue";
-import ErrorView from "@/components/Views/ErrorView.vue";
-import FileView from "@/components/Views/FileView.vue";
-import InstallationView from "@/components/Views/InstallationView.vue";
-import LanguagesView from "@/components/Views/LanguagesView.vue";
-import LoginView from "@/components/Views/LoginView.vue";
-import PageView from "@/components/Views/PageView.vue";
-import PluginView from "@/components/Views/PluginView.vue";
-import ResetPasswordView from "@/components/Views/ResetPasswordView.vue";
-import SiteView from "@/components/Views/SiteView.vue";
-import SystemView from "@/components/Views/SystemView.vue";
-import UsersView from "@/components/Views/UsersView.vue";
-import UserView from "@/components/Views/UserView.vue";
-
-Vue.component("k-account-view", AccountView);
-Vue.component("k-error-view", ErrorView);
-Vue.component("k-file-view", FileView);
-Vue.component("k-installation-view", InstallationView);
-Vue.component("k-languages-view", LanguagesView);
-Vue.component("k-login-view", LoginView);
-Vue.component("k-page-view", PageView);
-Vue.component("k-plugin-view", PluginView);
-Vue.component("k-reset-password-view", ResetPasswordView);
-Vue.component("k-site-view", SiteView);
-Vue.component("k-system-view", SystemView);
-Vue.component("k-users-view", UsersView);
-Vue.component("k-user-view", UserView);
+import "@/components/Views/index.js";
 
 /* Blocks */
 import "@/components/Forms/Blocks/index.js";
 
 /* Field Previews */
 import "@/components/Forms/Previews/index.js";
+
+/* Architect */
+import "@/components/Architect/index.js";

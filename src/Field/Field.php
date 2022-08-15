@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\Blueprint;
 use Kirby\Blueprint\Column;
 use Kirby\Blueprint\NodeFeature;
@@ -67,6 +69,33 @@ class Field extends NodeFeature
 		return $this;
 	}
 
+	public static function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->sections->add(static::inspectorDescriptionSection());
+		$inspector->sections->add(static::inspectorAppearanceSection());
+
+		return $inspector;
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'appearance',
+			fields: new Fields([
+				FieldWidth::field()
+			])
+		);
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'description',
+			fields: new Fields,
+		);
+	}
+
 	public function isInput(): bool
 	{
 		return false;
@@ -77,7 +106,16 @@ class Field extends NodeFeature
 		try {
 			return parent::load($props);
 		} catch (Throwable $e) {
-			return new InfoField(id: 'error-' . Str::random(5));
+			if (is_string($props) === true) {
+				$props = ['id' => $props];
+			}
+
+			return InfoField::factory([
+				'id'    => 'error-' . ($props['id'] ?? Str::random(5)),
+				'label' => 'Error',
+				'text'  => $e->getMessage(),
+				'theme' => 'negative'
+			]);
 		}
 	}
 

@@ -15,11 +15,11 @@ use Kirby\Blueprint\Enumeration;
  */
 class TableColumnAlign extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'left',
 		'center',
 		'right'
 	];
 
-	public mixed $default = 'left';
+	public static mixed $default = 'left';
 }

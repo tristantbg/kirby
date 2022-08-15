@@ -17,7 +17,7 @@ class PasswordField extends TextField
 
 	public function defaults(): void
 	{
-		$this->autocomplete ??= 'password';
+		$this->autocomplete ??= new FieldAutocomplete('new-password');
 		$this->icon         ??= new FieldIcon('key');
 		$this->label        ??= new FieldLabel(['*' => 'password']);
 		$this->minlength    ??= 8;

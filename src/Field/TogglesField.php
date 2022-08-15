@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Option\Options;
 use Kirby\Value\MixedValue;
@@ -34,6 +35,24 @@ class TogglesField extends InputField
 		$this->value = new MixedValue(
 			required: $this->required
 		);
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+		$section->fields->grow   = new ToggleField(id: 'grow');
+		$section->fields->labels = new ToggleField(id: 'labels');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+		$section->fields->default = new TextField(id: 'default');
+		$section->fields->reset   = new ToggleField(id: 'reset');
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

@@ -2,10 +2,10 @@
 
 namespace Kirby\Blueprint;
 
-use Kirby\Cms\ModelWithContent;
+use Kirby\Field\TextareaField;
 
 /**
- * Represents a specific kind of bluepritn node
+ * Additional help text below the node
  *
  * @package   Kirby Blueprint
  * @author    Bastian Allgeier <bastian@getkirby.com>
@@ -13,12 +13,12 @@ use Kirby\Cms\ModelWithContent;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-abstract class NodeOfKind
+class NodeHelp extends NodeKirbytext
 {
-	abstract public static function factory($value = null): static|null;
-
-	public function render(ModelWithContent $model)
+	public static function field()
 	{
-		return null;
+		return new TextareaField(
+			id: 'help'
+		);
 	}
 }

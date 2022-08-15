@@ -2,6 +2,10 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\InspectorSection;
+use Kirby\Field\Fields;
+use Kirby\Field\ToggleField;
+
 /**
  * Blueprint options
  *
@@ -27,5 +31,19 @@ class BlueprintOptions
 		}
 
 		return new static(...$options);
+	}
+
+	public static function inspectorSection(): InspectorSection
+	{
+		$section  = new InspectorSection(id: 'options', fields: new Fields);
+		$instance = new static;
+
+		foreach (get_object_vars($instance) as $key => $value) {
+			$section->fields->add(
+				new ToggleField(id: $key)
+			);
+		}
+
+		return $section;
 	}
 }

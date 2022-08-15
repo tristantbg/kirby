@@ -2,7 +2,7 @@
 
 namespace Kirby\Field;
 
-use Kirby\Blueprint\NodeKirbytext;
+use Kirby\Blueprint\NodeHelp;
 
 /**
  * Additional help text below the field
@@ -13,6 +13,6 @@ use Kirby\Blueprint\NodeKirbytext;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FieldHelp extends NodeKirbytext
+class FieldHelp extends NodeHelp
 {
 }

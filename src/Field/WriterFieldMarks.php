@@ -2,7 +2,9 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\Bools;
+use Kirby\Blueprint\NodeLabel;
 
 /**
  * Marks
@@ -24,5 +26,14 @@ class WriterFieldMarks extends Bools
 		public bool $strike = true,
 		public bool $underline = true,
 	) {
+	}
+
+	public static function inspectorSection(): InspectorSection
+	{
+		$section = parent::inspectorSection();
+		$section->id    = 'marks';
+		$section->label = new NodeLabel(['en' => 'Inline formats']);
+
+		return $section;
 	}
 }

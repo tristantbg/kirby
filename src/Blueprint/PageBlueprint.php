@@ -2,6 +2,10 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
+use Kirby\Field\TextField;
+
 /**
  * Page blueprint
  *
@@ -14,6 +18,7 @@ namespace Kirby\Blueprint;
 class PageBlueprint extends Blueprint
 {
 	public const DEFAULT = 'pages/default';
+	public const TYPE = 'page';
 
 	public function __construct(
 		public string $id,
@@ -34,6 +39,26 @@ class PageBlueprint extends Blueprint
 		$this->navigation ??= new PageBlueprintNavigation;
 		$this->options    ??= new PageBlueprintOptions;
 		$this->status     ??= new PageBlueprintStatus;
+	}
+
+	public static function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->sections->add(PageBlueprintImage::inspectorSection());
+		$inspector->sections->add(PageBlueprintStatus::inspectorSection());
+		$inspector->sections->add(PageBlueprintOptions::inspectorSection());
+
+		return $inspector;
+	}
+
+	public static function inspectorSettingsSection(): InspectorSection
+	{
+		$section = parent::inspectorSettingsSection();
+
+		$section->fields->num     = new TextField(id: 'num');
+		$section->fields->preview = NodeUrl::field()->set('id', 'preview')->set('label', 'Preview URL');
+
+		return $section;
 	}
 
 	public function path(): string

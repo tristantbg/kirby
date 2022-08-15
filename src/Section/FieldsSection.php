@@ -2,6 +2,7 @@
 
 namespace Kirby\Section;
 
+use Kirby\Architect\Inspector;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Field\Field;
 use Kirby\Field\Fields;
@@ -35,6 +36,13 @@ class FieldsSection extends Section
 	public function fields(): Fields
 	{
 		return $this->fields ?? new Fields;
+	}
+
+	public static function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+
+		return $inspector;
 	}
 
 	public function render(ModelWithContent $model): array

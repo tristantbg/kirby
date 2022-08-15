@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Value\StringValue;
 
@@ -22,7 +24,7 @@ class TextField extends InputField
 	public function __construct(
 		string $id,
 		public FieldAfterText|null $after = null,
-		public string|null $autocomplete = null,
+		public FieldAutocomplete|null $autocomplete = null,
 		public FieldBeforeText|null $before = null,
 		public TextFieldConverter|null $converter = null,
 		public bool|null $counter = null,
@@ -53,11 +55,55 @@ class TextField extends InputField
 		parent::defaults();
 	}
 
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+
+		$section->fields->counter = new ToggleField(id: 'counter');
+		$section->fields->icon    = FieldIcon::field();
+
+		return $section;
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+
+		$section->fields->placeholder = FieldPlaceholder::field();
+		$section->fields->before      = FieldBeforeText::field();
+		$section->fields->after       = FieldAfterText::field();
+
+		return $section;
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+
+		$section->fields->minlength  = new NumberField(id: 'minlength');
+		$section->fields->maxlength  = new NumberField(id: 'maxlength');
+		$section->fields->spellcheck = new ToggleField(id: 'spellcheck');
+		$section->fields->pattern    = new TextField(id: 'pattern');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+
+		$section->fields->default      = new TextField(id: 'default');
+		$section->fields->autocomplete = FieldAutocomplete::field();
+		$section->fields->converter    = TextFieldConverter::field();
+
+		return $section;
+	}
+
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
 			'after'        => $this->after?->render($model),
-			'autocomplete' => $this->autocomplete,
+			'autocomplete' => $this->autocomplete?->render($model),
 			'before'       => $this->before?->render($model),
 			'counter'      => $this->counter,
 			'icon'         => $this->icon?->render($model),

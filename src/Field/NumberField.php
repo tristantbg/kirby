@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Value\NumberValue;
 
@@ -22,7 +23,7 @@ class NumberField extends InputField
 	public function __construct(
 		public string $id,
 		public FieldAfterText|null $after = null,
-		public string|null $autocomplete = null,
+		public FieldAutocomplete|null $autocomplete = null,
 		public FieldBeforeText|null $before = null,
 		public int|float|null $default = null,
 		public FieldIcon|null $icon = null,
@@ -41,11 +42,46 @@ class NumberField extends InputField
 		);
 	}
 
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+
+		$section->fields->icon = FieldIcon::field();
+
+		return $section;
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		return TextField::inspectorDescriptionSection();
+	}
+
+	public static function inspectorValidationSection(): InspectorSection
+	{
+		$section = parent::inspectorValidationSection();
+
+		$section->fields->min = new NumberField(id: 'min');
+		$section->fields->max = new NumberField(id: 'max');
+
+		return $section;
+	}
+
+	public static function inspectorValueSection(): InspectorSection
+	{
+		$section = parent::inspectorValueSection();
+
+		$section->fields->default      = new NumberField(id: 'default');
+		$section->fields->step         = new NumberField(id: 'step');
+		$section->fields->autocomplete = FieldAutocomplete::field();
+
+		return $section;
+	}
+
 	public function render(ModelWithContent $model): array
 	{
 		return parent::render($model) + [
 			'after'        => $this->after?->render($model),
-			'autocomplete' => $this->autocomplete,
+			'autocomplete' => $this->autocomplete?->render($model),
 			'before'       => $this->before?->render($model),
 			'icon'         => $this->icon?->render($model),
 			'max'          => $this->max,

@@ -15,4 +15,13 @@ use Kirby\Blueprint\NodeText;
  */
 class FieldPlaceholder extends NodeText
 {
+	public static function field()
+	{
+		$field = parent::field();
+
+		$field->id    = 'placeholder';
+		$field->label = new FieldLabel(['en' => 'Placeholder']);
+
+		return $field;
+	}
 }

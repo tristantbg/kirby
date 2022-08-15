@@ -2,8 +2,12 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\Fields;
+use Kirby\Field\TextField;
+use Kirby\Field\ToggleField;
 
 /**
  * Image object for sections and fields
@@ -56,6 +60,21 @@ class BlueprintImage
 		};
 
 		return new static(...$image);
+	}
+
+	public static function inspectorSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'image',
+			fields: new Fields([
+				new TextField(id: 'back'),
+				new TextField(id: 'color'),
+				new ToggleField(id: 'cover'),
+				NodeIcon::field(),
+				new TextField(id: 'query'),
+				new TextField(id: 'ratio'),
+			])
+		);
 	}
 
 	public function render(ModelWithContent $model): array|false

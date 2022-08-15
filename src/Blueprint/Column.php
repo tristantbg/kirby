@@ -2,9 +2,13 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
+use Kirby\Architect\InspectorSections;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
 use Kirby\Field\Fields;
+use Kirby\Field\TextField;
 use Kirby\Section\Section;
 use Kirby\Section\Sections;
 
@@ -19,6 +23,8 @@ use Kirby\Section\Sections;
  */
 class Column extends Node
 {
+	public const TYPE = 'column';
+
 	public function __construct(
 		public string $id,
 		public Sections|null $sections = null,
@@ -50,6 +56,14 @@ class Column extends Node
 		}
 
 		throw new NotFoundException('The column "' . $columnId . '" could not be found');
+	}
+
+	public static function inspectorSettingsSection(): InspectorSection
+	{
+		$section = parent::inspectorSettingsSection();
+		$section->fields->width = ColumnWidth::field();
+
+		return $section;
 	}
 
 	/**

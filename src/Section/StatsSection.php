@@ -2,6 +2,7 @@
 
 namespace Kirby\Section;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\Promise;
 use Kirby\Cms\ModelWithContent;
 
@@ -20,11 +21,19 @@ class StatsSection extends DisplaySection
 
 	public function __construct(
 		public string $id,
-		public StatsSectionReports|Promise|null $reports = null,
-		public TextSize|null $size = null,
+		public StatsSectionReports|null $reports = null,
+		public StatsSectionSize|null $size = null,
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		$section = parent::inspectorAppearanceSection();
+		$section->fields->size = StatsSectionSize::field();
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array

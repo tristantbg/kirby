@@ -15,7 +15,7 @@ use Kirby\Blueprint\Enumeration;
  */
 class InfoSectionTheme extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'info',
 		'negative',
 		'none',
@@ -24,5 +24,11 @@ class InfoSectionTheme extends Enumeration
 		'positive',
 	];
 
-	public mixed $default = 'plain';
+	public static mixed $default = 'plain';
+
+	public static function field()
+	{
+		return parent::field()->set('id', 'theme')->set('label', 'Theme');
+	}
+
 }

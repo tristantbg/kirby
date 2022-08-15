@@ -60,8 +60,8 @@ class Fields extends Nodes
 	 */
 	public function fill(array $values = [], bool $defaults = false): static
 	{
-		foreach ($this->inputs() as $id => $field) {
-			$field->fill($values[$id], $defaults);
+		foreach ($this->inputs() as $field) {
+			$field->fill($values[$field->id] ?? null, $defaults);
 		}
 
 		return $this;

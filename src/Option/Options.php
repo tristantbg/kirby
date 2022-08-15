@@ -30,7 +30,7 @@ class Options extends Collection
 		$collection = new static();
 
 		foreach ($options as $key => $option) {
-			if (is_string($option) === true) {
+			if (is_array($option) === false) {
 				if (is_string($key) === true) {
 					$option = ['value' => $key, 'text' => $option];
 				} else {
@@ -39,7 +39,7 @@ class Options extends Collection
 			}
 
 			$option = Option::factory($option);
-			$collection->__set($option->value, $option);
+			$collection->__set($option->id(), $option);
 		}
 
 		return $collection;

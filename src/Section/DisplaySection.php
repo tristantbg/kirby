@@ -2,7 +2,10 @@
 
 namespace Kirby\Section;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\Fields;
 
 /**
  * Display section
@@ -29,6 +32,34 @@ class DisplaySection extends Section
 	public function defaults(): void
 	{
 		$this->label ??= SectionLabel::fallback($this->id);
+	}
+
+	public static function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->sections->add(static::inspectorDescriptionSection());
+		$inspector->sections->add(static::inspectorAppearanceSection());
+
+		return $inspector;
+	}
+
+	public static function inspectorAppearanceSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'appearance',
+			fields: new Fields
+		);
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'description',
+			fields: new Fields([
+				SectionLabel::field(),
+				SectionHelp::field()
+			])
+		);
 	}
 
 	public function render(ModelWithContent $model): array

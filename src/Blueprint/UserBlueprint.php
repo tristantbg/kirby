@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\Inspector;
 use Kirby\Permissions\Permissions;
 
 /**
@@ -33,6 +34,15 @@ class UserBlueprint extends Blueprint
 	{
 		$this->image   ??= new UserBlueprintImage;
 		$this->options ??= new UserBlueprintOptions;
+	}
+
+	public static function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->sections->add(UserBlueprintImage::inspectorSection());
+		$inspector->sections->add(UserBlueprintOptions::inspectorSection());
+
+		return $inspector;
 	}
 
 	public function path(): string

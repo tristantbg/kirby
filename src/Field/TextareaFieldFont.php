@@ -15,10 +15,19 @@ use Kirby\Blueprint\Enumeration;
  */
 class TextareaFieldFont extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'sans',
 		'monospace',
 	];
 
-	public mixed $default = 'sans';
+	public static mixed $default = 'sans';
+
+	public static function field()
+	{
+		$field = parent::field();
+		$field->id = 'font';
+		$field->label->translations = ['en' => 'Font Family'];
+
+		return $field;
+	}
 }

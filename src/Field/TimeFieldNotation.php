@@ -15,12 +15,12 @@ use Kirby\Blueprint\Enumeration;
  */
 class TimeFieldNotation extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		12,
 		24,
 	];
 
-	public mixed $default = 24;
+	public static mixed $default = 24;
 
 	public function display(): string
 	{

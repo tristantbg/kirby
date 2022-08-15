@@ -15,7 +15,7 @@ use Kirby\Blueprint\Enumeration;
  */
 class PagesSectionStatus extends Enumeration
 {
-	public array $allowed = [
+	public static array $allowed = [
 		'all',
 		'draft',
 		'listed',
@@ -24,7 +24,7 @@ class PagesSectionStatus extends Enumeration
 		'unpublished'
 	];
 
-	public mixed $default = 'draft';
+	public static mixed $default = 'draft';
 
 	public function hasAddButton(): bool
 	{

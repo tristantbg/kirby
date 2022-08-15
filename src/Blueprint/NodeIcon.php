@@ -13,4 +13,14 @@ namespace Kirby\Blueprint;
  */
 class NodeIcon extends NodeString
 {
+
+	public static function field()
+	{
+		$field = parent::field();
+		$field->id = 'icon';
+		$field->label->translations = ['en' => 'Icon'];
+
+		return $field;
+	}
+
 }

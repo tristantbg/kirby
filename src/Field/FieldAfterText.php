@@ -15,4 +15,13 @@ use Kirby\Blueprint\NodeText;
  */
 class FieldAfterText extends NodeText
 {
+	public static function field()
+	{
+		$field = parent::field();
+
+		$field->id    = 'after';
+		$field->label = new FieldLabel(['en' => 'After']);
+
+		return $field;
+	}
 }

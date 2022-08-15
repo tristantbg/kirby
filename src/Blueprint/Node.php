@@ -2,7 +2,12 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\Inspector;
+use Kirby\Architect\InspectorSection;
+use Kirby\Architect\InspectorSections;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Field\Fields;
+use Kirby\Field\TextField;
 
 /**
  * A node of the blueprint
@@ -15,6 +20,8 @@ use Kirby\Cms\ModelWithContent;
  */
 class Node
 {
+	public const TYPE = 'node';
+
 	public function __construct(
 		public string $id,
 		public Extension|null $extends = null,
@@ -44,6 +51,27 @@ class Node
 		$props = Extension::apply($props);
 		$props = static::polyfill($props);
 		return Factory::make(static::class, $props);
+	}
+
+	public static function inspector(): Inspector
+	{
+		return new Inspector(
+			id: static::TYPE,
+			sections: new InspectorSections([
+				static::inspectorSettingsSection()
+			])
+		);
+	}
+
+	public static function inspectorSettingsSection(): InspectorSection
+	{
+		return new InspectorSection(
+			id: 'settings',
+			fields: new Fields([
+				new TextField(id: 'id'),
+				new TextField(id: 'extends'),
+			])
+		);
 	}
 
 	public static function load(string|array $props): static
@@ -109,4 +137,26 @@ class Node
 		$this->$property = Factory::forProperty(static::class, $property, $value);
 		return $this;
 	}
+
+	public function toFieldValues(ModelWithContent $model, Fields $fields): array
+	{
+		$props  = get_object_vars($this);
+		$values = [];
+
+		foreach ($fields->keys() as $id) {
+			$value = $props[$id] ?? null;
+
+			if (is_object($value) === false && is_resource($value) === false) {
+				$values[$id] = $value;
+				continue;
+			}
+
+			if (method_exists($value, 'render') === true) {
+				$values[$id] = $value->render($model);
+			}
+		}
+
+		return $values;
+	}
+
 }

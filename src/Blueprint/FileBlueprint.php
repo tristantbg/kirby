@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Architect\Inspector;
+
 /**
  * File blueprint
  *
@@ -14,6 +16,7 @@ namespace Kirby\Blueprint;
 class FileBlueprint extends Blueprint
 {
 	public const DEFAULT = 'files/default';
+	public const TYPE = 'file';
 
 	public function __construct(
 		public string $id,
@@ -31,6 +34,15 @@ class FileBlueprint extends Blueprint
 		$this->accept  ??= new FileBlueprintAcceptRules;
 		$this->image   ??= new FileBlueprintImage;
 		$this->options ??= new FileBlueprintOptions;
+	}
+
+	public static function inspector(): Inspector
+	{
+		$inspector = parent::inspector();
+		$inspector->sections->add(FileBlueprintImage::inspectorSection());
+		$inspector->sections->add(FileBlueprintOptions::inspectorSection());
+
+		return $inspector;
 	}
 
 	public function path(): string

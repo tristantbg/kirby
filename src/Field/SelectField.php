@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Architect\InspectorSection;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -32,6 +33,16 @@ class SelectField extends OptionField
 		$this->empty ??= false;
 
 		parent::defaults();
+	}
+
+	public static function inspectorDescriptionSection(): InspectorSection
+	{
+		$section = parent::inspectorDescriptionSection();
+
+		$section->fields->placeholder = FieldPlaceholder::field();
+		$section->fields->icon        = FieldIcon::field();
+
+		return $section;
 	}
 
 	public function render(ModelWithContent $model): array
