@@ -38,20 +38,11 @@ export default {
 </script>
 
 <style>
-.k-blueprint-element.k-blueprint-section {
-	--color: var(--color-blue-400);
-	--color-border: transparent;
-	background: #16191a;
-	box-shadow: rgba(0, 0, 0, 0.6) 0 2px 1px;
-}
-.k-blueprint-element.k-blueprint-section[aria-current] {
-	border-color: var(--color-blue-400);
-}
 .k-blueprint-section:not(:last-of-type) {
 	margin-bottom: 0.75rem;
 }
 .k-blueprint-section-body {
-	padding: 1.5rem;
+	padding: 0.75rem;
 }
 .k-blueprint-fields {
 	grid-gap: 0.75rem;

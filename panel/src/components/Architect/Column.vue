@@ -41,9 +41,10 @@ export default {
 
 <style>
 .k-blueprint-element.k-blueprint-column {
-	--color: var(--color-purple-400);
+	background: var(--color-white);
+	border: 1px dashed var(--color-gray-300);
 }
 .k-blueprint-column-body {
-	padding: 1.5rem;
+	padding: 0.75rem;
 }
 </style>

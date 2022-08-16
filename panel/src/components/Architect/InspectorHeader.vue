@@ -33,7 +33,6 @@ export default {
 	align-items: center;
 	justify-content: space-between;
 	font-weight: var(--font-bold);
-	color: var(--color-gray-200);
 	margin-bottom: 0.75rem;
 }
 </style>

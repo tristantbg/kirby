@@ -21,12 +21,7 @@
 					icon="dots"
 					@click="$refs.options.toggle()"
 				/>
-				<k-dropdown-content
-					ref="options"
-					align="right"
-					:options="options"
-					theme="light"
-				/>
+				<k-dropdown-content ref="options" align="right" :options="options" />
 			</k-dropdown>
 		</header>
 		<slot></slot>
@@ -62,27 +57,21 @@ export default {
 <style>
 .k-blueprint-element {
 	position: relative;
-	--color: var(--color-gray-500);
-	--color-border: #3f3f46;
-	--color-text: var(--color-gray-500);
 	color: var(--color-text);
-	border: 1px solid var(--color-border);
 	border-radius: var(--rounded);
 	transition: all 0.2s;
+	background: var(--color-gray-100);
+	border: 1px solid var(--color-gray-200);
 }
-.k-blueprint-element:not([aria-current]):hover {
-	--color-text: var(--color-gray-300);
-}
-.k-blueprint-element[aria-current] {
-	--color-border: var(--color);
-	--color-text: var(--color);
+.k-blueprint-element[aria-current="true"] {
+	box-shadow: var(--color-focus) 0 0 0 1px, var(--color-focus-outline) 0 0 0 3px;
 }
 .k-blueprint-element[data-on]::after {
 	position: absolute;
 	bottom: -7px;
 	left: 50%;
 	content: "";
-	border-top: 7px solid var(--color-border);
+	border-top: 7px solid var(--color-light);
 	border-left: 7px solid transparent;
 	border-right: 7px solid transparent;
 }
@@ -98,13 +87,15 @@ export default {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	color: var(--color-gray-700);
 }
 .k-blueprint-element-title .k-link {
 	display: block;
-	padding: 0.75rem;
+	padding: 0.425rem 0.75rem;
 }
 .k-blueprint-element-options-toggle {
 	opacity: 0;
+	height: 2rem;
 }
 .k-blueprint-element-options-toggle.hover {
 	opacity: 1;

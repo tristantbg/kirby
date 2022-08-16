@@ -29,9 +29,6 @@ export default {
 
 <style>
 .k-blueprint-field {
-	--color: var(--color-green-400);
-	--color-border: transparent;
-	box-shadow: rgba(0, 0, 0, 0.4) 0 2px 1px;
-	background: #1d1f21;
+	background: var(--color-gray-200);
 }
 </style>

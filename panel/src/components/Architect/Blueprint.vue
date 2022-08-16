@@ -12,7 +12,6 @@
 					<k-dropdown-content
 						ref="options"
 						:options="blueprint.url"
-						theme="light"
 						align="right"
 					/>
 				</k-dropdown>
@@ -120,11 +119,9 @@ export default {
 	flex-grow: 1;
 	font-size: var(--text-base);
 	line-height: 1;
-	color: var(--color-gray-500);
 	display: flex;
 	flex-direction: column;
 	overflow-x: auto;
-	background: #1d1f21;
 }
 
 .k-blueprint-toolbar {
@@ -139,7 +136,6 @@ export default {
 	padding: 1.5rem 3rem;
 	font-weight: var(--font-bold);
 	cursor: pointer;
-	color: var(--color-gray-200);
 }
 .k-blueprint-toolbar-buttons {
 	display: flex;
@@ -174,10 +170,13 @@ export default {
 	gap: 0.75rem;
 }
 .k-blueprint-tab-add-button {
-	color: var(--color-gray-600);
+	background: var(--color-gray-100);
+	border: 1px solid var(--color-gray-200);
 	border-radius: var(--rounded);
-	border: 1px solid #3f3f46;
-	border-radius: var(--rounded);
+	height: calc(2rem + 2px);
+	width: 2rem;
+	justify-content: center;
+	align-items: center;
 }
 
 .k-blueprint-layout {
@@ -200,7 +199,7 @@ export default {
 }
 .k-blueprint-layout-templates .k-grid {
 	padding: 0.25rem;
-	border: 1px solid #3f3f46;
+	border: 1px solid var(--color-gray-300);
 	flex-grow: 1;
 	grid-gap: 0.25rem;
 	border-radius: var(--rounded);
@@ -212,6 +211,6 @@ export default {
 }
 .k-blueprint-layout-templates .k-column {
 	height: 9rem;
-	background: #2a2a2b;
+	background: var(--color-gray-200);
 }
 </style>

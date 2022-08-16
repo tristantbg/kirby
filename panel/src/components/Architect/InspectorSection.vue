@@ -19,8 +19,6 @@ export default {
 <style>
 .k-blueprint-inspector-section-label {
 	padding: 0.5rem 1.5rem;
-	background: #191b1d;
-	border-top: 1px solid var(--color-gray-900);
-	border-bottom: 1px solid var(--color-gray-900);
+	background: var(--color-gray-100);
 }
 </style>
