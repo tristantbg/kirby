@@ -64,7 +64,7 @@ class TagsField extends OptionsField
 
 		unset($props['accept'], $props['layout']);
 
-		return $props;
+		return parent::polyfill($props);
 	}
 
 	public function render(ModelWithContent $model): array

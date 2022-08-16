@@ -2,6 +2,7 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\Node;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Option\Options;
 use Kirby\Option\OptionsApi;
@@ -16,60 +17,75 @@ use Kirby\Option\OptionsQuery;
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class FieldOptions
+class FieldOptions extends Node
 {
-
 	public function __construct(
 		public Options|OptionsApi|OptionsQuery|null $options = null
-	) {}
+	) {
+	}
+
+	public function defaults(): void
+	{
+		$this->options ??= new Options();
+	}
+
+	public static function factory(array $props): static
+	{
+		$options = match ($props['type']) {
+			'api'    => OptionsApi::factory($props),
+			'query'  => OptionsQuery::factory($props),
+			default  => Options::factory($props['options'] ?? [])
+		};
+
+		return new static($options);
+	}
 
 	public static function polyfill(array $props = []): array
 	{
-		$props['options'] = match ($props['options'] ?? null) {
-			'api'
-				=> OptionsApi::factory($props['api']),
+		if (is_string($props['options'] ?? null) === true) {
+			$props['options'] = match ($props['options']) {
+				'api'   => ['type' => 'api'] +
+						   OptionsApi::polyfill($props['api'] ?? null),
 
-			'query'
-				=> OptionsQuery::factory($props['query']),
+				'query' => ['type' => 'query'] +
+						   OptionsQuery::polyfill($props['query'] ?? null),
 
-			'children',
-			'grandChildren',
-			'siblings',
-			'index',
-			'files',
-			'images',
-			'documents',
-			'videos',
-			'audio',
-			'code',
-			'archives'
-				=> OptionsQuery::factory('page.' . $props['options']),
-
-			'pages'
-				=> OptionsQuery::factory('site.index'),
-
-			default
-				=> Options::factory($props['options'] ?? [])
-		};
-
-		$props['options'] = new static($props['options']);
+				default  => [ 'type' => 'query', 'query' => $props['options']]
+			};
+		}
 
 		unset($props['api'], $props['query']);
+
+		if ($props['options']['type'] ?? null !== null) {
+			return $props;
+		}
+
+		if ($options = $props['options'] ?? null) {
+			$props['options'] = [
+				'type'    => 'array',
+				'options' => $options
+			];
+		}
 
 		return $props;
 	}
 
-	public function resolve(ModelWithContent|null $model): Options
+	public function resolve(ModelWithContent $model): Options
 	{
+		// apply default values
+		$this->defaults();
+
+		// already Options, return
 		if (is_a($this->options, Options::class) === true) {
 			return $this->options;
 		}
 
-		return $this->options?->resolve($model) ?? new Options;
+		// resolve OptionsApi or OptionsQuery to Options
+		return $this->options->resolve($model);
 	}
 
 	public function render(ModelWithContent $model): array
 	{
-		return $this->resolve($model)->render($model) ?? [];
+		return $this->resolve($model)->render($model);
 	}
 }

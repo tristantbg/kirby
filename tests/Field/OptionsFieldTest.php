@@ -2,7 +2,6 @@
 
 namespace Kirby\Field;
 
-use Kirby\Option\Options;
 use Kirby\Value\OptionsValue;
 
 /**

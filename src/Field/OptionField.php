@@ -38,7 +38,7 @@ class OptionField extends InputField
 
 	public function options(): FieldOptions
 	{
-		return $this->options ?? new FieldOptions;
+		return $this->options ?? new FieldOptions();
 	}
 
 	public static function polyfill(array $props): array

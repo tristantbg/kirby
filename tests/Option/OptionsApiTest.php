@@ -38,19 +38,46 @@ class OptionsApiTest extends TestCase
 		$this->assertSame($query, $options->query);
 		$this->assertSame($text, $options->text);
 		$this->assertSame($value, $options->value);
+
+		$options = OptionsApi::factory($url = 'https://api.getkirby.com');
+		$this->assertSame($url, $options->url);
 	}
 
 	/**
+	 * @covers ::load
+	 */
+	public function testLoadNotFound()
+	{
+		$model   = new Page(['slug' => 'test']);
+		$options = new OptionsApi(url: 'https://api.getkirby.com');
+		$this->expectException('Kirby\Exception\NotFoundException');
+		$this->expectExceptionMessage('Options could not be loaded from API: https://api.getkirby.com');
+		$options->resolve($model);
+	}
+
+	/**
+	 * @covers ::polyfill
+	 */
+	public function testPolyfill()
+	{
+		$api = 'https//api.getkirby.com';
+		$this->assertSame(['url' => $api], OptionsApi::polyfill($api));
+
+		$api = ['url' => 'https//api.getkirby.com'];
+		$this->assertSame($api, OptionsApi::polyfill($api));
+
+		$api = ['fetch' => 'Companies'];
+		$this->assertSame(['query' => 'Companies'], OptionsApi::polyfill($api));
+	}
+
+	/**
+	 * @covers ::load
 	 * @covers ::render
 	 * @covers ::resolve
 	 */
 	public function testResolveForFile()
 	{
-		$model = new Page([
-			'slug' => 'test',
-			'content' => ['foo' => 'data']
-		]);
-
+		$model   = new Page(['slug' => 'test']);
 		$options = new OptionsApi(
 			url: __DIR__ . '/fixtures/data.json',
 			query: 'Directory.Companies'
