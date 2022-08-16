@@ -31,6 +31,7 @@ class SelectField extends OptionField
 	public function defaults(): void
 	{
 		$this->empty ??= false;
+		$this->icon  ??= new FieldIcon('angle-down');
 
 		parent::defaults();
 	}
