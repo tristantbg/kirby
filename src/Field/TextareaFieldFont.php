@@ -24,10 +24,10 @@ class TextareaFieldFont extends Enumeration
 
 	public static function field()
 	{
-		$field = parent::field();
-		$field->id = 'font';
-		$field->label->translations = ['en' => 'Font Family'];
-
-		return $field;
+		return TogglesField::factory([
+			'id'      => 'font',
+			'label'   => ['en' => 'Font Family'],
+			'options' => static::$allowed
+		]);
 	}
 }
