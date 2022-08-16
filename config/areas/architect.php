@@ -5,8 +5,8 @@ return function () {
 		'icon'      => 'code',
 		'label'     => 'Architect',
 		'menu'      => true,
-		'dialogs'   => require_once __DIR__ . '/architect/dialogs.php',
-		'dropdowns' => require_once __DIR__ . '/architect/dropdowns.php',
-		'views'     => require_once __DIR__ . '/architect/views.php'
+		'dialogs'   => require __DIR__ . '/architect/dialogs.php',
+		'dropdowns' => require __DIR__ . '/architect/dropdowns.php',
+		'views'     => require __DIR__ . '/architect/views.php'
 	];
 };
