@@ -12,6 +12,14 @@ use Kirby\Section\Section;
 
 abstract class Info
 {
+	public function breadcrumb(ModelWithContent $model): array
+    {
+		// apply default values
+        $this->blueprint->defaults();
+
+		return [];
+    }
+
     public function component(ModelWithContent $model): string
     {
         return 'k-architect-view';
@@ -122,8 +130,9 @@ abstract class Info
         $model ??= site();
 
         return [
-            'component' => $this->component($model),
-            'props'     => [
+			'breadcrumb' => $this->breadcrumb($model),
+            'component'  => $this->component($model),
+            'props'      => [
                 'blueprint' => fn () => $this->main($model),
                 'inspector' => fn () => $this->inspector($model),
                 'menu'      => fn () => $this->menu($model),

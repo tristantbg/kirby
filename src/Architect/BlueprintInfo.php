@@ -17,6 +17,16 @@ class BlueprintInfo extends Info
         $this->tab = $this->blueprint->tab();
     }
 
+	public function breadcrumb(ModelWithContent $model): array
+    {
+		return array_merge(parent::breadcrumb($model), [
+			[
+				'label' => $this->blueprint->label?->render($model),
+				'link'  => $this->url(),
+			]
+		]);
+    }
+
     public function columns(ModelWithContent $model, Columns $columns): array
     {
         return $columns->values(function ($column) use ($model) {

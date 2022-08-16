@@ -3,7 +3,6 @@
 namespace Kirby\Architect;
 
 use Kirby\Blueprint\Blueprint;
-use Kirby\Blueprint\Columns;
 use Kirby\Blueprint\Node;
 use Kirby\Blueprint\Tab;
 use Kirby\Cms\ModelWithContent;
@@ -14,6 +13,16 @@ class TabInfo extends BlueprintInfo
         public Blueprint $blueprint,
         public Tab $tab,
     ) {
+    }
+
+	public function breadcrumb(ModelWithContent $model): array
+    {
+		return array_merge(parent::breadcrumb($model), [
+			[
+				'label' => $this->tab->label?->render($model) ?? ucfirst($this->tab->id),
+				'link'  => $this->url(),
+			]
+		]);
     }
 
 	public function current(): Node
