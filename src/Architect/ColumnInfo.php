@@ -22,8 +22,8 @@ class ColumnInfo extends TabInfo
     {
 		return array_merge(parent::breadcrumb($model), [
 			[
-				'label' => 'Column ' . $this->column->id,
-				'link'  => $this->url(),
+				'label' => ucfirst($this->column->id),
+				'link'  => self::url(),
 			]
 		]);
     }

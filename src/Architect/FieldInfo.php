@@ -26,7 +26,7 @@ class FieldInfo extends SectionInfo
 		return array_merge(parent::breadcrumb($model), [
 			[
 				'label' => property_exists($this->field, 'label') ? $this->field->label?->render($model) : ucfirst($this->field->id),
-				'link'  => $this->url(),
+				'link'  => self::url(),
 			]
 		]);
     }

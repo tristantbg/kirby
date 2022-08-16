@@ -22,7 +22,7 @@ class BlueprintInfo extends Info
 		return array_merge(parent::breadcrumb($model), [
 			[
 				'label' => $this->blueprint->label?->render($model),
-				'link'  => $this->url(),
+				'link'  => self::url(),
 			]
 		]);
     }
@@ -85,16 +85,13 @@ class BlueprintInfo extends Info
         // apply default values
         $this->blueprint->defaults();
 
-        // lousy hack to get the main url in extended classes
-        $blueprintInfo = new BlueprintInfo($this->blueprint);
-
         return [
             'active' => $this->url(),
             'id'     => $this->blueprint->id,
             'label'  => $this->blueprint->label?->render($model),
             'tab'    => $this->tab($model, $this->tab),
             'tabs'   => $this->tabs($model, $this->blueprint->tabs()),
-            'url'    => $blueprintInfo->url()
+            'url'    => self::url()
         ];
     }
 

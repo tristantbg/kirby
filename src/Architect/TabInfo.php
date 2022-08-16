@@ -20,7 +20,7 @@ class TabInfo extends BlueprintInfo
 		return array_merge(parent::breadcrumb($model), [
 			[
 				'label' => $this->tab->label?->render($model) ?? ucfirst($this->tab->id),
-				'link'  => $this->url(),
+				'link'  => self::url(),
 			]
 		]);
     }

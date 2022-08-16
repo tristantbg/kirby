@@ -25,8 +25,8 @@ class SectionInfo extends ColumnInfo
     {
 		return array_merge(parent::breadcrumb($model), [
 			[
-				'label' => ucfirst($this->section->id),
-				'link'  => $this->url(),
+				'label' => is_a($this->section, FieldsSection::class) ? 'Fields' : $this->section->label?->render($model) ?? ucfirst($this->section->id),
+				'link'  => self::url(),
 			]
 		]);
     }
