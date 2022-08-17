@@ -31,6 +31,14 @@ class BlueprintImage
 	) {
 	}
 
+	public function defaults(ModelWithContent $model): void
+	{
+		$this->back  ??= 'pattern';
+		$this->color ??= 'gray-500';
+		$this->icon  ??= 'page';
+		$this->query ??= 'model.image';
+	}
+
 	/**
 	 * Resolves the query to a file object
 	 */
@@ -82,6 +90,8 @@ class BlueprintImage
 		if ($this->disabled === true) {
 			return false;
 		}
+
+		$this->defaults($model);
 
 		return [
 			'back'  => $this->back,

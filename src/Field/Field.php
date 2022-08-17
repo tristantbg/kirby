@@ -36,11 +36,11 @@ class Field extends NodeFeature
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->width ??= new FieldWidth();
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function find(

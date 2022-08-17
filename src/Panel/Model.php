@@ -203,8 +203,10 @@ abstract class Model
 		$props   = $this->model->blueprint()->render($this->model, $request->get('tab'));
 
 		$props += [
-			'lock'        => [],
-			'permissions' => [],
+			'lock' => [
+				'status' => null,
+			],
+			'permissions' => $this->model->permissions()->toArray()
 		];
 
 		return $props;

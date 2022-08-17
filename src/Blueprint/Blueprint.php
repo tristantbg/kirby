@@ -4,6 +4,7 @@ namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
 use Kirby\Exception\NotFoundException;
+use Kirby\Field\Field;
 use Kirby\Field\Fields;
 use Kirby\Section\Section;
 use Kirby\Section\Sections;
@@ -81,6 +82,14 @@ class Blueprint extends NodeLabelled
 	{
 		$props = static::polyfill($props);
 		return parent::factory($props);
+	}
+
+	/**
+	 * Finds a field by id
+	 */
+	public function field(string $id = null): ?Field
+	{
+		return $this->fields()->$id;
 	}
 
 	/**

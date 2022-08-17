@@ -29,12 +29,12 @@ class UrlField extends TextField
 		);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->autocomplete ??= new FieldAutocomplete('url');
 		$this->icon         ??= new FieldIcon('url');
 		$this->placeholder  ??= new FieldPlaceholder(['*' => 'https://example.com']);
 
-		parent::defaults();
+		return parent::defaults();
 	}
 }

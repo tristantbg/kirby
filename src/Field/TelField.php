@@ -15,11 +15,11 @@ class TelField extends TextField
 {
 	public const TYPE = 'tel';
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->autocomplete ??= new FieldAutocomplete('tel');
 		$this->icon         ??= new FieldIcon('phone');
 
-		parent::defaults();
+		return parent::defaults();
 	}
 }

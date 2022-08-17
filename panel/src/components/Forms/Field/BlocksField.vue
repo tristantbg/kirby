@@ -1,7 +1,7 @@
 <template>
 	<k-field v-bind="$props" class="k-blocks-field">
 		<template #options>
-			<k-dropdown v-if="hasFieldsets">
+			<k-dropdown>
 				<k-button icon="dots" @click="$refs.options.toggle()" />
 				<k-dropdown-content ref="options" align="right">
 					<k-dropdown-item
@@ -44,8 +44,6 @@
 			:compact="false"
 			:empty="empty"
 			:endpoints="endpoints"
-			:fieldsets="fieldsets"
-			:fieldset-groups="fieldsetGroups"
 			:group="group"
 			:max="max"
 			:value="value"
@@ -65,8 +63,6 @@ export default {
 	props: {
 		autofocus: Boolean,
 		empty: String,
-		fieldsets: Object,
-		fieldsetGroups: Object,
 		group: String,
 		max: {
 			type: Number,
@@ -85,9 +81,6 @@ export default {
 		};
 	},
 	computed: {
-		hasFieldsets() {
-			return Object.keys(this.fieldsets).length;
-		},
 		isEmpty() {
 			return this.value.length === 0;
 		},

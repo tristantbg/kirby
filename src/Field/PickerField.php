@@ -3,10 +3,19 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\BlueprintImage;
+use Kirby\Blueprint\Items;
+use Kirby\Blueprint\ItemsLayout;
+use Kirby\Blueprint\ItemsSize;
+use Kirby\Blueprint\NodeModel;
 use Kirby\Blueprint\NodeText;
+use Kirby\Blueprint\PickerDialog;
+use Kirby\Cms\Collection as Models;
 use Kirby\Cms\ModelWithContent;
-use Kirby\Section\ModelsSectionLayout;
-use Kirby\Section\ModelsSectionSize;
+use Kirby\Cms\File;
+use Kirby\Cms\Page;
+use Kirby\Cms\Site;
+use Kirby\Cms\User;
+use Kirby\Table\TableColumns;
 use Kirby\Value\YamlValue;
 
 /**
@@ -20,16 +29,19 @@ use Kirby\Value\YamlValue;
  */
 class PickerField extends InputField
 {
-	public const TYPE = 'picker';
+	public const DIALOG = PickerDialog::class;
+	public const ITEMS  = Items::class;
+	public const TYPE   = 'picker';
 	public YamlValue $value;
 
 	public function __construct(
 		public string $id,
+		public TableColumns|null $columns = null,
 		public array|null $default = null,
 		public NodeText|null $empty = null,
 		public BlueprintImage|null $image = null,
 		public NodeText|null $info = null,
-		public ModelsSectionLayout|null $layout = null,
+		public ItemsLayout|null $layout = null,
 		public int $limit = 20,
 		public bool $link = true,
 		public int|null $max = null,
@@ -37,7 +49,7 @@ class PickerField extends InputField
 		public bool $multiple = true,
 		public string|null $query = null,
 		public bool $search = true,
-		public ModelsSectionSize|null $size = null,
+		public ItemsSize|null $size = null,
 		public NodeText|null $text = null,
 		...$args
 	) {
@@ -54,25 +66,63 @@ class PickerField extends InputField
 		);
 	}
 
-	public function defaults(): void
+	public function dialogs(ModelWithContent $model): array
 	{
-		$this->layout ??= new ModelsSectionLayout();
-		$this->size   ??= new ModelsSectionSize();
+		return [
+			[
+				'pattern' => '/',
+				'load' => function (array $query = []) use ($model) {
+					return $this->picker($query)->render($model);
+				}
+			]
+		];
+	}
 
-		parent::defaults();
+	public function items(Models $models = null): Items
+	{
+		return new (static::ITEMS)(
+			columns: $this->columns,
+			image: $this->image,
+			info: $this->info,
+			layout: $this->layout,
+			models: $models,
+			size: $this->size,
+			text: $this->text
+		);
+	}
+
+	public function picker(array $query = []): PickerDialog
+	{
+		return new (static::DIALOG)(
+			id: $this->id,
+			columns: $this->columns,
+			empty: $this->empty,
+			image: $this->image,
+			info: $this->info,
+			layout: $this->layout,
+			limit: $this->limit,
+			link: $this->link,
+			max: $this->max,
+			min: $this->min,
+			multiple: $this->multiple,
+			page: $query['page'] ?? 1,
+			query: $this->query,
+			search: $this->search,
+			searchterm: $query['searchterm'] ?? null,
+			size: $this->size,
+			text: $this->text
+		);
 	}
 
 	public function render(ModelWithContent $model): array
 	{
+		$items = $this->items()->defaults();
+
 		return parent::render($model) + [
-			'empty'    => $this->empty?->render($model),
-			'layout'   => $this->layout?->render($model),
+			'empty'    => $items->empty?->render($model),
+			'layout'   => $items->layout?->render($model),
 			'multiple' => $this->multiple,
 		];
-	}
-
-	public function dialogs()
-	{
 	}
 
 	public function routes(ModelWithContent $model): array

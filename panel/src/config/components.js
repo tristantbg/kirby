@@ -1,27 +1,7 @@
 import Vue from "vue";
 
 /* Dialogs */
-import Dialog from "@/components/Dialogs/Dialog.vue";
-import ErrorDialog from "@/components/Dialogs/ErrorDialog.vue";
-import FiberDialog from "@/components/Dialogs/FiberDialog.vue";
-import FilesDialog from "@/components/Dialogs/FilesDialog.vue";
-import FormDialog from "@/components/Dialogs/FormDialog.vue";
-import LanguageDialog from "@/components/Dialogs/LanguageDialog.vue";
-import PagesDialog from "@/components/Dialogs/PagesDialog.vue";
-import RemoveDialog from "@/components/Dialogs/RemoveDialog.vue";
-import TextDialog from "@/components/Dialogs/TextDialog.vue";
-import UsersDialog from "@/components/Dialogs/UsersDialog.vue";
-
-Vue.component("k-dialog", Dialog);
-Vue.component("k-error-dialog", ErrorDialog);
-Vue.component("k-fiber-dialog", FiberDialog);
-Vue.component("k-files-dialog", FilesDialog);
-Vue.component("k-form-dialog", FormDialog);
-Vue.component("k-language-dialog", LanguageDialog);
-Vue.component("k-pages-dialog", PagesDialog);
-Vue.component("k-remove-dialog", RemoveDialog);
-Vue.component("k-text-dialog", TextDialog);
-Vue.component("k-users-dialog", UsersDialog);
+import "@/components/Dialogs/index.js";
 
 /* Drawers */
 import Drawer from "@/components/Drawers/Drawer.vue";

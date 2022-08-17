@@ -5,29 +5,26 @@
 		:submit-button="false"
 		class="k-block-selector"
 		size="medium"
-		@open="onOpen"
-		@close="onClose"
+		v-bind="$props"
+		v-on="$listeners"
 	>
 		<k-headline v-if="headline">
 			{{ headline }}
 		</k-headline>
-		<details
-			v-for="(group, groupName) in groups"
-			:key="groupName"
-			:open="group.open"
-		>
+
+		<details v-for="group in groups" :key="group.id" :open="group.open">
 			<summary>{{ group.label }}</summary>
 			<div class="k-block-types">
 				<k-button
-					v-for="fieldset in group.fieldsets"
-					:ref="'fieldset-' + fieldset.index"
-					:key="fieldset.name"
-					:disabled="disabled.includes(fieldset.type)"
-					:icon="fieldset.icon || 'box'"
-					:text="fieldset.name"
-					@keydown.up="navigate(fieldset.index - 1)"
-					@keydown.down="navigate(fieldset.index + 1)"
-					@click="add(fieldset.type)"
+					v-for="(type, typeId, index) in group.types"
+					:ref="'type-' + index"
+					:key="type.id"
+					:disabled="disabled?.includes(type.id)"
+					:icon="type.icon || 'box'"
+					:text="type.label"
+					@keydown.up="navigate(index - 1)"
+					@keydown.down="navigate(index + 1)"
+					@click="add(type.id)"
 				/>
 			</div>
 		</details>
@@ -41,101 +38,37 @@
 </template>
 
 <script>
+import DialogMixin from "@/mixins/dialog.js";
+
 /**
  * @internal
  */
 export default {
+	mixins: [DialogMixin],
 	inheritAttrs: false,
 	props: {
-		endpoint: String,
-		fieldsets: Object,
-		fieldsetGroups: Object
-	},
-	data() {
-		return {
-			dialogIsOpen: false,
-			disabled: [],
-			headline: null,
-			payload: null,
-			event: "add",
-			groups: this.createGroups()
-		};
+		groups: Object,
+		disabled: Array,
+		headline: String
 	},
 	computed: {
 		shortcut() {
 			return this.$helper.keyboard.metaKey() + "+v";
 		}
 	},
+	created() {
+		this.$events.$on("paste", this.close);
+	},
+	destroyed() {
+		this.$events.$off("paste", this.close);
+	},
 	methods: {
 		add(type) {
-			this.$emit(this.event, type, this.payload);
+			this.$emit("submit", type);
 			this.$refs.dialog.close();
-		},
-		close() {
-			this.$refs.dialog.close();
-		},
-		createGroups() {
-			let groups = {};
-			let index = 0;
-
-			const fieldsetGroups = this.fieldsetGroups || {
-				blocks: {
-					label: this.$t("field.blocks.fieldsets.label"),
-					sets: Object.keys(this.fieldsets)
-				}
-			};
-
-			Object.keys(fieldsetGroups).forEach((key) => {
-				let group = fieldsetGroups[key];
-
-				group.open = group.open === false ? false : true;
-				group.fieldsets = group.sets
-					.filter((fieldsetName) => this.fieldsets[fieldsetName])
-					.map((fieldsetName) => {
-						index++;
-
-						return {
-							...this.fieldsets[fieldsetName],
-							index
-						};
-					});
-
-				if (group.fieldsets.length === 0) {
-					return;
-				}
-
-				groups[key] = group;
-			});
-
-			return groups;
-		},
-		isOpen() {
-			return this.dialogIsOpen;
 		},
 		navigate(index) {
-			this.$refs["fieldset-" + index]?.[0]?.focus();
-		},
-		onClose() {
-			this.dialogIsOpen = false;
-			this.$events.$off("paste", this.close);
-		},
-		onOpen() {
-			this.dialogIsOpen = true;
-			this.$events.$on("paste", this.close);
-		},
-		open(payload, params = {}) {
-			const options = {
-				event: "add",
-				disabled: [],
-				headline: null,
-				...params
-			};
-
-			this.event = options.event;
-			this.disabled = options.disabled;
-			this.headline = options.headline;
-			this.payload = payload;
-			this.$refs.dialog.open();
+			this.$refs["type-" + index]?.[0]?.focus();
 		}
 	}
 };

@@ -35,11 +35,11 @@ class SiteBlueprint extends Blueprint
 		return new static();
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->options ??= new SiteBlueprintOptions;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function load(string|array $props = 'site'): static

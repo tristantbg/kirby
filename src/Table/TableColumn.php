@@ -34,12 +34,12 @@ class TableColumn extends NodeLabelled
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->align ??= new TableColumnAlign();
 		$this->field ??= new TextField($this->id);
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function factory(array $props = []): static

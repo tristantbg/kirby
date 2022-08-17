@@ -41,10 +41,10 @@ class PositionField extends SelectField
 		return $options;
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->empty ??= false;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 }

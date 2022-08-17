@@ -29,13 +29,13 @@ class FileBlueprint extends Blueprint
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->accept  ??= new FileBlueprintAcceptRules;
 		$this->image   ??= new FileBlueprintImage;
 		$this->options ??= new FileBlueprintOptions;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspector(): Inspector

@@ -2,7 +2,7 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\NodeText;
+use Kirby\Blueprint\FilesItems;
 use Kirby\Cms\Files;
 use Kirby\Cms\ModelWithContent;
 
@@ -17,6 +17,7 @@ use Kirby\Cms\ModelWithContent;
  */
 class FilesSection extends ModelsSection
 {
+	public const ITEMS = FilesItems::class;
 	public const TYPE = 'files';
 
 	public function __construct(
@@ -36,13 +37,6 @@ class FilesSection extends ModelsSection
 		$files = $files->filter('isReadable', true);
 
 		return $files;
-	}
-
-	public function defaults(): void
-	{
-		$this->text ??= NodeText::factory('{{ file.filename }}');
-
-		parent::defaults();
 	}
 
 	/**

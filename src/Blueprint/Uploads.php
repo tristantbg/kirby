@@ -16,7 +16,7 @@ use Kirby\Cms\ModelWithContent;
 class Uploads
 {
 	public function __construct(
-		public string|null $parent = null,
+		public NodeModel|null $parent = null,
 		public string|null $template = null
 	) {
 	}
@@ -24,16 +24,26 @@ class Uploads
 	public static function factory(string|array $props): static
 	{
 		if (is_string($props) === true) {
-			$props = ['parent' => $props];
+			$props = ['template' => $props];
 		}
 
 		return new static(...$props);
 	}
 
+	/**
+	 * Get the parent model. If a parent query
+	 * has been set, the model is queried. Otherwise
+	 * the passed model is being used
+	 */
+	public function parent(ModelWithContent $model): ModelWithContent
+	{
+		// get the related model
+		return $this->parent?->model($model) ?? $model;
+	}
+
 	public function render(ModelWithContent $model): array
 	{
 		return [
-			'parent'   => $this->parent,
 			'template' => $this->template
 		];
 	}

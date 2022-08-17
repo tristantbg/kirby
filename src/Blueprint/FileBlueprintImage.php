@@ -16,7 +16,17 @@ use Kirby\Cms\ModelWithContent;
  */
 class FileBlueprintImage extends BlueprintImage
 {
-	public function fallbackColor(File $model): string
+	public function defaults(ModelWithContent $model): void
+	{
+		$this->back  ??= 'pattern';
+		$this->color ??= $this->defaultColor($model);
+		$this->icon  ??= $this->defaultIcon($model);
+		$this->query ??= 'file';
+
+		parent::defaults($model);
+	}
+
+	public function defaultColor(File $model): string
 	{
 		$extensions = [
 			'indd'  => 'purple-400',
@@ -40,7 +50,7 @@ class FileBlueprintImage extends BlueprintImage
 		return $extensions[$model->extension()] ?? $types[$model->type()] ?? 'gray-500';
 	}
 
-	public function fallbackIcon(File $model): string
+	public function defaultIcon(File $model): string
 	{
 		$extensions = [
 			'xls'   => 'table',
@@ -68,20 +78,5 @@ class FileBlueprintImage extends BlueprintImage
 	public function file(ModelWithContent $model): File|null
 	{
 		return $this->query ? parent::file($model) : $model;
-	}
-
-	public function render(ModelWithContent $model): array|false
-	{
-		if ($this->disabled === true) {
-			return false;
-		}
-
-		$render = parent::render($model);
-
-		$render['back']  ??= 'pattern';
-		$render['color'] ??= $this->fallbackColor($model);
-		$render['icon']  ??= $this->fallbackIcon($model);
-
-		return $render;
 	}
 }

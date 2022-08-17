@@ -29,14 +29,14 @@ class TranslationsField extends SelectField
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->icon         ??= new FieldIcon('globe');
 		$this->label        ??= new FieldLabel(['*' => 'language']);
 		$this->translations ??= App::instance()->translations();
 		$this->options      ??= $this->translations();
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public function translations(): Options

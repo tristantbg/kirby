@@ -38,12 +38,12 @@ class WriterField extends InputField
 		);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->marks ??= new WriterFieldMarks();
 		$this->nodes ??= new WriterFieldNodes();
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspector(): Inspector

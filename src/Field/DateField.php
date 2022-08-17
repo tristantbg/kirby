@@ -42,13 +42,13 @@ class DateField extends InputField
 		);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->display ??= 'YYYY-MM-DD';
 		$this->icon    ??= new FieldIcon('calendar');
 		$this->step    ??= new DateFieldStep;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspectorAppearanceSection(): InspectorSection

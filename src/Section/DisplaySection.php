@@ -29,9 +29,11 @@ class DisplaySection extends Section
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->label ??= SectionLabel::fallback($this->id);
+
+		return parent::defaults();
 	}
 
 	public static function inspector(): Inspector

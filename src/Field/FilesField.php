@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\FilesItems;
+use Kirby\Blueprint\FilesPickerDialog;
 use Kirby\Blueprint\Uploads;
 use Kirby\Cms\ModelWithContent;
 
@@ -16,7 +18,9 @@ use Kirby\Cms\ModelWithContent;
  */
 class FilesField extends PickerField
 {
-	public const TYPE = 'files';
+	public const DIALOG = FilesPickerDialog::class;
+	public const ITEMS  = FilesItems::class;
+	public const TYPE   = 'files';
 
 	public function __construct(
 		public string $id,

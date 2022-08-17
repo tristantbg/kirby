@@ -105,12 +105,8 @@ export default {
 				return false;
 			}
 
-			this.$refs.selector.open({
-				endpoint: this.endpoints.field,
-				max: this.max,
-				multiple: this.multiple,
-				search: this.search,
-				selected: this.selected.map((model) => model.id)
+			this.$dialog(this.endpoints.field, ({ value }) => {
+				this.selected = value;
 			});
 		},
 		remove(index) {

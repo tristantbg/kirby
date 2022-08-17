@@ -51,16 +51,9 @@ class Api extends BaseApi
 	 */
 	public function fieldApi(mixed $model, string $name, string|null $path = null): mixed
 	{
-		$field = Form::for($model)->field($name);
-
-		$fieldApi = new static(
-			array_merge($this->propertyData, [
-				'data'   => array_merge($this->data(), ['field' => $field]),
-				'routes' => $field->api(),
-			]),
-		);
-
-		return $fieldApi->call($path, $this->requestMethod(), $this->requestData());
+		if ($field = $model->blueprint()->field($name)) {
+			return $field->api($model, $path, $this->requestMethod(), $this->requestQuery());
+		}
 	}
 
 	/**

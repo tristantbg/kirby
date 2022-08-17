@@ -38,10 +38,12 @@ class SlugField extends TextField
 		);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->icon  ??= new FieldIcon('url');
 		$this->label ??= new FieldLabel(['*' => 'slug']);
+
+		return parent::defaults();
 	}
 
 	public static function polyfill(array $props): array

@@ -17,6 +17,7 @@ use TypeError;
 class NodeFeature extends Node
 {
 	use HasApi;
+	use HasDialogs;
 
 	public const TYPE = 'feature';
 	public const GROUP = 'feature';

@@ -43,6 +43,32 @@ class BlocksField extends InputField
 		);
 	}
 
+	public function defaults(): static
+	{
+		$this->types ??= BlockTypeGroups::default();
+
+		return parent::defaults();
+	}
+
+	public function dialogs(ModelWithContent $model): array
+	{
+		$this->defaults();
+
+		return [
+			'selector' => [
+				'pattern' => '',
+				'load'    => function () use ($model) {
+					return [
+						'component' => 'k-block-selector',
+						'props' => [
+							'groups' => $this->types?->render($model)
+						]
+					];
+				}
+			]
+		];
+	}
+
 	public static function inspectorDescriptionSection(): InspectorSection
 	{
 		$section = parent::inspectorDescriptionSection();
@@ -91,16 +117,29 @@ class BlocksField extends InputField
 			'empty' => $this->empty?->render($model),
 			'group' => $this->group,
 			'max'   => $this->max,
-			'min'   => $this->min
+			'min'   => $this->min,
 		];
 	}
 
-	/**
-	 * Returns all block type groups and falls back
-	 * to the groups defined in the config
-	 */
-	public function types(): BlockTypeGroups
+	public function routes(ModelWithContent $model): array
 	{
-		return $this->types ??= BlockTypeGroups::default();
+		return [
+			[
+				'pattern' => 'paste',
+				'method'  => 'POST',
+				'action'  => function () {
+
+				}
+			],
+			[
+				'pattern' => 'types/(:any)',
+				'action'  => function (string $id) {
+
+
+
+				}
+			]
+		];
 	}
+
 }

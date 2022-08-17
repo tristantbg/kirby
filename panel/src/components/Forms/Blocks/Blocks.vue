@@ -56,8 +56,6 @@
 
 			<k-block-selector
 				ref="selector"
-				:fieldsets="fieldsets"
-				:fieldset-groups="fieldsetGroups"
 				@add="add"
 				@convert="convert"
 				@paste="paste($event)"
@@ -78,7 +76,7 @@
 			<k-block-pasteboard ref="pasteboard" @paste="paste($event)" />
 		</template>
 		<template v-else>
-			<k-box theme="info"> No fieldsets yet </k-box>
+			<k-box theme="info"> No block types yet </k-box>
 		</template>
 	</div>
 </template>
@@ -95,8 +93,6 @@ export default {
 		autofocus: Boolean,
 		empty: String,
 		endpoints: Object,
-		fieldsets: Object,
-		fieldsetGroups: Object,
 		group: String,
 		max: {
 			type: Number,
@@ -127,7 +123,6 @@ export default {
 				move: this.move,
 				delay: 10,
 				data: {
-					fieldsets: this.fieldsets,
 					isFull: this.isFull
 				},
 				options: {
@@ -136,7 +131,7 @@ export default {
 			};
 		},
 		hasFieldsets() {
-			return Object.keys(this.fieldsets).length;
+			return true;
 		},
 		isEditing() {
 			return (
@@ -226,7 +221,7 @@ export default {
 		},
 		async add(type = "text", index) {
 			const block = await this.$api.get(
-				this.endpoints.field + "/fieldsets/" + type
+				this.endpoints.field + "/types/" + type
 			);
 			this.blocks.splice(index, 0, block);
 			this.save();
@@ -250,12 +245,16 @@ export default {
 			}
 		},
 		choose(index) {
-			if (Object.keys(this.fieldsets).length === 1) {
-				const type = Object.values(this.fieldsets)[0].type;
-				this.add(type, index);
-			} else {
-				this.$refs.selector.open(index);
-			}
+			this.$dialog(this.endpoints.field, ({ value }) => {
+				this.add(value, index);
+			});
+
+			// if (Object.keys(this.fieldsets).length === 1) {
+			// 	const type = Object.values(this.fieldsets)[0].type;
+			// 	this.add(type, index);
+			// } else {
+			// 	this.$refs.selector.open(index);
+			// }
 		},
 		chooseToConvert(block) {
 			this.$refs.selector.open(block, {

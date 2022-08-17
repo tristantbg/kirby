@@ -2,6 +2,9 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\UsersItems;
+use Kirby\Blueprint\UsersPickerDialog;
+
 /**
  * Users field
  *
@@ -13,5 +16,7 @@ namespace Kirby\Field;
  */
 class UsersField extends PickerField
 {
-	public const TYPE = 'users';
+	public const DIALOG = UsersPickerDialog::class;
+	public const ITEMS  = UsersItems::class;
+	public const TYPE   = 'users';
 }

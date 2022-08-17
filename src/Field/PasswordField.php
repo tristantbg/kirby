@@ -15,13 +15,13 @@ class PasswordField extends TextField
 {
 	public const TYPE = 'password';
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->autocomplete ??= new FieldAutocomplete('new-password');
 		$this->icon         ??= new FieldIcon('key');
 		$this->label        ??= new FieldLabel(['*' => 'password']);
 		$this->minlength    ??= 8;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 }

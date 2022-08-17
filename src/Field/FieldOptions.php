@@ -24,9 +24,11 @@ class FieldOptions extends Node
 	) {
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
-		$this->options ??= new Options();
+		$this->options ??= new Options;
+
+		return parent::defaults();
 	}
 
 	public static function factory(array $props): static

@@ -25,11 +25,13 @@ class PageBlueprintStatus
 	) {
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->draft    ??= new PageBlueprintStatusOption('draft');
 		$this->unlisted ??= new PageBlueprintStatusOption('unlisted');
 		$this->listed   ??= new PageBlueprintStatusOption('listed');
+
+		return $this;
 	}
 
 	public static function factory(array $props): static

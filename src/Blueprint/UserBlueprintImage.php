@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Image object for users
  *
@@ -17,12 +19,17 @@ class UserBlueprintImage extends BlueprintImage
 		...$args
 	) {
 		parent::__construct(...$args);
+	}
 
+	public function defaults(ModelWithContent $model): void
+	{
 		$this->back  ??= 'black';
-		$this->color ??= 'gray-500';
 		$this->cover ??= true;
 		$this->icon  ??= 'user';
 		$this->query ??= 'user.avatar';
 		$this->ratio ??= '1/1';
+
+		parent::defaults($model);
 	}
+
 }

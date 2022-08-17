@@ -40,8 +40,9 @@ class Node
 	/**
 	 * Apply default values
 	 */
-	public function defaults(): void
+	public function defaults(): static
 	{
+		return $this;
 	}
 
 	/**
@@ -125,8 +126,6 @@ class Node
 			}
 		}
 
-		// sort keys alphabetically
-		ksort($array);
 		return $array;
 	}
 

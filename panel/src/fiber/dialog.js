@@ -58,8 +58,12 @@ const asyncDialog = async function (path, options = {}) {
 		cancel = options.cancel;
 	}
 
+	if (path.startsWith("dialogs/") === false) {
+		path = "dialogs/" + path;
+	}
+
 	// load the dialog definition from the server
-	let result = await this.$fiber.request("dialogs/" + path, {
+	let result = await this.$fiber.request(path, {
 		...options,
 		type: "$dialog"
 	});

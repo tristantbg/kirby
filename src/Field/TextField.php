@@ -47,12 +47,12 @@ class TextField extends InputField
 		);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->counter    ??= true;
 		$this->spellcheck ??= true;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspectorAppearanceSection(): InspectorSection

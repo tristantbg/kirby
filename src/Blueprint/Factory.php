@@ -2,6 +2,7 @@
 
 namespace Kirby\Blueprint;
 
+use ReflectionException;
 use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
@@ -58,7 +59,12 @@ class Factory
 	public static function forProperties(string $class, array $properties): array
 	{
 		foreach ($properties as $property => $value) {
-			$properties[$property] = static::forProperty($class, $property, $value);
+			try {
+				$properties[$property] = static::forProperty($class, $property, $value);
+			} catch (ReflectionException $e) {
+				// the property does not exist
+				unset($properties[$property]);
+			}
 		}
 
 		return $properties;
@@ -105,10 +111,6 @@ class Factory
 
 	public static function make(string $class, array $properties): object
 	{
-		foreach ($properties as $property => $value) {
-			$properties[$property] = static::forProperty($class, $property, $value);
-		}
-
-		return new $class(...$properties);
+		return new $class(...static::forProperties($class, $properties));
 	}
 }

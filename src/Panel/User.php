@@ -38,6 +38,19 @@ class User extends Model
 	}
 
 	/**
+	 * Provides a kirbytag or markdown
+	 * tag for the user, which will be
+	 * used in the panel, when the page
+	 * gets dragged onto a textarea
+	 *
+	 * @internal
+	 */
+	public function dragText(): string
+	{
+		return '<' . $this->model->email() . '>';
+	}
+
+	/**
 	 * Provides options for the user dropdown
 	 */
 	public function dropdown(array $options = []): array

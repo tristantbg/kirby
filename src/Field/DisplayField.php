@@ -28,11 +28,11 @@ class DisplayField extends Field
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->label ??= FieldLabel::fallback($this->id);
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspectorDescriptionSection(): InspectorSection

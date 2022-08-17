@@ -30,12 +30,12 @@ class UserBlueprint extends Blueprint
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->image   ??= new UserBlueprintImage;
 		$this->options ??= new UserBlueprintOptions;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspector(): Inspector

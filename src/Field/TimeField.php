@@ -40,12 +40,14 @@ class TimeField extends InputField
 		);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->icon     ??= new FieldIcon('clock');
 		$this->notation ??= new TimeFieldNotation();
 		$this->step     ??= new TimeFieldStep();
 		$this->display  ??= $this->notation->display();
+
+		return parent::defaults();
 	}
 
 	public function render(ModelWithContent $model): array

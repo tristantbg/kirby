@@ -48,12 +48,12 @@ class TextareaField extends InputField
 		);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->font ??= new TextareaFieldFont;
 		$this->size ??= new TextareaFieldSize;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspectorAppearanceSection(): InspectorSection

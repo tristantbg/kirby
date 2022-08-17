@@ -2,6 +2,13 @@
 
 namespace Kirby\Field;
 
+use Kirby\Blueprint\PagesItems;
+use Kirby\Blueprint\PagesPickerDialog;
+use Kirby\Cms\File;
+use Kirby\Cms\ModelWithContent;
+use Kirby\Cms\Pages;
+use Kirby\Cms\User;
+
 /**
  * Pages field
  *
@@ -13,7 +20,9 @@ namespace Kirby\Field;
  */
 class PagesField extends PickerField
 {
-	public const TYPE = 'pages';
+	public const DIALOG = PagesPickerDialog::class;
+	public const ITEMS  = PagesItems::class;
+	public const TYPE   = 'pages';
 
 	public function __construct(
 		public string $id,

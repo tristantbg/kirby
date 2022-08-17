@@ -3,6 +3,7 @@
 namespace Kirby\Panel;
 
 use Kirby\Cms\App;
+use Kirby\Cms\Find;
 use Kirby\Cms\Url as CmsUrl;
 use Kirby\Cms\User;
 use Kirby\Exception\Exception;
@@ -301,6 +302,7 @@ class Panel
 				$result = $route->action()->call($route, ...$route->arguments());
 			} catch (Throwable $e) {
 				$result = $e;
+				error_log($e);
 			}
 
 			$response = static::response($result, [
@@ -368,6 +370,12 @@ class Panel
 		return $routes;
 	}
 
+	public static function routesForDialog(string $areaId, string $id, array $dialog): array
+	{
+
+		return $routes;
+	}
+
 	/**
 	 * Extract all routes from an area
 	 */
@@ -376,10 +384,10 @@ class Panel
 		$dialogs = $area['dialogs'] ?? [];
 		$routes  = [];
 
-		foreach ($dialogs as $key => $dialog) {
+		foreach ($dialogs as $id => $dialog) {
 
 			// create the full pattern with dialogs prefix
-			$pattern = 'dialogs/' . trim(($dialog['pattern'] ?? $key), '/');
+			$pattern = 'dialogs/' . trim(($dialog['pattern'] ?? $id), '/');
 
 			// load event
 			$routes[] = [
@@ -398,6 +406,19 @@ class Panel
 				'action'  => $dialog['submit'] ?? fn () => 'Your dialog does not define a submit handler'
 			];
 		}
+
+		$routes[] = [
+			'pattern' => '/dialogs/(:all)/fields/(:any)/(:all?)',
+			'type'    => 'dialog',
+			'method'  => 'POST|GET',
+			'action'  => function (string $parentPath, string $name, string $path = null) {
+				$parent  = Find::parent($parentPath);
+				$field   = $parent->blueprint()->fields()->$name;
+				$request = $parent->kirby()->request();
+
+				return $field->dialogApi($parent, $path, $request->method(), $request->query()->toArray());
+			}
+		];
 
 		return $routes;
 	}

@@ -2,6 +2,8 @@
 
 namespace Kirby\Blueprint;
 
+use Kirby\Cms\ModelWithContent;
+
 /**
  * Image object for pages
  *
@@ -17,10 +19,12 @@ class PageBlueprintImage extends BlueprintImage
 		...$args
 	) {
 		parent::__construct(...$args);
+	}
 
-		$this->back  ??= 'pattern';
-		$this->color ??= 'gray-500';
-		$this->icon  ??= 'page';
+	public function defaults(ModelWithContent $model): void
+	{
 		$this->query ??= 'page.image';
+
+		parent::defaults($model);
 	}
 }

@@ -557,6 +557,7 @@
 	"user.delete.confirm": "Do you really want to delete <br><strong>{email}</strong>?",
 
 	"users": "Users",
+	"users.empty": "No users yet",
 
 	"version": "Version",
 

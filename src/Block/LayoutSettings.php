@@ -22,8 +22,10 @@ class LayoutSettings extends Drawer
 		parent::__construct('settings', ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->icon ??= new NodeIcon('dashboard');
+
+		return parent::defaults();
 	}
 }

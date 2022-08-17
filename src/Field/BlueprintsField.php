@@ -43,12 +43,12 @@ class BlueprintsField extends SelectField
 		return $options;
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->icon    ??= new FieldIcon('template');
 		$this->label   ??= new FieldLabel(['*' => 'template']);
 		$this->options ??= $this->blueprints();
 
-		parent::defaults();
+		return parent::defaults();
 	}
 }

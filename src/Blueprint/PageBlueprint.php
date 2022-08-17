@@ -33,12 +33,14 @@ class PageBlueprint extends Blueprint
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->image      ??= new PageBlueprintImage;
 		$this->navigation ??= new PageBlueprintNavigation;
 		$this->options    ??= new PageBlueprintOptions;
 		$this->status     ??= new PageBlueprintStatus;
+
+		return parent::defaults();
 	}
 
 	public static function inspector(): Inspector

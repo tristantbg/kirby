@@ -28,13 +28,13 @@ class RolesField extends RadioField
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->label   ??= new FieldLabel(['*' => 'role']);
 		$this->roles   ??= App::instance()->roles();
 		$this->options ??= $this->roles();
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public function roles(): Options

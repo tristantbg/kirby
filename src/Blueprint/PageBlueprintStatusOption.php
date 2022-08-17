@@ -29,10 +29,12 @@ class PageBlueprintStatusOption extends NodeLabelled
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->label ??= new NodeLabel(['*' => 'page.status.' . $this->id]);
 		$this->text  ??= new NodeText(['*' => 'page.status.' . $this->id . '.description']);
+
+		return parent::defaults();
 	}
 
 	public static function prefab(

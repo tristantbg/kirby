@@ -1,19 +1,17 @@
 <?php
 
-namespace Kirby\Section;
-
-use Kirby\Blueprint\Enumeration;
+namespace Kirby\Blueprint;
 
 /**
  * Size option for items in models sections
  *
- * @package   Kirby Section
+ * @package   Kirby Blueprint
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class ModelsSectionSize extends Enumeration
+class ItemsSize extends Enumeration
 {
 	public static array $allowed = [
 		'auto',

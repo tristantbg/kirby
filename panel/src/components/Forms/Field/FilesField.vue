@@ -24,7 +24,6 @@
 			</k-collection>
 		</k-dropzone>
 
-		<k-files-dialog ref="selector" @submit="select" />
 		<k-upload ref="fileUpload" @success="upload" />
 	</k-field>
 </template>

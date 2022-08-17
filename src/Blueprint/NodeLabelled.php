@@ -21,11 +21,11 @@ class NodeLabelled extends Node
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->label ??= $this->label();
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public function label(): NodeLabel

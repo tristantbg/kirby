@@ -5,6 +5,9 @@ namespace Kirby\Section;
 use Kirby\Architect\Inspector;
 use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\BlueprintImage;
+use Kirby\Blueprint\Items;
+use Kirby\Blueprint\ItemsLayout;
+use Kirby\Blueprint\ItemsSize;
 use Kirby\Blueprint\NodeModel;
 use Kirby\Blueprint\NodeText;
 use Kirby\Cms\Collection as Models;
@@ -23,7 +26,8 @@ use Kirby\Toolkit\A;
 
 class ModelsSection extends DisplaySection
 {
-	public const TYPE = 'models';
+	public const ITEMS = Items::class;
+	public const TYPE  = 'models';
 
 	public function __construct(
 		public string $id,
@@ -32,14 +36,14 @@ class ModelsSection extends DisplaySection
 		public bool $flip = false,
 		public BlueprintImage|null $image = null,
 		public NodeText|null $info = null,
-		public ModelsSectionLayout|null $layout = null,
+		public ItemsLayout|null $layout = null,
 		public int $limit = 20,
 		public int|null $max = null,
 		public int $min = 0,
 		public int $page = 1,
 		public NodeModel|null $parent = null,
 		public bool $search = false,
-		public ModelsSectionSize|null $size = null,
+		public ItemsSize|null $size = null,
 		public bool $sortable = true,
 		public string|null $sortBy = null,
 		public NodeText|null $text = null,
@@ -97,54 +101,13 @@ class ModelsSection extends DisplaySection
 		return $models->sort(...$models::sortArgs($this->sortBy));
 	}
 
-	/**
-	 * Creates the full columns collection for the
-	 * table layout, including the default columns
-	 */
-	public function columns(): TableColumns
+
+	public function defaults(): static
 	{
-		$columns = new TableColumns();
+		$this->layout ??= new ItemsLayout;
+		$this->size   ??= new ItemsSize;
 
-		if ($this->image) {
-			$columns->add(TableColumn::factory([
-				'id'     => 'image',
-				'label'  => '',
-				'mobile' => true,
-				'type'   => 'image',
-				'width'  => 'var(--table-row-height)'
-			]));
-		}
-
-		if ($this->text) {
-			$columns->add(TableColumn::factory([
-				'id'     => 'title',
-				'label'  => 'title',
-				'mobile' => true,
-				'type'   => 'url',
-			]));
-		}
-
-		if ($this->info) {
-			$columns->add(TableColumn::factory([
-				'id'    => 'info',
-				'label' => 'info',
-				'type'  => 'text',
-			]));
-		}
-
-		if ($this->columns) {
-			$columns->add($this->columns);
-		}
-
-		return $columns;
-	}
-
-	public function defaults(): void
-	{
-		$this->layout ??= new ModelsSectionLayout;
-		$this->size   ??= new ModelsSectionSize;
-
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspector(): Inspector
@@ -183,8 +146,8 @@ class ModelsSection extends DisplaySection
 			id: 'items',
 			fields: new Fields([
 				NodeModel::field()->set('id', 'parent')->set('label', 'Parent'),
-				ModelsSectionLayout::field(),
-				ModelsSectionSize::field(),
+				ItemsLayout::field(),
+				ItemsSize::field(),
 				NodeText::field()->set('id', 'text')->set('label', 'Text'),
 				NodeText::field()->set('id', 'info')->set('label', 'Info')
 			])
@@ -246,47 +209,16 @@ class ModelsSection extends DisplaySection
 		return $models->pagination()->total() >= $this->max;
 	}
 
-	/**
-	 * Renders the response for a single item.
-	 * This will be handed over to the Vue components
-	 * to render the item in the section
-	 */
-	public function item(ModelWithContent $model, Page|File $item): array
+	public function items(Models $models): Items
 	{
-		$panel = $item->panel();
-
-		$render = [
-			'dragText' => $panel->dragText(),
-			'id'       => $item->id(),
-			'image'    => $this->itemImage($item)?->render($item),
-			'info'     => $this->info?->render($item),
-			'link'     => $panel->url(true),
-			'text'     => $this->text?->render($item),
-		];
-
-		if ($this->layout?->value === 'table') {
-			$render += $this->itemCells($model, $item);
-		}
-
-		return $render;
-	}
-
-	public function itemCells(ModelWithContent $model, Page|File $item): array
-	{
-		// TODO: implement TableRows::render here
-		return [];
-	}
-
-	public function itemImage(ModelWithContent $model): ?BlueprintImage
-	{
-		return $model->blueprint()->image()?->merge($this->image);
-	}
-
-	public function items(ModelWithContent $model, Models $models, array $query = [])
-	{
-		return A::map(
-			$models->values(),
-			fn ($item) => $this->item($model, $item)
+		return new (static::ITEMS)(
+			columns: $this->columns,
+			image: $this->image,
+			info: $this->info,
+			layout: $this->layout,
+			models: $models,
+			size: $this->size,
+			text: $this->text
 		);
 	}
 
@@ -313,22 +245,8 @@ class ModelsSection extends DisplaySection
 	{
 		return [
 			'add'      => $this->add($model, $models, $query),
-			'layout'   => $this->layout?->value ?? 'list',
 			'search'   => $this->search,
-			'size'     => $this->size?->value,
 			'sortable' => $this->sortable($model, $models, $query)
-		];
-	}
-
-	public function pagination(ModelWithContent $model, Models $models, array $query = []): array
-	{
-		$pagination = $models->pagination();
-
-		return [
-			'limit'  => $pagination->limit(),
-			'offset' => $pagination->offset(),
-			'page'   => $pagination->page(),
-			'total'  => $pagination->total()
 		];
 	}
 
@@ -371,11 +289,12 @@ class ModelsSection extends DisplaySection
 					$this->defaults();
 
 					$models = $this->models($model, $query);
+					$items  = $this->items($models);
 
 					return [
-						'data'       => $this->items($model, $models, $query),
-						'options'    => $this->options($model, $models, $query),
-						'pagination' => $this->pagination($model, $models, $query),
+						'data'       => $items->render($model),
+						'options'    => $items->options($model) + $this->options($model, $models, $query),
+						'pagination' => $items->pagination(),
 					];
 				}
 			]

@@ -3,8 +3,13 @@
 		:is="component"
 		ref="dialog"
 		:visible="true"
-		v-bind="props"
+		v-bind="{
+			path,
+			referrer,
+			...props
+		}"
 		@cancel="onCancel"
+		@reload="onReload"
 		@submit="onSubmit"
 	/>
 </template>

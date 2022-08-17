@@ -50,6 +50,6 @@ class BlockTypeGroup extends NodeLabelled
 
 	public function types(): BlockTypes
 	{
-		return $this->types ?? new BlockTypes();
+		return $this->types ?? new BlockTypes;
 	}
 }

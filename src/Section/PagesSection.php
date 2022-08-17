@@ -2,9 +2,8 @@
 
 namespace Kirby\Section;
 
-use Kirby\Blueprint\NodeText;
+use Kirby\Blueprint\PagesItems;
 use Kirby\Cms\Collection as Models;
-use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Page;
 use Kirby\Cms\Pages;
@@ -24,7 +23,8 @@ use Kirby\Toolkit\A;
  */
 class PagesSection extends ModelsSection
 {
-	public const TYPE = 'pages';
+	public const ITEMS = PagesItems::class;
+	public const TYPE  = 'pages';
 
 	public function __construct(
 		public string $id,
@@ -66,52 +66,6 @@ class PagesSection extends ModelsSection
 
 			return true;
 		});
-	}
-
-	/**
-	 * Creates the full columns collection for the
-	 * table layout, including the default columns
-	 */
-	public function columns(): TableColumns
-	{
-		$columns = parent::columns();
-
-		$columns->add(TableColumn::factory([
-			'id'     => 'flag',
-			'label'  => '',
-			'mobile' => true,
-			'type'   => 'flag',
-			'width'  => 'var(--table-row-height)'
-		]));
-
-		return $columns;
-	}
-
-	public function defaults(): void
-	{
-		$this->text ??= new NodeText(['*' => '{{ page.title }}']);
-
-		parent::defaults();
-	}
-
-	/**
-	 * Renders the response for a single item.
-	 * This will be handed over to the Vue components
-	 * to render the item in the section
-	 */
-	public function item(ModelWithContent $model, Page|File $item): array
-	{
-		$permissions = $item->permissions();
-
-		return parent::item($model, $item) + [
-			'parent'      => $item->parentId(),
-			'permissions' => [
-				'sort'         => $permissions->can('sort'),
-				'changeStatus' => $permissions->can('changeStatus'),
-			],
-			'status'   => $item->status(),
-			'template' => $item->intendedTemplate()->name()
-		];
 	}
 
 	/**

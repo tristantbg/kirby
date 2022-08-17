@@ -28,11 +28,11 @@ class SelectField extends OptionField
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->empty ??= false;
 
-		parent::defaults();
+		return parent::defaults();
 	}
 
 	public static function inspectorDescriptionSection(): InspectorSection

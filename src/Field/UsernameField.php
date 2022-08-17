@@ -15,9 +15,11 @@ class UsernameField extends TextField
 {
 	public const TYPE = 'text';
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->icon  ??= new FieldIcon('user');
 		$this->label ??= new FieldLabel(['*' => 'name']);
+
+		return parent::defaults();
 	}
 }

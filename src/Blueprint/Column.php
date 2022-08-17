@@ -34,10 +34,12 @@ class Column extends Node
 		parent::__construct($id, ...$args);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->sections ??= new Sections;
 		$this->width    ??= new ColumnWidth;
+
+		return parent::defaults();
 	}
 
 	public function fields(): Fields

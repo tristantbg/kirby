@@ -31,7 +31,7 @@ class EmailField extends TextField
 		);
 	}
 
-	public function defaults(): void
+	public function defaults(): static
 	{
 		$this->autocomplete ??= new FieldAutocomplete('email');
 		$this->counter      ??= false;
@@ -39,6 +39,6 @@ class EmailField extends TextField
 		$this->label        ??= new FieldLabel(['*' => 'email']);
 		$this->placeholder  ??= new FieldPlaceholder(['*' => 'email.placeholder']);
 
-		parent::defaults();
+		return parent::defaults();
 	}
 }
