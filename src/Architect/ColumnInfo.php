@@ -18,6 +18,16 @@ class ColumnInfo extends TabInfo
     ) {
     }
 
+	public function breadcrumb(ModelWithContent $model): array
+    {
+		return array_merge(parent::breadcrumb($model), [
+			[
+				'label' => ucfirst($this->column->id),
+				'link'  => self::url(),
+			]
+		]);
+    }
+
 	public function current(): Node
 	{
 		return $this->column;

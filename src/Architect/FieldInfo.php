@@ -21,6 +21,16 @@ class FieldInfo extends SectionInfo
     ) {
     }
 
+	public function breadcrumb(ModelWithContent $model): array
+    {
+		return array_merge(parent::breadcrumb($model), [
+			[
+				'label' => property_exists($this->field, 'label') ? $this->field->label?->render($model) : ucfirst($this->field->id),
+				'link'  => self::url(),
+			]
+		]);
+    }
+
 	public function current(): Node
 	{
 		return $this->field;

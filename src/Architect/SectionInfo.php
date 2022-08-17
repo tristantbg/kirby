@@ -21,6 +21,16 @@ class SectionInfo extends ColumnInfo
     ) {
     }
 
+	public function breadcrumb(ModelWithContent $model): array
+    {
+		return array_merge(parent::breadcrumb($model), [
+			[
+				'label' => is_a($this->section, FieldsSection::class) ? 'Fields' : $this->section->label?->render($model) ?? ucfirst($this->section->id),
+				'link'  => self::url(),
+			]
+		]);
+    }
+
 	public function current(): Node
 	{
 		return $this->section;
