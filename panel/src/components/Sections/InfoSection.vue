@@ -4,8 +4,7 @@
 			{{ label }}
 		</k-headline>
 		<k-box :theme="theme">
-			<!-- eslint-disable-next-line vue/no-v-html -->
-			<k-text v-html="text" />
+			<k-text :html="text" />
 		</k-box>
 	</section>
 </template>
