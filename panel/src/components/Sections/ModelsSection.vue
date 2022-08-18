@@ -124,7 +124,7 @@ export default {
 		collection() {
 			return {
 				columns: this.options.columns,
-				empty: this.emptyPropsWithSearch,
+				empty: this.empty,
 				layout: this.options.layout,
 				help: this.options.help,
 				items: this.items,
@@ -133,19 +133,15 @@ export default {
 				size: this.options.size
 			};
 		},
-		emptyProps() {
-			return {
-				icon: "page",
-				text: this.$t("pages.empty")
-			};
-		},
-		emptyPropsWithSearch() {
-			return {
-				...this.emptyProps,
-				text: this.searching
-					? this.$t("search.results.none")
-					: this.options.empty || this.emptyProps.text
-			};
+		empty() {
+			if (this.searching) {
+				return {
+					...this.options.empty,
+					text: this.$t("search.results.none")
+				};
+			}
+
+			return this.options.empty;
 		},
 		items() {
 			return this.data;

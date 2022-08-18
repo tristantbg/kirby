@@ -102,7 +102,6 @@ class ModelsSection extends DisplaySection
 		return $models->sort(...$models::sortArgs($this->sortBy));
 	}
 
-
 	public function defaults(): static
 	{
 		$this->layout ??= new ItemsLayout;
