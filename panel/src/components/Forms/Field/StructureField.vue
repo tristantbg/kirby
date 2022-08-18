@@ -29,12 +29,10 @@
 		<!-- Empty State -->
 		<k-empty
 			v-else-if="items.length === 0"
+			v-bind="empty"
 			:data-invalid="isInvalid"
-			icon="list-bullet"
 			@click="onAdd"
-		>
-			{{ empty || $t("field.structure.empty") }}
-		</k-empty>
+		/>
 
 		<!-- Table -->
 		<template v-else>

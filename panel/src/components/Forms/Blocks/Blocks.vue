@@ -45,12 +45,10 @@
 				/>
 				<template #footer>
 					<k-empty
+						v-bind="empty"
 						class="k-blocks-empty"
-						icon="box"
 						@click="choose(blocks.length)"
-					>
-						{{ empty || $t("field.blocks.empty") }}
-					</k-empty>
+					/>
 				</template>
 			</k-draggable>
 

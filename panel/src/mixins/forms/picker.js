@@ -4,7 +4,7 @@ export default {
 	mixins: [Field],
 	inheritAttrs: false,
 	props: {
-		empty: String,
+		empty: Object,
 		info: String,
 		link: Boolean,
 		/**
@@ -53,7 +53,7 @@ export default {
 		},
 		collection() {
 			return {
-				empty: this.emptyProps,
+				empty: this.empty,
 				items: this.selected,
 				layout: this.layout,
 				link: this.link,

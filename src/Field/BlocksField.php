@@ -4,6 +4,8 @@ namespace Kirby\Field;
 
 use Kirby\Architect\InspectorSection;
 use Kirby\Block\BlockTypeGroups;
+use Kirby\Blueprint\EmptyState;
+use Kirby\Blueprint\NodeIcon;
 use Kirby\Blueprint\NodeText;
 use Kirby\Blueprint\Polyfill;
 use Kirby\Cms\ModelWithContent;
@@ -25,7 +27,7 @@ class BlocksField extends InputField
 
 	public function __construct(
 		public string $id,
-		public NodeText|null $empty = null,
+		public EmptyState|null $empty = null,
 		public string $group = 'blocks',
 		public int|null $max = null,
 		public int|null $min = null,
@@ -45,6 +47,11 @@ class BlocksField extends InputField
 
 	public function defaults(): static
 	{
+		$this->empty ??= new EmptyState(
+			icon: new NodeIcon('box'),
+			text: new NodeText(['*' => 'field.blocks.empty'])
+		);
+
 		$this->types ??= BlockTypeGroups::default();
 
 		return parent::defaults();
@@ -72,7 +79,7 @@ class BlocksField extends InputField
 	public static function inspectorDescriptionSection(): InspectorSection
 	{
 		$section = parent::inspectorDescriptionSection();
-		$section->fields->empty = NodeText::field()->set('id', 'empty')->set('label', 'Empty');
+		$section->fields->empty = EmptyState::field();
 
 		return $section;
 	}

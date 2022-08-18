@@ -5,6 +5,7 @@ namespace Kirby\Section;
 use Kirby\Architect\Inspector;
 use Kirby\Architect\InspectorSection;
 use Kirby\Blueprint\BlueprintImage;
+use Kirby\Blueprint\EmptyState;
 use Kirby\Blueprint\Items;
 use Kirby\Blueprint\ItemsLayout;
 use Kirby\Blueprint\ItemsSize;
@@ -32,7 +33,7 @@ class ModelsSection extends DisplaySection
 	public function __construct(
 		public string $id,
 		public TableColumns|null $columns = null,
-		public NodeText|null $empty = null,
+		public EmptyState|null $empty = null,
 		public bool $flip = false,
 		public BlueprintImage|null $image = null,
 		public NodeText|null $info = null,
@@ -135,7 +136,7 @@ class ModelsSection extends DisplaySection
 	public static function inspectorDescriptionSection(): InspectorSection
 	{
 		$section = parent::inspectorDescriptionSection();
-		$section->fields->empty = NodeText::field()->set('id', 'empty')->set('label', 'Empty');
+		$section->fields->empty = EmptyState::field();
 
 		return $section;
 	}
@@ -213,6 +214,7 @@ class ModelsSection extends DisplaySection
 	{
 		return new (static::ITEMS)(
 			columns: $this->columns,
+			empty: $this->empty,
 			image: $this->image,
 			info: $this->info,
 			layout: $this->layout,

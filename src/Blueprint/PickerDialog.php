@@ -22,7 +22,7 @@ class PickerDialog extends Node
 	public function __construct(
 		public string $id,
 		public TableColumns|null $columns = null,
-		public NodeText|null $empty = null,
+		public EmptyState|null $empty = null,
 		public BlueprintImage|null $image = null,
 		public NodeText|null $info = null,
 		public ItemsLayout|null $layout = null,
@@ -77,6 +77,7 @@ class PickerDialog extends Node
 	{
 		return new (static::ITEMS)(
 			columns: $this->columns,
+			empty: $this->empty,
 			image: $this->image,
 			info: $this->info,
 			layout: $this->layout,

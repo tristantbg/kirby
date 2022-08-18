@@ -32,7 +32,11 @@ class PagesItems extends Items
 
 	public function defaults(): static
 	{
-		$this->empty ??= new NodeText(['*' => 'pages.empty']);
+		$this->empty ??= new EmptyState(
+			icon: new NodeIcon('page'),
+			text: new NodeText(['*' => 'pages.empty'])
+		);
+
 		$this->image ??= new PageBlueprintImage;
 		$this->text  ??= new NodeText(['en' => '{{ page.title }}']);
 

@@ -40,12 +40,6 @@ export default {
 		uploads: [Boolean, Object, Array]
 	},
 	computed: {
-		emptyProps() {
-			return {
-				icon: "image",
-				text: this.empty || this.$t("field.files.empty")
-			};
-		},
 		moreUpload() {
 			return !this.disabled && this.more && this.uploads;
 		},

@@ -16,7 +16,7 @@ class Items extends Node
 	public function __construct(
 		public Models|null $models = null,
 		public TableColumns|null $columns = null,
-		public NodeText|null $empty = null,
+		public EmptyState|null $empty = null,
 		public BlueprintImage|null $image = null,
 		public NodeText|null $info = null,
 		public ItemsLayout|null $layout = null,
@@ -69,7 +69,7 @@ class Items extends Node
 
 	public function defaults(): static
 	{
-		$this->empty  ??= new NodeText(['en' => 'No items yet']);
+		$this->empty  ??= new EmptyState;
 		$this->image  ??= new BlueprintImage;
 		$this->layout ??= new ItemsLayout;
 		$this->models ??= new Models;

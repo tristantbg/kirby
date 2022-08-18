@@ -62,7 +62,7 @@ export default {
 	inheritAttrs: false,
 	props: {
 		autofocus: Boolean,
-		empty: String,
+		empty: Object,
 		group: String,
 		max: {
 			type: Number,

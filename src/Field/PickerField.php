@@ -3,6 +3,7 @@
 namespace Kirby\Field;
 
 use Kirby\Blueprint\BlueprintImage;
+use Kirby\Blueprint\EmptyState;
 use Kirby\Blueprint\Items;
 use Kirby\Blueprint\ItemsLayout;
 use Kirby\Blueprint\ItemsSize;
@@ -38,7 +39,7 @@ class PickerField extends InputField
 		public string $id,
 		public TableColumns|null $columns = null,
 		public array|null $default = null,
-		public NodeText|null $empty = null,
+		public EmptyState|null $empty = null,
 		public BlueprintImage|null $image = null,
 		public NodeText|null $info = null,
 		public ItemsLayout|null $layout = null,

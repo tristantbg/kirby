@@ -3,6 +3,8 @@
 namespace Kirby\Field;
 
 use Kirby\Architect\InspectorSection;
+use Kirby\Blueprint\EmptyState;
+use Kirby\Blueprint\NodeIcon;
 use Kirby\Blueprint\NodeText;
 use Kirby\Blueprint\Polyfill;
 use Kirby\Cms\ModelWithContent;
@@ -28,7 +30,7 @@ class StructureField extends InputField
 		public TableColumns|null $columns = null,
 		public array|null $default = null,
 		public bool $duplicate = true,
-		public NodeText|null $empty = null,
+		public EmptyState|null $empty = null,
 		public Fields|null $fields = null,
 		public int|null $limit = null,
 		public int|null $max = null,
@@ -47,10 +49,20 @@ class StructureField extends InputField
 		);
 	}
 
+	public function defaults(): static
+	{
+		$this->empty ??= new EmptyState(
+			icon: new NodeIcon('list-bullet'),
+			text: new NodeText(['*' => 'field.structure.empty'])
+		);
+
+		return parent::defaults();
+	}
+
 	public static function inspectorDescriptionSection(): InspectorSection
 	{
 		$section = parent::inspectorDescriptionSection();
-		$section->fields->empty = NodeText::field()->set('id', 'empty')->set('label', 'Empty');
+		$section->fields->empty = EmptyState::field();
 
 		return $section;
 	}

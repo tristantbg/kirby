@@ -17,8 +17,8 @@
 			@input="search"
 		/>
 		<k-collection v-bind="collection" @item="toggle" @paginate="paginate">
-			<template #options="{ item: file }">
-				<k-button v-bind="toggleBtn(file)" @click="toggle(file)" />
+			<template #options="{ item }">
+				<k-button v-bind="toggleBtn(item)" @click="toggle(item)" />
 			</template>
 		</k-collection>
 	</k-dialog>
@@ -46,7 +46,7 @@ export default {
 		},
 		collection() {
 			return {
-				empty: this.empty,
+				empty: this.options.empty,
 				items: this.items,
 				link: false,
 				layout: this.options.layout,
@@ -58,12 +58,6 @@ export default {
 					...this.pagination
 				},
 				sortable: false
-			};
-		},
-		empty() {
-			return {
-				icon: "image",
-				text: this.options.empty
 			};
 		},
 		multiple() {
@@ -124,7 +118,7 @@ export default {
 </script>
 
 <style>
-.k-files-dialog .k-list-item {
+.k-picker-dialog .k-list-item {
 	cursor: pointer;
 }
 </style>
