@@ -50,16 +50,19 @@
 					<k-prev-next v-if="model.id" :prev="prev" :next="next" />
 				</template>
 			</k-header>
+
 			<k-sections
 				:blueprint="blueprint"
 				:empty="$t('page.blueprint', { blueprint: $esc(blueprint) })"
 				:lock="lock"
+				:model="model"
 				:parent="id"
 				:tab="tab"
+				@input="onInput"
 			/>
 		</k-view>
 		<template #footer>
-			<k-form-buttons :lock="lock" />
+			<!-- <k-form-buttons :lock="lock" /> -->
 		</template>
 	</k-inside>
 </template>

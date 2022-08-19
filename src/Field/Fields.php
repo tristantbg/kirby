@@ -61,7 +61,14 @@ class Fields extends Nodes
 	public function fill(array $values = [], bool $defaults = false): static
 	{
 		foreach ($this->inputs() as $field) {
-			$field->fill($values[$field->id] ?? null, $defaults);
+			// always fill the field and add the default if necessary
+			if ($defaults === true) {
+				$field->fill($values[$field->id] ?? null, true);
+
+			// only fill the field if the value is set
+			} else if (isset($values[$field->id]) === true) {
+				$field->fill($values[$field->id]);
+			}
 		}
 
 		return $this;
@@ -98,4 +105,14 @@ class Fields extends Nodes
 	{
 		return $this->inputs()->filter('translate', false);
 	}
+
+	public function validate(): bool
+	{
+		foreach ($this->inputs() as $input) {
+			$input->validate();
+		}
+
+		return true;
+	}
+
 }

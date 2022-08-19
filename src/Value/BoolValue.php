@@ -20,6 +20,11 @@ class BoolValue extends Value
 		parent::__construct(...$args);
 	}
 
+	public function bool(): ?bool
+	{
+		return $this->data;
+	}
+
 	public function set(bool|string|int|null $data = null): static
 	{
 		// empty

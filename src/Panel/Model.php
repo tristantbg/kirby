@@ -4,6 +4,7 @@ namespace Kirby\Panel;
 
 use Kirby\Blueprint\BlueprintImage;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Cms\Revision;
 use Kirby\Http\Uri;
 
 /**
@@ -24,12 +25,17 @@ abstract class Model
 	{
 		$this->model = $model;
 	}
+
 	/**
 	 * Get the content values for the model
 	 */
 	public function content(): array
 	{
-		return [];
+		$revision = new Revision(
+			model: $this->model
+		);
+
+		return $revision->pull()->values();
 	}
 
 	/**

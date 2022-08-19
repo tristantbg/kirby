@@ -35,6 +35,7 @@ class PickerDialog extends Node
 		public string|null $query = null,
 		public bool $search = true,
 		public string|null $searchterm = null,
+		public array $selected = [],
 		public ItemsSize|null $size = null,
 		public NodeText|null $text = null,
 		...$args
@@ -120,8 +121,15 @@ class PickerDialog extends Node
 			'props' => [
 				'items'      => $items->render($model),
 				'options'    => $items->options($model) + $this->options(),
-				'pagination' => $items->pagination()
+				'pagination' => $items->pagination(),
+				'selected'   => $this->selected
 			]
 		];
+	}
+
+	public function submit(ModelWithContent $model, array $values = []): bool|array
+	{
+		$model->revision()->stage([$this->id => $values])->commit();
+		return true;
 	}
 }

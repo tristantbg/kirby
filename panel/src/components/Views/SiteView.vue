@@ -38,7 +38,7 @@
 			/>
 		</k-view>
 		<template #footer>
-			<k-form-buttons :lock="lock" />
+			<!-- <k-form-buttons :lock="lock" /> -->
 		</template>
 	</k-inside>
 </template>

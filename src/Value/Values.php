@@ -21,7 +21,7 @@ class Values extends Collection
 
 	public function toArray(Closure $map = null): array
 	{
-		return A::map($this->data, $map ?? fn ($value) => $value->data);
+		return A::map($this->data, $map ?? fn ($value) => $value->get());
 	}
 
 	public function toStrings(): array

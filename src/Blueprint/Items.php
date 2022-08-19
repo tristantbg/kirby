@@ -25,6 +25,20 @@ class Items extends Node
 	) {
 	}
 
+	public function collection(ModelWithContent $model): array
+	{
+		$this->defaults();
+
+		return [
+			'columns'    => $this->columns?->render($model),
+			'empty'      => $this->empty?->render($model),
+			'items'      => $this->render($model),
+			'layout'     => $this->layout?->render($model),
+			'pagination' => $this->pagination(),
+			'size'       => $this->size?->render($model),
+		];
+	}
+
 	/**
 	 * Creates the full columns collection for the
 	 * table layout, including the default columns

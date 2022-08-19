@@ -42,4 +42,5 @@ class FilesPickerDialog extends PickerDialog
 
 		return $models;
 	}
+
 }

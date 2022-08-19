@@ -125,4 +125,10 @@ class InputField extends DisplayField
 		$this->value->submit($value);
 		return $this;
 	}
+
+	public function validate(): bool
+	{
+		return $this->value->validate();
+	}
+
 }

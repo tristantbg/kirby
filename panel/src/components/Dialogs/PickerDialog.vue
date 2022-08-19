@@ -33,11 +33,12 @@ export default {
 		items: Array,
 		options: Object,
 		pagination: Object,
-		path: String
+		path: String,
+		selected: Array
 	},
 	data() {
 		return {
-			selected: []
+			value: this.selected
 		};
 	},
 	computed: {
@@ -69,7 +70,7 @@ export default {
 	},
 	methods: {
 		isSelected(item) {
-			return this.selected.includes(item.id);
+			return this.value.includes(item.id);
 		},
 		paginate(pagination) {
 			this.$dialog(this.path, {
@@ -86,23 +87,23 @@ export default {
 			});
 		},
 		submit() {
-			this.$emit("submit", this.selected);
+			this.$emit("submit", this.value);
 		},
 		toggle(item) {
 			if (this.options.multiple === false || this.options.max === 1) {
-				this.selected = [];
+				this.value = [];
 			}
 
 			if (this.isSelected(item) === true) {
-				this.selected = this.selected.filter((id) => id !== item.id);
+				this.value = this.value.filter((id) => id !== item.id);
 				return;
 			}
 
-			if (this.options.max && this.options.max <= this.selected.length) {
+			if (this.options.max && this.options.max <= this.value.length) {
 				return;
 			}
 
-			this.selected.push(item.id);
+			this.value.push(item.id);
 		},
 		toggleBtn(item) {
 			const isSelected = this.isSelected(item);

@@ -41,7 +41,7 @@
 					<k-registration v-else-if="!license" />
 
 					<!-- unsaved changes indicator -->
-					<k-form-indicator />
+					<!-- <k-form-indicator /> -->
 
 					<!-- search -->
 					<k-button

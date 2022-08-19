@@ -9,7 +9,6 @@
 			...props
 		}"
 		@cancel="onCancel"
-		@reload="onReload"
 		@submit="onSubmit"
 	/>
 </template>

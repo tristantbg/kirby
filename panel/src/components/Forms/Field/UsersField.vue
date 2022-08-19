@@ -15,20 +15,18 @@
 		<k-collection
 			v-bind="collection"
 			@empty="open"
-			@sort="onInput"
+			@sort="sort"
 			@sortChange="$emit('change', $event)"
 		>
-			<template #options="{ index }">
+			<template #options="{ item }">
 				<k-button
 					v-if="!disabled"
 					:tooltip="$t('remove')"
 					icon="remove"
-					@click="remove(index)"
+					@click="remove(item)"
 				/>
 			</template>
 		</k-collection>
-
-		<k-users-dialog ref="selector" @submit="select" />
 	</k-field>
 </template>
 
@@ -36,15 +34,7 @@
 import picker from "@/mixins/forms/picker.js";
 
 export default {
-	mixins: [picker],
-	computed: {
-		emptyProps() {
-			return {
-				icon: "users",
-				text: this.empty || this.$t("field.users.empty")
-			};
-		}
-	}
+	mixins: [picker]
 };
 </script>
 

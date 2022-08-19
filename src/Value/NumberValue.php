@@ -25,6 +25,11 @@ class NumberValue extends Value
 		$this->validations->add('min', $this->min);
 	}
 
+	public function get(): int|float|null
+	{
+		return $this->data;
+	}
+
 	public function set(string|int|float|null $data = null): static
 	{
 		if (is_string($data) === true) {

@@ -1,60 +1,54 @@
 <template>
 	<k-field v-bind="$props" class="k-files-field">
-		<template v-if="!isLoading && !disabled && more" #options>
+		<template v-if="more && !disabled" #options>
 			<k-button-group class="k-field-options">
-				<k-options-dropdown ref="options" v-bind="options" @action="action" />
+				<k-options-dropdown ref="options" v-bind="options" @action="onAction" />
 			</k-button-group>
 		</template>
 
-		<template v-if="isLoading">
-			<k-empty icon="loader">Loading …</k-empty>
-		</template>
+		<k-dropzone :disabled="!moreUpload" @drop="drop">
+			<k-collection
+				v-bind="collection"
+				@empty="prompt"
+				@sort="onInput"
+				@sortChange="$emit('change', $event)"
+			>
+				<template #options="{ index }">
+					<k-button
+						v-if="!disabled"
+						:tooltip="$t('remove')"
+						icon="remove"
+						@click="remove(index)"
+					/>
+				</template>
+			</k-collection>
+		</k-dropzone>
 
-		<template v-else>
-			<k-dropzone :disabled="!moreUpload" @drop="drop">
-				<k-collection
-					v-bind="collection"
-					@empty="prompt"
-					@sort="sort"
-					@sortChange="$emit('change', $event)"
-				>
-					<template #options="{ item }">
-						<k-button
-							v-if="!disabled"
-							:tooltip="$t('remove')"
-							icon="remove"
-							@click="remove(item)"
-						/>
-					</template>
-				</k-collection>
-			</k-dropzone>
-
-			<k-upload ref="fileUpload" @success="upload" />
-		</template>
+		<k-upload ref="fileUpload" @success="upload" />
 	</k-field>
 </template>
 
 <script>
-import picker from "@/mixins/form/picker.js";
-
 /**
  * @example <k-files-field v-model="files" name="files" label="Files" />
  */
 export default {
-	mixins: [picker],
-	inheritAttrs: false,
 	props: {
+		empty: Object,
+		endpoints: Object,
+		layout: String,
+		multiple: Boolean,
 		uploads: [Boolean, Object, Array]
 	},
 	computed: {
 		moreUpload() {
-			return true;
+			return !this.disabled && this.more && this.uploads;
 		},
 		options() {
 			if (this.uploads) {
 				return {
-					icon: "add",
-					text: "Add",
+					icon: this.btnIcon,
+					text: this.btnLabel,
 					options: [
 						{ icon: "check", text: this.$t("select"), click: "open" },
 						{ icon: "upload", text: this.$t("upload"), click: "upload" }
@@ -66,6 +60,14 @@ export default {
 				options: [
 					{ icon: "check", text: this.$t("select"), click: () => this.open() }
 				]
+			};
+		},
+		uploadParams() {
+			return {
+				accept: this.uploads.accept,
+				max: this.max,
+				multiple: this.multiple,
+				url: this.$urls.api + "/" + this.endpoints.field + "/upload"
 			};
 		}
 	},
@@ -88,7 +90,7 @@ export default {
 				this.open();
 			}
 		},
-		action(action) {
+		onAction(action) {
 			// no need for `action` modifier
 			// as native button `click` prop requires
 			// inline function when only one option available
@@ -113,6 +115,9 @@ export default {
 			// 		this.selected.push(file);
 			// 	}
 			// });
+
+			this.onInput();
+			this.$events.$emit("model.update");
 		}
 	}
 };

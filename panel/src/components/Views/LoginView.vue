@@ -36,9 +36,6 @@ export default {
 
 			return null;
 		}
-	},
-	created() {
-		this.$store.dispatch("content/clear");
 	}
 };
 </script>

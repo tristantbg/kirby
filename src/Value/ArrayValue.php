@@ -30,6 +30,11 @@ class ArrayValue extends Value
 		return serialize($this->data);
 	}
 
+	public function get(): ?array
+	{
+		return $this->data;
+	}
+
 	public function isEmpty(): bool
 	{
 		return $this->data === null || $this->data === [];

@@ -27,6 +27,11 @@ class StringValue extends Value
 		$this->validations->add('match', $this->pattern);
 	}
 
+	public function get(): ?string
+	{
+		return $this->data;
+	}
+
 	public function isEmpty(): bool
 	{
 		return $this->data === null || $this->data === '';

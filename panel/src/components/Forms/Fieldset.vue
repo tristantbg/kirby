@@ -17,6 +17,7 @@
 							v-if="hasFieldType(field.type)"
 							:ref="fieldName"
 							v-model="value[fieldName]"
+							:endpoints="fieldEndpoints(field)"
 							:form-data="value"
 							:name="fieldName"
 							:novalidate="novalidate"
@@ -49,6 +50,12 @@ export default {
 	props: {
 		config: Object,
 		disabled: Boolean,
+		endpoints: {
+			type: Object,
+			default() {
+				return {};
+			}
+		},
 		fields: {
 			type: [Array, Object],
 			default() {
@@ -75,6 +82,12 @@ export default {
 		};
 	},
 	methods: {
+		fieldEndpoints(field) {
+			return {
+				field: this.endpoints.model + "/fields/" + field.id,
+				...this.endpoints
+			};
+		},
 		/**
 		 * Focus a specific field in the fieldset or the first one if no name is given
 		 * @public

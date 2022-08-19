@@ -13,6 +13,11 @@ namespace Kirby\Value;
  */
 class IntValue extends NumberValue
 {
+	public function get(): ?int
+	{
+		return $this->data;
+	}
+
 	public function set(string|int|float|null $data = null): static
 	{
 		if (is_string($data) === true) {

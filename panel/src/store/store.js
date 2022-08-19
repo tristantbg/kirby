@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 // store modules
-import content from "./modules/content.js";
 import drawers from "./modules/drawers.js";
 import notification from "./modules/notification.js";
 
@@ -69,7 +68,6 @@ export default new Vuex.Store({
 		}
 	},
 	modules: {
-		content: content,
 		drawers: drawers,
 		notification: notification
 	}

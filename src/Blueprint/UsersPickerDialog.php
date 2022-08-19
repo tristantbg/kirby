@@ -18,11 +18,6 @@ class UsersPickerDialog extends PickerDialog
 {
 	public const ITEMS = UsersItems::class;
 
-	public function component(): string
-	{
-		return 'k-users-picker-dialog';
-	}
-
 	public function models(ModelWithContent $model, array $query = []): Users
 	{
 		$models = match (true) {

@@ -382,6 +382,11 @@ abstract class ModelWithContent extends Model
 		}
 	}
 
+	public function revision(): Revision
+	{
+		return new Revision(model: $this);
+	}
+
 	/**
 	 * Returns the absolute path to the model
 	 *

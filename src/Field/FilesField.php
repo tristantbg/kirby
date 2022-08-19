@@ -2,6 +2,8 @@
 
 namespace Kirby\Field;
 
+use Kirby\Cms\Find;
+use Kirby\Cms\Files;
 use Kirby\Blueprint\FilesItems;
 use Kirby\Blueprint\FilesPickerDialog;
 use Kirby\Blueprint\Uploads;
@@ -28,6 +30,21 @@ class FilesField extends PickerField
 		...$args
 	) {
 		parent::__construct($id, ...$args);
+	}
+
+	public function models(ModelWithContent $model): Files
+	{
+		$ids   = $model->revision()->value($this->id);
+		$kirby = $model->kirby();
+		$files = new Files;
+
+		foreach ($ids ?? [] as $id) {
+			if ($file = $kirby->file($id, $model)) {
+				$files->add($file);
+			}
+		}
+
+		return $files;
 	}
 
 	public function render(ModelWithContent $model): array

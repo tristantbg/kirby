@@ -73,7 +73,10 @@ class PickerField extends InputField
 			[
 				'pattern' => '/',
 				'load' => function (array $query = []) use ($model) {
-					return $this->picker($query)->render($model);
+					return $this->picker($model, $query)->render($model);
+				},
+				'submit' => function () use ($model) {
+					return $this->picker($model)->submit($model, get());
 				}
 			]
 		];
@@ -92,7 +95,12 @@ class PickerField extends InputField
 		);
 	}
 
-	public function picker(array $query = []): PickerDialog
+	public function models(ModelWithContent $model): Models
+	{
+		return new Models;
+	}
+
+	public function picker(ModelWithContent $model, array $query = []): PickerDialog
 	{
 		return new (static::DIALOG)(
 			id: $this->id,
@@ -110,6 +118,7 @@ class PickerField extends InputField
 			query: $this->query,
 			search: $this->search,
 			searchterm: $query['searchterm'] ?? null,
+			selected: $this->selected($model),
 			size: $this->size,
 			text: $this->text
 		);
@@ -131,9 +140,36 @@ class PickerField extends InputField
 		return [
 			[
 				'pattern' => '/',
-				'action'  => function (array $query = []) {
+				'action'  => function (array $query = []) use ($model) {
+					$models = $this->models($model)->paginate(10);
+					$items  = $this->items($models)->defaults();
+
+					return $items->collection($model);
+				}
+			],
+			[
+				'pattern' => '/items/(:all)',
+				'method'  => 'DELETE',
+				'action'  => function (string $itemId) use ($model) {
+
+					$revision = $model->revision();
+					$value    = $revision->value($this->id);
+
+					// remove the itemId from the value array
+					$value = array_filter($value, fn ($valueId) => $itemId !== $valueId);
+
+					// update the field in the revision
+					$revision->stage([$this->id => $value])->commit();
+
+					return true;
 				}
 			]
 		];
 	}
+
+	public function selected(ModelWithContent $model): array
+	{
+		return $model->revision()->value($this->id) ?? [];
+	}
+
 }

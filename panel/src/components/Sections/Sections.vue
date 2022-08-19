@@ -28,11 +28,13 @@
 						"
 						:column="column.width"
 						:lock="lock"
+						:model="model"
 						:name="section.name"
 						:parent="parent"
 						:timestamp="$view.timestamp"
 						:class="'k-section k-section-name-' + section.name"
 						v-bind="section"
+						@input="$emit('input', $event)"
 						@submit="$emit('submit', $event)"
 					/>
 					<template v-else>
@@ -56,13 +58,9 @@ export default {
 		empty: String,
 		blueprint: String,
 		lock: [Boolean, Object],
+		model: Object,
 		parent: String,
 		tab: Object
-	},
-	computed: {
-		content() {
-			return this.$store.getters["content/values"]();
-		}
 	},
 	methods: {
 		exists(type) {
@@ -76,7 +74,7 @@ export default {
 			let result = true;
 
 			Object.keys(section.when).forEach((key) => {
-				const value = this.content[key.toLowerCase()];
+				const value = this.model.content[key.toLowerCase()];
 				const condition = section.when[key];
 
 				if (value !== condition) {

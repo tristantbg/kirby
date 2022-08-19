@@ -50,6 +50,11 @@ abstract class Value
 		return $this->data;
 	}
 
+	public function get(): mixed
+	{
+		return $this->data;
+	}
+
 	abstract public function set(): static;
 
 	public function submit(

@@ -26,6 +26,11 @@ class DateTimeValue extends Value
 
 	public function __toString(): string
 	{
+		return $this->get();
+	}
+
+	public function get(): ?string
+	{
 		return $this->data?->format('Y-m-d H:i:s');
 	}
 

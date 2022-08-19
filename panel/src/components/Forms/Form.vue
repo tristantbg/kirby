@@ -17,6 +17,7 @@
 				ref="fields"
 				v-model="value"
 				:disabled="disabled"
+				:endpoints="endpoints"
 				:fields="fields"
 				:novalidate="novalidate"
 				v-on="listeners"
@@ -41,6 +42,7 @@ export default {
 		 */
 		disabled: Boolean,
 		config: Object,
+		endpoints: Object,
 		fields: {
 			type: [Array, Object],
 			default() {

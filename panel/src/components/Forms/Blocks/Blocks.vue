@@ -89,7 +89,7 @@ export default {
 	inheritAttrs: false,
 	props: {
 		autofocus: Boolean,
-		empty: String,
+		empty: Object,
 		endpoints: Object,
 		group: String,
 		max: {
@@ -128,8 +128,11 @@ export default {
 				}
 			};
 		},
+		fieldsets() {
+			return {};
+		},
 		hasFieldsets() {
-			return true;
+			return false;
 		},
 		isEditing() {
 			return (

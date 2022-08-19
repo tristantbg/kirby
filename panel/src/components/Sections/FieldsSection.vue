@@ -1,9 +1,10 @@
 <template>
 	<section class="k-fields-section">
 		<k-form
-			:fields="fieldsWithEndpoints"
+			:endpoints="endpoints"
+			:fields="fields"
 			:validate="true"
-			:value="values"
+			:value="model.content"
 			:disabled="lock && lock.state === 'lock'"
 			@input="input"
 			@submit="onSubmit"
@@ -19,31 +20,24 @@ export default {
 	props: {
 		fields: Object,
 		lock: [Array, Object, Boolean],
+		model: Object,
 		id: String,
 		parent: String
 	},
 	computed: {
-		fieldsWithEndpoints() {
-			return Object.values(this.fields).map((field) => {
-				field.endpoints = {
-					field: this.parent + "/fields/" + field.id,
-					section: this.parent + "/sections/" + this.id,
-					model: this.parent
-				};
-
-				return field;
-			});
-		},
-		values() {
-			return this.$store.getters["content/values"]();
+		endpoints() {
+			return {
+				model: this.parent,
+				section: this.parent + "/sections/" + this.id
+			};
 		}
 	},
 	created() {
 		this.input = debounce(this.input, 50);
 	},
 	methods: {
-		input(values, field, fieldName) {
-			this.$store.dispatch("content/update", [fieldName, values[fieldName]]);
+		input(values, field) {
+			this.$emit("input", values, { field });
 		},
 		onSubmit($event) {
 			this.$events.$emit("keydown.cmd.s", $event);
