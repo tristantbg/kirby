@@ -8,7 +8,7 @@ use Kirby\Cms\ModelWithContent;
 /**
  * Options
  *
- * @package   Kirby Field
+ * @package   Kirby Option
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier

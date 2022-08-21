@@ -13,24 +13,29 @@ use Kirby\Toolkit\Query;
  * Options fetched from any REST API
  * or local file with valid JSON data.
  *
- * @package   Kirby Field
+ * @package   Kirby Option
  * @author    Bastian Allgeier <bastian@getkirby.com>,
  * 			  Nico Hoffmann <nico@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class OptionsApi
+class OptionsApi extends OptionsProvider
 {
-	public string $class = Options::class;
-	public Options|null $options = null;
-
 	public function __construct(
 		public string $url,
 		public string|null $query = null,
 		public string|null $text = null,
 		public string|null $value = null,
 	) {
+	}
+
+	public function defaults(): static
+	{
+		$this->text  ??= '{{ item.value }}';
+		$this->value ??= '{{ item.key }}';
+
+		return parent::defaults();
 	}
 
 	public static function factory(string|array $props): static
@@ -80,14 +85,6 @@ class OptionsApi
 	}
 
 	/**
-	 * Returns options as array
-	 */
-	public function render(ModelWithContent $model): mixed
-	{
-		return $this->resolve($model)->render($model);
-	}
-
-	/**
 	 * Creates the actual options by loading
 	 * data from the API and resolving it to
 	 * the correct text-value entries
@@ -101,25 +98,23 @@ class OptionsApi
 		}
 		// @codeCoverageIgnoreEnd
 
-		// load data from URL
+		// apply property defaults
+		$this->defaults();
+
+		// load data from URL and narrow down to queried part
 		$data = $this->load($model);
 
 		if ($data === null) {
 			throw new NotFoundException('Options could not be loaded from API: ' . $model->toSafeString($this->url));
 		}
 
-		// grab the relevant part, based on the query path
 		$data = (new Query($this->query, Nest::create($data)))->result();
-
-		// default query strings for text-value fields
-		$text  = $this->text ?? '{{ item.value }}';
-		$value = $this->value ?? '{{ item.key }}';
 
 		// create options by resolving text and value query strings
 		// for each item from the data
 		$options = $data->toArray(fn ($item) => [
-			'text'  => $model->toSafeString($text, ['item' => $item]),
-			'value' => $model->toSafeString($value, ['item' => $item]),
+			'text'  => $model->toSafeString($this->text, ['item' => $item]),
+			'value' => $model->toSafeString($this->value, ['item' => $item]),
 		]);
 
 		// create Options object and render this subsequently
