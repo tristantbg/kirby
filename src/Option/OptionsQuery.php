@@ -16,18 +16,15 @@ use Kirby\Toolkit\Obj;
  * pages, files, users or structures to create
  * options out of them.
  *
- * @package   Kirby Field
+ * @package   Kirby Option
  * @author    Bastian Allgeier <bastian@getkirby.com>,
  * 			  Nico Hoffmann <nico@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
  */
-class OptionsQuery
+class OptionsQuery extends OptionsProvider
 {
-	public string $class = Options::class;
-	public Options|null $options = null;
-
 	public function __construct(
 		public string $query,
 		public string|null $text = null,
@@ -117,11 +114,6 @@ class OptionsQuery
 		}
 
 		return $props;
-	}
-
-	public function render(ModelWithContent $model): mixed
-	{
-		return $this->resolve($model)->render($model);
 	}
 
 	/**
