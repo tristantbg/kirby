@@ -86,21 +86,29 @@ class App
 	/**
 	 * Creates a new App instance
 	 *
-	 * @param array $props
 	 * @param bool $setInstance If false, the instance won't be set globally
 	 */
-	public function __construct(array $props = [], bool $setInstance = true)
-	{
+	public function __construct(
+		array $props = [],
+		bool $setInstance = true,
+		bool $loadOptions = true
+	) {
 		$this->core = new Core($this);
 
 		// register all roots to be able to load stuff afterwards
 		$this->bakeRoots($props['roots'] ?? []);
 
 		try {
-			// stuff from config and additional options
-			$this->optionsFromConfig();
-			$this->optionsFromProps($props['options'] ?? []);
-			$this->optionsFromEnvironment($props);
+			if ($loadOptions === true) {
+				// stuff from config and additional options
+				$this->optionsFromConfig();
+				$this->optionsFromProps($props['options'] ?? []);
+				$this->optionsFromEnvironment($props);
+			} else {
+				// only options that got passed as props
+				// (e.g. when cloning and all options get passed to clone)
+				$this->optionsFromProps($props['options'] ?? []);
+			}
 		} finally {
 			// register the Whoops error handler inside of a
 			// try-finally block to ensure it's still registered
@@ -350,9 +358,13 @@ class App
 	 */
 	public function clone(array $props = [], bool $setInstance = true)
 	{
-		$props = array_replace_recursive($this->propertyData, $props);
+		$props = array_replace_recursive(
+			$this->propertyData,
+			['options' => $this->options],
+			$props
+		);
 
-		$clone = new static($props, $setInstance);
+		$clone = new static($props, $setInstance, false);
 		$clone->data = $this->data;
 
 		return $clone;
@@ -1119,7 +1131,7 @@ class App
 	protected function optionsFromProps(array $options = []): array
 	{
 		return $this->options = array_replace_recursive(
-			$this->options,
+			$this->options ?? [],
 			$options
 		);
 	}
