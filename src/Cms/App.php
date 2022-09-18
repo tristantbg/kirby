@@ -99,16 +99,7 @@ class App
 		$this->bakeRoots($props['roots'] ?? []);
 
 		try {
-			if ($loadOptions === true) {
-				// stuff from config and additional options
-				$this->optionsFromConfig();
-				$this->optionsFromProps($props['options'] ?? []);
-				$this->optionsFromEnvironment($props);
-			} else {
-				// only options that got passed as props
-				// (e.g. when cloning and all options get passed to clone)
-				$this->optionsFromProps($props['options'] ?? []);
-			}
+			$this->setOptions($props, $loadOptions);
 		} finally {
 			// register the Whoops error handler inside of a
 			// try-finally block to ensure it's still registered
@@ -352,15 +343,16 @@ class App
 	 * Creates an instance with the same
 	 * initial properties
 	 *
-	 * @param array $props
 	 * @param bool $setInstance If false, the instance won't be set globally
-	 * @return static
 	 */
-	public function clone(array $props = [], bool $setInstance = true)
+	public function clone(array $props = [], bool $setInstance = true): static
 	{
 		$props = array_replace_recursive(
 			$this->propertyData,
-			['options' => $this->options],
+			[
+				'environment' => $this->environment,
+				'options'     => $this->options,
+			],
 			$props
 		);
 
@@ -1062,22 +1054,42 @@ class App
 		return $this->options;
 	}
 
+	protected function setOptions(array $props, bool $load = true): static
+	{
+		// create an empty config container
+		$this->options = Config::$data = [];
+
+		// merge each options source into one clean options array
+
+		if ($load === true) {
+			// load the main config as well as other options
+			$this->options = array_replace_recursive(
+				$this->options,
+				$this->optionsFromConfig(),
+				$props['options'] ?? [],
+				$this->optionsFromEnvironment($props)
+			);
+		} else {
+			// only apply options from props (as passed via the clone method)
+			$this->options = array_replace_recursive(
+				$this->options,
+				$props['options']
+			);
+			// make sure to set environment from props as we are
+			// skipping the `::optionsFromEnvironment` method
+			$this->environment = $props['environment'];
+		}
+
+		return $this;
+	}
+
 	/**
-	 * Load all options from files in site/config
-	 *
-	 * @return array
+	 * Load all options from main site/config/confi.php file
 	 */
 	protected function optionsFromConfig(): array
 	{
-		// create an empty config container
-		Config::$data = [];
-
-		// load the main config options
-		$root    = $this->root('config');
-		$options = F::load($root . '/config.php', []);
-
-		// merge into one clean options array
-		return $this->options = array_replace_recursive(Config::$data, $options);
+		$root = $this->root('config');
+		return F::load($root . '/config.php', []);
 	}
 
 	/**
@@ -1107,33 +1119,18 @@ class App
 		// merge into one clean options array;
 		// the `env.php` options always override everything else
 		$hostAddrOptions = $this->environment()->options($root);
-		$this->options = array_replace_recursive($this->options, $hostAddrOptions, $envOptions);
+		$options = array_replace_recursive($hostAddrOptions, $envOptions);
 
 		// reload the environment if the host/address config has overridden
 		// the `url` option; this ensures that the base URL is correct
-		$envUrl = $this->options['url'] ?? null;
-		if ($envUrl !== $globalUrl) {
+		if (isset($options['url']) === true && $options['url'] !== $globalUrl) {
 			$this->environment->detect([
-				'allowed' => $envUrl,
+				'allowed' => $options['url'],
 				'cli'     => $props['cli'] ?? null
 			], $props['server'] ?? null);
 		}
 
-		return $this->options;
-	}
-
-	/**
-	 * Inject options from Kirby instance props
-	 *
-	 * @param array $options
-	 * @return array
-	 */
-	protected function optionsFromProps(array $options = []): array
-	{
-		return $this->options = array_replace_recursive(
-			$this->options ?? [],
-			$options
-		);
+		return $options;
 	}
 
 	/**
