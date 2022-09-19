@@ -1,17 +1,17 @@
 <?php
 
-namespace Kirby\Option;
+namespace Kirby\Cms;
 
 use Kirby\Toolkit\Obj;
 
 /**
  * NestObject
  *
- * @package   Kirby Option
+ * @package   Kirby Cms
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
- * @license   https://opensource.org/licenses/MIT
+ * @license   https://getkirby.com/license
  */
 class NestObject extends Obj
 {
@@ -23,7 +23,7 @@ class NestObject extends Obj
 		$result = [];
 
 		foreach ((array)$this as $key => $value) {
-			if (is_a($value, 'Kirby\Cms\Field') === true) {
+			if ($value instanceof Field) {
 				$result[$key] = $value->value();
 				continue;
 			}

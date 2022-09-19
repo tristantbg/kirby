@@ -1,25 +1,27 @@
 <?php
 
-namespace Kirby\Option;
-
-use Kirby\Cms\Field;
+namespace Kirby\Cms;
 
 /**
- * The Nest class is used to convert any array type
+ * The Nest class converts any array type
  * into a Kirby style collection/object. This
  * can be used make any type of array compatible
- * with Kirby queries used by the Option package.
+ * with Kirby queries.
  *
- * @package   Kirby Option
+ * REFACTOR: move this to the toolkit
+ *
+ * @package   Kirby Cms
  * @author    Bastian Allgeier <bastian@getkirby.com>
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
- * @license   https://opensource.org/licenses/MIT
+ * @license   https://getkirby.com/license
  */
 class Nest
 {
-	public static function create(mixed $data, mixed $parent = null): NestCollection|NestObject|Field
-	{
+	public static function create(
+		mixed $data,
+		object|null $parent = null
+	): NestCollection|NestObject|Field {
 		if (is_scalar($data) === true) {
 			return new Field($parent, $data, $data);
 		}
@@ -34,7 +36,9 @@ class Nest
 			}
 		}
 
-		if (is_int(key($data)) === true) {
+		$key = key($data);
+
+		if ($key === null || is_int($key) === true) {
 			return new NestCollection($result);
 		}
 

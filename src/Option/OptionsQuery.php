@@ -2,13 +2,15 @@
 
 namespace Kirby\Option;
 
-use Kirby\Block\Block;
+use Kirby\Cms\Block;
 use Kirby\Cms\File;
 use Kirby\Cms\ModelWithContent;
+use Kirby\Cms\Nest;
 use Kirby\Cms\Page;
 use Kirby\Cms\StructureObject;
 use Kirby\Cms\User;
 use Kirby\Exception\InvalidArgumentException;
+use Kirby\Toolkit\Collection;
 use Kirby\Toolkit\Obj;
 
 /**
@@ -28,7 +30,7 @@ class OptionsQuery extends OptionsProvider
 	public function __construct(
 		public string $query,
 		public string|null $text = null,
-		public string|null $value = null,
+		public string|null $value = null
 	) {
 	}
 
@@ -41,7 +43,7 @@ class OptionsQuery extends OptionsProvider
 		return new static(
 			query: $props['query'] ?? $props['fetch'],
 			text: $props['text'] ?? null,
-			value: $props['value'] ?? null,
+			value: $props['value'] ?? null
 		);
 	}
 
@@ -52,47 +54,41 @@ class OptionsQuery extends OptionsProvider
 	protected function itemToDefaults(object $item): array
 	{
 		return match (true) {
-			is_a($item, Obj::class) === true
-				=> [
-					'arrayItem',
-					'{{ arrayItem.value }}',
-					'{{ arrayItem.value }}'
-				],
+			$item instanceof Obj => [
+				'arrayItem',
+				'{{ arrayItem.value }}',
+				'{{ arrayItem.value }}'
+			],
 
-			is_a($item, StructureObject::class) === true
-				=> [
-					'structureItem',
-					'{{ structureItem.title }}',
-					'{{ structureItem.id }}'
-				],
+			$item instanceof StructureObject => [
+				'structureItem',
+				'{{ structureItem.title }}',
+				'{{ structureItem.id }}'
+			],
 
-			is_a($item, Block::class) === true
-				=> [
-					'block',
-					'{{ block.type }}: {{ block.id }}',
-					'{{ block.id }}'
-				],
+			$item instanceof Block => [
+				'block',
+				'{{ block.type }}: {{ block.id }}',
+				'{{ block.id }}'
+			],
 
-			is_a($item, Page::class) === true
-				=> [
-					'page',
-					'{{ page.title }}',
-					'{{ page.id }}'
-				],
+			$item instanceof Page => [
+				'page',
+				'{{ page.title }}',
+				'{{ page.id }}'
+			],
 
-			is_a($item, File::class) === true
-				=> [
-					'file',
-					'{{ file.filename }}',
-					'{{ file.id }}'
-				],
+			$item instanceof File => [
+				'file',
+				'{{ file.filename }}',
+				'{{ file.id }}'
+			],
 
-			is_a($item, User::class) === true
-				=> [
-					'user',
-					'{{ user.username }}',
-					'{{ user.email }}'
-				],
+			$item instanceof User => [
+				'user',
+				'{{ user.username }}',
+				'{{ user.email }}'
+			],
 
 			default => [
 				'item',
@@ -134,7 +130,7 @@ class OptionsQuery extends OptionsProvider
 		$result = $model->query($this->query);
 
 		// the query already returned an options collection
-		if (is_a($result, Options::class) === true) {
+		if ($result instanceof Options) {
 			return $result;
 		}
 
@@ -143,7 +139,7 @@ class OptionsQuery extends OptionsProvider
 			$result = Nest::create($result);
 		}
 
-		if (is_a($result, 'Kirby\Toolkit\Collection') === false) {
+		if ($result instanceof Collection === false) {
 			throw new InvalidArgumentException('Invalid query result data: ' . get_class($result));
 		}
 
@@ -153,10 +149,14 @@ class OptionsQuery extends OptionsProvider
 			[$alias, $text, $value] = $this->itemToDefaults($item);
 			$data = ['item' => $item, $alias => $item];
 
-			return [
-				'text'  => $model->toSafeString($this->text ?? $text, $data),
-				'value' => $model->toSafeString($this->value ?? $value, $data),
-			];
+			// value is always a raw string
+			$value = $model->toString($this->value ?? $value, $data);
+
+			// text is only a raw string when HTML prop
+			// is explicitly set to true
+			$text = $model->toSafeString($this->text ?? $text, $data);
+
+			return compact('text', 'value');
 		});
 
 		return $this->options = Options::factory($options);

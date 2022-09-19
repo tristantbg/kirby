@@ -3,6 +3,7 @@
 namespace Kirby\Option;
 
 use Kirby\Cms\ModelWithContent;
+use Kirby\Cms\Nest;
 use Kirby\Data\Json;
 use Kirby\Exception\NotFoundException;
 use Kirby\Http\Remote;
@@ -26,7 +27,7 @@ class OptionsApi extends OptionsProvider
 		public string $url,
 		public string|null $query = null,
 		public string|null $text = null,
-		public string|null $value = null,
+		public string|null $value = null
 	) {
 	}
 
@@ -34,7 +35,6 @@ class OptionsApi extends OptionsProvider
 	{
 		$this->text  ??= '{{ item.value }}';
 		$this->value ??= '{{ item.key }}';
-
 		return parent::defaults();
 	}
 
@@ -48,7 +48,7 @@ class OptionsApi extends OptionsProvider
 			url: $props['url'],
 			query: $props['query'] ?? $props['fetch'] ?? null,
 			text: $props['text'] ?? null,
-			value: $props['value'] ?? null,
+			value: $props['value'] ?? null
 		);
 	}
 
@@ -113,8 +113,10 @@ class OptionsApi extends OptionsProvider
 		// create options by resolving text and value query strings
 		// for each item from the data
 		$options = $data->toArray(fn ($item) => [
-			'text'  => $model->toSafeString($this->text, ['item' => $item]),
-			'value' => $model->toSafeString($this->value, ['item' => $item]),
+			// value is always a raw string
+			'value' => $model->toString($this->value, ['item' => $item]),
+			// text is only a raw string when using {< >}
+			'text' => $model->toSafeString($this->text, ['item' => $item]),
 		]);
 
 		// create Options object and render this subsequently

@@ -3,8 +3,6 @@
 namespace Kirby\Blueprint;
 
 use Kirby\Cms\ModelWithContent;
-use Kirby\Field\FieldLabel;
-use Kirby\Field\TextField;
 use Kirby\Toolkit\I18n;
 
 /**
@@ -23,17 +21,17 @@ class NodeI18n extends NodeProperty
 	) {
 	}
 
-	public static function factory($translations = null): static|null
+	public static function factory($value = null): static|null
 	{
-		if ($translations === false || $translations === null) {
+		if ($value === false || $value === null) {
 			return null;
 		}
 
-		if (is_array($translations) === false) {
-			$translations = ['*' => $translations];
+		if (is_array($value) === false) {
+			$value = ['en' => $value];
 		}
 
-		return new static($translations);
+		return new static($value);
 	}
 
 	public function render(ModelWithContent $model): string|null

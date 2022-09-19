@@ -26,7 +26,7 @@ class FieldOptions extends Node
 
 	public function defaults(): static
 	{
-		$this->options ??= new Options;
+		$this->options ??= new Options();
 
 		return parent::defaults();
 	}
@@ -58,14 +58,14 @@ class FieldOptions extends Node
 
 		unset($props['api'], $props['query']);
 
-		if ($props['options']['type'] ?? null !== null) {
+		if (($props['options']['type'] ?? null) !== null) {
 			return $props;
 		}
 
-		if ($options = $props['options'] ?? null) {
+		if (($props['options'] ?? null) !== null) {
 			$props['options'] = [
 				'type'    => 'array',
-				'options' => $options
+				'options' => $props['options']
 			];
 		}
 
@@ -82,8 +82,9 @@ class FieldOptions extends Node
 			return $this->options;
 		}
 
-		// resolve OptionsApi or OptionsQuery to Options
-		return $this->options->resolve($model);
+		// resolve any options provider (e.g. OptionsApi, OptionsQuery)
+		// to Options
+		return $this->options = $this->options->resolve($model);
 	}
 
 	public function render(ModelWithContent $model): array

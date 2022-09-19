@@ -25,12 +25,16 @@ class Options extends Collection
 		}
 	}
 
-	public static function factory(array $options = []): static
+	public static function factory(array $items = []): static
 	{
 		$collection = new static();
 
-		foreach ($options as $key => $option) {
-			if (is_array($option) === false) {
+		foreach ($items as $key => $option) {
+			// skip if option is already an array of option props
+			if (
+				is_array($option) === false ||
+				array_key_exists('value', $option) === false
+			) {
 				if (is_string($key) === true) {
 					$option = ['value' => $key, 'text' => $option];
 				} else {
