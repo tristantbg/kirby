@@ -8,11 +8,10 @@ use Kirby\Option\OptionsApi;
 use Kirby\Option\OptionsQuery;
 
 /**
- * @covers \Kirby\Field\FieldOptions
+ * @coversDefaultClass \Kirby\Field\FieldOptions
  */
 class FieldOptionsTest extends TestCase
 {
-
 	/**
 	 * @covers ::factory
 	 */
@@ -59,6 +58,9 @@ class FieldOptionsTest extends TestCase
 
 		$props = FieldOptions::polyfill(['options' => ['a', 'b', 'c']]);
 		$this->assertSame($expected, $props);
+
+		$props = FieldOptions::polyfill(['options' => $options = ['a' => 'Option A', 'b' => 'Option B']]);
+		$this->assertSame(['options' => ['type' => 'array', 'options' => $options]], $props);
 	}
 
 	/**

@@ -52,6 +52,15 @@ class FileCache extends Cache
 	}
 
 	/**
+	 * Returns whether the cache is ready to
+	 * store values
+	 */
+	public function enabled(): bool
+	{
+		return is_writable($this->root) === true;
+	}
+
+	/**
 	 * Returns the full root including prefix
 	 */
 	public function root(): string
@@ -69,24 +78,24 @@ class FileCache extends Cache
 		$keyParts = [];
 		foreach (preg_split('#([\/\\\\])#', $key, 0, PREG_SPLIT_DELIM_CAPTURE) as $part) {
 			switch ($part) {
-				// forward slashes don't need special treatment
 				case '/':
+					// forward slashes don't need special treatment
 					break;
 
+				case '\\':
 					// backslashes get their own marker in the path
 					// to differentiate the cache key from one with forward slashes
-				case '\\':
 					$keyParts[] = '_backslash';
 					break;
 
+				case '':
 					// empty part means two slashes in a row;
 					// special marker like for backslashes
-				case '':
 					$keyParts[] = '_empty';
 					break;
 
-					// an actual path segment
 				default:
+					// an actual path segment:
 					// check if the segment only contains safe characters;
 					// underscores are *not* safe to guarantee uniqueness
 					// as they are used in the special cases
@@ -182,7 +191,7 @@ class FileCache extends Cache
 				$files = scandir($dir);
 
 				if ($files === false) {
-					$files = [];
+					$files = []; // @codeCoverageIgnore
 				}
 
 				$files = array_diff($files, ['.', '..']);

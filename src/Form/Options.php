@@ -18,6 +18,8 @@ use Kirby\Toolkit\I18n;
  * @link      https://getkirby.com
  * @copyright Bastian Allgeier
  * @license   https://opensource.org/licenses/MIT
+ *
+ * @deprecated 3.8.0 Use `Kirby\Option\Options` instead
  */
 class Options
 {
@@ -89,7 +91,7 @@ class Options
 
 		// add the model by the proper alias
 		foreach (static::aliases() as $className => $alias) {
-			if (is_a($model, $className) === true) {
+			if ($model instanceof $className) {
 				$data[$alias] = $model;
 			}
 		}

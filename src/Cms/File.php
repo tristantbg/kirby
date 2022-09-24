@@ -258,11 +258,10 @@ class File extends ModelWithContent
 			return $this->id;
 		}
 
-		if (is_a($this->parent(), 'Kirby\Cms\Page') === true) {
-			return $this->id = $this->parent()->id() . '/' . $this->filename();
-		}
-
-		if (is_a($this->parent(), 'Kirby\Cms\User') === true) {
+		if (
+			$this->parent() instanceof Page ||
+			$this->parent() instanceof User
+		) {
 			return $this->id = $this->parent()->id() . '/' . $this->filename();
 		}
 
@@ -391,7 +390,11 @@ class File extends ModelWithContent
 	 */
 	public function page()
 	{
-		return is_a($this->parent(), 'Kirby\Cms\Page') === true ? $this->parent() : null;
+		if ($this->parent() instanceof Page) {
+			return $this->parent();
+		}
+
+		return null;
 	}
 
 	/**
@@ -432,11 +435,19 @@ class File extends ModelWithContent
 	 */
 	public function parents()
 	{
-		if (is_a($this->parent(), 'Kirby\Cms\Page') === true) {
+		if ($this->parent() instanceof Page) {
 			return $this->parent()->parents()->prepend($this->parent()->id(), $this->parent());
 		}
 
 		return new Pages();
+	}
+
+	/**
+	 * Return the permanent URL to the file using its UUID
+	 */
+	public function permalink(): string
+	{
+		return $this->uuid()->url();
 	}
 
 	/**
@@ -563,7 +574,11 @@ class File extends ModelWithContent
 	 */
 	public function site()
 	{
-		return is_a($this->parent(), 'Kirby\Cms\Site') === true ? $this->parent() : $this->kirby()->site();
+		if ($this->parent() instanceof Site) {
+			return $this->parent();
+		}
+
+		return $this->kirby()->site();
 	}
 
 	/**

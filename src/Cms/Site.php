@@ -232,7 +232,7 @@ class Site extends ModelWithContent
 	 */
 	public function errorPage()
 	{
-		if (is_a($this->errorPage, 'Kirby\Cms\Page') === true) {
+		if ($this->errorPage instanceof Page) {
 			return $this->errorPage;
 		}
 
@@ -271,7 +271,7 @@ class Site extends ModelWithContent
 	 */
 	public function homePage()
 	{
-		if (is_a($this->homePage, 'Kirby\Cms\Page') === true) {
+		if ($this->homePage instanceof Page) {
 			return $this->homePage;
 		}
 
@@ -324,7 +324,7 @@ class Site extends ModelWithContent
 	 */
 	public function is($site): bool
 	{
-		if (is_a($site, 'Kirby\Cms\Site') === false) {
+		if ($site instanceof self === false) {
 			return false;
 		}
 
@@ -389,7 +389,7 @@ class Site extends ModelWithContent
 			return $this->find($path);
 		}
 
-		if (is_a($this->page, 'Kirby\Cms\Page') === true) {
+		if ($this->page instanceof Page) {
 			return $this->page;
 		}
 
@@ -633,7 +633,7 @@ class Site extends ModelWithContent
 		}
 
 		// handle invalid pages
-		if (is_a($page, 'Kirby\Cms\Page') === false) {
+		if ($page instanceof Page === false) {
 			throw new InvalidArgumentException('Invalid page object');
 		}
 

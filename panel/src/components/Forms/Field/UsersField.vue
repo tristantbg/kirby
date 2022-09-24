@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style>
-.k-users-field[data-disabled="true"] * {
+.k-users-field[data-disabled="true"] .k-item * {
 	pointer-events: all !important;
 }
 </style>

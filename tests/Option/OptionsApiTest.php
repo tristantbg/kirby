@@ -6,7 +6,7 @@ use Kirby\Cms\Page;
 use Kirby\Field\TestCase;
 
 /**
- * @covers \Kirby\Option\OptionsApi
+ * @coversDefaultClass \Kirby\Option\OptionsApi
  */
 class OptionsApiTest extends TestCase
 {
@@ -15,11 +15,28 @@ class OptionsApiTest extends TestCase
 	 */
 	public function testConstruct()
 	{
-		$options = new OptionsApi('https://api.getkirby.com');
-		$this->assertSame('https://api.getkirby.com', $options->url);
+		$options = new OptionsApi($url = 'https://api.getkirby.com');
+		$this->assertSame($url, $options->url);
 		$this->assertNull($options->query);
 		$this->assertNull($options->text);
 		$this->assertNull($options->value);
+	}
+
+	/**
+	 * @covers ::defaults
+	 */
+	public function testDefaults()
+	{
+		$options = new OptionsApi($url = 'https://api.getkirby.com');
+		$this->assertSame($url, $options->url);
+		$this->assertNull($options->text);
+		$this->assertNull($options->value);
+
+		$options->defaults();
+
+		$this->assertSame($url, $options->url);
+		$this->assertSame('{{ item.value }}', $options->text);
+		$this->assertSame('{{ item.key }}', $options->value);
 	}
 
 	/**
@@ -31,7 +48,7 @@ class OptionsApiTest extends TestCase
 			'url'   => $url = 'https://api.getkirby.com',
 			'query' => $query = 'Companies',
 			'text'  => $text = '{{ item.name }}',
-			'value' => $value =  '{{ item.id }}'
+			'value' => $value =  '{{ item.id }}',
 		]);
 
 		$this->assertSame($url, $options->url);
@@ -41,6 +58,9 @@ class OptionsApiTest extends TestCase
 
 		$options = OptionsApi::factory($url = 'https://api.getkirby.com');
 		$this->assertSame($url, $options->url);
+		$this->assertNull($options->query);
+		$this->assertNull($options->text);
+		$this->assertNull($options->value);
 	}
 
 	/**
@@ -102,5 +122,41 @@ class OptionsApiTest extends TestCase
 		$this->assertSame('info@company-a.com', $result[0]['value']);
 		$this->assertSame('Company B', $result[1]['text']);
 		$this->assertSame('info@company-b.com', $result[1]['value']);
+	}
+
+	/**
+	 * @covers ::resolve
+	 */
+	public function testResolveHtmlEscpae()
+	{
+		$model = new Page(['slug' => 'test']);
+
+		// text escaped by default
+		$options = new OptionsApi(
+			url: __DIR__ . '/fixtures/data.json',
+			query: 'Directory.Companies',
+			text: '{{ item.slogan }}',
+			value: '{{ item.slogan }}'
+		);
+		$result = $options->render($model);
+
+		$this->assertSame('We are &lt;b&gt;great&lt;/b&gt;', $result[0]['text']);
+		$this->assertSame('We are <b>great</b>', $result[0]['value']);
+		$this->assertSame('We are &lt;b&gt;better&lt;/b&gt;', $result[1]['text']);
+		$this->assertSame('We are <b>better</b>', $result[1]['value']);
+
+
+		// text unescaped using {< >}
+		$options = new OptionsApi(
+			url: __DIR__ . '/fixtures/data.json',
+			query: 'Directory.Companies',
+			text: '{< item.slogan >}',
+			value: '{{ item.slogan }}'
+		);
+		$result = $options->render($model);
+		$this->assertSame('We are <b>great</b>', $result[0]['text']);
+		$this->assertSame('We are <b>great</b>', $result[0]['value']);
+		$this->assertSame('We are <b>better</b>', $result[1]['text']);
+		$this->assertSame('We are <b>better</b>', $result[1]['value']);
 	}
 }

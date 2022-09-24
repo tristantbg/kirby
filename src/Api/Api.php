@@ -5,6 +5,7 @@ namespace Kirby\Api;
 use Closure;
 use Exception;
 use Kirby\Cms\User;
+use Kirby\Exception\Exception as ExceptionException;
 use Kirby\Exception\NotFoundException;
 use Kirby\Filesystem\F;
 use Kirby\Http\Response;
@@ -145,12 +146,11 @@ class Api
 
 			// set PHP locales based on *user* language
 			// so that e.g. strftime() gets formatted correctly
-			if (is_a($user, User::class) === true) {
+			if ($user instanceof User) {
 				$language = $user->language();
 
 				// get the locale from the translation
-				$translation = $user->kirby()->translation($language);
-				$locale = ($translation !== null) ? $translation->locale() : $language;
+				$locale = $user->kirby()->translation($language)->locale();
 
 				// provide some variants as fallbacks to be
 				// compatible with as many systems as possible
@@ -186,7 +186,7 @@ class Api
 
 		if (
 			is_object($output) === true &&
-			is_a($output, Response::class) !== true
+			$output instanceof Response === false
 		) {
 			return $this->resolve($output)->toResponse();
 		}
@@ -223,7 +223,7 @@ class Api
 	 *
 	 * @throws \Kirby\Exception\NotFoundException If no data for `$key` exists
 	 */
-	public function data(string|null $key = null, ...$args): mixed
+	public function data(string|null $key = null, mixed ...$args): mixed
 	{
 		if ($key === null) {
 			return $this->data;
@@ -234,7 +234,7 @@ class Api
 		}
 
 		// lazy-load data wrapped in Closures
-		if (is_a($this->data[$key], Closure::class) === true) {
+		if ($this->data[$key] instanceof Closure) {
 			return $this->data[$key]->call($this, ...$args);
 		}
 
@@ -267,7 +267,7 @@ class Api
 	protected function match(array $array, mixed $object = null): string|null
 	{
 		foreach ($array as $definition => $model) {
-			if (is_a($object, $model['type']) === true) {
+			if ($object instanceof $model['type']) {
 				return $definition;
 			}
 		}
@@ -283,14 +283,10 @@ class Api
 	public function model(string|null $name = null, mixed $object = null): Model
 	{
 		// Try to auto-match object with API models
-		if ($name === null) {
-			if ($model = $this->match($this->models, $object)) {
-				$name = $model;
-			}
-		}
+		$name ??= $this->match($this->models, $object);
 
 		if (isset($this->models[$name]) === false) {
-			throw new NotFoundException(sprintf('The model "%s" does not exist', $name));
+			throw new NotFoundException(sprintf('The model "%s" does not exist', $name ?? 'NULL'));
 		}
 
 		return new Model($this, $object, $this->models[$name]);
@@ -382,8 +378,8 @@ class Api
 	public function resolve(mixed $object): Model|Collection
 	{
 		if (
-			is_a($object, Model::class) === true ||
-			is_a($object, Collection::class) === true
+			$object instanceof Model ||
+			$object instanceof Collection
 		) {
 			return $object;
 		}
@@ -603,7 +599,7 @@ class Api
 		];
 
 		// extend the information for Kirby Exceptions
-		if (is_a($e, 'Kirby\Exception\Exception') === true) {
+		if ($e instanceof ExceptionException) {
 			$result['key']     = $e->getKey();
 			$result['details'] = $e->getDetails();
 			$result['code']    = $e->getHttpCode();
@@ -696,7 +692,10 @@ class Api
 
 				// move the file to a location including the extension,
 				// for better mime detection
-				if ($debug === false && move_uploaded_file($upload['tmp_name'], $source) === false) {
+				if (
+					$debug === false &&
+					move_uploaded_file($upload['tmp_name'], $source) === false
+				) {
 					throw new Exception(I18n::translate('upload.error.cantMove'));
 				}
 

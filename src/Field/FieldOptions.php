@@ -82,8 +82,8 @@ class FieldOptions extends Node
 			return $this->options;
 		}
 
-		// resolve any options provider (e.g. OptionsApi, OptionsQuery)
-		// to Options
+		// resolve any options provider (e.g. OptionsApi,
+		// OptionsQuery) to Options
 		return $this->options = $this->options->resolve($model);
 	}
 

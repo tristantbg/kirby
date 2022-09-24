@@ -380,7 +380,6 @@ class Database
 			// store the final sql to add it to the trace later
 			$this->lastQuery = $this->statement->queryString;
 		} catch (Throwable $e) {
-
 			// store the error
 			$this->affected  = 0;
 			$this->lastError = $e;
@@ -428,7 +427,10 @@ class Database
 		}
 
 		// define the default flag for the fetch method
-		if ($options['fetch'] instanceof Closure || $options['fetch'] === 'array') {
+		if (
+			$options['fetch'] instanceof Closure ||
+			$options['fetch'] === 'array'
+		) {
 			$flags = PDO::FETCH_ASSOC;
 		} else {
 			$flags = PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE;

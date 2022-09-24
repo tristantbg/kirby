@@ -2,6 +2,7 @@
 
 namespace Kirby\Panel;
 
+use Closure;
 use Kirby\Cms\App;
 use Kirby\Cms\Find;
 use Kirby\Cms\Url as CmsUrl;
@@ -236,7 +237,7 @@ class Panel
 	public static function response(mixed $result, array $options = []): Response
 	{
 		// pass responses directly down to the Kirby router
-		if (is_a($result, 'Kirby\Http\Response') === true) {
+		if ($result instanceof Response) {
 			return $result;
 		}
 
@@ -282,7 +283,6 @@ class Panel
 
 		// create a micro-router for the Panel
 		return Router::execute($path, $method = $kirby->request()->method(), $routes, function ($route) use ($areas, $kirby, $method, $path) {
-
 			// route needs authentication?
 			$auth   = $route->attributes()['auth'] ?? true;
 			$areaId = $route->attributes()['area'] ?? null;
@@ -434,7 +434,7 @@ class Panel
 		foreach ($dropdowns as $name => $dropdown) {
 			// Handle shortcuts for dropdowns. The name is the pattern
 			// and options are defined in a Closure
-			if (is_a($dropdown, 'Closure') === true) {
+			if ($dropdown instanceof Closure) {
 				$dropdown = [
 					'pattern' => $name,
 					'action'  => $dropdown
@@ -466,7 +466,6 @@ class Panel
 		$routes   = [];
 
 		foreach ($searches as $name => $params) {
-
 			// create the full routing pattern
 			$pattern = 'search/' . $name;
 

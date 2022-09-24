@@ -2,7 +2,9 @@
 
 namespace Kirby\Validation;
 
+use Countable;
 use Exception;
+use Kirby\Cms\Field;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Http\Idn;
 use Kirby\Toolkit\I18n;
@@ -574,7 +576,7 @@ V::$validators = [
 	'size' => function ($value, int|float|null $size = null, $operator = '=='): bool {
 		// if value is field object, first convert it to a readable value
 		// it is important to check at the beginning as the value can be string or numeric
-		if (is_a($value, '\Kirby\Cms\Field') === true) {
+		if ($value instanceof Field) {
 			$value = $value->value();
 		}
 
@@ -589,7 +591,7 @@ V::$validators = [
 		} elseif (is_array($value) === true) {
 			$count = count($value);
 		} elseif (is_object($value) === true) {
-			if ($value instanceof \Countable) {
+			if ($value instanceof Countable) {
 				$count = count($value);
 			} elseif (method_exists($value, 'count') === true) {
 				$count = $value->count();

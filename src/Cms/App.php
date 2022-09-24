@@ -2,8 +2,10 @@
 
 namespace Kirby\Cms;
 
+use Closure;
 use Kirby\Data\Data;
 use Kirby\Exception\ErrorPageException;
+use Kirby\Exception\Exception;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\LogicException;
 use Kirby\Exception\NotFoundException;
@@ -23,6 +25,7 @@ use Kirby\Toolkit\Config;
 use Kirby\Toolkit\Controller;
 use Kirby\Toolkit\Properties;
 use Kirby\Toolkit\Str;
+use Kirby\Uuid\Uuid;
 use Throwable;
 
 /**
@@ -435,7 +438,7 @@ class App
 
 		$salt = $this->option('content.salt', $default);
 
-		if (is_a($salt, 'Closure') === true) {
+		if ($salt instanceof Closure) {
 			$salt = $salt($model);
 		}
 
@@ -461,7 +464,6 @@ class App
 		}
 
 		if ($contentType !== 'html') {
-
 			// no luck for a specific representation controller?
 			// let's try the html controller instead
 			if ($controller = $this->controllerLookup($name)) {
@@ -497,7 +499,11 @@ class App
 
 		// registry controller
 		if ($controller = $this->extension('controllers', $name)) {
-			return is_a($controller, 'Kirby\Toolkit\Controller') ? $controller : new Controller($controller);
+			if ($controller instanceof Controller) {
+				return $controller;
+			}
+
+			return new Controller($controller);
 		}
 
 		return null;
@@ -634,15 +640,21 @@ class App
 	 */
 	public function file(string $path, $parent = null, bool $drafts = true)
 	{
+		// find by global UUID
+		if (Uuid::is($path, 'file') === true) {
+			// prefer files of parent, when parent given
+			return Uuid::for($path, $parent?->files())->model();
+		}
+
 		$parent   = $parent ?? $this->site();
 		$id       = dirname($path);
 		$filename = basename($path);
 
-		if (is_a($parent, 'Kirby\Cms\User') === true) {
+		if ($parent instanceof User) {
 			return $parent->file($filename);
 		}
 
-		if (is_a($parent, 'Kirby\Cms\File') === true) {
+		if ($parent instanceof File) {
 			$parent = $parent->parent();
 		}
 
@@ -701,6 +713,7 @@ class App
 	 * @param \Kirby\Cms\App|null $instance
 	 * @param bool $lazy If `true`, the instance is only returned if already existing
 	 * @return static|null
+	 * @psalm-return ($lazy is false ? static : static|null)
 	 */
 	public static function instance(self $instance = null, bool $lazy = false)
 	{
@@ -729,8 +742,8 @@ class App
 		$response = $this->response();
 
 		// any direct exception will be turned into an error page
-		if (is_a($input, 'Throwable') === true) {
-			if (is_a($input, 'Kirby\Exception\Exception') === true) {
+		if ($input instanceof Throwable) {
+			if ($input instanceof Exception) {
 				$code = $input->getHttpCode();
 			} else {
 				$code = $input->getCode();
@@ -761,7 +774,7 @@ class App
 		}
 
 		// (Modified) global response configuration, e.g. in routes
-		if (is_a($input, 'Kirby\Cms\Responder') === true) {
+		if ($input instanceof Responder) {
 			// return the passed object unmodified (without injecting headers
 			// from the global object) to allow a complete response override
 			// https://github.com/getkirby/kirby/pull/4144#issuecomment-1034766726
@@ -769,20 +782,23 @@ class App
 		}
 
 		// Responses
-		if (is_a($input, 'Kirby\Http\Response') === true) {
+		if ($input instanceof Response) {
 			$data = $input->toArray();
 
 			// inject headers from the global response configuration
 			// lazily (only if they are not already set);
 			// the case-insensitive nature of headers will be
 			// handled by PHP's `header()` function
-			$data['headers'] = array_merge($response->headers(), $data['headers']);
+			$data['headers'] = array_merge(
+				$response->headers(),
+				$data['headers']
+			);
 
 			return new Response($data);
 		}
 
 		// Pages
-		if (is_a($input, 'Kirby\Cms\Page')) {
+		if ($input instanceof Page) {
 			try {
 				$html = $input->render();
 			} catch (ErrorPageException $e) {
@@ -800,7 +816,7 @@ class App
 		}
 
 		// Files
-		if (is_a($input, 'Kirby\Cms\File')) {
+		if ($input instanceof File) {
 			return $response->redirect($input->mediaUrl(), 307)->send();
 		}
 
@@ -1061,19 +1077,27 @@ class App
 	 */
 	protected function optionsFromEnvironment(array $props = []): array
 	{
-		$globalUrl = $this->options['url'] ?? null;
+		$root = $this->root('config');
 
-		// create the environment based on the URL setup
+		// first load `config/env.php` to access its `url` option
+		$envOptions = F::load($root . '/env.php', []);
+
+		// use the option from the main `config.php`,
+		// but allow the `env.php` to override it
+		$globalUrl = $envOptions['url'] ?? $this->options['url'] ?? null;
+
+		// create the URL setup based on hostname and server IP address
 		$this->environment = new Environment([
 			'allowed' => $globalUrl,
 			'cli'     => $props['cli'] ?? null,
 		], $props['server'] ?? null);
 
-		// merge into one clean options array
-		$options = $this->environment()->options($this->root('config'));
-		$this->options = array_replace_recursive($this->options, $options);
+		// merge into one clean options array;
+		// the `env.php` options always override everything else
+		$hostAddrOptions = $this->environment()->options($root);
+		$this->options = array_replace_recursive($this->options, $hostAddrOptions, $envOptions);
 
-		// reload the environment if the environment config has overridden
+		// reload the environment if the host/address config has overridden
 		// the `url` option; this ensures that the base URL is correct
 		$envUrl = $this->options['url'] ?? null;
 		if ($envUrl !== $globalUrl) {
@@ -1155,6 +1179,11 @@ class App
 	{
 		if ($id === null) {
 			return null;
+		}
+
+		// find by global UUID
+		if (Uuid::is($id, 'page') === true) {
+			return Uuid::for($id, $parent?->childrenAndDrafts())->model();
 		}
 
 		$parent = $parent ?? $this->site();
@@ -1585,11 +1614,11 @@ class App
 	 * Uses the snippet component to create
 	 * and return a template snippet
 	 *
-	 * @internal
 	 * @param mixed $name
 	 * @param array|object $data Variables or an object that becomes `$item`
 	 * @param bool $return On `false`, directly echo the snippet
 	 * @return string|null
+	 * @psalm-return ($return is true ? string : null)
 	 */
 	public function snippet($name, $data = [], bool $return = true): string|null
 	{

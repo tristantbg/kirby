@@ -4,7 +4,9 @@ use Kirby\Cms\App;
 use Kirby\Cms\Collection;
 use Kirby\Cms\File;
 use Kirby\Cms\FileVersion;
+use Kirby\Cms\Page;
 use Kirby\Cms\Template;
+use Kirby\Cms\User;
 use Kirby\Data\Data;
 use Kirby\Email\PHPMailer as Emailer;
 use Kirby\Filesystem\F;
@@ -73,7 +75,6 @@ return [
 
 		// check if the thumb already exists
 		if (file_exists($thumbRoot) === false) {
-
 			// if not, create job file
 			$job = $mediaRoot . '/.jobs/' . $thumbName . '.json';
 
@@ -171,17 +172,22 @@ return [
 			return $options['words'] ? '\b' . preg_quote($value) . '\b' : preg_quote($value);
 		}, $searchWords);
 
+		// returns an empty collection if there is no search word
+		if (empty($searchWords) === true) {
+			return $collection->limit(0);
+		}
+
 		$preg    = '!(' . implode('|', $searchWords) . ')!i';
 		$results = $collection->filter(function ($item) use ($query, $preg, $options, $lowerQuery, $exactQuery) {
 			$data = $item->content()->toArray();
 			$keys = array_keys($data);
 			$keys[] = 'id';
 
-			if (is_a($item, 'Kirby\Cms\User') === true) {
+			if ($item instanceof User) {
 				$keys[] = 'name';
 				$keys[] = 'email';
 				$keys[] = 'role';
-			} elseif (is_a($item, 'Kirby\Cms\Page') === true) {
+			} elseif ($item instanceof Page) {
 				// apply the default score for pages
 				$options['score'] = array_merge([
 					'id'    => 64,
@@ -260,9 +266,8 @@ return [
 	 * @param \Kirby\Cms\App $kirby Kirby instance
 	 * @param string|array $name Snippet name
 	 * @param array $data Data array for the snippet
-	 * @return string|null
 	 */
-	'snippet' => function (App $kirby, $name, array $data = []): string|null {
+	'snippet' => function (App $kirby, $name, array $data = []): string {
 		$snippets = A::wrap($name);
 
 		foreach ($snippets as $name) {

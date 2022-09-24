@@ -7,6 +7,8 @@ use Kirby\Data\Data;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Form\Form;
 use Kirby\Toolkit\Str;
+use Kirby\Uuid\Identifiable;
+use Kirby\Uuid\Uuid;
 use Throwable;
 
 /**
@@ -18,7 +20,7 @@ use Throwable;
  * @copyright Bastian Allgeier
  * @license   https://getkirby.com/license
  */
-abstract class ModelWithContent extends Model
+abstract class ModelWithContent extends Model implements Identifiable
 {
 	/**
 	 * The content
@@ -83,10 +85,9 @@ abstract class ModelWithContent extends Model
 	 */
 	public function content(string $languageCode = null)
 	{
-
 		// single language support
 		if ($this->kirby()->multilang() === false) {
-			if (is_a($this->content, 'Kirby\Cms\Content') === true) {
+			if ($this->content instanceof Content) {
 				return $this->content;
 			}
 
@@ -95,11 +96,10 @@ abstract class ModelWithContent extends Model
 
 		// multi language support
 		} else {
-
 			// only fetch from cache for the default language
 			if (
 				$languageCode === null &&
-				is_a($this->content, 'Kirby\Cms\Content') === true
+				$this->content instanceof Content
 			) {
 				return $this->content;
 			}
@@ -351,7 +351,7 @@ abstract class ModelWithContent extends Model
 		try {
 			$result = Str::query($query, [
 				'kirby'             => $this->kirby(),
-				'site'              => is_a($this, 'Kirby\Cms\Site') ? $this : $this->site(),
+				'site'              => $this instanceof Site ? $this : $this->site(),
 				'model'             => $this,
 				static::CLASS_ALIAS => $this
 			]);
@@ -359,7 +359,7 @@ abstract class ModelWithContent extends Model
 			return null;
 		}
 
-		if ($expect !== null && is_a($result, $expect) !== true) {
+		if ($expect !== null && $result instanceof $expect === false) {
 			return null;
 		}
 
@@ -406,10 +406,17 @@ abstract class ModelWithContent extends Model
 	public function save(array $data = null, string $languageCode = null, bool $overwrite = false)
 	{
 		if ($this->kirby()->multilang() === true) {
-			return $this->saveTranslation($data, $languageCode, $overwrite);
+			$model = $this->saveTranslation($data, $languageCode, $overwrite);
+		} else {
+			$model = $this->saveContent($data, $overwrite);
 		}
 
-		return $this->saveContent($data, $overwrite);
+		// update model in siblings collection
+		if (method_exists($model, 'siblings') === true) {
+			$model->siblings()->add($model);
+		}
+
+		return $model;
 	}
 
 	/**
@@ -524,10 +531,11 @@ abstract class ModelWithContent extends Model
 	 *
 	 * @param string|null $template Template string or `null` to use the model ID
 	 * @param array $data
-	 * @param string $fallback Fallback for tokens in the template that cannot be replaced
+	 * @param string|null $fallback Fallback for tokens in the template that cannot be replaced
+	 *                              (`null` to keep the original token)
 	 * @return string
 	 */
-	public function toSafeString(string $template = null, array $data = [], string $fallback = ''): string
+	public function toSafeString(string $template = null, array $data = [], string|null $fallback = ''): string
 	{
 		return $this->toString($template, $data, $fallback, 'safeTemplate');
 	}
@@ -537,11 +545,12 @@ abstract class ModelWithContent extends Model
 	 *
 	 * @param string|null $template Template string or `null` to use the model ID
 	 * @param array $data
-	 * @param string $fallback Fallback for tokens in the template that cannot be replaced
+	 * @param string|null $fallback Fallback for tokens in the template that cannot be replaced
+	 *                              (`null` to keep the original token)
 	 * @param string $handler For internal use
 	 * @return string
 	 */
-	public function toString(string $template = null, array $data = [], string $fallback = '', string $handler = 'template'): string
+	public function toString(string $template = null, array $data = [], string|null $fallback = '', string $handler = 'template'): string
 	{
 		if ($template === null) {
 			return $this->id() ?? '';
@@ -553,7 +562,7 @@ abstract class ModelWithContent extends Model
 
 		$result = Str::$handler($template, array_replace([
 			'kirby'             => $this->kirby(),
-			'site'              => is_a($this, 'Kirby\Cms\Site') ? $this : $this->site(),
+			'site'              => $this instanceof Site ? $this : $this->site(),
 			'model'             => $this,
 			static::CLASS_ALIAS => $this,
 		], $data), ['fallback' => $fallback]);
@@ -627,14 +636,16 @@ abstract class ModelWithContent extends Model
 
 		$arguments = [static::CLASS_ALIAS => $this, 'values' => $form->data(), 'strings' => $form->strings(), 'languageCode' => $languageCode];
 		return $this->commit('update', $arguments, function ($model, $values, $strings, $languageCode) {
-			// save updated values
-			$model = $model->save($strings, $languageCode, true);
-
-			// update model in siblings collection
-			$model->siblings()->add($model);
-
-			return $model;
+			return $model->save($strings, $languageCode, true);
 		});
+	}
+
+	/**
+	 * Returns the model's UUID
+	 */
+	public function uuid(): Uuid
+	{
+		return Uuid::for($this);
 	}
 
 	/**

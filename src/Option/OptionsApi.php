@@ -35,7 +35,8 @@ class OptionsApi extends OptionsProvider
 	{
 		$this->text  ??= '{{ item.value }}';
 		$this->value ??= '{{ item.key }}';
-		return parent::defaults();
+
+		return $this;
 	}
 
 	public static function factory(string|array $props): static

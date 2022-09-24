@@ -8,6 +8,7 @@ use Kirby\Exception\NotFoundException;
 use Kirby\Filesystem\Dir;
 use Kirby\Filesystem\F;
 use Kirby\Panel\User as Panel;
+use Kirby\Session\Session;
 use Kirby\Toolkit\Str;
 
 /**
@@ -495,7 +496,7 @@ class User extends ModelWithContent
 		if ($class = (static::$models[$name] ?? null)) {
 			$object = new $class($props);
 
-			if (is_a($object, 'Kirby\Cms\User') === true) {
+			if ($object instanceof self) {
 				return $object;
 			}
 		}
@@ -604,7 +605,7 @@ class User extends ModelWithContent
 	 */
 	public function role()
 	{
-		if (is_a($this->role, 'Kirby\Cms\Role') === true) {
+		if ($this->role instanceof Role) {
 			return $this->role;
 		}
 
@@ -767,7 +768,7 @@ class User extends ModelWithContent
 		// use passed session options or session object if set
 		if (is_array($session) === true) {
 			$session = $this->kirby()->session($session);
-		} elseif (is_a($session, 'Kirby\Session\Session') === false) {
+		} elseif ($session instanceof Session === false) {
 			$session = $this->kirby()->session(['detect' => true]);
 		}
 
@@ -808,10 +809,11 @@ class User extends ModelWithContent
 	 *
 	 * @param string|null $template
 	 * @param array|null $data
-	 * @param string $fallback Fallback for tokens in the template that cannot be replaced
+	 * @param string|null $fallback Fallback for tokens in the template that cannot be replaced
+	 *                              (`null` to keep the original token)
 	 * @return string
 	 */
-	public function toString(string $template = null, array $data = [], string $fallback = '', string $handler = 'template'): string
+	public function toString(string $template = null, array $data = [], string|null $fallback = '', string $handler = 'template'): string
 	{
 		$template ??= $this->email();
 		return parent::toString($template, $data, $fallback, $handler);

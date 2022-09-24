@@ -4,6 +4,7 @@ namespace Kirby\Filesystem;
 
 use Exception;
 use IntlDateFormatter;
+use Kirby\Cms\Helpers;
 use Kirby\Toolkit\I18n;
 use Kirby\Toolkit\Str;
 use Throwable;
@@ -667,12 +668,11 @@ class F
 		}
 
 		$file = realpath($file);
-
-		if (file_exists($file) === false) {
+		if (is_string($file) === false) {
 			return true;
 		}
 
-		return unlink($file);
+		return static::unlink($file);
 	}
 
 	/**
@@ -774,6 +774,30 @@ class F
 	public static function typeToExtensions(string $type): array|null
 	{
 		return static::$types[$type] ?? null;
+	}
+
+	/**
+	 * Ensures that a file or link is deleted (with race condition handling)
+	 * @since 3.7.4
+	 */
+	public static function unlink(string $file): bool
+	{
+		return Helpers::handleErrors(
+			fn (): bool => unlink($file),
+			function (&$override, int $errno, string $errstr): bool {
+				// if the file or link was already deleted (race condition),
+				// consider it a success
+				if (Str::endsWith($errstr, 'No such file or directory') === true) {
+					$override = true;
+
+					// drop the warning
+					return true;
+				}
+
+				// handle every other warning normally
+				return false;
+			}
+		);
 	}
 
 	/**

@@ -2,6 +2,7 @@
 
 namespace Kirby\Panel;
 
+use Closure;
 use Kirby\Blueprint\BlueprintImage;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Cms\Revision;
@@ -50,12 +51,8 @@ abstract class Model
 		$option   = 'panel.' . $type . '.' . $this->model::CLASS_ALIAS . 'DragText';
 		$callback = $this->model->kirby()->option($option);
 
-		if (
-			empty($callback) === false &&
-			is_a($callback, 'Closure') === true &&
-			($dragText = $callback($this->model, ...$args)) !== null
-		) {
-			return $dragText;
+		if ($callback instanceof Closure) {
+			return $callback($this->model, ...$args);
 		}
 
 		return null;
@@ -195,6 +192,7 @@ abstract class Model
 			'link'     => $this->url(true),
 			'sortable' => true,
 			'text'     => $this->model->toSafeString($params['text'] ?? false),
+			'uuid'     => $this->model->uuid()->toString(),
 		];
 	}
 

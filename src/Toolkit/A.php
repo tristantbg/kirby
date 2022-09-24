@@ -2,6 +2,7 @@
 
 namespace Kirby\Toolkit;
 
+use Closure;
 use Exception;
 
 /**
@@ -24,7 +25,7 @@ class A
 	 */
 	public static function append(array $array, array $append): array
 	{
-		return $array + $append;
+		return static::merge($array, $append, A::MERGE_APPEND);
 	}
 
 	/**
@@ -38,7 +39,7 @@ class A
 	public static function apply(array $array, ...$args): array
 	{
 		array_walk_recursive($array, function (&$item) use ($args) {
-			if (is_a($item, 'Closure')) {
+			if ($item instanceof Closure) {
 				$item = $item(...$args);
 			}
 		});
@@ -164,18 +165,24 @@ class A
 	{
 		$merged = $array1;
 
-		if (static::isAssociative($array1) === false && $mode === static::MERGE_REPLACE) {
+		if (
+			static::isAssociative($array1) === false &&
+			$mode === static::MERGE_REPLACE
+		) {
 			return $array2;
 		}
 
 		foreach ($array2 as $key => $value) {
-
 			// append to the merged array, don't overwrite numeric keys
 			if (is_int($key) === true && $mode === static::MERGE_APPEND) {
 				$merged[] = $value;
 
 			// recursively merge the two array values
-			} elseif (is_array($value) === true && isset($merged[$key]) === true && is_array($merged[$key]) === true) {
+			} elseif (
+				is_array($value) === true &&
+				isset($merged[$key]) === true &&
+				is_array($merged[$key]) === true
+			) {
 				$merged[$key] = static::merge($merged[$key], $value, $mode);
 
 			// simply overwrite with the value from the second array
@@ -634,8 +641,12 @@ class A
 	 * @param int $decimals The number of decimals to return
 	 * @return float The average value
 	 */
-	public static function average(array $array, int $decimals = 0): float
+	public static function average(array $array, int $decimals = 0): float|null
 	{
+		if (empty($array) === true) {
+			return null;
+		}
+
 		return round((array_sum($array) / sizeof($array)), $decimals);
 	}
 
@@ -687,7 +698,7 @@ class A
 	public static function update(array $array, array $update): array
 	{
 		foreach ($update as $key => $value) {
-			if (is_a($value, 'Closure') === true) {
+			if ($value instanceof Closure) {
 				$array[$key] = call_user_func($value, static::get($array, $key));
 			} else {
 				$array[$key] = $value;

@@ -120,6 +120,16 @@ class Core
 	}
 
 	/**
+	 * Returns a list of all core caches
+	 */
+	public function caches(): array
+	{
+		return [
+			'uuid' => true
+		];
+	}
+
+	/**
 	 * Returns a list of all cache driver classes
 	 */
 	public function cacheTypes(): array
@@ -130,14 +140,6 @@ class Core
 			'memcached' => 'Kirby\Cache\MemCached',
 			'memory'    => 'Kirby\Cache\MemoryCache',
 		];
-	}
-
-	/**
-	 * Returns a list of all core caches
-	 */
-	public function caches(): array
-	{
-		return [];
 	}
 
 	/**
@@ -228,6 +230,7 @@ class Core
 			'list'        => $this->root . '/fields/list.php',
 			'multiselect' => $this->root . '/fields/multiselect.php',
 			'number'      => $this->root . '/fields/number.php',
+			'object'      => $this->root . '/fields/object.php',
 			'pages'       => $this->root . '/fields/pages.php',
 			'radio'       => $this->root . '/fields/radio.php',
 			'range'       => $this->root . '/fields/range.php',

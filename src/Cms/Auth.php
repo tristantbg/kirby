@@ -11,6 +11,7 @@ use Kirby\Exception\PermissionException;
 use Kirby\Filesystem\F;
 use Kirby\Http\Idn;
 use Kirby\Http\Request\Auth\BasicAuth;
+use Kirby\Session\Session;
 use Kirby\Toolkit\A;
 use Throwable;
 
@@ -105,10 +106,10 @@ class Auth
 			'long'       => $long === true
 		]);
 
+		$timeout = $this->kirby->option('auth.challenge.timeout', 10 * 60);
+
 		$challenge = null;
 		if ($user = $this->kirby->users()->find($email)) {
-			$timeout = $this->kirby->option('auth.challenge.timeout', 10 * 60);
-
 			foreach ($this->enabledChallenges() as $name) {
 				$class = static::$challenges[$name] ?? null;
 				if (
@@ -124,7 +125,6 @@ class Auth
 
 					if ($code !== null) {
 						$session->set('kirby.challenge.code', password_hash($code, PASSWORD_DEFAULT));
-						$session->set('kirby.challenge.timeout', time() + $timeout);
 					}
 
 					break;
@@ -150,9 +150,10 @@ class Auth
 			}
 		}
 
-		// always set the email, even if the challenge won't be
-		// created to avoid leaking whether the user exists
+		// always set the email and timeout, even if the challenge
+		// won't be created; this avoids leaking whether the user exists
 		$session->set('kirby.challenge.email', $email);
+		$session->set('kirby.challenge.timeout', time() + $timeout);
 
 		// sleep for a random amount of milliseconds
 		// to make automated attacks harder and to
@@ -711,9 +712,17 @@ class Auth
 	public function type(bool $allowImpersonation = true): string
 	{
 		$basicAuth = $this->kirby->option('api.basicAuth', false);
-		$auth      = $this->kirby->request()->auth();
+		$request   = $this->kirby->request();
 
-		if ($basicAuth === true && $auth && $auth->type() === 'basic') {
+		if (
+			$basicAuth === true &&
+
+			// only get the auth object if the option is enabled
+			// to avoid triggering `$responder->usesAuth()` if
+			// the option is disabled
+			$request->auth() &&
+			$request->auth()->type() === 'basic'
+		) {
 			return 'basic';
 		}
 
@@ -790,11 +799,35 @@ class Auth
 		try {
 			$session = $this->kirby->session();
 
-			// first check if we have an active challenge at all
+			// time-limiting; check this early so that we can destroy the session no
+			// matter if the user exists (avoids leaking user information to attackers)
+			$timeout = $session->get('kirby.challenge.timeout');
+			if ($timeout !== null && time() > $timeout) {
+				// this challenge can never be completed,
+				// so delete it immediately
+				$this->logout();
+
+				throw new PermissionException([
+					'details'  => ['challengeDestroyed' => true],
+					'fallback' => 'Authentication challenge timeout'
+				]);
+			}
+
+			// check if we have an active challenge
 			$email     = $session->get('kirby.challenge.email');
 			$challenge = $session->get('kirby.challenge.type');
 			if (is_string($email) !== true || is_string($challenge) !== true) {
-				throw new InvalidArgumentException('No authentication challenge is active');
+				// if the challenge timed out on the previous request, the
+				// challenge data was already deleted from the session, so we can
+				// set `challengeDestroyed` to `true` in this response as well;
+				// however we must only base this on the email, not the type
+				// (otherwise "faked" challenges would be leaked)
+				$challengeDestroyed = is_string($email) !== true;
+
+				throw new InvalidArgumentException([
+					'details'  => compact('challengeDestroyed'),
+					'fallback' => 'No authentication challenge is active'
+				]);
 			}
 
 			$user = $this->kirby->users()->find($email);
@@ -811,12 +844,6 @@ class Auth
 			if ($this->isBlocked($email) === true) {
 				$this->kirby->trigger('user.login:failed', compact('email'));
 				throw new PermissionException('Rate limit exceeded');
-			}
-
-			// time-limiting
-			$timeout = $session->get('kirby.challenge.timeout');
-			if ($timeout !== null && time() > $timeout) {
-				throw new PermissionException('Authentication challenge timeout');
 			}
 
 			if (
@@ -854,7 +881,14 @@ class Auth
 			if ($this->kirby->option('debug') === true) {
 				throw $e;
 			} else {
-				throw new PermissionException(['key' => 'access.code']);
+				// specifically copy over the marker for a destroyed challenge
+				// even in production (used by the Panel to reset to the login form)
+				$challengeDestroyed = $e->getDetails()['challengeDestroyed'] ?? false;
+
+				throw new PermissionException([
+					'details' => compact('challengeDestroyed'),
+					'key'     => 'access.code'
+				]);
 			}
 		}
 	}
@@ -873,7 +907,7 @@ class Auth
 		}
 
 		// try session in header or cookie
-		if (is_a($session, 'Kirby\Session\Session') === false) {
+		if ($session instanceof Session === false) {
 			return $this->kirby->session(['detect' => true]);
 		}
 

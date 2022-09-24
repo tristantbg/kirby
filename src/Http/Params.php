@@ -66,7 +66,7 @@ class Params extends Obj
 				$paramValue = $paramParts[1] ?? null;
 
 				if ($paramKey !== null) {
-					$params[$paramKey] = $paramValue;
+					$params[rawurldecode($paramKey)] = $paramValue ? rawurldecode($paramValue) : null;
 				}
 
 				unset($path[$index]);
@@ -131,7 +131,7 @@ class Params extends Obj
 
 		foreach ($this as $key => $value) {
 			if ($value !== null && $value !== '') {
-				$params[] = $key . $separator . $value;
+				$params[] = rawurlencode($key) . $separator . rawurlencode($value);
 			}
 		}
 

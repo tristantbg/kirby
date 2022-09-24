@@ -2,6 +2,7 @@
 
 namespace Kirby\Toolkit;
 
+use Closure;
 use DateTime;
 use Exception;
 use IntlDateFormatter;
@@ -332,7 +333,7 @@ class Str
 		}
 
 		// $format is an IntlDateFormatter instance
-		if (is_a($format, 'IntlDateFormatter') === true) {
+		if ($format instanceof IntlDateFormatter) {
 			return $format->format($time ?? time());
 		}
 
@@ -468,7 +469,12 @@ class Str
 	public static function excerpt($string, $chars = 140, $strip = true, $rep = ' …')
 	{
 		if ($strip === true) {
-			$string = strip_tags(str_replace('<', ' <', $string));
+			// ensure that opening tags are preceded by a space, so that
+			// when tags are skipped we can be sure that words stay separate
+			$string = preg_replace('#\s*<([^\/])#', ' <${1}', $string);
+
+			// in strip mode, we always return plain text
+			$string = strip_tags($string);
 		}
 
 		// replace line breaks with spaces
@@ -710,19 +716,20 @@ class Str
 	 *                         defaults to no limit
 	 * @return string|array String with replaced values;
 	 *                      if $string is an array, array of strings
+	 * @psalm-return ($string is array ? array : string)
 	 */
 	public static function replace($string, $search, $replace, $limit = -1)
 	{
 		// convert Kirby collections to arrays
-		if (is_a($string, 'Kirby\Toolkit\Collection') === true) {
+		if ($string instanceof Collection) {
 			$string = $string->toArray();
 		}
 
-		if (is_a($search, 'Kirby\Toolkit\Collection') === true) {
+		if ($search instanceof Collection) {
 			$search  = $search->toArray();
 		}
 
-		if (is_a($replace, 'Kirby\Toolkit\Collection') === true) {
+		if ($replace instanceof Collection) {
 			$replace = $replace->toArray();
 		}
 
@@ -821,11 +828,9 @@ class Str
 			if (is_int($replacement['limit']) === false) {
 				throw new Exception('Invalid limit "' . $replacement['limit'] . '".');
 			} elseif ($replacement['limit'] === -1) {
-
 				// no limit, we don't need our special replacement routine
 				$string = str_replace($replacement['search'], $replacement['replace'], $string);
 			} elseif ($replacement['limit'] > 0) {
-
 				// limit given, only replace for $replacement['limit'] times per replacement
 				$position = -1;
 
@@ -878,8 +883,8 @@ class Str
 	 */
 	public static function safeTemplate(string $string = null, array $data = [], array $options = []): string
 	{
-		$callback = is_a(($options['callback'] ?? null), 'Closure') === true ? $options['callback'] : null;
-		$fallback = $options['fallback'] ?? '';
+		$callback = ($options['callback'] ?? null) instanceof Closure ? $options['callback'] : null;
+		$fallback = $options['fallback'] ?? null;
 
 		// replace and escape
 		$string = static::template($string, $data, [
@@ -1169,7 +1174,7 @@ class Str
 	public static function template(string $string = null, array $data = [], array $options = []): string
 	{
 		$fallback = $options['fallback'] ?? null;
-		$callback = is_a(($options['callback'] ?? null), 'Closure') === true ? $options['callback'] : null;
+		$callback = ($options['callback'] ?? null) instanceof Closure ? $options['callback'] : null;
 		$start    = (string)($options['start'] ?? '{{');
 		$end      = (string)($options['end'] ?? '}}');
 
@@ -1197,7 +1202,14 @@ class Str
 
 			// callback on result if given
 			if ($callback !== null) {
-				$result = $callback((string)$result, $query, $data);
+				$callbackResult = $callback((string)$result, $query, $data);
+
+				if ($result === null && $callbackResult === '') {
+					// the empty string came just from string casting,
+					// keep the null value and ignore the callback result
+				} else {
+					$result = $callbackResult;
+				}
 			}
 
 			// if we still don't have a result, keep the original placeholder

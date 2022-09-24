@@ -2,6 +2,7 @@
 
 namespace Kirby\Database;
 
+use Kirby\Toolkit\Collection;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -92,6 +93,16 @@ class QueryTest extends TestCase
 			'password' => 'beatles',
 			'balance'  => 50
 		]);
+
+		$this->database->table('users')->insert([
+			'role_id'  => 4,
+			'username' => 'foo',
+			'fname'    => 'Mark',
+			'lname'    => 'Bar',
+			'email'    => 'foo@bar.com',
+			'password' => 'AND',
+			'balance'  => -30
+		]);
 	}
 
 	public function testJoin()
@@ -149,7 +160,7 @@ class QueryTest extends TestCase
 			->table('users')
 			->sum('balance');
 
-		$this->assertSame((float)500, $sum);
+		$this->assertSame((float)470, $sum);
 	}
 
 	public function testAvg()
@@ -215,7 +226,7 @@ class QueryTest extends TestCase
 			->table('users')
 			->all();
 
-		$this->assertCount(3, $users);
+		$this->assertCount(4, $users);
 	}
 
 	public function testMagicCall()
@@ -244,8 +255,8 @@ class QueryTest extends TestCase
 			->select('password')
 			->all();
 
-		// all passwords is same, query result count should one with distinct
-		$this->assertCount(1, $users);
+		// there are two different passwords in use
+		$this->assertCount(2, $users);
 	}
 
 	public function testMin()
@@ -254,7 +265,7 @@ class QueryTest extends TestCase
 			->table('users')
 			->min('balance');
 
-		$this->assertSame((float)50, $balance);
+		$this->assertSame((float)-30, $balance);
 	}
 
 	public function testMax()
@@ -298,7 +309,7 @@ class QueryTest extends TestCase
 			])
 			->column('username');
 
-		$this->assertInstanceOf('\Kirby\Toolkit\Collection', $users);
+		$this->assertInstanceOf(Collection::class, $users);
 		$this->assertCount(2, $users->data());
 		$this->assertSame(['george', 'mark'], $users->data());
 	}
@@ -325,7 +336,7 @@ class QueryTest extends TestCase
 		$users = $this->database
 			->table('users')
 			->group('id')
-			->having('balance', '<=', 100)
+			->having('balance', '<=', 70)
 			->all();
 
 		$this->assertCount(2, $users);
@@ -333,6 +344,22 @@ class QueryTest extends TestCase
 
 	public function testWhere()
 	{
+		// numeric comparison
+		$count = $this->database
+			->table('users')
+			->where('balance', '>', 100)
+			->count();
+
+		$this->assertSame(2, $count);
+
+		// numeric comparison (value 0)
+		$count = $this->database
+			->table('users')
+			->where('balance', '>', 0)
+			->count();
+
+		$this->assertSame(4, $count);
+
 		// like 1
 		$count = $this->database
 			->table('users')
@@ -357,13 +384,34 @@ class QueryTest extends TestCase
 
 		$this->assertSame(2, $count);
 
-		// invalid predicate
+		// 'AND' as value
+		$count = $this->database
+			->table('users')
+			->where('password', '=', 'AND')
+			->count();
+
+		$this->assertSame(1, $count);
+	}
+
+	public function testWhereInvalidPredicate()
+	{
 		$this->expectException('InvalidArgumentException');
 		$this->expectExceptionMessage('Invalid predicate INV');
 
 		$this->database
 			->table('users')
 			->where('username', 'INV', ['john', 'paul'])
+			->count();
+	}
+
+	public function testWhereInvalidPredicateOperator()
+	{
+		$this->expectException('InvalidArgumentException');
+		$this->expectExceptionMessage('Invalid predicate/operator <!>');
+
+		$this->database
+			->table('users')
+			->where('username', '<!>', 'john')
 			->count();
 	}
 
@@ -375,6 +423,26 @@ class QueryTest extends TestCase
 				'role_id' => 3
 			])
 			->andWhere('balance > 50')
+			->count();
+
+		$this->assertSame(1, $count);
+
+		// with value 0
+		$count = $this->database
+			->table('users')
+			->where([
+				'role_id' => 3
+			])
+			->andWhere('balance', '>', 0)
+			->count();
+
+		$this->assertSame(2, $count);
+
+		// 'AND' as value
+		$count = $this->database
+			->table('users')
+			->where('fname', '=', 'Mark')
+			->andWhere('password', '=', 'AND')
 			->count();
 
 		$this->assertSame(1, $count);
@@ -390,7 +458,27 @@ class QueryTest extends TestCase
 			->orWhere('balance <= 100')
 			->count();
 
-		$this->assertSame(3, $count);
+		$this->assertSame(4, $count);
+
+		// with value 0
+		$count = $this->database
+			->table('users')
+			->where([
+				'role_id' => 1
+			])
+			->orWhere('balance', '<=', 0)
+			->count();
+
+		$this->assertSame(2, $count);
+
+		// 'AND' as value
+		$count = $this->database
+			->table('users')
+			->where('balance', '>=', 100)
+			->orWhere('password', '=', 'AND')
+			->count();
+
+		$this->assertSame(4, $count);
 	}
 
 	public function testWhereCallback()
@@ -412,14 +500,14 @@ class QueryTest extends TestCase
 		$results = $query->page(1, 10);
 		$pagination = $results->pagination();
 
-		$this->assertCount(4, $results);
+		$this->assertCount(5, $results);
 		$this->assertSame('John', $results->first()->fname());
 		$this->assertTrue(get_class($pagination) === 'Kirby\Toolkit\Pagination');
 		$this->assertSame(1, $pagination->pages());
-		$this->assertSame(4, $pagination->total());
+		$this->assertSame(5, $pagination->total());
 		$this->assertSame(1, $pagination->page());
 		$this->assertSame(1, $pagination->start());
-		$this->assertSame(4, $pagination->end());
+		$this->assertSame(5, $pagination->end());
 		$this->assertSame(10, $pagination->limit());
 
 		// example two
@@ -429,8 +517,8 @@ class QueryTest extends TestCase
 		$this->assertCount(1, $results);
 		$this->assertSame('George', $results->first()->fname());
 		$this->assertTrue(get_class($pagination) === 'Kirby\Toolkit\Pagination');
-		$this->assertSame(4, $pagination->pages());
-		$this->assertSame(4, $pagination->total());
+		$this->assertSame(5, $pagination->pages());
+		$this->assertSame(5, $pagination->total());
 		$this->assertSame(3, $pagination->page());
 		$this->assertSame(3, $pagination->start());
 		$this->assertSame(3, $pagination->end());
@@ -440,14 +528,14 @@ class QueryTest extends TestCase
 		$results = $query->page(2, 3);
 		$pagination = $results->pagination();
 
-		$this->assertCount(1, $results);
+		$this->assertCount(2, $results);
 		$this->assertSame('Mark', $results->first()->fname());
 		$this->assertTrue(get_class($pagination) === 'Kirby\Toolkit\Pagination');
 		$this->assertSame(2, $pagination->pages());
-		$this->assertSame(4, $pagination->total());
+		$this->assertSame(5, $pagination->total());
 		$this->assertSame(2, $pagination->page());
 		$this->assertSame(4, $pagination->start());
-		$this->assertSame(4, $pagination->end());
+		$this->assertSame(5, $pagination->end());
 		$this->assertSame(3, $pagination->limit());
 	}
 }

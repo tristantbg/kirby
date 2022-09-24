@@ -13,6 +13,14 @@ class MyPage extends Page
 		return [['name' => 'foo'], ['name' => 'bar']];
 	}
 
+	public function myHtmlArray(): array
+	{
+		return [
+			['slogan' => 'We are <b>great</b>'],
+			['slogan' => 'We are <b>better</b>']
+		];
+	}
+
 	public function myOptions(): Options
 	{
 		return Options::factory(['foo', 'bar']);
@@ -20,7 +28,7 @@ class MyPage extends Page
 }
 
 /**
- * @covers \Kirby\Option\OptionsQuery
+ * @coversDefaultClass \Kirby\Option\OptionsQuery
  */
 class OptionsQueryTest extends TestCase
 {
@@ -29,9 +37,20 @@ class OptionsQueryTest extends TestCase
 	 */
 	public function testConstruct()
 	{
-		$options = new OptionsQuery('site.children', '{{ page.slug }}');
-		$this->assertSame('site.children', $options->query);
+		$options = new OptionsQuery($query = 'site.children', '{{ page.slug }}');
+		$this->assertSame($query, $options->query);
 		$this->assertSame('{{ page.slug }}', $options->text);
+		$this->assertNull($options->value);
+	}
+
+	/**
+	 * @coversNothing
+	 */
+	public function testDefaults()
+	{
+		$options = new OptionsQuery($query = 'site.children');
+		$this->assertSame($query, $options->query);
+		$this->assertNull($options->text);
 		$this->assertNull($options->value);
 	}
 
@@ -264,5 +283,37 @@ class OptionsQueryTest extends TestCase
 		$this->expectExceptionMessage('Invalid query result data: Kirby\Cms\Field');
 
 		$options = (new OptionsQuery('site.foo'))->render($app->site());
+	}
+
+	/**
+	 * @covers ::resolve
+	 */
+	public function testResolveHtmlEscpae()
+	{
+		$model   = new MyPage(['slug' => 'a']);
+
+		// text escaped by default
+		$options = (new OptionsQuery(
+			query: 'page.myHtmlArray',
+			text: '{{ item.slogan }}',
+			value: '{{ item.slogan }}',
+		))->render($model);
+
+		$this->assertSame('We are &lt;b&gt;great&lt;/b&gt;', $options[0]['text']);
+		$this->assertSame('We are <b>great</b>', $options[0]['value']);
+		$this->assertSame('We are &lt;b&gt;better&lt;/b&gt;', $options[1]['text']);
+		$this->assertSame('We are <b>better</b>', $options[1]['value']);
+
+
+		// text unescaped via {< >}
+		$options = (new OptionsQuery(
+			query: 'page.myHtmlArray',
+			text: '{< item.slogan >}',
+			value: '{{ item.slogan }}'
+		))->render($model);
+		$this->assertSame('We are <b>great</b>', $options[0]['text']);
+		$this->assertSame('We are <b>great</b>', $options[0]['value']);
+		$this->assertSame('We are <b>better</b>', $options[1]['text']);
+		$this->assertSame('We are <b>better</b>', $options[1]['value']);
 	}
 }

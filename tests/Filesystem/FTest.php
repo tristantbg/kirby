@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase as TestCase;
 class FTest extends TestCase
 {
 	protected $fixtures;
+	protected $hasErrorHandler = false;
 	protected $test;
 	protected $tmp;
 
@@ -29,6 +30,11 @@ class FTest extends TestCase
 	public function tearDown(): void
 	{
 		Dir::remove($this->tmp);
+
+		if ($this->hasErrorHandler === true) {
+			restore_error_handler();
+			$this->hasErrorHandler = false;
+		}
 	}
 
 	/**
@@ -532,9 +538,52 @@ class FTest extends TestCase
 
 		$this->assertFileExists($a);
 
-		F::remove($this->tmp . '/a.jpg');
+		$this->assertTrue(F::remove($a));
 
 		$this->assertFileDoesNotExist($a);
+	}
+
+	/**
+	 * @covers ::remove
+	 */
+	public function testRemoveAlreadyRemoved()
+	{
+		$this->assertFileDoesNotExist($a = $this->tmp . '/a.jpg');
+
+		$this->assertTrue(F::remove($a));
+
+		$this->assertFileDoesNotExist($a);
+	}
+
+	/**
+	 * @covers ::remove
+	 */
+	public function testRemoveDirectory()
+	{
+		Dir::make($a = $this->tmp . '/a');
+
+		$this->assertDirectoryExists($a);
+
+		$this->assertFalse(@F::remove($a));
+
+		$this->assertDirectoryExists($a);
+	}
+
+	/**
+	 * @covers ::remove
+	 */
+	public function testRemoveLink()
+	{
+		F::write($a = $this->tmp . '/a.jpg', '');
+		symlink($a, $b = $this->tmp . '/b.jpg');
+
+		$this->assertFileExists($a);
+		$this->assertTrue(is_link($b));
+
+		$this->assertTrue(F::remove($b));
+
+		$this->assertFileDoesNotExist($a);
+		$this->assertTrue(is_link($b));
 	}
 
 	/**
@@ -671,6 +720,61 @@ class FTest extends TestCase
 		$this->assertSame(F::$types['audio'], F::typeToExtensions('audio'));
 		$this->assertSame(F::$types['document'], F::typeToExtensions('document'));
 		$this->assertNull(F::typeToExtensions('invalid'));
+	}
+
+	/**
+	 * @covers ::unlink
+	 */
+	public function testUnlink()
+	{
+		touch($this->tmp . '/file');
+		symlink($this->tmp . '/file', $this->tmp . '/link-exists');
+		symlink($this->tmp . '/invalid', $this->tmp . '/link-invalid');
+
+		$this->assertTrue(F::unlink($this->tmp . '/file'));
+		$this->assertTrue(F::unlink($this->tmp . '/link-exists'));
+		$this->assertTrue(F::unlink($this->tmp . '/link-invalid'));
+
+		$this->assertFalse(is_file($this->tmp . '/file'));
+		$this->assertFalse(is_link($this->tmp . '/link-exists'));
+		$this->assertFalse(is_link($this->tmp . '/link-invalid'));
+	}
+
+	/**
+	 * @covers ::unlink
+	 */
+	public function testUnlinkAlredyDeleted()
+	{
+		$this->assertTrue(F::unlink($this->tmp . '/does-not-exist'));
+	}
+
+	/**
+	 * @covers ::unlink
+	 */
+	public function testUnlinkFolder()
+	{
+		$this->hasErrorHandler = true;
+
+		$called = false;
+		set_error_handler(function (int $errno, string $errstr) use (&$called) {
+			$called = true;
+
+			$this->assertSame(E_WARNING, $errno);
+
+			$expectedPrefix = 'unlink(' . $this->tmp . '/folder): ';
+			$expected = [
+				$expectedPrefix . 'Is a directory',
+				$expectedPrefix . 'Operation not permitted'
+			];
+
+			$this->assertTrue(in_array($errstr, $expected, true));
+		});
+
+		mkdir($this->tmp . '/folder');
+
+		$this->assertFalse(F::unlink($this->tmp . '/folder'));
+
+		$this->assertTrue($called);
 	}
 
 	/**

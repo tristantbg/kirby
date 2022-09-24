@@ -3,6 +3,7 @@
 use Kirby\Block\Blocks;
 use Kirby\Block\Layouts;
 use Kirby\Cms\App;
+use Kirby\Cms\Content;
 use Kirby\Cms\Field;
 use Kirby\Cms\Files;
 use Kirby\Cms\Html;
@@ -63,16 +64,16 @@ return function (App $app) {
 		 */
 		'toBlocks' => function (Field $field) {
 			try {
-				$blocks = Blocks::factory(Blocks::parse($field->value()), [
-					'parent' => $field->parent(),
+				$blocks = Blocks::parse($field->value());
+				$blocks = Blocks::factory($blocks, [
+					'parent' => $field->parent()
 				]);
-
 				return $blocks->filter('isHidden', false);
 			} catch (Throwable) {
-				if ($field->parent() === null) {
-					$message = 'Invalid blocks data for "' . $field->key() . '" field';
-				} else {
-					$message = 'Invalid blocks data for "' . $field->key() . '" field on parent "' . $field->parent()->title() . '"';
+				$message = 'Invalid blocks data for "' . $field->key() . '" field';
+
+				if ($parent = $field->parent()) {
+					$message .= ' on parent "' . $parent->title() . '"';
 				}
 
 				throw new InvalidArgumentException($message);
@@ -220,6 +221,17 @@ return function (App $app) {
 		},
 
 		/**
+		 * Parse yaml data and convert it to a
+		 * content object
+		 *
+		 * @param \Kirby\Cms\Field $field
+		 * @return \Kirby\Cms\Content
+		 */
+		'toObject' => function (Field $field) {
+			return new Content($field->yaml(), $field->parent(), true);
+		},
+
+		/**
 		 * Returns a page object from a page id in the field
 		 *
 		 * @param \Kirby\Cms\Field $field
@@ -250,10 +262,10 @@ return function (App $app) {
 			try {
 				return new Structure(Data::decode($field->value, 'yaml'), $field->parent());
 			} catch (Exception) {
-				if ($field->parent() === null) {
-					$message = 'Invalid structure data for "' . $field->key() . '" field';
-				} else {
-					$message = 'Invalid structure data for "' . $field->key() . '" field on parent "' . $field->parent()->title() . '"';
+				$message = 'Invalid structure data for "' . $field->key() . '" field';
+
+				if ($parent = $field->parent()) {
+					$message .= ' on parent "' . $parent->title() . '"';
 				}
 
 				throw new InvalidArgumentException($message);
@@ -497,10 +509,11 @@ return function (App $app) {
 		 *
 		 * @param \Kirby\Cms\Field $field
 		 * @param array $data
-		 * @param string $fallback Fallback for tokens in the template that cannot be replaced
+		 * @param string|null $fallback Fallback for tokens in the template that cannot be replaced
+		 *                              (`null` to keep the original token)
 		 * @return \Kirby\Cms\Field
 		 */
-		'replace' => function (Field $field, array $data = [], string $fallback = '') use ($app) {
+		'replace' => function (Field $field, array $data = [], string|null $fallback = '') use ($app) {
 			if ($parent = $field->parent()) {
 				// never pass `null` as the $template to avoid the fallback to the model ID
 				$field->value = $parent->toString($field->value ?? '', $data, $fallback);

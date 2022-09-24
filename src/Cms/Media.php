@@ -41,7 +41,6 @@ class Media
 		// try to find a file by model and filename
 		// this should work for all original files
 		if ($file = $model->file($filename)) {
-
 			// check if the request contained an outdated media hash
 			if ($file->mediaHash() !== $hash) {
 				// if at least the token was correct, redirect
@@ -102,7 +101,7 @@ class Media
 		if (is_string($model) === true) {
 			$root = $kirby->root('media') . '/assets/' . $model . '/' . $hash;
 		// parent files for file model that already included hash
-		} elseif (is_a($model, '\Kirby\Cms\File')) {
+		} elseif ($model instanceof File) {
 			$root = dirname($model->mediaRoot());
 		// model files
 		} else {
