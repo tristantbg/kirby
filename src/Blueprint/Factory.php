@@ -41,7 +41,7 @@ class Factory
 		return $properties;
 	}
 
-	public static function forNamedType(ReflectionNamedType|null $type, mixed $value): mixed
+	public static function forNamedType(ReflectionNamedType|null $type, $value)
 	{
 		// get the class name for the single type
 		$className = $type->getName();
@@ -70,7 +70,7 @@ class Factory
 		return $properties;
 	}
 
-	public static function forProperty(string $class, string $property, mixed $value): mixed
+	public static function forProperty(string $class, string $property, $value)
 	{
 		if (is_null($value) === true) {
 			return $value;
@@ -104,7 +104,7 @@ class Factory
 	 * the first named type is used to create
 	 * the factory or pass a built-in value
 	 */
-	public static function forUnionType(ReflectionUnionType $type, mixed $value): mixed
+	public static function forUnionType(ReflectionUnionType $type, $value)
 	{
 		return static::forNamedType($type->getTypes()[0], $value);
 	}

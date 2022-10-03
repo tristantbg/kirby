@@ -9,6 +9,7 @@ class NodeI18nTest extends TestCase
 {
 	/**
 	 * @covers ::__construct
+	 * @covers ::render
 	 */
 	public function testConstructWithArray()
 	{
@@ -18,8 +19,9 @@ class NodeI18nTest extends TestCase
 
 	/**
 	 * @covers ::__construct
+	 * @covers ::render
 	 */
-	public function testConstructWithGlobal()
+	public function testConstructWithI18nKey()
 	{
 		$translated = new NodeI18n(['*' => 'avatar']);
 		$this->assertSame('Profile picture', $translated->render($this->model()));
@@ -31,6 +33,15 @@ class NodeI18nTest extends TestCase
 	public function testFactory()
 	{
 		$translated = NodeI18n::factory('Test');
-		$this->assertSame(['*' => 'Test'], $translated->translations);
+		$this->assertSame(['en' => 'Test'], $translated->translations);
+	}
+
+	/**
+	 * @covers ::render
+	 */
+	public function testRenderWithNonEnglishFallback()
+	{
+		$translated = new NodeI18n(['de' => 'Täst']);
+		$this->assertSame('Täst', $translated->render($this->model()));
 	}
 }

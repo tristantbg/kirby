@@ -3,8 +3,10 @@
 namespace Kirby\Cms;
 
 use Exception;
+use Kirby\Cms\System\UpdateStatus;
 use Kirby\Data\Data;
 use Kirby\Exception\InvalidArgumentException;
+use Kirby\Toolkit\A;
 use Kirby\Validation\V;
 
 /**
@@ -26,11 +28,12 @@ class Plugin extends Model
 
 	// caches
 	protected array|null $info = null;
+	protected UpdateStatus|null $updateStatus = null;
 
 	/**
 	 * Allows access to any composer.json field by method call
 	 */
-	public function __call(string $key, array $arguments = null): mixed
+	public function __call(string $key, array $arguments = null)
 	{
 		return $this->info()[$key] ?? null;
 	}
@@ -158,7 +161,7 @@ class Plugin extends Model
 	/**
 	 * Returns a Kirby option value for this plugin
 	 */
-	public function option(string $key): mixed
+	public function option(string $key)
 	{
 		return $this->kirby()->option($this->prefix() . '.' . $key);
 	}
@@ -213,11 +216,73 @@ class Plugin extends Model
 	}
 
 	/**
-	 * Returns the version number
+	 * Returns the update status object unless the
+	 * update check has been disabled for the plugin
+	 * @since 3.8.0
+	 *
+	 * @param array|null $data Custom override for the getkirby.com update data
+	 */
+	public function updateStatus(array|null $data = null): UpdateStatus|null
+	{
+		if ($this->updateStatus !== null) {
+			return $this->updateStatus;
+		}
+
+		$kirby  = $this->kirby();
+		$option = $kirby->option('updates.plugins');
+
+		// specific configuration per plugin
+		if (is_array($option) === true) {
+			// filter all option values by glob match
+			$option = A::filter(
+				$option,
+				fn ($value, $key) => fnmatch($key, $this->name()) === true
+			);
+
+			// sort the matches by key length (with longest key first)
+			$keys = array_map('strlen', array_keys($option));
+			array_multisort($keys, SORT_DESC, $option);
+
+			if (count($option) > 0) {
+				// use the first and therefore longest key (= most specific match)
+				$option = reset($option);
+			} else {
+				// fallback to the default option value
+				$option = true;
+			}
+		}
+
+		if ($option === null) {
+			$option = $kirby->option('updates') ?? true;
+		}
+
+		if ($option !== true) {
+			return null;
+		}
+
+		return $this->updateStatus = new UpdateStatus($this, false, $data);
+	}
+
+	/**
+	 * Returns the normalized version number
 	 * from the composer.json file
 	 */
 	public function version(): string|null
 	{
-		return $this->info()['version'] ?? null;
+		$version = $this->info()['version'] ?? null;
+
+		if (is_string($version) !== true || $version === '') {
+			return null;
+		}
+
+		// normalize the version number to be without leading `v`
+		$version = ltrim($version, 'vV');
+
+		// ensure that the version number now starts with a digit
+		if (preg_match('/^[0-9]/', $version) !== 1) {
+			return null;
+		}
+
+		return $version;
 	}
 }

@@ -88,6 +88,7 @@ import Panel from "@/components/Layout/Panel.vue";
 import Stats from "@/components/Layout/Stats.vue";
 import Table from "@/components/Layout/Table.vue";
 import TableCell from "@/components/Layout/TableCell.vue";
+import TableUpdateStatusCell from "@/components/Layout/TableUpdateStatusCell.vue";
 import Tabs from "@/components/Layout/Tabs.vue";
 import View from "@/components/Layout/View.vue";
 
@@ -112,6 +113,7 @@ Vue.component("k-panel", Panel);
 Vue.component("k-stats", Stats);
 Vue.component("k-table", Table);
 Vue.component("k-table-cell", TableCell);
+Vue.component("k-table-update-status-cell", TableUpdateStatusCell);
 Vue.component("k-tabs", Tabs);
 Vue.component("k-view", View);
 

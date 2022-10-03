@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'getkirby/cms',
-        'pretty_version' => '3.8.0-rc.1',
-        'version' => '3.8.0.0-RC1',
+        'pretty_version' => '3.8.0-rc.2',
+        'version' => '3.8.0.0-RC2',
         'reference' => NULL,
         'type' => 'kirby-cms',
         'install_path' => __DIR__ . '/../../',
@@ -19,6 +19,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'composer/semver' => array(
+            'pretty_version' => '3.3.2',
+            'version' => '3.3.2.0',
+            'reference' => '3953f23262f2bff1919fc82183ad9acb13ff62c9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./semver',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'filp/whoops' => array(
             'pretty_version' => '2.14.5',
             'version' => '2.14.5.0',
@@ -29,8 +38,8 @@
             'dev_requirement' => false,
         ),
         'getkirby/cms' => array(
-            'pretty_version' => '3.8.0-rc.1',
-            'version' => '3.8.0.0-RC1',
+            'pretty_version' => '3.8.0-rc.2',
+            'version' => '3.8.0.0-RC2',
             'reference' => NULL,
             'type' => 'kirby-cms',
             'install_path' => __DIR__ . '/../../',

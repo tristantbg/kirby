@@ -125,7 +125,8 @@ class Core
 	public function caches(): array
 	{
 		return [
-			'uuid' => true
+			'updates' => true,
+			'uuid'    => true,
 		];
 	}
 

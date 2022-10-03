@@ -8,6 +8,7 @@ use Kirby\Cms\Collection;
 /**
  * Base for UUIDs for models where id string
  * is stored in the content, such as pages and files
+ * @since 3.8.0
  *
  * @package   Kirby Uuid
  * @author    Nico Hoffmann <nico@getkirby.com>
@@ -104,7 +105,6 @@ abstract class ModelUuid extends Uuid
 			$this->populate();
 		}
 
-		$site = App::instance()->site()->url();
-		return $site . '/@/' . static::TYPE . '/' . $this->id();
+		return App::instance()->url() . '/@/' . static::TYPE . '/' . $this->id();
 	}
 }

@@ -107,7 +107,7 @@ class Node
 		return $props;
 	}
 
-	public function render(ModelWithContent $model): mixed
+	public function render(ModelWithContent $model)
 	{
 		// apply default values
 		$this->defaults();
@@ -132,7 +132,7 @@ class Node
 	/**
 	 * Universal setter for properties
 	 */
-	public function set(string $property, mixed $value): static
+	public function set(string $property, $value): static
 	{
 		$this->$property = Factory::forProperty(static::class, $property, $value);
 		return $this;

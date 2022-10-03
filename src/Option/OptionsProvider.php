@@ -26,7 +26,7 @@ abstract class OptionsProvider
 	/**
 	 * Returns options as array
 	 */
-	public function render(ModelWithContent $model): mixed
+	public function render(ModelWithContent $model)
 	{
 		return $this->resolve($model)->render($model);
 	}

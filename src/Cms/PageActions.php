@@ -107,6 +107,9 @@ trait PageActions
 				'root'    => null
 			]);
 
+			// clear UUID cache recursively (for children and files as well)
+			$oldPage->uuid()->clear(true);
+
 			if ($oldPage->exists() === true) {
 				// remove the lock of the old page
 				$oldPage->lock()?->remove();
@@ -124,9 +127,6 @@ trait PageActions
 
 			// overwrite the new page in the parent collection
 			static::updateParentCollections($newPage, 'set');
-
-			// clear UUID cache recursively (for children and files as well)
-			Uuid::for($oldPage)->clear(true);
 
 			return $newPage;
 		});
@@ -597,6 +597,9 @@ trait PageActions
 	public function delete(bool $force = false): bool
 	{
 		return $this->commit('delete', ['page' => $this, 'force' => $force], function ($page, $force) {
+			// clear UUID cache
+			$page->uuid()->clear();
+
 			// delete all files individually
 			foreach ($page->files() as $file) {
 				$file->delete();
@@ -606,9 +609,6 @@ trait PageActions
 			foreach ($page->children() as $child) {
 				$child->delete(true);
 			}
-
-			// clear UUID cache
-			Uuid::for($page)->clear();
 
 			// actually remove the page from disc
 			if ($page->exists() === true) {
@@ -811,6 +811,25 @@ trait PageActions
 	}
 
 	/**
+	 * Stores the content on disk
+	 *
+	 * @internal
+	 * @param array|null $data
+	 * @param string|null $languageCode
+	 * @param bool $overwrite
+	 * @return static
+	 */
+	public function save(array $data = null, string $languageCode = null, bool $overwrite = false)
+	{
+		$page = parent::save($data, $languageCode, $overwrite);
+
+		// overwrite the updated page in the parent collection
+		static::updateParentCollections($page, 'set');
+
+		return $page;
+	}
+
+	/**
 	 * Convert a page from listed or
 	 * unlisted to draft.
 	 *
@@ -869,7 +888,10 @@ trait PageActions
 		$page = parent::update($input, $languageCode, $validate);
 
 		// if num is created from page content, update num on content update
-		if ($page->isListed() === true && in_array($page->blueprint()->num(), ['zero', 'default']) === false) {
+		if (
+			$page->isListed() === true &&
+			in_array($page->blueprint()->num(), ['zero', 'default']) === false
+		) {
 			$page = $page->changeNum($page->createNum());
 		}
 
