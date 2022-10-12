@@ -186,9 +186,9 @@ return [
 				'action'  => function () {
 					return array_values(
 						$this->field()
-							 ->form()
-							 ->fill($this->requestBody())
-							 ->errors()
+							->form()
+							->fill($this->requestBody())
+							->errors()
 					);
 				}
 			]

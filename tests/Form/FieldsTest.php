@@ -63,5 +63,4 @@ class FieldsTest extends TestCase
 		$this->assertSame('Error in "test" field.', $field->label());
 		$this->assertSame('<p>The field type "does-not-exist" does not exist</p>', $field->text());
 	}
-
 }
