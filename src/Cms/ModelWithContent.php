@@ -382,6 +382,11 @@ abstract class ModelWithContent extends Model implements Identifiable
 		}
 	}
 
+	public function revision(): Revision
+	{
+		return new Revision($this);
+	}
+
 	/**
 	 * Returns the absolute path to the model
 	 *

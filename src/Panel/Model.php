@@ -34,7 +34,7 @@ abstract class Model
 	 */
 	public function content(): array
 	{
-		return Form::for($this->model)->values();
+		return $this->model->revision()->pull()->values();
 	}
 
 	/**

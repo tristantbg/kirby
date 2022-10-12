@@ -84,11 +84,13 @@ return [
 		'pattern' => $pattern . '/files/(:any)',
 		'method'  => 'PATCH',
 		'action'  => function (string $path, string $filename) {
-			return $this->file($path, $filename)->update(
-				$this->requestBody(),
-				$this->language(),
-				true
-			);
+			$this
+				->file($path, $filename)
+				->revision()
+				->stage($this->requestBody())
+				->commit();
+
+				return true;
 		}
 	],
 	[
