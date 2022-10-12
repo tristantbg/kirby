@@ -25,13 +25,6 @@ use Throwable;
 class Form
 {
 	/**
-	 * Original attributes for the form.
-	 * They are used to lazily generate the fields
-	 * for example
-	 */
-	protected array $attrs;
-
-	/**
 	 * An array of all found errors
 	 */
 	protected array|null $errors = null;
@@ -60,20 +53,33 @@ class Form
 	/**
 	 * Form constructor
 	 */
-	public function __construct(array $attrs)
+	public function __construct(array $props)
 	{
-		$this->attrs  = $attrs;
-		$this->model  = $attrs['model']  ?? null;
-		$this->strict = $attrs['strict'] ?? false;
+		$this->model  = $props['model']  ?? null;
+		$this->strict = $props['strict'] ?? false;
+
+		// prepare field properties for multilang setups
+		$fields = Fields::prepareForLanguage(
+			$props['fields'] ?? [],
+			$props['language'] ?? null
+		);
+
+		// add the model to every field
+		$fields = array_map(function(array $field): array {
+			$field['model'] ??= $this->model;
+			return $field;
+		}, $fields);
+
+		$this->fields = Fields::factory($fields);
 
 		// pre-fill the form
-		if (empty($attrs['values']) === false) {
-			$this->fill($attrs['values'], true);
+		if (empty($props['values']) === false) {
+			$this->fill($props['values'], true);
 		}
 
 		// fill in additional input from a request
-		if (empty($attrs['input']) === false) {
-			$this->fill($attrs['input']);
+		if (empty($props['input']) === false) {
+			$this->fill($props['input']);
 		}
 	}
 
@@ -180,23 +186,7 @@ class Form
 	 */
 	public function fields(): Fields
 	{
-		if (isset($this->fields) === true) {
-			return $this->fields;
-		}
-
-		// prepare field properties for multilang setups
-		$fields = Fields::prepareForLanguage(
-			$this->attrs['fields'] ?? [],
-			$this->attrs['language'] ?? null
-		);
-
-		// add the model to every field
-		$fields = array_map(function(array $field): array {
-			$field['model'] ??= $this->model;
-			return $field;
-		}, $fields);
-
-		return $this->fields = Fields::factory($fields);
+		return $this->fields;
 	}
 
 	/**
