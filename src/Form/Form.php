@@ -52,8 +52,6 @@ class Form
 
 	/**
 	 * Form constructor
-	 *
-	 * @param array $props
 	 */
 	public function __construct(array $props)
 	{
@@ -88,8 +86,6 @@ class Form
 	/**
 	 * Returns the data required to write to the content file
 	 * Doesn't include default and null values
-	 *
-	 * @return array
 	 */
 	public function content(): array
 	{
@@ -98,10 +94,6 @@ class Form
 
 	/**
 	 * Returns data for all fields in the form
-	 *
-	 * @param false $defaults
-	 * @param bool $includeNulls
-	 * @return array
 	 */
 	public function data($defaults = false, bool $includeNulls = true): array
 	{
@@ -124,8 +116,6 @@ class Form
 
 	/**
 	 * An array of all found errors
-	 *
-	 * @return array
 	 */
 	public function errors(): array
 	{
@@ -150,7 +140,7 @@ class Form
 	/**
 	 * Shows the error with the field
 	 *
-	 * @deprecated Use \Kirby\Form\Field::exception instead
+	 * @deprecated 3.9.0 Use \Kirby\Form\Field::exception instead
 	 */
 	public static function exceptionField(Throwable $exception, array $props = [])
 	{
@@ -161,11 +151,9 @@ class Form
 	 * Get the field object by name
 	 * and handle nested fields correctly
 	 *
-	 * @param string $name
 	 * @throws \Kirby\Exception\NotFoundException
-	 * @return \Kirby\Form\Field
 	 */
-	public function field(string $name)
+	public function field(string $name): Field
 	{
 		$form       = $this;
 		$fieldNames = Str::split($name, '+');
@@ -204,7 +192,7 @@ class Form
 	/**
 	 * Adds values to the form
 	 */
-	public function fill(array $input, bool $force = false)
+	public function fill(array $input, bool $force = false): static
 	{
 		// reset the errors cache
 		$this->errors = null;
@@ -235,11 +223,9 @@ class Form
 	}
 
 	/**
-	 * @param \Kirby\Cms\Model $model
-	 * @param array $props
-	 * @return static
+	 * Creates a form instance for the model
 	 */
-	public static function for(Model $model, array $props = [])
+	public static function for(Model $model, array $props = []): static
 	{
 		// get the original model data
 		$original = $model->content($props['language'] ?? null)->toArray();
@@ -277,8 +263,6 @@ class Form
 
 	/**
 	 * Checks if the form is invalid
-	 *
-	 * @return bool
 	 */
 	public function isInvalid(): bool
 	{
@@ -287,8 +271,6 @@ class Form
 
 	/**
 	 * Checks if the form is valid
-	 *
-	 * @return bool
 	 */
 	public function isValid(): bool
 	{
@@ -299,7 +281,7 @@ class Form
 	 * Disables fields in secondary languages when
 	 * they are configured to be untranslatable
 	 *
-	 * @deprecated Use Fields::prepareForLanguage instead
+	 * @deprecated 3.9.0 Use Fields::prepareForLanguage instead
 	 */
 	protected static function prepareFieldsForLanguage(array $fields, string|null $language = null): array
 	{
@@ -308,9 +290,6 @@ class Form
 
 	/**
 	 * Converts the data of fields to strings
-	 *
-	 * @param false $defaults
-	 * @return array
 	 */
 	public function strings($defaults = false): array
 	{
@@ -331,8 +310,6 @@ class Form
 
 	/**
 	 * Converts the form to a plain array
-	 *
-	 * @return array
 	 */
 	public function toArray(): array
 	{
@@ -347,8 +324,6 @@ class Form
 
 	/**
 	 * Returns form values
-	 *
-	 * @return array
 	 */
 	public function values(): array
 	{
