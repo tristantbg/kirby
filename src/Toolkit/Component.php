@@ -98,7 +98,11 @@ class Component
 			return $this->methods[$name]->call($this, ...$arguments);
 		}
 
-		return $this->$name;
+		if (array_key_exists($name, $this->attrs) === true) {
+			return $this->attrs[$name];
+		}
+
+		return null;
 	}
 
 	/**
@@ -114,25 +118,13 @@ class Component
 		}
 
 		$this->attrs   = $attrs;
-		$this->options = $options = $this->setup($type);
-		$this->methods = $methods = $options['methods'] ?? [];
-
-		foreach ($attrs as $attrName => $attrValue) {
-			$this->$attrName = $attrValue;
-		}
-
-		if (isset($options['props']) === true) {
-			$this->applyProps($options['props']);
-		}
-
-		if (isset($options['computed']) === true) {
-			$this->applyComputed($options['computed']);
-		}
-
-		$this->attrs   = $attrs;
-		$this->methods = $methods;
-		$this->options = $options;
+		$this->options = $this->setup($type);
+		$this->methods = $this->options['methods'] ?? [];
 		$this->type    = $type;
+
+		$this->applyProps();
+		$this->applyComputed();
+
 	}
 
 	/**
@@ -149,12 +141,37 @@ class Component
 	 * Fallback for missing properties to return
 	 * null instead of an error
 	 *
-	 * @param string $attr
+	 * @param string $name
 	 * @return null
 	 */
-	public function __get(string $attr)
+	public function __get(string $name)
 	{
+		if (array_key_exists($name, $this->computed) === true) {
+			return $this->computed[$name];
+		}
+
+		if (array_key_exists($name, $this->props) === true) {
+			return $this->props[$name];
+		}
+
+		if (array_key_exists($name, $this->attrs) === true) {
+			return $this->attrs[$name];
+		}
+
 		return null;
+	}
+
+	public function __isset(string $name): bool
+	{
+		if (
+			array_key_exists($name, $this->computed) === true ||
+			array_key_exists($name, $this->props) === true ||
+			array_key_exists($name, $this->attrs) === true
+		) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -171,48 +188,74 @@ class Component
 	}
 
 	/**
-	 * Register all defined props and apply the
-	 * passed values.
-	 *
-	 * @param array $props
-	 * @return void
+	 * Register all computed properties and calculate their values.
+	 * This must happen after all props are registered.
 	 */
-	protected function applyProps(array $props): void
+	protected function applyComputed(): void
 	{
-		foreach ($props as $propName => $propFunction) {
-			if ($propFunction instanceof Closure) {
-				if (isset($this->attrs[$propName]) === true) {
-					try {
-						$this->$propName = $this->props[$propName] = $propFunction->call($this, $this->attrs[$propName]);
-					} catch (TypeError) {
-						throw new TypeError('Invalid value for "' . $propName . '"');
-					}
-				} else {
-					try {
-						$this->$propName = $this->props[$propName] = $propFunction->call($this);
-					} catch (ArgumentCountError) {
-						throw new ArgumentCountError('Please provide a value for "' . $propName . '"');
-					}
-				}
-			} else {
-				$this->$propName = $this->props[$propName] = $propFunction;
-			}
+		foreach (($this->options['computed'] ?? []) as $computedName => $computedFunction) {
+			$this->applyComputedProp($computedName);
 		}
 	}
 
 	/**
-	 * Register all computed properties and calculate their values.
-	 * This must happen after all props are registered.
-	 *
-	 * @param array $computed
-	 * @return void
+	 * Applies a computed function to a single prop
 	 */
-	protected function applyComputed(array $computed): void
+	protected function applyComputedProp(string $computedName): void
 	{
-		foreach ($computed as $computedName => $computedFunction) {
-			if ($computedFunction instanceof Closure) {
-				$this->$computedName = $this->computed[$computedName] = $computedFunction->call($this);
+		// make sure to remove previously computed props
+		// otherwise __call will return the wrong value
+		unset($this->computed[$computedName]);
+
+		$computedFunction = $this->options['computed'][$computedName] ?? null;
+
+		if ($computedFunction instanceof Closure) {
+			$this->computed[$computedName] = $computedFunction->call($this);
+		}
+	}
+
+	/**
+	 * Registers a single prop and applies the passed attribute
+	 */
+	protected function applyProp(string $propName): void
+	{
+		if (isset($this->options['props'][$propName]) === false) {
+			return;
+		}
+
+		// make sure to remove previously applied props
+		// otherwise __call will return the wrong value
+		unset($this->props[$propName]);
+
+		$propFunction = $this->options['props'][$propName];
+
+		if ($propFunction instanceof Closure) {
+			if (isset($this->attrs[$propName]) === true) {
+				try {
+					$this->props[$propName] = $propFunction->call($this, $this->attrs[$propName]);
+				} catch (TypeError) {
+					throw new TypeError('Invalid value for "' . $propName . '"');
+				}
+			} else {
+				try {
+					$this->props[$propName] = $propFunction->call($this);
+				} catch (ArgumentCountError) {
+					throw new ArgumentCountError('Please provide a value for "' . $propName . '"');
+				}
 			}
+		} else {
+			$this->props[$propName] = $propFunction;
+		}
+	}
+
+	/**
+	 * Register all defined props and apply the
+	 * passed values.
+	 */
+	protected function applyProps(): void
+	{
+		foreach ($this->options['props'] ?? [] as $propName => $propFunction) {
+			$this->applyProp($propName);
 		}
 	}
 

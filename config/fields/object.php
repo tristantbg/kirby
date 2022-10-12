@@ -38,19 +38,19 @@ return [
 		}
 	],
 	'computed' => [
-		'default' => function () {
-			if (empty($this->default) === true) {
-				return '';
-			}
-
-			return $this->form($this->default)->values();
-		},
 		'fields' => function () {
 			if (empty($this->fields) === true) {
 				throw new Exception('Please provide some fields for the object');
 			}
 
 			return $this->form()->fields()->toArray();
+		},
+		'default' => function () {
+			if (empty($this->default) === true) {
+				return '';
+			}
+
+			return $this->form()->fill($this->default)->values();
 		},
 		'value' => function () {
 			$data = Data::decode($this->value, 'yaml');
@@ -59,15 +59,14 @@ return [
 				return '';
 			}
 
-			return $this->form($data)->values();
+			return $this->form()->fill($data)->values();
 		}
 	],
 	'methods' => [
-		'form' => function (array $values = []) {
+		'form' => function () {
 			return new Form([
-				'fields' => $this->attrs['fields'],
-				'values' => $values,
-				'model'  => $this->model
+				'fields' => $this->props['fields'],
+				'model'  => $this->model,
 			]);
 		},
 	],
@@ -76,7 +75,7 @@ return [
 			return '';
 		}
 
-		return $this->form($value)->content();
+		return $this->form()->fill($value)->content();
 	},
 	'validations' => [
 		'object' => function ($value) {
@@ -84,7 +83,7 @@ return [
 				return true;
 			}
 
-			$errors = $this->form($value)->errors();
+			$errors = $this->form()->fill($value)->errors();
 
 			if (empty($errors) === false) {
 				// use the first error for details

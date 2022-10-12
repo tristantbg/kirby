@@ -26,24 +26,29 @@ class Form
 {
 	/**
 	 * An array of all found errors
-	 *
-	 * @var array|null
 	 */
-	protected $errors;
+	protected array|null $errors = null;
 
 	/**
 	 * Fields in the form
-	 *
-	 * @var \Kirby\Form\Fields|null
 	 */
-	protected $fields;
+	protected Fields $fields;
 
 	/**
-	 * All values of form
-	 *
-	 * @var array
+	 * The parent model for all fields
 	 */
-	protected $values = [];
+	protected Model $model;
+
+	/**
+	 * Strict value handling will ignore
+	 * input from non-existing fields
+	 */
+	protected bool $strict = false;
+
+	/**
+	 * All values of the form
+	 */
+	protected array $values = [];
 
 	/**
 	 * Form constructor
@@ -52,67 +57,31 @@ class Form
 	 */
 	public function __construct(array $props)
 	{
-		$fields = $props['fields'] ?? [];
-		$values = $props['values'] ?? [];
-		$input  = $props['input']  ?? [];
-		$strict = $props['strict'] ?? false;
-		$inject = $props;
+		$this->model  = $props['model']  ?? null;
+		$this->strict = $props['strict'] ?? false;
 
 		// prepare field properties for multilang setups
-		$fields = static::prepareFieldsForLanguage(
-			$fields,
+		$fields = Fields::prepareForLanguage(
+			$props['fields'] ?? [],
 			$props['language'] ?? null
 		);
 
-		// lowercase all value names
-		$values = array_change_key_case($values);
-		$input  = array_change_key_case($input);
+		// add the model to every field
+		$fields = array_map(function(array $field): array {
+			$field['model'] ??= $this->model;
+			return $field;
+		}, $fields);
 
-		unset($inject['fields'], $inject['values'], $inject['input']);
+		$this->fields = Fields::factory($fields);
 
-		$this->fields = new Fields();
-		$this->values = [];
-
-		foreach ($fields as $name => $props) {
-			// inject stuff from the form constructor (model, etc.)
-			$props = array_merge($inject, $props);
-
-			// inject the name
-			$props['name'] = $name = strtolower($name);
-
-			// check if the field is disabled
-			$disabled = $props['disabled'] ?? false;
-
-			// overwrite the field value if not set
-			if ($disabled === true) {
-				$props['value'] = $values[$name] ?? null;
-			} else {
-				$props['value'] = $input[$name] ?? $values[$name] ?? null;
-			}
-
-			try {
-				$field = Field::factory($props['type'], $props, $this->fields);
-			} catch (Throwable $e) {
-				$field = static::exceptionField($e, $props);
-			}
-
-			if ($field->save() !== false) {
-				$this->values[$name] = $field->value();
-			}
-
-			$this->fields->append($name, $field);
+		// pre-fill the form
+		if (empty($props['values']) === false) {
+			$this->fill($props['values'], true);
 		}
 
-		if ($strict !== true) {
-			// use all given values, no matter
-			// if there's a field or not.
-			$input = array_merge($values, $input);
-
-			foreach ($input as $key => $value) {
-				if (isset($this->values[$key]) === false) {
-					$this->values[$key] = $value;
-				}
-			}
+		// fill in additional input from a request
+		if (empty($props['input']) === false) {
+			$this->fill($props['input']);
 		}
 	}
 
@@ -181,25 +150,11 @@ class Form
 	/**
 	 * Shows the error with the field
 	 *
-	 * @param \Throwable $exception
-	 * @param array $props
-	 * @return \Kirby\Form\Field
+	 * @deprecated Use \Kirby\Form\Field::exception instead
 	 */
 	public static function exceptionField(Throwable $exception, array $props = [])
 	{
-		$message = $exception->getMessage();
-
-		if (App::instance()->option('debug') === true) {
-			$message .= ' in file: ' . $exception->getFile() . ' line: ' . $exception->getLine();
-		}
-
-		$props = array_merge($props, [
-			'label' => 'Error in "' . $props['name'] . '" field.',
-			'theme' => 'negative',
-			'text'  => strip_tags($message),
-		]);
-
-		return Field::factory('info', $props);
+		return Field::exception($exception, $props);
 	}
 
 	/**
@@ -239,13 +194,44 @@ class Form
 	}
 
 	/**
-	 * Returns form fields
-	 *
-	 * @return \Kirby\Form\Fields|null
+	 * Returns all form fields
 	 */
-	public function fields()
+	public function fields(): Fields
 	{
 		return $this->fields;
+	}
+
+	/**
+	 * Adds values to the form
+	 */
+	public function fill(array $input, bool $force = false)
+	{
+		// reset the errors cache
+		$this->errors = null;
+
+		$input = array_change_key_case($input);
+
+		foreach ($this->fields as $name => $field) {
+			if (isset($input[$name]) === true) {
+				$field->fill($input[$name], $force);
+			}
+
+			if ($field->save() !== false) {
+				$this->values[$name] = $field->value();
+			}
+		}
+
+		if ($this->strict === true) {
+			return $this;
+		}
+
+		foreach ($input as $key => $value) {
+			if (isset($this->values[$key]) === false) {
+				$this->values[$key] = $value;
+			}
+		}
+
+		return $this;
 	}
 
 	/**
@@ -313,34 +299,11 @@ class Form
 	 * Disables fields in secondary languages when
 	 * they are configured to be untranslatable
 	 *
-	 * @param array $fields
-	 * @param string|null $language
-	 * @return array
+	 * @deprecated Use Fields::prepareForLanguage instead
 	 */
 	protected static function prepareFieldsForLanguage(array $fields, string|null $language = null): array
 	{
-		$kirby = App::instance(null, true);
-
-		// only modify the fields if we have a valid Kirby multilang instance
-		if (!$kirby || $kirby->multilang() === false) {
-			return $fields;
-		}
-
-		if ($language === null) {
-			$language = $kirby->language()->code();
-		}
-
-		if ($language !== $kirby->defaultLanguage()->code()) {
-			foreach ($fields as $fieldName => $fieldProps) {
-				// switch untranslatable fields to readonly
-				if (($fieldProps['translate'] ?? true) === false) {
-					$fields[$fieldName]['unset']    = true;
-					$fields[$fieldName]['disabled'] = true;
-				}
-			}
-		}
-
-		return $fields;
+		return Fields::prepareForLanguage($fields, $language);
 	}
 
 	/**

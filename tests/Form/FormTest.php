@@ -12,6 +12,7 @@ class FormTest extends TestCase
 	public function testDataWithoutFields()
 	{
 		$form = new Form([
+			'model' => new Page(['slug' => 'test']),
 			'fields' => [],
 			'values' => $values = [
 				'a' => 'A',
@@ -25,6 +26,7 @@ class FormTest extends TestCase
 	public function testValuesWithoutFields()
 	{
 		$form = new Form([
+			'model' => new Page(['slug' => 'test']),
 			'fields' => [],
 			'values' => $values = [
 				'a' => 'A',
@@ -45,10 +47,10 @@ class FormTest extends TestCase
 
 		$page = new Page(['slug' => 'test']);
 		$form = new Form([
+			'model' => $page,
 			'fields' => [
 				'info' => [
 					'type' => 'info',
-					'model' => $page
 				]
 			],
 			'values' => [
@@ -69,14 +71,13 @@ class FormTest extends TestCase
 
 		$page = new Page(['slug' => 'test']);
 		$form = new Form([
+			'model' => $page,
 			'fields' => [
 				'structure' => [
-					'type'   => 'structure',
-					'model' => $page,
+					'type' => 'structure',
 					'fields' => [
 						'tags' => [
-							'type'  => 'tags',
-							'model' => $page
+							'type' => 'tags',
 						]
 					]
 				]
@@ -103,10 +104,10 @@ class FormTest extends TestCase
 
 		$page = new Page(['slug' => 'test']);
 		$form = new Form([
+			'model' => $page,
 			'fields' => [
 				'test' => [
-					'type'  => 'does-not-exist',
-					'model' => $page
+					'type' => 'does-not-exist',
 				]
 			]
 		]);
@@ -129,14 +130,13 @@ class FormTest extends TestCase
 
 		$page = new Page(['slug' => 'test']);
 		$form = new Form([
+			'model' => $page,
 			'fields' => [
 				'a' => [
-					'type'  => 'text',
-					'model' => $page
+					'type' => 'text',
 				],
 				'b' => [
-					'type'  => 'text',
-					'model' => $page
+					'type' => 'text',
 				]
 			],
 			'values' => [
@@ -163,14 +163,13 @@ class FormTest extends TestCase
 
 		$page = new Page(['slug' => 'test']);
 		$form = new Form([
+			'model' => $page,
 			'fields' => [
 				'a' => [
 					'type' => 'text',
-					'model' => $page
 				],
 				'b' => [
 					'type' => 'text',
-					'model' => $page
 				]
 			],
 			'values' => [
@@ -197,16 +196,15 @@ class FormTest extends TestCase
 
 		$page = new Page(['slug' => 'test']);
 		$form = new Form([
+			'model' => $page,
 			'fields' => [
 				'a' => [
 					'label' => 'Email',
 					'type' => 'email',
-					'model' => $page
 				],
 				'b' => [
 					'label' => 'Url',
 					'type' => 'url',
-					'model' => $page
 				]
 			],
 			'values' => [
@@ -250,16 +248,15 @@ class FormTest extends TestCase
 
 		$page = new Page(['slug' => 'test']);
 		$form = new Form([
+			'model' => $page,
 			'fields' => [
 				'a' => [
 					'label' => 'A',
 					'type' => 'text',
-					'model' => $page
 				],
 				'b' => [
 					'label' => 'B',
 					'type' => 'text',
-					'model' => $page
 				]
 			],
 			'values' => [
@@ -278,6 +275,7 @@ class FormTest extends TestCase
 	public function testContent()
 	{
 		$form = new Form([
+			'model'  => new Page(['slug' => 'test']),
 			'fields' => [],
 			'values' => $values = [
 				'a' => 'A',
@@ -298,10 +296,10 @@ class FormTest extends TestCase
 
 		$page = new Page(['slug' => 'test']);
 		$form = new Form([
+			'model'  => $page,
 			'fields' => [
 				'info' => [
 					'type' => 'info',
-					'model' => $page
 				]
 			],
 			'values' => [
@@ -318,6 +316,7 @@ class FormTest extends TestCase
 	public function testStrings()
 	{
 		$form = new Form([
+			'model'  => new Page(['slug' => 'test']),
 			'fields' => [],
 			'values' => [
 				'a' => 'A',

@@ -671,7 +671,6 @@ class FieldTest extends TestCase
 		$this->assertEquals('bar', $array['foo']);
 		$this->assertEquals('1/1', $array['width']);
 
-		$this->assertArrayHasKey('signature', $array);
 		$this->assertArrayNotHasKey('model', $array);
 	}
 

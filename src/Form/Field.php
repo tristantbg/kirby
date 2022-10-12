@@ -4,11 +4,13 @@ namespace Kirby\Form;
 
 use Closure;
 use Exception;
+use Kirby\Cms\App;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Component;
 use Kirby\Toolkit\I18n;
 use Kirby\Toolkit\V;
+use Throwable;
 
 /**
  * Form Field object that takes a Vue component style
@@ -91,6 +93,26 @@ class Field extends Component
 		) {
 			return $this->options['api']->call($this);
 		}
+	}
+
+	/**
+	 * Shows the error with the field
+	 */
+	public static function exception(Throwable $exception, array $props = []): static
+	{
+		$message = $exception->getMessage();
+
+		if (App::instance()->option('debug') === true) {
+			$message .= ' in file: ' . $exception->getFile() . ' line: ' . $exception->getLine();
+		}
+
+		$props = array_merge($props, [
+			'label' => 'Error in "' . $props['name'] . '" field.',
+			'theme' => 'negative',
+			'text'  => strip_tags($message),
+		]);
+
+		return static::factory('info', $props);
 	}
 
 	/**
@@ -281,6 +303,29 @@ class Field extends Component
 	}
 
 	/**
+	 * Overwrites the field value
+	 */
+	public function fill($value, bool $force = false): static
+	{
+		if ($this->save() === false) {
+			return $this;
+		}
+
+		if ($this->disabled() === true && $force === false) {
+			return $this;
+		}
+
+		// reset field validation
+		$this->errors = null;
+		$this->attrs['value'] = $value;
+
+		$this->applyProp('value');
+		$this->applyComputed();
+
+		return $this;
+	}
+
+	/**
 	 * Parent collection with all fields of the current form
 	 *
 	 * @return \Kirby\Form\Fields|null
@@ -436,8 +481,7 @@ class Field extends Component
 
 		unset($array['model']);
 
-		$array['saveable']  = $this->save();
-		$array['signature'] = md5(json_encode($array));
+		$array['saveable'] = $this->save();
 
 		ksort($array);
 
@@ -454,7 +498,7 @@ class Field extends Component
 	 */
 	protected function validate(): void
 	{
-		$validations  = $this->options['validations'] ?? [];
+		$validations  = $this->validations();
 		$this->errors = [];
 
 		// validate required values
@@ -493,6 +537,11 @@ class Field extends Component
 				$this->errors = array_merge($this->errors, $errors);
 			}
 		}
+	}
+
+	public function validations(): array
+	{
+		return $this->options['validations'] ?? [];
 	}
 
 	/**

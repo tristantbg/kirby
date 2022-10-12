@@ -166,15 +166,14 @@ return [
 					continue;
 				}
 
-				$value[] = $this->form($row)->values();
+				$value[] = $this->form()->fill($row)->values();
 			}
 
 			return $value;
 		},
-		'form' => function (array $values = []) {
+		'form' => function () {
 			return new Form([
 				'fields' => $this->attrs['fields'],
-				'values' => $values,
 				'model'  => $this->model
 			]);
 		},
@@ -185,7 +184,12 @@ return [
 				'pattern' => 'validate',
 				'method'  => 'ALL',
 				'action'  => function () {
-					return array_values($this->field()->form($this->requestBody())->errors());
+					return array_values(
+						$this->field()
+							 ->form()
+							 ->fill($this->requestBody())
+							 ->errors()
+					);
 				}
 			]
 		];
@@ -194,7 +198,7 @@ return [
 		$data = [];
 
 		foreach ($value as $row) {
-			$data[] = $this->form($row)->content();
+			$data[] = $this->form()->fill($row)->content();
 		}
 
 		return $data;

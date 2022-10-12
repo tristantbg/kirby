@@ -3,7 +3,9 @@
 namespace Kirby\Form;
 
 use Closure;
+use Kirby\Cms\App;
 use Kirby\Toolkit\Collection;
+use Throwable;
 
 /**
  * A collection of Field objects
@@ -34,6 +36,59 @@ class Fields extends Collection
 		}
 
 		parent::__set($field->name(), $field);
+	}
+
+	public static function factory(array $fields = []): static
+	{
+		$collection = new static;
+
+		foreach ($fields as $name => $props) {
+			// inject the name
+			$props['name'] = $name = strtolower($name);
+
+			try {
+				$field = Field::factory($props['type'], $props, $collection);
+			} catch (Throwable $e) {
+				$field = Field::exception($e, $props);
+			}
+
+			$collection->append($name, $field);
+		}
+
+		return $collection;
+	}
+
+
+	/**
+	 * Disables fields in secondary languages when
+	 * they are configured to be untranslatable
+	 */
+	public static function prepareForLanguage(array $fields, string|null $language = null): array
+	{
+		$kirby = App::instance(null, true);
+
+		// only modify the fields if we have a valid Kirby multilang instance
+		if (!$kirby || $kirby->multilang() === false) {
+			return $fields;
+		}
+
+		// get the current language
+		$language ??= $kirby->language()->code();
+
+		// nothing happens for the default language
+		if ($language === $kirby->defaultLanguage()->code()) {
+			return $fields;
+		}
+
+		return array_map(function ($field) {
+			// switch untranslatable fields to readonly
+			if (($field['translate'] ?? true) === false) {
+				$field['unset']    = true;
+				$field['disabled'] = true;
+			}
+
+			return $field;
+		}, $fields);
 	}
 
 	/**
