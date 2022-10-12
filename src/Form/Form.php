@@ -25,6 +25,13 @@ use Throwable;
 class Form
 {
 	/**
+	 * Original attributes for the form.
+	 * They are used to lazily generate the fields
+	 * for example
+	 */
+	protected array $attrs;
+
+	/**
 	 * An array of all found errors
 	 */
 	protected array|null $errors = null;
@@ -53,33 +60,20 @@ class Form
 	/**
 	 * Form constructor
 	 */
-	public function __construct(array $props)
+	public function __construct(array $attrs)
 	{
-		$this->model  = $props['model']  ?? null;
-		$this->strict = $props['strict'] ?? false;
-
-		// prepare field properties for multilang setups
-		$fields = Fields::prepareForLanguage(
-			$props['fields'] ?? [],
-			$props['language'] ?? null
-		);
-
-		// add the model to every field
-		$fields = array_map(function(array $field): array {
-			$field['model'] ??= $this->model;
-			return $field;
-		}, $fields);
-
-		$this->fields = Fields::factory($fields);
+		$this->attrs  = $attrs;
+		$this->model  = $attrs['model']  ?? null;
+		$this->strict = $attrs['strict'] ?? false;
 
 		// pre-fill the form
-		if (empty($props['values']) === false) {
-			$this->fill($props['values'], true);
+		if (empty($attrs['values']) === false) {
+			$this->fill($attrs['values'], true);
 		}
 
 		// fill in additional input from a request
-		if (empty($props['input']) === false) {
-			$this->fill($props['input']);
+		if (empty($attrs['input']) === false) {
+			$this->fill($attrs['input']);
 		}
 	}
 
@@ -99,7 +93,7 @@ class Form
 	{
 		$data = $this->values;
 
-		foreach ($this->fields as $field) {
+		foreach ($this->fields() as $field) {
 			if ($field->save() === false || $field->unset() === true) {
 				if ($includeNulls === true) {
 					$data[$field->name()] = null;
@@ -125,7 +119,7 @@ class Form
 
 		$this->errors = [];
 
-		foreach ($this->fields as $field) {
+		foreach ($this->fields() as $field) {
 			if (empty($field->errors()) === false) {
 				$this->errors[$field->name()] = [
 					'label'   => $field->label(),
@@ -186,7 +180,23 @@ class Form
 	 */
 	public function fields(): Fields
 	{
-		return $this->fields;
+		if (isset($this->fields) === true) {
+			return $this->fields;
+		}
+
+		// prepare field properties for multilang setups
+		$fields = Fields::prepareForLanguage(
+			$this->attrs['fields'] ?? [],
+			$this->attrs['language'] ?? null
+		);
+
+		// add the model to every field
+		$fields = array_map(function(array $field): array {
+			$field['model'] ??= $this->model;
+			return $field;
+		}, $fields);
+
+		return $this->fields = Fields::factory($fields);
 	}
 
 	/**
@@ -199,7 +209,7 @@ class Form
 
 		$input = array_change_key_case($input);
 
-		foreach ($this->fields as $name => $field) {
+		foreach ($this->fields() as $name => $field) {
 			if (isset($input[$name]) === true) {
 				$field->fill($input[$name], $force);
 			}
@@ -315,7 +325,7 @@ class Form
 	{
 		$array = [
 			'errors'  => $this->errors(),
-			'fields'  => $this->fields->toArray(fn ($item) => $item->toArray()),
+			'fields'  => $this->fields()->toArray(fn ($item) => $item->toArray()),
 			'invalid' => $this->isInvalid()
 		];
 

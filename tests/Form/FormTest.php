@@ -94,32 +94,6 @@ class FormTest extends TestCase
 		$this->assertEquals('a, b', $form->data()['structure'][0]['tags']);
 	}
 
-	public function testInvalidFieldType()
-	{
-		new App([
-			'roots' => [
-				'index' => '/dev/null'
-			]
-		]);
-
-		$page = new Page(['slug' => 'test']);
-		$form = new Form([
-			'model' => $page,
-			'fields' => [
-				'test' => [
-					'type' => 'does-not-exist',
-				]
-			]
-		]);
-
-		$field = $form->fields()->first();
-
-		$this->assertEquals('info', $field->type());
-		$this->assertEquals('negative', $field->theme());
-		$this->assertEquals('Error in "test" field.', $field->label());
-		$this->assertEquals('<p>The field type "does-not-exist" does not exist</p>', $field->text());
-	}
-
 	public function testFieldOrder()
 	{
 		new App([

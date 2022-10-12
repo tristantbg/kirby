@@ -38,6 +38,9 @@ class Fields extends Collection
 		parent::__set($field->name(), $field);
 	}
 
+	/**
+	 * Creates a new fieldset
+	 */
 	public static function factory(array $fields = []): static
 	{
 		$collection = new static;
@@ -57,7 +60,6 @@ class Fields extends Collection
 
 		return $collection;
 	}
-
 
 	/**
 	 * Disables fields in secondary languages when
