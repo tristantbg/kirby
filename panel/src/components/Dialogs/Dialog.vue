@@ -13,14 +13,16 @@
 			class="k-dialog"
 			@mousedown.stop
 		>
-			<div
-				v-if="notification"
-				:data-theme="notification.type"
-				class="k-dialog-notification"
-			>
-				<p>{{ notification.message }}</p>
-				<k-button icon="cancel" @click="notification = null" />
-			</div>
+			<slot name="header">
+				<div
+					v-if="notification"
+					:data-theme="notification.type"
+					class="k-dialog-notification"
+				>
+					<p>{{ notification.message }}</p>
+					<k-button icon="cancel" @click="notification = null" />
+				</div>
+			</slot>
 
 			<div class="k-dialog-body scroll-y-auto">
 				<slot />
