@@ -378,6 +378,25 @@ class Blueprint
 	}
 
 	/**
+	 * Checks user permissions for the given blueprint part
+	 */
+	protected function checkUserPermission(array $props, string $key, array &$collection): bool
+	{
+		$kirby = App::instance();
+		$user  = $kirby->user();
+
+		// shows/hide based on the user role
+		if (empty($props['roles']) === false && $user !== null) {
+			if (in_array($user->role()->id(), (array)$props['roles']) === false) {
+				unset($collection['roles'], $collection[$key]);
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Normalizes all required props in a column setup
 	 *
 	 * @param string $tabName
@@ -390,6 +409,10 @@ class Blueprint
 			// unset/remove column if its property is not array
 			if (is_array($columnProps) === false) {
 				unset($columns[$columnKey]);
+				continue;
+			}
+
+			if ($this->checkUserPermission($columnProps, $columnKey, $columns) === false) {
 				continue;
 			}
 
@@ -614,6 +637,10 @@ class Blueprint
 			// inject all section extensions
 			$sectionProps = $this->extend($sectionProps);
 
+			if ($this->checkUserPermission($sectionProps, $sectionName, $sections) === false) {
+				continue;
+			}
+
 			$sections[$sectionName] = $sectionProps = array_merge($sectionProps, [
 				'name' => $sectionName,
 				'type' => $type = $sectionProps['type'] ?? $sectionName
@@ -693,6 +720,10 @@ class Blueprint
 
 			// inject all tab extensions
 			$tabProps = $this->extend($tabProps);
+
+			if ($this->checkUserPermission($tabProps, $tabName, $tabs) === false) {
+				continue;
+			}
 
 			// inject a preset if available
 			$tabProps = $this->preset($tabProps);
