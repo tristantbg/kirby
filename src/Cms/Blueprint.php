@@ -396,7 +396,9 @@ class Blueprint
 		}
 
 		// make sure that roles prop is removed
-		unset($collection[$key]['roles']);
+		if (is_array($collection[$key]) === true) {
+			unset($collection[$key]['roles']);
+		}
 
 		return true;
 	}
