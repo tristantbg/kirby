@@ -385,13 +385,18 @@ class Blueprint
 		$kirby = App::instance();
 		$user  = $kirby->user();
 
-		// shows/hide based on the user role
-		if (empty($props['roles']) === false && $user !== null) {
-			if (in_array($user->role()->id(), (array)$props['roles']) === false) {
-				unset($collection['roles'], $collection[$key]);
-				return false;
-			}
+		// shows/hides the related area based on the user role
+		if (
+			$user !== null &&
+			empty($props['roles']) === false &&
+			in_array($user->role()->id(), (array)$props['roles']) === false
+		) {
+			unset($collection[$key]);
+			return false;
 		}
+
+		// make sure that roles prop is removed
+		unset($collection[$key]['roles']);
 
 		return true;
 	}
