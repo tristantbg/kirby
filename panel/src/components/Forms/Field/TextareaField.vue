@@ -11,7 +11,10 @@
 			ref="input"
 			type="textarea"
 			theme="field"
-			v-on="$listeners"
+			v-on="{
+				...$listeners,
+				paste: onPaste
+			}"
 		/>
 	</k-field>
 </template>
@@ -33,6 +36,18 @@ export default {
 	methods: {
 		focus() {
 			this.$refs.input.focus();
+		},
+		async onPaste(e) {
+			if (e.clipboardData?.getData("text/html")) {
+				e.preventDefault();
+
+				// pass html or plain text to the paste endpoint to convert it to blocks
+				const response = await this.$api.post(this.endpoints.field + "/paste", {
+					html: e.clipboardData?.getData("text/html")
+				});
+
+				this.$emit("input", response.markdown);
+			}
 		}
 	}
 };
