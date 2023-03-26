@@ -712,6 +712,16 @@ class F
 		return static::unlink($file);
 	}
 
+	public static function replace(
+		string $file,
+		string $search,
+		string $replace
+	): bool {
+		$content = static::read($file);
+		$content = str_replace($search, $replace, $content);
+		return static::write($file, $content);
+	}
+
 	/**
 	 * Sanitize a filename to strip unwanted special characters
 	 *

@@ -31,64 +31,108 @@ trait PageActions
 	 * Adapts necessary modifications which page uuid, page slug and files uuid
 	 * of copy objects for single or multilang environments
 	 */
-	protected function adaptCopy(Page $copy, bool $files = false, bool $children = false): Page
-	{
+	protected function adaptCopy(
+		Page $copy,
+		bool $files = false,
+		bool $children = false,
+		array $uuids = []
+	): Page {
+		// mapping store for old to new UUIDs
+		$uuids = [];
+
+		$trackUuidChange = function ($model, Closure $action) use (&$uuids) {
+			$oldUuid         = $model->uuid()->toString();
+			$model           = $action();
+			$uuids[$oldUuid] = $model->uuid()->toString();
+			return $model;
+		};
+
 		if ($this->kirby()->multilang() === true) {
+			// multi else {ang
 			foreach ($this->kirby()->languages() as $language) {
-				// overwrite with new UUID for the page and files
-				// for default language (remove old, add new)
-				if (
-					Uuids::enabled() === true &&
-					$language->isDefault() === true
-				) {
-					$copy = $copy->save(['uuid' => Uuid::generate()], $language->code());
+				if ($language->isDefault() === false) {
+					// non-default languages
 
-					// regenerate UUIDs of page files
-					if ($files !== false) {
-						foreach ($copy->files() as $file) {
-							$file->save(['uuid' => Uuid::generate()], $language->code());
-						}
+					// remove all translated slugs
+					if ($copy->translation($language)->exists() === true) {
+						$copy = $copy->save(
+							['slug' => null],
+							$language->code()
+						);
 					}
 
-					// regenerate UUIDs of all page children
-					if ($children !== false) {
-						foreach ($copy->index(true) as $child) {
-							// always adapt files of subpages as they are currently always copied;
-							// but don't adapt children because we already operate on the index
-							$this->adaptCopy($child, true);
+				} else {
+					// default language
+
+					// overwrite with new UUID …
+					if (Uuids::enabled() === true) {
+						// … for the page
+						$copy = $trackUuidChange($copy, fn () => $copy->save(
+							['uuid' => Uuid::generate()],
+							$language->code()
+						));
+
+						//  … for page files
+						if ($files !== false) {
+							foreach ($copy->files() as $file) {
+								$trackUuidChange($file, fn () => $file->save(
+									['uuid' => Uuid::generate()],
+									$language->code()
+								));
+							}
+						}
+
+						// … for all page children
+						if ($children !== false) {
+							foreach ($copy->index(true) as $child) {
+								// always adapt files of subpages as they
+								// are currently always copied;
+								// but don't adapt children because we
+								// already operate on the index
+								$this->adaptCopy($child, true);
+							}
 						}
 					}
-				}
-
-				// remove all translated slugs
-				if (
-					$language->isDefault() === false &&
-					$copy->translation($language)->exists() === true
-				) {
-					$copy = $copy->save(['slug' => null], $language->code());
 				}
 			}
+		} else {
+			// single lang
 
-			return $copy;
+			// overwrite with new UUID for the page and files (remove old, add new)
+			if (Uuids::enabled() === true) {
+				$copy = $trackUuidChange($copy, fn () => $copy->save(
+					['uuid' => Uuid::generate()]
+				));
+
+				// regenerate UUIDs of page files
+				if ($files !== false) {
+					foreach ($copy->files() as $file) {
+						$trackUuidChange($file, fn () => $file->save(
+							['uuid' => Uuid::generate()]
+						));
+					}
+				}
+
+				// regenerate UUIDs of all page children
+				if ($children !== false) {
+					foreach ($copy->index(true) as $child) {
+						// always adapt files of subpages as they are currently always copied;
+						// but don't adapt children because we already operate on the index
+						$this->adaptCopy($child, true);
+					}
+				}
+			}
 		}
 
-		// overwrite with new UUID for the page and files (remove old, add new)
-		if (Uuids::enabled() === true) {
-			$copy = $copy->save(['uuid' => Uuid::generate()]);
-
-			// regenerate UUIDs of page files
-			if ($files !== false) {
-				foreach ($copy->files() as $file) {
-					$file->save(['uuid' => Uuid::generate()]);
-				}
+		// replace UUID references to former models
+		// for which new models have been created
+		foreach ($uuids as $oldUuid => $newUuid) {
+			foreach ($copy->contentFiles() as $contentFile) {
+				F::replace($contentFile, $oldUuid, $newUuid);
 			}
-
-			// regenerate UUIDs of all page children
-			if ($children !== false) {
-				foreach ($copy->index(true) as $child) {
-					// always adapt files of subpages as they are currently always copied;
-					// but don't adapt children because we already operate on the index
-					$this->adaptCopy($child, true);
+			foreach ($copy->files() as $file) {
+				foreach ($file->contentFiles() as $contentFile) {
+					F::replace($contentFile, $oldUuid, $newUuid);
 				}
 			}
 		}
