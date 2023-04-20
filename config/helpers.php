@@ -51,7 +51,7 @@ if (Helpers::hasOverride('collection') === false) { // @codeCoverageIgnore
 	/**
 	 * Returns the result of a collection by name
 	 */
-	function collection(string $name): Collection|null
+	function collection(string $name): Page|Collection|null
 	{
 		return App::instance()->collection($name);
 	}
